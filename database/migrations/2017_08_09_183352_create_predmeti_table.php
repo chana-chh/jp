@@ -27,7 +27,7 @@ class CreatePredmetiTable extends Migration
             $table->text('napomena')->nullable();
             $table->integer('roditelj_id')->unsigned()->nullable();
             $table->timestamps();
-            $table->integer('korisnik_id')->unsigned();
+            $table->integer('korisnik_id')->unsigned()->nullable();
 
             // indeksi
             $table->foreign('sud_id')->references('id')->on('s_sudovi')->onDelete('restrict');

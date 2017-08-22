@@ -26,9 +26,9 @@
             <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed;">
                 <thead>
                     <tr>
-                        <th style="width: 5%;">а/а</th>
+                        <th style="width: 4%;">а/а</th>
                         {{--  <th style="width: 10%;">Врста уписника</th>  --}}
-                        <th style="width: 5%;">Број</th>
+                        <th style="width: 6%;">Број</th>
                         <th style="width: 10%;">Врста предмета</th>
                         <th style="width: 25%;">Опис</th>
                         <th style="width: 15%;">Странка 1</th>
@@ -41,8 +41,9 @@
                 <tbody id="predmeti_lista" name="predmeti_lista">
                     @foreach ($predmeti as $predmet)
                         <tr>
-                            <td style="text-align:center">
-                                {!! $predmet->arhiviran == 0 ? '<i class="fa fa-close">' : '<i class="fa fa-check">' !!}
+                            <td style="text-align:center;" class="text-danger">
+                            {{--  <i class="fa fa-close">  <i class="fa fa-check">  --}}
+                                {!! $predmet->arhiviran == 0 ? '' : 'а/а' !!}
                             </td>
                             {{--  <td>{{$predmet->vrstaUpisnika->slovo}}</td>  --}}
                             <td>
@@ -56,9 +57,12 @@
                             <td>{{$predmet->stranka_2}}</td>
                             <td>{{$predmet->datum_tuzbe}}</td>
                             <td>{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
-
                             <td style="text-align:center">
-                            <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>
+                                <a  class="btn btn-success btn-sm otvori_izmenu"
+                                    id="dugmeIzmena"
+                                    href="{{ route('predmeti.pregled', $predmet->id) }}">
+                                    <i class="fa fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -70,24 +74,22 @@
 @section('skripte')
 <script>
 $( document ).ready(function() {
-
-        $('#tabelaPredmeti').DataTable({
-
+    $('#tabelaPredmeti').DataTable({
         language: {
-        search: "Пронађи у табели",
+            search: "Пронађи у табели",
             paginate: {
-            first:      "Прва",
-            previous:   "Претходна",
-            next:       "Следећа",
-            last:       "Последња"
-        },
-        processing:   "Процесирање у току...",
-        lengthMenu:   "Прикажи _MENU_ елемената",
-        zeroRecords:  "Није пронађен ниједан запис",
-        info:         "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-        infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
-        responsive: true,
-    },
+                first:      "Прва",
+                previous:   "Претходна",
+                next:       "Следећа",
+                last:       "Последња"
+            },
+            processing:   "Процесирање у току...",
+            lengthMenu:   "Прикажи _MENU_ елемената",
+            zeroRecords:  "Није пронађен ниједан запис",
+            info:         "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
+            infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
+            responsive: true
+        }
     });
 });
 </script>
