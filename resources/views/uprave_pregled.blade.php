@@ -1,0 +1,59 @@
+@extends('sabloni.app')
+
+@section('naziv', 'Градске управе | Преглед')
+
+@section('meni')
+    @include('sabloni.inc.meni')
+@endsection
+
+@section('naslov')
+    <h1 class="page-header">Преглед и измена детаља назива Градске управе</h1>
+
+    <div class="well">
+    <form action="{{ route('uprave.izmena',  $uprava->id) }}" method="POST">
+        {{ csrf_field() }}
+
+        <div class="row">
+        <div class="col-md-3">
+        <div class="form-group{{ $errors->has('sifra') ? ' has-error' : '' }}">
+            <label for="sifra">Шифра управе (директног корисника): </label>
+            <input type="text" name="sifra" id="sifra" class="form-control" value="{{ old('sifra', $uprava->sifra) }}" required>
+            @if ($errors->has('sifra'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sifra') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+
+        <div class="col-md-4">
+        <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
+            <label for="naziv">Назив управе: </label>
+            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv', $uprava->naziv) }}" required>
+            @if ($errors->has('naziv'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('naziv') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+
+        <div class="col-md-5">
+        <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
+            <label for="napomena">Напомена: </label>
+            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena', $uprava->napomena) }}">
+            @if ($errors->has('napomena'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('napomena') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+        </div>
+        <div class="form-group text-right" style="margin-top: 20px">
+            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Измени</button>
+            <a class="btn btn-danger" href="{{route('uprave')}}"><i class="fa fa-ban"></i> Откажи измене</a>
+        </div>
+    </form>
+</div>
+@endsection
