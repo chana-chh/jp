@@ -9,5 +9,8 @@ class Sud extends Model
     protected $table = 's_sudovi';
     public $timestamps = false;
 
-    public function predmet(){	return $this->hasMany('App\Modeli\Predmet', 'sud_id', 'id'); }
+    public function predmet()
+    {
+        return $this->hasMany('App\Modeli\Predmet', 'sud_id', 'id');
+    }
 }

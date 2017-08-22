@@ -28,7 +28,7 @@
                                 <th>Странка 2</th>
                                 <th>Датум тужбе</th>
                                 <th>Референт</th>
-                               
+
 
                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
@@ -46,7 +46,7 @@
                                         <td>{{$predmet->referent}}</td>
 
                                  <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('predmeti.detalj', $predmet->id) }}"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                 @endforeach
