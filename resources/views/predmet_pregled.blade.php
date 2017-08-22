@@ -85,13 +85,21 @@
 <div class="well">
     <h3>Токови</h3>
     @foreach ($predmet->tokovi as $tok)
-        {{ $tok }}
+        {{ date('d.m.Y', strtotime($tok->datum)) }} -
+        {{ $tok->status->naziv }} ({{ $tok->opis }})<br>
+        Вредност спора потражује: {{ $tok->vrednost_spora_potrazuje }}<br>
+        Вредност спора дугује: {{ $tok->vrednost_spora_duguje }}<br>
+        Износ трошкова потражује: {{ $tok->iznos_troskova_potrazuje }}<br>
+        Износ трошкова дугује: {{ $tok->iznos_troskova_duguje }}<br>
     @endforeach
 </div>
 <div class="well">
     <h3>Управе</h3>
     @foreach ($predmet->uprave as $uprava)
-
+    <p>
+        {{ $uprava->sifra }} - {{ $uprava->naziv }}
+        {{ $uprava->napomena }}
+    </p>
     @endforeach
 </div>
 @endsection
