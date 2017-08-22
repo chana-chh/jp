@@ -16,4 +16,10 @@ class PredmetiKontroler extends Kontroler
 		$predmeti = Predmet::all();
 		return view('predmeti')->with(compact ('predmeti'));
 	}
+
+	public function getPregled($id)
+	{
+		$predmet = Predmet::find($id);
+		return view('predmet_pregled')->with(compact ('predmet'));
+	}
 }
