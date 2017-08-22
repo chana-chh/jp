@@ -15,12 +15,12 @@ class Predmet extends Model
 			return $this->belongsTo('App\Modeli\Referent', 'referent_id', 'id');
 		}
 
-		public function vrstapredmeta()
+		public function vrstaPredmeta()
 		{
 			return $this->belongsTo('App\Modeli\VrstaPredmeta', 'vrsta_predmeta_id', 'id');
 		}
 
-		public function vrstaupisnika()
+		public function vrstaUpisnika()
 		{
 			return $this->belongsTo('App\Modeli\VrstaUpisnika', 'vrsta_upisnika_id', 'id');
 		}

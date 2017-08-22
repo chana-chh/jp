@@ -7,49 +7,61 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header">Преглед предмета укључујући и архивиране предмете&emsp;<span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span></h1>
-            <div class="row">
+    <h1 class="page-header">
+        Преглед предмета укључујући и архивиране предмете &emsp;
+        <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
+    </h1>
+    <div class="row">
         <div class="col-md-3 col-md-offset-9">
-            <a class="btn btn-primary" href="{{ route('predmeti.dodavanje.get') }}" style="float: right;"><i class="fa fa-plus-circle fa-fw"></i> Нови предмет</a>
+            <a class="btn btn-primary" href="{{ route('predmeti.dodavanje.get') }}" style="float: right;">
+                <i class="fa fa-plus-circle fa-fw"></i> Нови предмет
+            </a>
         </div>
-        </div>
-<hr style="border-top: 2px solid #18BC9C">
+    </div>
+    <hr style="border-top: 2px solid #18BC9C">
+
     @if($predmeti->isEmpty())
             <h3 class="text-danger">Нема записа у бази података</h3>
         @else
-            <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
+            <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed;">
                 <thead>
-                                <th>Архивиран</th>
-                                <th>Број предмета</th>
-                                <th>Врста предмета</th>
-                                <th>Врста уписника</th>
-                                <th>Текст (све)</th>
-                                <th>Странка 1</th>
-                                <th>Странка 2</th>
-                                <th>Датум тужбе</th>
-                                <th>Референт</th>
-
-
-                     <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                    <tr>
+                        <th style="width: 5%;">а/а</th>
+                        {{--  <th style="width: 10%;">Врста уписника</th>  --}}
+                        <th style="width: 5%;">Број</th>
+                        <th style="width: 10%;">Врста предмета</th>
+                        <th style="width: 25%;">Опис</th>
+                        <th style="width: 15%;">Странка 1</th>
+                        <th style="width: 15%;">Странка 2</th>
+                        <th style="width: 10%;">Датум</th>
+                        <th style="width: 10%;">Референт</th>
+                        <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
+                    </tr>
                 </thead>
                 <tbody id="predmeti_lista" name="predmeti_lista">
-                @foreach ($predmeti as $predmet)
+                    @foreach ($predmeti as $predmet)
                         <tr>
-                                         <td style="text-align:center">{!! $predmet->arhiviran == 0 ? '<i class="fa fa-close">' : '<i class="fa fa-check">' !!}</td>
-                                         <td><strong>{{$predmet->broj_predmeta}}</strong></td>
-                                         <td>{{$predmet->vrstapredmeta->naziv}}</td>
-                                         <td>{{$predmet->vrstaupisnika->naziv}}</td>
-                                        <td>{{$predmet->tekst_i}}, {{$predmet->tekst_ii}}, {{$predmet->tekst_iii}}</td>
-                                        <td>{{$predmet->stranka_i}}</td>
-                                        <td>{{$predmet->stranka_ii}}</td>
-                                        <td>{{$predmet->datum_tuzbe}}</td>
-                                        <td>{{$predmet->referent}}</td>
+                            <td style="text-align:center">
+                                {!! $predmet->arhiviran == 0 ? '<i class="fa fa-close">' : '<i class="fa fa-check">' !!}
+                            </td>
+                            {{--  <td>{{$predmet->vrstaUpisnika->slovo}}</td>  --}}
+                            <td>
+                                <strong>
+                                    {{$predmet->vrstaUpisnika->slovo}} {{$predmet->broj_predmeta}}/{{$predmet->godina_predmeta}}
+                                </strong>
+                            </td>
+                            <td>{{$predmet->vrstaPredmeta->naziv}}</td>
+                            <td>{{$predmet->opis_kp}}, {{$predmet->opis_adresa}}, {{$predmet->opis}}</td>
+                            <td>{{$predmet->stranka_1}}</td>
+                            <td>{{$predmet->stranka_2}}</td>
+                            <td>{{$predmet->datum_tuzbe}}</td>
+                            <td>{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
 
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>
+                            <td style="text-align:center">
+                            <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
-                @endforeach
+                    @endforeach
                 </tbody>
             </table>
         @endif
