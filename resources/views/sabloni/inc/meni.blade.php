@@ -26,7 +26,7 @@
                             <li role="separator" class="divider"></li>
                             <li class="list-group-item-info"><a href="#"><i class="fa fa-user"></i> Корисници</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Корисници</a></li>
+                            <li><a href="{{ route('korisnici') }}">Корисници</a></li>
                             <li><a href="{{ route('referenti') }}">Референти</a></li>
                             <li role="separator" class="divider"></li>
                             <li class="list-group-item-info"><a href="#"><i class="fa fa-cog"></i> Шифарници</a></li>

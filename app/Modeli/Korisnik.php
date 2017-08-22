@@ -18,4 +18,9 @@ class Korisnik extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function predmet()
+    {
+        return $this->hasMany('App\Modeli\Predmet', 'korisnik_id', 'id');
+    }
 }

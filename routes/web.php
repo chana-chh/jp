@@ -55,6 +55,13 @@ Route::post('sifarnici/referenti/brisanje', 'ReferentiKontroler@postBrisanje')->
 Route::post('sifarnici/referenti/izmena/{id}', 'ReferentiKontroler@postIzmena')->name('referenti.izmena');
 Route::get('sifarnici/referenti/pregled/{id}', 'ReferentiKontroler@getPregled')->name('referenti.pregled');
 
+//Korisnici
+Route::get('sifarnici/korisnici', 'KorisniciKontroler@getLista')->name('korisnici');
+Route::post('sifarnici/korisnici/dodavanje', 'KorisniciKontroler@postDodavanje')->name('korisnici.dodavanje');
+Route::post('sifarnici/korisnici/brisanje', 'KorisniciKontroler@postBrisanje')->name('korisnici.brisanje');
+Route::post('sifarnici/korisnici/izmena/{id}', 'KorisniciKontroler@postIzmena')->name('korisnici.izmena');
+Route::get('sifarnici/korisnici/pregled/{id}', 'KorisniciKontroler@getPregled')->name('korisnici.pregled');
+
 //Predmeti
 Route::get('predmeti', 'PredmetiKontroler@getLista')->name('predmeti');
 Route::get('predmeti/dodavanje/forma', 'PredmetiKontroler@getDodavanje')->name('predmeti.dodavanje.get');
