@@ -9,11 +9,10 @@ class Predmet extends Model
     protected $table = 'predmeti';
 
 		// belongsTo
-
-    	public function korisnik()
-    	{
-        return $this->belongsTo('App\Modeli\Predmet', 'korisnik_id', 'id');
-    	}
+	    	public function korisnik()
+	    	{
+	        return $this->belongsTo('App\Modeli\Predmet', 'korisnik_id', 'id');
+	    	}
 
 		public function roditelj()
 		{

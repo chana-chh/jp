@@ -17,7 +17,7 @@
         {{ csrf_field() }}
         
         <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6">
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name">Име и презиме: </label>
             <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $korisnik->name) }}" maxlength="255" required>
@@ -28,13 +28,11 @@
             @endif
         </div>
         </div>
-        </div>
 
-        <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6">
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
             <label for="username">Корисничко име: </label>
-            <input type="text" username="username" id="username" class="form-control" value="{{ old('username', $korisnik->username) }}" maxlength="190" required>
+            <input type="text" name="username" id="username" class="form-control" value="{{ old('username', $korisnik->username) }}" maxlength="190" required>
             @if ($errors->has('username'))
                 <span class="help-block">
                     <strong>{{ $errors->first('username') }}</strong>
@@ -43,6 +41,8 @@
         </div>
         </div>
         </div>
+
+        <hr>
 
         <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -93,7 +93,7 @@
         <div class="row">
         <div class="col-md-10 col-md-offset-1">
         <div class="form-group text-right" style="margin-top: 40px">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Измени</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-pencil"></i> Измени</button>
             <a class="btn btn-danger" href="{{route('korisnici')}}"><i class="fa fa-ban"></i> Откажи измене</a>
         </div>
         </div>

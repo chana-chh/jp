@@ -60,6 +60,7 @@ class KorisniciKontroler extends Kontroler
     
     public function postIzmena(Request $r, $id)
         {
+            
             if ($r->password)
         {
             $this->validate($r, [

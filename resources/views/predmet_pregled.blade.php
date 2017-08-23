@@ -9,7 +9,7 @@
 @section('naslov')
     <h1 class="page-header">
         <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
-        Преглед предмета број
+        &emsp; Преглед предмета број
         <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
             {{ $predmet->vrstaUpisnika->slovo }} {{ $predmet->broj_predmeta }}/{{ $predmet->godina_predmeta }}
             {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }}
