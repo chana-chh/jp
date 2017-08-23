@@ -30,6 +30,11 @@ h1,h2,h3 {
 	color: #2C3E50;
 }
 
+.text-success{
+  font-weight: 500;
+  color: #18BC9C;
+}
+
 .pagination > li > a,
 .pagination > li > span {
     color: #2C3E50;
@@ -313,4 +318,9 @@ input[type=range]:focus::-ms-fill-upper {
 .log{
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.bullets ul, .bullets li {
+margin-left: 5px;
+padding-left: 5px;
 }

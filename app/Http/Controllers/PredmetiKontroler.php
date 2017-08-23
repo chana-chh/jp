@@ -8,6 +8,7 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Predmet;
+use App\Modeli\Tiprocista;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -20,6 +21,7 @@ class PredmetiKontroler extends Kontroler
 	public function getPregled($id)
 	{
 		$predmet = Predmet::find($id);
-		return view('predmet_pregled')->with(compact ('predmet'));
+		$tipovi_rocista = Tiprocista::all();
+		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
 	}
 }

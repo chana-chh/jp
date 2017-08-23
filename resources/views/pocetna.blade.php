@@ -21,7 +21,7 @@
   </a>
 </div>  
 <div class="col-md-3">
-  <a href="#">
+  <a href="{{ route('rocista') }}">
   <img class="grow center-block" alt="rokovi" src="{{url('/images/rokovi.png')}}" style="height:128px;">
   </a>
 </div>  

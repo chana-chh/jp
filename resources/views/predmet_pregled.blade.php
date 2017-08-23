@@ -74,13 +74,20 @@
 @endsection
 
 @section('traka')
-<div class="well">
-    <h3>Рочишта</h3>
+<div class="well bullets">
+    <h3 style="margin-bottom: 20px">Рочишта</h3>
+    <ul>
     @foreach ($predmet->rocista as $rociste)
-        <p>
-            {{ $rociste->tipRocista->naziv }} дана {{ date('d.m.Y', strtotime($rociste->datum)) }} у {{ date('H:i', strtotime($rociste->vreme)) }} часова. {{ $rociste->opis }}
-        </p>
+        <li>
+            <span class="text-success">{{ $rociste->tipRocista->naziv }}</span> дана {{ date('d.m.Y', strtotime($rociste->datum)) }} у {{ date('H:i', strtotime($rociste->vreme)) }} часова.<br>
+            <i>{{ $rociste->opis }}</i>
+        </li>
     @endforeach
+    </ul>
+    <hr>
+    <div class="row">
+    <button style="float: right; margin-right: 10px" class="btn btn-success btn-sm otvori_dodavanje_rocista" id="dugmeDodajRociste" data-toggle="modal" data-target="#dodajModal" value="{{$predmet->id}}"><i class="fa fa-plus"></i></button>
+    </div>
 </div>
 <div class="well">
     <h3>Токови</h3>
@@ -102,28 +109,98 @@
     </p>
     @endforeach
 </div>
+{{-- Pocetak Modala za dijalog dodavanje--}}
+    <div class="modal fade" id="dodajModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-primary">Додај рочиште</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route('rocista.dodavanje.post') }}" method="POST">
+              {{ csrf_field() }}
+
+            <div class="row">
+                <div class="col-md-4">
+        <div class="form-group{{ $errors->has('datum') ? ' has-error' : '' }}">
+            <label for="datum">Датум: </label>
+            <input type="date" name="datum" id="datum" class="form-control" value="{{ old('datum') }}">
+            @if ($errors->has('datum'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('datum') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+
+        <div class="col-md-4">
+         <div class="form-group{{ $errors->has('vreme') ? ' has-error' : '' }}">
+            <label for="vreme">Време: </label>
+            <input type="time" name="vreme" id="vreme" class="form-control" value="{{ old('vreme') }}">
+            @if ($errors->has('vreme'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('vreme') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+
+         <div class="col-md-4">
+         <div class="form-group{{ $errors->has('tip_id') ? ' has-error' : '' }}">
+                    <label for="tip_id">Типови рочишта:</label>
+                    <select name="tip_id" id="tip_id" class="chosen-select form-control" data-placeholder="Тип рочишта" >
+                    <option value=""></option>
+                    @foreach($tipovi_rocista as $tip)
+                    <option value="{{ $tip->id }}"{{ old('tip_id') == $tip->id ? ' selected' : '' }}><strong>{{ $tip->naziv }}</strong></option>
+                    @endforeach
+                    </select>
+                        @if ($errors->has('tip_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('tip_id') }}</strong>
+                        </span>
+                        @endif
+                </div>
+        </div>
+        </div>
+        <hr style="border-top: 2px solid #18BC9C">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="form-group{{ $errors->has('opis') ? ' has-error' : '' }}">
+            <label for="opis">Опис: </label>
+            <TEXTAREA name="opis" id="opis" class="form-control" rows="3">{{old('opis') }}</TEXTAREA>
+            @if ($errors->has('opis'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('opis') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+        </div>
+
+
+              <button type="submit" class="btn btn-success">Додај</button>
+              <input type="hidden" id="dodaj_id" name="dodaj_id" value="{{$predmet->id}}">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Откажи</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    {{-- Kraj Modala za dijalog dodavanje--}}
 @endsection
 
-{{--  @section('skripte')
+ @section('skripte')
 <script>
 $( document ).ready(function() {
-    $('#tabelaPredmeti').DataTable({
-        language: {
-            search: "Пронађи у табели",
-            paginate: {
-                first:      "Прва",
-                previous:   "Претходна",
-                next:       "Следећа",
-                last:       "Последња"
-            },
-            processing:   "Процесирање у току...",
-            lengthMenu:   "Прикажи _MENU_ елемената",
-            zeroRecords:  "Није пронађен ниједан запис",
-            info:         "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-            infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
-            responsive: true
-        }
-    });
+    $('#dodajModal').on('shown.bs.modal', function () {
+  $('.chosen-select', this).chosen({allow_single_deselect: true});});
 });
 </script>
-@endsection  --}}
+@endsection 
