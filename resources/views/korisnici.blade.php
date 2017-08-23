@@ -74,7 +74,7 @@
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name">Име и презиме: </label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" maxlength="255" required>
             @if ($errors->has('name'))
                 <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -84,7 +84,7 @@
 
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
             <label for="username">Корисничко име: </label>
-            <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" required>
+            <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" maxlength="190 " required>
             @if ($errors->has('username'))
                 <span class="help-block">
                     <strong>{{ $errors->first('username') }}</strong>

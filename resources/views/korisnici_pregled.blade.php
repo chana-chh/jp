@@ -20,7 +20,7 @@
         <div class="col-md-10 col-md-offset-1">
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
             <label for="name">Име и презиме: </label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $korisnik->name) }}" maxlength="190" required>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $korisnik->name) }}" maxlength="255" required>
             @if ($errors->has('name'))
                 <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>

@@ -34,7 +34,7 @@ class ReferentiKontroler extends Kontroler
 
         $referent->save();
         
-        Session::flash('uspeh','Ставка је успешно додата!');
+        Session::flash('uspeh','Референт је успешно додат!');
         return redirect()->route('referenti');
     }
 
@@ -60,7 +60,7 @@ class ReferentiKontroler extends Kontroler
 
         		$referent->save();
 
-            Session::flash('uspeh','Ставка је успешно измењена!');
+            Session::flash('uspeh','Подаци о референту су успешно измењени!');
             return redirect()->route('referenti');
         }
 
@@ -70,10 +70,10 @@ class ReferentiKontroler extends Kontroler
                 $referent = Referent::find($id);
                 $odgovor = $referent->delete();
                 if ($odgovor) {
-                Session::flash('uspeh','Ставка је успешно обрисана!');
+                Session::flash('uspeh','Референт је успешно обрисана!');
                 }
                 else{
-                Session::flash('greska','Дошло је до грешке приликом брисања ставке. Покушајте поново, касније!');
+                Session::flash('greska','Дошло је до грешке приликом брисања референта. Покушајте поново, касније!');
                 }
     }
 }

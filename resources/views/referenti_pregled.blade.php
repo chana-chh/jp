@@ -29,7 +29,7 @@
         <div class="col-md-6">
         <div class="form-group{{ $errors->has('prezime') ? ' has-error' : '' }}">
             <label for="prezime">Презиме: </label>
-            <input type="text" name="prezime" id="prezime" class="form-control" value="{{ old('prezime', $referent->prezime) }}">
+            <input type="text" name="prezime" id="prezime" class="form-control" value="{{ old('prezime', $referent->prezime) }}" required>
             @if ($errors->has('prezime'))
                 <span class="help-block">
                     <strong>{{ $errors->first('prezime') }}</strong>

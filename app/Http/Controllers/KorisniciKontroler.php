@@ -8,6 +8,7 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Korisnik;
+use App\Modeli\Predmet;
 
 class KorisniciKontroler extends Kontroler
 {
@@ -21,7 +22,7 @@ class KorisniciKontroler extends Kontroler
     {
         
         $this->validate($r, [
-                'name' => ['required', 'max:190'],
+                'name' => ['required', 'max:255'],
                 'username' => ['required', 'max:190'],
                 'password' => ['required', 'min:4', 'confirmed'],
             ]);
@@ -62,7 +63,7 @@ class KorisniciKontroler extends Kontroler
             if ($r->password)
         {
             $this->validate($r, [
-                'name' => ['required','max:190'],
+                'name' => ['required','max:255'],
                 'username' => ['required', 'max:190'],
                 'password' => ['required', 'min:4', 'confirmed'],
             ]);
@@ -70,7 +71,7 @@ class KorisniciKontroler extends Kontroler
         } else
         {
             $this->validate($r, [
-                'name' => ['required','max:190'],
+                'name' => ['required','max:255'],
                 'username' => ['required', 'max:190'],
             ]);
             $pass = null;
@@ -99,9 +100,12 @@ class KorisniciKontroler extends Kontroler
 
         public function postBrisanje(Request $r)
     {   
-                //jos nije odradjeno
+                
                 $id = $r->id;
                 $korisnik = Korisnik::find($id);
+                if ($korisnik->predmet()) {
+                    Predmet::where('korisnik_id', $id)->update(['korisnik_id' => null]);
+                }
                 $odgovor = $korisnik->delete();
                 if ($odgovor) {
                 Session::flash('uspeh','Корисник је успешно обрисан!');
