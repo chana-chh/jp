@@ -12,4 +12,9 @@ class Tok extends Model
     {
         return $this->belongsTo('App\Modeli\Predmet', 'predmet_id', 'id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo('App\Modeli\Status', 'status_id', 'id');
+    }
 }

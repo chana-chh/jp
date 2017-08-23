@@ -8,8 +8,8 @@
 
 @section('naslov')
     <h1 class="page-header">
-        Преглед предмета укључујући и архивиране предмете &emsp;
         <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
+        Преглед предмета укључујући и архивиране предмете
     </h1>
     <div class="row">
         <div class="col-md-3 col-md-offset-9">
@@ -27,7 +27,6 @@
                 <thead>
                     <tr>
                         <th style="width: 4%;">а/а</th>
-                        {{--  <th style="width: 10%;">Врста уписника</th>  --}}
                         <th style="width: 6%;">Број</th>
                         <th style="width: 10%;">Врста предмета</th>
                         <th style="width: 25%;">Опис</th>
@@ -42,10 +41,8 @@
                     @foreach ($predmeti as $predmet)
                         <tr>
                             <td style="text-align:center;" class="text-danger">
-                            {{--  <i class="fa fa-close">  <i class="fa fa-check">  --}}
-                                {!! $predmet->arhiviran == 0 ? '' : 'а/а' !!}
+                                {{ $predmet->arhiviran == 0 ? '' : 'а/а' }}
                             </td>
-                            {{--  <td>{{$predmet->vrstaUpisnika->slovo}}</td>  --}}
                             <td>
                                 <strong>
                                     {{$predmet->vrstaUpisnika->slovo}} {{$predmet->broj_predmeta}}/{{$predmet->godina_predmeta}}

@@ -14,8 +14,8 @@ class Rociste extends Model
         return $this->belongsTo('App\Modeli\Predmet', 'predmet_id', 'id');
     }
 
-    public function tiprocista()
+    public function tipRocista()
     {
-        return $this->belongsTo('App\Modeli\Tiprocista', 'tip_id', 'id');
+        return $this->belongsTo('App\Modeli\TipRocista', 'tip_id', 'id');
     }
 }
