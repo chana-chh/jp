@@ -77,15 +77,23 @@
 <div class="well bullets">
     <h3 style="margin-bottom: 20px">Рочишта</h3>
     <hr style="border-top: 1px solid #18BC9C">
-    <ul>
-    @foreach ($predmet->rocista as $rociste)
-        <li>
-            <span class="text-success">{{ $rociste->tipRocista->naziv }}</span> дана {{ date('d.m.Y', strtotime($rociste->datum)) }} у {{ date('H:i', strtotime($rociste->vreme)) }} часова.<br>
-            <i>{{ $rociste->opis }}</i>
-        </li>
-    @endforeach
-    </ul>
-    <hr>
+    <table class="table table-striped">
+                <tbody>
+                @foreach ($predmet->rocista as $rociste)
+                        <tr>
+                            <td style="width: 15%;"><span class="text-success">{{ $rociste->tipRocista->naziv }}</span> </td>
+                            <td style="width: 15%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
+                            <td style="width: 10%;">{{ date('H:i', strtotime($rociste->vreme)) }} </td>
+                            <td style="width: 40%;"><i>{{ $rociste->opis }}</i></td>
+                            <td style="width: 20%; text-align:center">
+                    <a class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena"  href="#"><i class="fa fa-pencil" style="font-size: 0.875em;"></i></a>
+                    <button id="dugmeBrisanje" class="btn btn-danger btn-xs otvori_modal"  value="#"><i class="fa fa-trash" style="font-size: 0.875em;"></i></button>
+                            </td>
+                        </tr>
+                @endforeach
+                </tbody>
+            </table>
+<hr style="border-top: 1px solid #18BC9C">
     <div class="row">
     <button style="float: right; margin-right: 10px" class="btn btn-success btn-sm otvori_dodavanje_rocista" id="dugmeDodajRociste" data-toggle="modal" data-target="#dodajModal" value="{{$predmet->id}}"><i class="fa fa-plus"></i></button>
     </div>
@@ -123,14 +131,14 @@
             <h4 class="modal-title text-primary">Додај рочиште</h4>
           </div>
           <div class="modal-body">
-            <form action="{{ route('rocista.dodavanje.post') }}" method="POST">
+            <form action="{{ route('rocista.dodavanje.post') }}" method="POST" data-parsley-validate>
               {{ csrf_field() }}
 
             <div class="row">
                 <div class="col-md-4">
         <div class="form-group{{ $errors->has('datum') ? ' has-error' : '' }}">
             <label for="datum">Датум: </label>
-            <input type="date" name="datum" id="datum" class="form-control" value="{{ old('datum') }}">
+            <input type="date" name="datum" id="datum" class="form-control" value="{{ old('datum') }}" required>
             @if ($errors->has('datum'))
                 <span class="help-block">
                     <strong>{{ $errors->first('datum') }}</strong>
@@ -142,7 +150,7 @@
         <div class="col-md-4">
          <div class="form-group{{ $errors->has('vreme') ? ' has-error' : '' }}">
             <label for="vreme">Време: </label>
-            <input type="time" name="vreme" id="vreme" class="form-control" value="{{ old('vreme') }}">
+            <input type="time" name="vreme" id="vreme" class="form-control" value="{{ old('vreme') }}" required>
             @if ($errors->has('vreme'))
                 <span class="help-block">
                     <strong>{{ $errors->first('vreme') }}</strong>
@@ -154,7 +162,7 @@
          <div class="col-md-4">
          <div class="form-group{{ $errors->has('tip_id') ? ' has-error' : '' }}">
                     <label for="tip_id">Типови рочишта:</label>
-                    <select name="tip_id" id="tip_id" class="chosen-select form-control" data-placeholder="Тип рочишта" >
+                    <select name="tip_id" id="tip_id" class="chosen-select form-control" data-placeholder="Тип рочишта" required>
                     <option value=""></option>
                     @foreach($tipovi_rocista as $tip)
                     <option value="{{ $tip->id }}"{{ old('tip_id') == $tip->id ? ' selected' : '' }}><strong>{{ $tip->naziv }}</strong></option>
@@ -206,4 +214,6 @@ $( document ).ready(function() {
   $('.chosen-select', this).chosen({allow_single_deselect: true});});
 });
 </script>
+<script src="{{ asset('/js/parsley.js') }}"></script>
+<script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection 

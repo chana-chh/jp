@@ -8,7 +8,7 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Predmet;
-use App\Modeli\Tiprocista;
+use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
 
 class RocistaKontroler extends Kontroler
@@ -43,7 +43,7 @@ class RocistaKontroler extends Kontroler
     public function getDodavanje()
     {
         $predmeti = Predmet::all();
-        $tipovi_rocista = Tiprocista::all();
+        $tipovi_rocista = TipRocista::all();
         return view('rocista_dodavanje')->with(compact ('predmeti', 'tipovi_rocista'));
     }
 }
