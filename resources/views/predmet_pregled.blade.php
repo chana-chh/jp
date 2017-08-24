@@ -76,6 +76,7 @@
 @section('traka')
 <div class="well bullets">
     <h3 style="margin-bottom: 20px">Рочишта</h3>
+    <hr style="border-top: 1px solid #18BC9C">
     <ul>
     @foreach ($predmet->rocista as $rociste)
         <li>
@@ -91,6 +92,7 @@
 </div>
 <div class="well">
     <h3>Токови</h3>
+    <hr style="border-top: 1px solid #18BC9C">
     @foreach ($predmet->tokovi as $tok)
         {{ date('d.m.Y', strtotime($tok->datum)) }} -
         {{ $tok->status->naziv }} ({{ $tok->opis }})<br>
@@ -102,6 +104,7 @@
 </div>
 <div class="well">
     <h3>Управе</h3>
+    <hr style="border-top: 1px solid #18BC9C">
     @foreach ($predmet->uprave as $uprava)
     <p>
         {{ $uprava->sifra }} - {{ $uprava->naziv }}
@@ -182,7 +185,7 @@
 
 
               <button type="submit" class="btn btn-success">Додај</button>
-              <input type="hidden" id="dodaj_id" name="dodaj_id" value="{{$predmet->id}}">
+              <input type="hidden" id="predmet_id" name="predmet_id" value="{{$predmet->id}}">
             </form>
           </div>
           <div class="modal-footer">

@@ -13,7 +13,7 @@
     </h1>
     <div class="row">
         <div class="col-md-3 col-md-offset-9">
-            <a class="btn btn-primary" href="#" style="float: right;">
+            <a class="btn btn-primary" href="{{ route('rocista.dodavanje.get') }}" style="float: right;">
                 <i class="fa fa-plus-circle fa-fw"></i> Додај рочиште
             </a>
         </div>

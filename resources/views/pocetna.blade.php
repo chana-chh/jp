@@ -33,8 +33,4 @@
 </div>
 
 <h2>Поднаслов, оуу јеее</h2>
-
-@if (Gate::allows('admin'))
-  <p style="color: red;">Ово види само админ. {{$pravo}}</p>
-  @endif
 @endsection

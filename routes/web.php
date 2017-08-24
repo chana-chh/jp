@@ -72,6 +72,7 @@ Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predm
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
+Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
 Route::post('rocista/dodavanje', 'RocistaKontroler@postDodavanje')->name('rocista.dodavanje.post');
 Route::post('rocista/brisanje', 'RocistaKontroler@postBrisanje')->name('rocista.brisanje');
 Route::post('rocista/izmena/{id}', 'RocistaKontroler@postIzmena')->name('rocista.izmena');

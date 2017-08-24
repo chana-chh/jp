@@ -18,7 +18,7 @@
                 <li><a href="{{ route('rocista') }}"> <i class="fa fa-hourglass-end fa-fw" style="color: #18BC9C"></i> Рочишта</a></li>
                 <li><a href="#"> <i class="fa fa-money fa-fw" style="color: #18BC9C"></i> Ток новца</a></li>
                 <li><a href="#"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li>
-
+                @if (Gate::allows('admin'))
                 <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-secret fa-fw" style="color: #18BC9C"></i>  Администрирање<span class="caret">
                     </a>
@@ -39,6 +39,7 @@
                             <li><a href="#">Типови рочишта</a></li>
                     </ul>
                 </li>
+                @endif
                 <li>
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
