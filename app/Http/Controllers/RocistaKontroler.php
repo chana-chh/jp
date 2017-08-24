@@ -46,4 +46,46 @@ class RocistaKontroler extends Kontroler
         $tipovi_rocista = TipRocista::all();
         return view('rocista_dodavanje')->with(compact ('predmeti', 'tipovi_rocista'));
     }
+
+    public function getDetalj(Request $r)
+        {
+            if($r->ajax()){
+                $id = $r->id;
+                $rociste = Rociste::find($id);
+                $tipovi_rocista = TipRocista::all();
+                return response()->json(array('rociste'=>$rociste,'tipovi_rocista'=>$tipovi_rocista));
+            }
+        }
+
+        public function postIzmena(Request $r)
+        {
+            $this->validate($r, [
+                'datumm' => ['required'],
+                'vremem' => ['required']
+            ]);
+
+                $id = $r -> edit_id;
+                $rociste = Rociste::find($id);
+                $rociste -> datum = $r -> datumm;
+                $rociste->vreme = $r->vremem;
+                $rociste->tip_id = $r->tip_idm;
+
+                $rociste -> save();
+
+            Session::flash('uspeh','Детаљи рочишта су успешно измењени!');
+            return Redirect::back();
+        }
+
+    public function postBrisanje(Request $r)
+    {   
+                $id = $r->id;
+                $rociste = Rociste::find($id);
+                $odgovor = $rociste->delete();
+                if ($odgovor) {
+                Session::flash('uspeh','Рочиште је успешно обрисано!');
+                }
+                else{
+                Session::flash('greska','Дошло је до грешке приликом брисања рочишта. Покушајте поново, касније!');
+                }
+    }
 }

@@ -86,8 +86,9 @@
                             <td style="width: 10%;">{{ date('H:i', strtotime($rociste->vreme)) }} </td>
                             <td style="width: 40%;"><i>{{ $rociste->opis }}</i></td>
                             <td style="width: 20%; text-align:center">
-                    <a class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena"  href="#"><i class="fa fa-pencil" style="font-size: 0.875em;"></i></a>
-                    <button id="dugmeBrisanje" class="btn btn-danger btn-xs otvori_modal"  value="#"><i class="fa fa-trash" style="font-size: 0.875em;"></i></button>
+                    
+                    <button class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena" data-toggle="modal" data-target="#editModal" value="{{$rociste->id}}"><i class="fa fa-pencil" style="font-size: 0.875em;"></i></button>
+                    <button id="dugmeBrisanje" class="btn btn-danger btn-xs otvori_modal"  value="{{$rociste->id}}"><i class="fa fa-trash" style="font-size: 0.875em;"></i></button>
                             </td>
                         </tr>
                 @endforeach
@@ -205,14 +206,154 @@
       </div>
     </div>
     {{-- Kraj Modala za dijalog dodavanje--}}
+
+    {{-- Modal za dijalog brisanje--}}
+    <div class="modal fade" id="brisanjeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h3 class="modal-title" id="brisanjeModalLabel">Упозорење!</h3>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-primary">Да ли желите трајно да обришете рочиште</strong></h4>
+                <p class="text-success" id="tip_a" name="tipa">Text 1</p>
+                <p class="text-success" id="datum_a" name="datum_a">Text 2</p>
+                <p class="text-success" id="vreme_a" name="vreme_a">Text 3</p>
+                <p><strong>Ова акција је неповратна!</strong></p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="btn-obrisi">Обриши</button>
+            <button type="button" class="btn btn-danger" id="btn-otkazi">Откажи</button>
+            </div>
+        </div>
+      </div>
+  </div>
+    {{-- Kraj Modala za dijalog brisanje--}}
+
+    {{-- POcetak Modala za dijalog izmena--}}
+    <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-primary">Измени детаље рочишта</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route('rocista.izmena') }}" method="POST">
+              {{ csrf_field() }}
+
+                <div class="form-group">
+                  <label for="tip_idm">Тип рочишта:</label>
+                  <select class="form-control" name="tip_idm" id="tip_idm" data-placeholder="рочиште ...">
+                    </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="datumm">Датум:</label>
+                  <input type="date" class="form-control" id="datumm" name="datumm">
+                </div>
+
+                <div class="form-group">
+                  <label for="vremem">Време:</label>
+                  <input type="time" class="form-control" id="vremem" name="vremem">
+                </div>
+
+                <div class="form-group">
+                    <label for="opism">Опис:</label>
+                    <textarea class="form-control" rows="3" id="opism" name="opism"></textarea>
+                </div>
+
+              <button type="submit" class="btn btn-success">Измени</button>
+              <input type="hidden" id="edit_id" name="edit_id">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+    {{-- Kraj Modala za dijalog izmena--}}
 @endsection
 
  @section('skripte')
 <script>
 $( document ).ready(function() {
+    
+    var detalj_ruta = "{{ route('rocista.detalj') }}";
+    var ruta_brisanje = "{{ route('rocista.brisanje') }}";
+
     $('#dodajModal').on('shown.bs.modal', function () {
-  $('.chosen-select', this).chosen({allow_single_deselect: true});});
+    $('.chosen-select', this).chosen({allow_single_deselect: true});});
+
+    //Brisanje modal
+    $(document).on('click','.otvori_modal',function(){
+
+        var id_brisanje = $(this).val();     
+        
+        $('#brisanjeModal').modal('show');
+
+        $.ajax({
+        url: detalj_ruta,
+        type:"GET", 
+        data: {"id":id_brisanje},
+        success: function(result){
+          $("#datum_a").text(result.rociste.datum);
+          $("#vreme_a").text(result.rociste.vreme);
+          if (result.rociste.tip_id==1) {
+            $("#tip_a").text('Рок');
+          } else {
+            $("#tip_a").text('Рочиште');
+          }    
+        }
+      });
+
+        $('#btn-obrisi').click(function(){
+            $.ajax({
+            url: ruta_brisanje,
+            type:"POST", 
+            data: {"id":id_brisanje, _token: "{!! csrf_token() !!}"}, 
+            success: function(){
+            location.reload(); 
+          }
+        });
+
+        $('#brisanjeModal').modal('hide');
+        });
+        $('#btn-otkazi').click(function(){
+            $('#brisanjeModal').modal('hide');
+        });
+    });
+    //Izmene modal
+    $(document).on('click','.otvori_izmenu',function(){
+
+        var id_menjanje = $(this).val();
+
+        $.ajax({
+        url: detalj_ruta,
+        type:"GET", 
+        data: {"id":id_menjanje},
+        success: function(result){
+          $("#edit_id").val(result.rociste.id);
+          $("#datumm").val(result.rociste.datum);
+          $("#vremem").val(result.rociste.vreme);
+          $("#opism").val(result.rociste.opis);
+          
+            $.each(result.tipovi_rocista, function(index, lokObjekat){
+            $('#tip_idm').append('<option value="'+lokObjekat.id+'">'+lokObjekat.naziv+'</option>');
+            });
+            $("#tip_idm").val(result.rociste.tip_id);
+        }
+      });     
+
+    });
 });
+
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
