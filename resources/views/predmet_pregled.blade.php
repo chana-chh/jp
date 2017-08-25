@@ -126,7 +126,6 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-<<<<<<< HEAD
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title text-primary">Додај рочиште</h4>
@@ -184,82 +183,11 @@
                                 <label for="opis">Опис: </label>
                                 <TEXTAREA name="opis" id="opis" class="form-control" rows="3">{{old('opis') }}</TEXTAREA> @if ($errors->has('opis'))
                                 <span class="help-block">
-=======
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title text-primary">Додај рочиште</h4>
-          </div>
-          <div class="modal-body">
-            <form action="{{ route('rocista.dodavanje.post') }}" method="POST" data-parsley-validate>
-              {{ csrf_field() }}
-
-            <div class="row">
-                <div class="col-md-4">
-        <div class="form-group{{ $errors->has('datum') ? ' has-error' : '' }}">
-            <label for="datum">Датум: </label>
-            <input type="date" name="datum" id="datum" class="form-control" value="{{ old('datum') }}" required>
-            @if ($errors->has('datum'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('datum') }}</strong>
-                </span>
-            @endif
-        </div>
-        </div>
-
-        <div class="col-md-4">
-         <div class="form-group{{ $errors->has('vreme') ? ' has-error' : '' }}">
-            <label for="vreme">Време: </label>
-            <input type="time" name="vreme" id="vreme" class="form-control" value="{{ old('vreme') }}" required>
-            @if ($errors->has('vreme'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('vreme') }}</strong>
-                </span>
-            @endif
-        </div>
-        </div>
-
-         <div class="col-md-4">
-         <div class="form-group{{ $errors->has('tip_id') ? ' has-error' : '' }}">
-                    <label for="tip_id">Типови рочишта:</label>
-                    <select name="tip_id" id="tip_id" class="chosen-select form-control" data-placeholder="Тип рочишта" required>
-                    <option value=""></option>
-                    @foreach($tipovi_rocista as $tip)
-                    <option value="{{ $tip->id }}"{{ old('tip_id') == $tip->id ? ' selected' : '' }}><strong>{{ $tip->naziv }}</strong></option>
-                    @endforeach
-                    </select>
-                        @if ($errors->has('tip_id'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('tip_id') }}</strong>
-                        </span>
-                        @endif
-                </div>
-        </div>
-        </div>
-        <hr style="border-top: 2px solid #18BC9C">
-        <div class="row">
-        <div class="col-md-12">
-        <div class="form-group{{ $errors->has('opis') ? ' has-error' : '' }}">
-            <label for="opis">Опис: </label>
-            <TEXTAREA name="opis" id="opis" class="form-control" rows="3">{{old('opis') }}</TEXTAREA>
-            @if ($errors->has('opis'))
-                <span class="help-block">
->>>>>>> 581588d69ceb436a69acacbf0ca3ffc1640de246
                     <strong>{{ $errors->first('opis') }}</strong>
                 </span> @endif
                             </div>
                         </div>
                     </div>
-
-
-<<<<<<< HEAD
-                    <button type="submit" class="btn btn-success">Додај</button>
-                    <input type="hidden" id="dodaj_id" name="dodaj_id" value="{{$predmet->id}}">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Откажи</button>
-            </div>
-=======
               <button type="submit" class="btn btn-success">Додај</button>
               <input type="hidden" id="predmet_id" name="predmet_id" value="{{$predmet->id}}">
             </form>
@@ -267,8 +195,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Откажи</button>
           </div>
->>>>>>> 581588d69ceb436a69acacbf0ca3ffc1640de246
-
         </div>
 
     </div>
@@ -355,10 +281,6 @@ $( document ).ready(function() {
     var ruta_brisanje = "{{ route('rocista.brisanje') }}";
 
     $('#dodajModal').on('shown.bs.modal', function () {
-<<<<<<< HEAD
-        $('.chosen-select', this).chosen({allow_single_deselect: true});
-  });
-=======
     $('.chosen-select', this).chosen({allow_single_deselect: true});});
 
     //Brisanje modal
@@ -422,14 +344,10 @@ $( document ).ready(function() {
       });     
 
     });
->>>>>>> 581588d69ceb436a69acacbf0ca3ffc1640de246
 });
 
 </script>
-<<<<<<< HEAD
-@endsection
-=======
 <script src="{{ asset('/js/parsley.js') }}"></script>
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection 
->>>>>>> 581588d69ceb436a69acacbf0ca3ffc1640de246
+

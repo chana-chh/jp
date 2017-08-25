@@ -22,19 +22,19 @@
                 2
             </div>
             <div class="col-md-4">
-                <div class="form-group{{ $errors->has('tip_id') ? ' has-error' : '' }}">
-                    <label for="tip_id">Типови рочишта:</label>
-                    <select name="tip_id" id="tip_id" class="chosen-select form-control" data-placeholder="Тип рочишта">
+                <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
+                    <label for="sud_id">Надлежни суд:</label>
+                    <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Тип рочишта">
                         <option value=""></option>
-                        @foreach($tipovi_rocista as $tip)
-                        <option value="{{ $tip->id }}"{{ old('tip_id') == $tip->id ? ' selected' : '' }}>
-                            <strong>{{ $tip->naziv }}</strong>
+                        @foreach($sudovi as $sud)
+                        <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
+                            <strong>{{ $sud->naziv }}</strong>
                         </option>
                         @endforeach
                     </select>
-                    @if ($errors->has('tip_id'))
+                    @if ($errors->has('sud_id'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('tip_id') }}</strong>
+                            <strong>{{ $errors->first('sud_id') }}</strong>
                         </span>
                     @endif
                 </div>

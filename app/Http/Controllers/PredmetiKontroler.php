@@ -8,7 +8,8 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Predmet;
-use App\Modeli\Tiprocista;
+use App\Modeli\Sud;
+use App\Modeli\TipRocista;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -21,13 +22,14 @@ class PredmetiKontroler extends Kontroler
 	public function getPregled($id)
 	{
 		$predmet = Predmet::find($id);
-		$tipovi_rocista = Tiprocista::all();
+		$tipovi_rocista = TipRocista::all();
 		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
 	}
 
 	public function getDodavanje()
-	{
-		return view('predmet_forma');
+	{	
+		$sudovi = Sud::all();
+		return view('predmet_forma')->with(compact ('sudovi'));
 	}
 
 	public function postDodavanje()
