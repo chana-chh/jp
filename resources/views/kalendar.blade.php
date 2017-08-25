@@ -19,33 +19,29 @@
 <script src="{{ asset('/js/moment.min.js') }}"></script>
 <script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('/js/sr-cyrl.js') }}"></script>
-        <script>
+<script>
     $(document).ready(function() {
+        var naslovi = {!! $naslovie !!};
+        var datumi  = {!! $datumie  !!};
+        var duzina = naslovi.length;
+        var dogadjaji = [];
 
-                var naslovi = {!! $naslovie !!};
-                var datumi  = {!! $datumie  !!};
-                var duzina = naslovi.length;
+        for(var i = 0;  i < duzina; i++) {
+            var naslov = naslovi[i];
+            var datum = datumi[i];
+            var dodajDogadjaj = {};
+            dodajDogadjaj = {
+                title: naslov,
+                start: datum,
+            }
+            dogadjaji.push(dodajDogadjaj);
+        }
 
-                var dogadjaji = [];
-
-                for(var i = 0;  i < duzina; i++){
-
-                    var naslov = naslovi[i];
-                    var datum = datumi[i];
-                    var dodajDogadjaj = {};
-                    dodajDogadjaj = {
-                        title: naslov,
-                        start: datum,
-                    } 
-                        dogadjaji.push(dodajDogadjaj);
-                      }
-
-    $('#calendar').fullCalendar({
-        weekends: false,
-        height: 700,
-        events: dogadjaji,
-    })
-
-}); 
-        </script>
+        $('#calendar').fullCalendar({
+            weekends: false,
+            height: 700,
+            events: dogadjaji,
+        })
+});
+</script>
 @endsection
