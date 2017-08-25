@@ -8,6 +8,8 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Predmet;
+use App\Modeli\VrstaUpisnika;
+use App\Modeli\VrstaPredmeta;
 use App\Modeli\Sud;
 use App\Modeli\TipRocista;
 
@@ -27,13 +29,15 @@ class PredmetiKontroler extends Kontroler
 	}
 
 	public function getDodavanje()
-	{	
+	{
+		$upisnici = VrstaUpisnika::all();
 		$sudovi = Sud::all();
-		return view('predmet_forma')->with(compact ('sudovi'));
+		$vrste = VrstaPredmeta::all();
+		return view('predmet_forma')->with(compact ('vrste', 'upisnici', 'sudovi'));
 	}
 
-	public function postDodavanje()
+	public function postDodavanje(Request $req)
 	{
-		dd('IDO');
+		dd($req->all());
 	}
 }

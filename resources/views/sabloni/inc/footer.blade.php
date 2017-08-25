@@ -1,5 +1,6 @@
 <div class="chh-footer">
 	<div class="container-fluid">
 		<p class="pull-left">Copyright &copy; Чана и Сташа {{ date('Y', time()) }}</p>
-	</div>	
+		<p class="pull-right text-info">Корисник: <strong>{{ Auth::user() ? Auth::user()->name : 'Гост' }}</strong></p>
+	</div>
 </div>

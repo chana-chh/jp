@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ route('pocetna') }}">
         <span><img alt="Правобранилаштво" src="{{url('/images/cekic.png')}}" style="height:32px;  width:32px"></span> Правобранилаштво Крагујевац</a>
         </div>
 
@@ -50,7 +50,7 @@
                             {{ csrf_field() }}
                         </form>
                 </li>
-                
+
             </ul>
         </div>
     </div>
