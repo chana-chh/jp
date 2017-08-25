@@ -16,7 +16,7 @@
   </a>
 </div> 
 <div class="col-md-3">
-  <a href="#">
+  <a href="{{ route('rocista.kalendar') }}">
   <img class="grow center-block" alt="kalendar" src="{{url('/images/kalendar.png')}}" style="height:128px;">
   </a>
 </div>  

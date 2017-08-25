@@ -78,3 +78,4 @@ Route::post('rocista/brisanje', 'RocistaKontroler@postBrisanje')->name('rocista.
 Route::post('rocista/izmena', 'RocistaKontroler@postIzmena')->name('rocista.izmena');
 Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista.pregled');
 Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
+Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');

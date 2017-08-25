@@ -3,3 +3,4 @@
 <script src="{{ asset('/js/chosen.jquery.js') }}"></script>
 <script src="{{ asset('/js/chosen.proto.js') }}"></script>
 <script src="{{ asset('/js/datatables.js') }}"></script>
+

@@ -89,4 +89,22 @@ class RocistaKontroler extends Kontroler
                 Session::flash('greska','Дошло је до грешке приликом брисања рочишта. Покушајте поново, касније!');
                 }
     }
+
+    public function getKalendar()
+    {
+
+        $rocista =  Rociste::all();
+
+        $naslovi = array();
+        $datumi  = array();
+        foreach ($rocista as $rociste) {
+            $naslovi [] = [$rociste->vreme, $rociste->opis, $rociste->predmet->referent->ime];
+            $datumi [] = $rociste->datum;
+        }
+
+        $naslovie = json_encode($naslovi);
+        $datumie = json_encode($datumi);
+
+        return view('kalendar')->with(compact ('naslovie', 'datumie'));
+    }
 }

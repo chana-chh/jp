@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="kolaps">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ route('predmeti') }}"> <i class="fa fa-archive fa-fw" style="color: #18BC9C"></i> Предмети</a></li>
-                <li><a href="#"> <i class="fa fa-calendar fa-fw" style="color: #18BC9C"></i> Календар</a></li>
+                <li><a href="{{ route('rocista.kalendar') }}"> <i class="fa fa-calendar fa-fw" style="color: #18BC9C"></i> Календар</a></li>
                 <li><a href="{{ route('rocista') }}"> <i class="fa fa-hourglass-end fa-fw" style="color: #18BC9C"></i> Рочишта</a></li>
                 <li><a href="#"> <i class="fa fa-money fa-fw" style="color: #18BC9C"></i> Ток новца</a></li>
                 <li><a href="#"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li>
