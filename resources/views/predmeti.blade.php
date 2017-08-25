@@ -43,7 +43,7 @@
                             <td style="text-align:center;" class="text-danger">
                                 {{ $predmet->arhiviran == 0 ? '' : 'а/а' }}
                             </td>
-                            <td>
+                            <td class="text-info">
                                 <strong>
                                     {{$predmet->vrstaUpisnika->slovo}} {{$predmet->broj_predmeta}}/{{$predmet->godina_predmeta}}
                                 </strong>
