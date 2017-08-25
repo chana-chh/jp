@@ -32,7 +32,7 @@
                                 <td>{{$korisnik->id}}</td>
                                 <td><strong>{{$korisnik->name}}</strong></td>
                                 <td>{{$korisnik->username}}</td>
-                                <td style="text-align:center">{!! $korisnik->level == 0 ? '<i class="fa fa-check">' : '<i class="fa fa-close">' !!}</td>
+                                <td style="text-align:center">{!! $korisnik->level == 0 ? '<i class="fa fa-check text-success">' : '' !!}</td>
                                  <td style="text-align:center">
                                  <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('korisnici.pregled', $korisnik->id) }}"><i class="fa fa-eye"></i></a>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$korisnik->id}}"><i class="fa fa-trash"></i></button>
