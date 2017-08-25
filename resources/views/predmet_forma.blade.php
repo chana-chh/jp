@@ -72,7 +72,7 @@
                         <option value=""></option>
                         @foreach($sudovi as $sud)
                         <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
-                            <strong>{{ $sud->naziv }}</strong>
+                            {{ $sud->naziv }}
                         </option>
                         @endforeach
                     </select>
@@ -90,7 +90,7 @@
                         <option value=""></option>
                         @foreach($vrste as $vrsta)
                         <option value="{{ $vrsta->id }}"{{ old('vrsta_predmeta_id') == $vrsta->id ? ' selected' : '' }}>
-                            <strong>{{ $vrsta->naziv }}</strong>
+                            {{ $vrsta->naziv }}
                         </option>
                         @endforeach
                     </select>
@@ -152,7 +152,7 @@
                 <div class="form-group{{ $errors->has('opis_kp') ? ' has-error' : '' }}">
                     <label for="opis_kp">Катастарске парцеле:</label>
                     <input type="text" name="opis_kp" id="opis_kp" class="form-control"
-                    value="{{ old('opis_kp') }}" maxlength="255" required>
+                    value="{{ old('opis_kp') }}" maxlength="255">
                     @if ($errors->has('opis_kp'))
                         <span class="help-block">
                             <strong>{{ $errors->first('opis_kp') }}</strong>
@@ -164,7 +164,7 @@
                 <div class="form-group{{ $errors->has('opis_adresa') ? ' has-error' : '' }}">
                     <label for="opis_adresa">Адресе:</label>
                     <input type="text" name="opis_adresa" id="opis_adresa" class="form-control"
-                    value="{{ old('opis_adresa') }}" maxlength="255" required>
+                    value="{{ old('opis_adresa') }}" maxlength="255">
                     @if ($errors->has('opis_adresa'))
                         <span class="help-block">
                             <strong>{{ $errors->first('opis_adresa') }}</strong>
@@ -177,7 +177,7 @@
             <div class="col-md-12">
                 <div class="form-group{{ $errors->has('opis') ? ' has-error' : '' }}">
                     <label for="opis">Опис:</label>
-                    <textarea name="opis" id="opis" class="form-control" required>{{ old('opis') }}</textarea>
+                    <textarea name="opis" id="opis" class="form-control">{{ old('opis') }}</textarea>
                     @if ($errors->has('opis'))
                         <span class="help-block">
                             <strong>{{ $errors->first('opis') }}</strong>
@@ -190,18 +190,72 @@
         <hr>
         <div class="row">
             <div class="col-md-4">
-            referent_id
+                <div class="form-group{{ $errors->has('referent_id') ? ' has-error' : '' }}">
+                    <label for="referent_id">Референт:</label>
+                    <select name="referent_id" id="referent_id" class="chosen-select form-control" data-placeholder="Референт" required>
+                        <option value=""></option>
+                        @foreach($referenti as $referent)
+                        <option value="{{ $referent->id }}"{{ old('referent_id') == $referent->id ? ' selected' : '' }}>
+                            {{ $referent->ime }} {{ $referent->prezime }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('referent_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('referent_id') }}</strong>
+                        </span>
+                    @endif
+                </div>
             </div>
             <div class="col-md-4">
-            vrednost_tuzbe
+                <div class="form-group{{ $errors->has('vrednost_tuzbe') ? ' has-error' : '' }}">
+                    <label for="vrednost_tuzbe">Вредност: </label>
+                    <input type="number" name="vrednost_tuzbe" id="vrednost_tuzbe" class="form-control"
+                    min="0" step="0.01"
+                    value="{{ old('vrednost_tuzbe') ? old('vrednost_tuzbe') : 10000 }}">
+                    @if ($errors->has('vrednost_tuzbe'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('vrednost_tuzbe') }}</strong>
+                        </span>
+                    @endif
+                </div>
             </div>
             <div class="col-md-4">
-            roditelj_id
+                <div class="form-group{{ $errors->has('roditelj_id') ? ' has-error' : '' }}">
+                    <label for="roditelj_id">Предмет родитељ:</label>
+                    <select name="roditelj_id" id="roditelj_id" class="chosen-select form-control" data-placeholder="Предмет родитељ">
+                        <option value=""></option>
+                        @foreach($predmeti as $predmet)
+                        <option value="{{ $predmet->id }}"{{ old('roditelj_id') == $predmet->id ? ' selected' : '' }}>
+                            {{ $predmet->broj() }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('roditelj_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('roditelj_id') }}</strong>
+                        </span>
+                    @endif
+                </div>
             </div>
         </div>
-
-
-        <input type="submit" value="IDI">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
+                    <label for="napomena">Напомена:</label>
+                    <textarea name="napomena" id="napomena" class="form-control">{{ old('napomena') }}</textarea>
+                    @if ($errors->has('napomena'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('napomena') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-right">
+            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
+            <a class="btn btn-danger" href="{{route('predmeti')}}"><i class="fa fa-ban"></i> Откажи</a>
+        </div>
     </form>
 
 @endsection
