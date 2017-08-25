@@ -122,7 +122,7 @@
                 <div class="form-group{{ $errors->has('stranka_1') ? ' has-error' : '' }}">
                     <label for="stranka_1">Прва странка:</label>
                     <input type="text" name="stranka_1" id="stranka_1" class="form-control"
-                    value="{{ old('stranka_1') }}" required>
+                    value="{{ old('stranka_1') }}" maxlength="255" required>
                     @if ($errors->has('stranka_1'))
                         <span class="help-block">
                             <strong>{{ $errors->first('stranka_1') }}</strong>
@@ -134,7 +134,7 @@
                 <div class="form-group{{ $errors->has('stranka_2') ? ' has-error' : '' }}">
                     <label for="stranka_2">Друга странка:</label>
                     <input type="text" name="stranka_2" id="stranka_2" class="form-control"
-                    value="{{ old('stranka_2') }}" required>
+                    value="{{ old('stranka_2') }}" maxlength="255" required>
                     @if ($errors->has('stranka_2'))
                         <span class="help-block">
                             <strong>{{ $errors->first('stranka_2') }}</strong>
@@ -152,7 +152,7 @@
                 <div class="form-group{{ $errors->has('opis_kp') ? ' has-error' : '' }}">
                     <label for="opis_kp">Катастарске парцеле:</label>
                     <input type="text" name="opis_kp" id="opis_kp" class="form-control"
-                    value="{{ old('opis_kp') }}" required>
+                    value="{{ old('opis_kp') }}" maxlength="255" required>
                     @if ($errors->has('opis_kp'))
                         <span class="help-block">
                             <strong>{{ $errors->first('opis_kp') }}</strong>
@@ -164,7 +164,7 @@
                 <div class="form-group{{ $errors->has('opis_adresa') ? ' has-error' : '' }}">
                     <label for="opis_adresa">Адресе:</label>
                     <input type="text" name="opis_adresa" id="opis_adresa" class="form-control"
-                    value="{{ old('opis_adresa') }}" required>
+                    value="{{ old('opis_adresa') }}" maxlength="255" required>
                     @if ($errors->has('opis_adresa'))
                         <span class="help-block">
                             <strong>{{ $errors->first('opis_adresa') }}</strong>
