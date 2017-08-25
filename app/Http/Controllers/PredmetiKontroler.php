@@ -24,4 +24,14 @@ class PredmetiKontroler extends Kontroler
 		$tipovi_rocista = Tiprocista::all();
 		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
 	}
+
+	public function getDodavanje()
+	{
+		return view('predmet_forma');
+	}
+
+	public function postDodavanje()
+	{
+		dd('IDO');
+	}
 }
