@@ -68,6 +68,7 @@ class RocistaKontroler extends Kontroler
                 $rociste = Rociste::find($id);
                 $rociste -> datum = $r -> datumm;
                 $rociste->vreme = $r->vremem;
+                $rociste->opis = $r->opism;
                 $rociste->tip_id = $r->tip_idm;
 
                 $rociste -> save();

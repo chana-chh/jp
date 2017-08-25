@@ -216,10 +216,8 @@
                 <h3 class="modal-title" id="brisanjeModalLabel">Упозорење!</h3>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">Да ли желите трајно да обришете рочиште</strong></h4>
-                <p class="text-success" id="tip_a" name="tipa">Text 1</p>
-                <p class="text-success" id="datum_a" name="datum_a">Text 2</p>
-                <p class="text-success" id="vreme_a" name="vreme_a">Text 3</p>
+                <h3 class="text-primary">Да ли желите трајно да обришете рочиште</strong></h3>
+                <h4 id="tip_a" name="tip_a"></h4>
                 <p><strong>Ова акција је неповратна!</strong></p>
             </div>
             <div class="modal-footer">
@@ -303,10 +301,10 @@ $( document ).ready(function() {
         type:"GET", 
         data: {"id":id_brisanje},
         success: function(result){
-          $("#datum_a").text(result.rociste.datum);
+          //$("#datum_a").text(result.rociste.datum);
           $("#vreme_a").text(result.rociste.vreme);
           if (result.rociste.tip_id==1) {
-            $("#tip_a").text('Рок');
+            $("#tip_a").html('Рок <span class="label label-success">Дана '+result.rociste.datum+' у '+result.rociste.vreme+' сати</span>');
           } else {
             $("#tip_a").text('Рочиште');
           }    
