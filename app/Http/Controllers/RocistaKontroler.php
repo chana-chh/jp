@@ -21,7 +21,7 @@ class RocistaKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'datum' => ['required'],
                 'vreme' => ['required'],
@@ -35,7 +35,7 @@ class RocistaKontroler extends Kontroler
         $rociste->predmet_id = $r->predmet_id;
 
         $rociste->save();
-        
+
         Session::flash('uspeh','Рочиште је успешно додато!');
         return redirect()->route('predmeti.pregled', $r->predmet_id);
     }
@@ -78,7 +78,7 @@ class RocistaKontroler extends Kontroler
         }
 
     public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $rociste = Rociste::find($id);
                 $odgovor = $rociste->delete();
@@ -98,8 +98,12 @@ class RocistaKontroler extends Kontroler
         $naslovi = array();
         $datumi  = array();
         foreach ($rocista as $rociste) {
-            $naslovi [] = [$rociste->vreme, $rociste->opis, $rociste->predmet->referent->ime];
             $datumi [] = $rociste->datum;
+            $naslovi [] = [
+                date('H:i', strtotime($rociste->vreme)) . ' - ' . $rociste->predmet->broj(),
+                ' (' . $rociste->predmet->referent->imePrezime() . ')',
+                // $rociste->opis,
+            ];
         }
 
         $naslovie = json_encode($naslovi);

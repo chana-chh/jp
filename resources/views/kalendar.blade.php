@@ -12,7 +12,7 @@
 
 @section('naslov')
     <h1 class="page-header">Календарски преглед рочишта</h1>
-    <div class="col-md-10 col-md-offset-1" id='calendar'></div>
+    <div class="col-md-12" id='calendar'></div>
 @endsection
 
 @section('skripte')
