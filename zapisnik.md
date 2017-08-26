@@ -1,2 +1,7 @@
-Врсте уписника - додати слово и следећи број.
-Нису урађени шифарници у Администрацији (Статуси и Типови рочишта)
+# TODO
+
+## Administriranje
+
+- Vrste upisnika - dodati slovo i sledeci broj
+- Statusi - nije uradjeno
+- Tipovi rocista - nije uradjeno
