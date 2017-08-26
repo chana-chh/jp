@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
+use Auth;
 
 use App\Modeli\Predmet;
 use App\Modeli\VrstaUpisnika;
@@ -48,8 +49,8 @@ class PredmetiKontroler extends Kontroler
 			'sud_id' => 'required|integer',
 			'vrsta_predmeta_id' => 'required|integer',
 			'datum_tuzbe' => 'required|date',
-			'stranka_1' => 'required|alpha_num',
-			'stranka_2' => 'required|alpha_num',
+			'stranka_1' => 'required',
+			'stranka_2' => 'required',
 			'referent_id' => 'required|integer',
 		]);
 
@@ -70,6 +71,7 @@ class PredmetiKontroler extends Kontroler
 		$predmet->vrednost_tuzbe = $vrednost_tuzbe;
 		$predmet->roditelj_id = $req->roditelj_id;
 		$predmet->napomena = $req->napomena;
+		$predmet->korisnik_id = Auth::user()->id;
 		$predmet->save();
 
 		$upisnik = VrstaUpisnika::findOrFail($req->vrsta_upisnika_id);
@@ -78,5 +80,49 @@ class PredmetiKontroler extends Kontroler
 
 		Session::flash('uspeh', 'Предмет је успешно додат!');
         return redirect()->route('predmeti');
+	}
+
+	public function getIzmena($id)
+	{
+		$predmet = Predmet::find($id);
+		$predmeti = Predmet::all();
+		$sudovi = Sud::all();
+		$vrste = VrstaPredmeta::all();
+		$referenti = Referent::all();
+		$predmeti = Predmet::all();
+
+		return view('predmet_izmena')->with(compact ('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
+	}
+
+	public function postIzmena(Request $req, $id)
+	{
+		$this->validate($req, [
+			'sud_id' => 'required|integer',
+			'vrsta_predmeta_id' => 'required|integer',
+			'datum_tuzbe' => 'required|date',
+			'stranka_1' => 'required',
+			'stranka_2' => 'required',
+			'referent_id' => 'required|integer',
+		]);
+
+		$predmet = Predmet::find($id);
+		$predmet->sud_id = $req->sud_id;
+		$predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
+		$predmet->datum_tuzbe = $req->datum_tuzbe;
+		$predmet->stranka_1 = $req->stranka_1;
+		$predmet->stranka_2 = $req->stranka_2;
+		$predmet->opis_kp = $req->opis_kp;
+		$predmet->opis_adresa = $req->opis_adresa;
+		$predmet->opis = $req->opis;
+		$predmet->referent_id = $req->referent_id;
+		$vrednost_tuzbe = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+		$predmet->vrednost_tuzbe = $vrednost_tuzbe;
+		$predmet->roditelj_id = $req->roditelj_id;
+		$predmet->napomena = $req->napomena;
+		$predmet->korisnik_id = Auth::user()->id;
+		$predmet->save();
+
+		Session::flash('uspeh', 'Предмет је успешно измењен!');
+        return redirect()->route('predmeti.pregled', $id);
 	}
 }

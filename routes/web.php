@@ -67,8 +67,10 @@ Route::get('predmeti', 'PredmetiKontroler@getLista')->name('predmeti');
 Route::get('predmeti/dodavanje/forma', 'PredmetiKontroler@getDodavanje')->name('predmeti.dodavanje.get');
 Route::post('predmeti/dodavanje', 'PredmetiKontroler@postDodavanje')->name('predmeti.dodavanje.post');
 Route::post('predmeti/brisanje', 'PredmetiKontroler@postBrisanje')->name('predmeti.brisanje');
-Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena');
+Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmeti.izmena.get');
+Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
+
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');

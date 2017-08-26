@@ -71,6 +71,7 @@
         <div class="col-md-3">Напомена:</div>
         <div class="col-md-9">{{ $predmet->napomena }}</div>
     </div>
+    <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Измени</a>
 @endsection
 
 @section('traka')
@@ -86,7 +87,7 @@
                             <td style="width: 10%;">{{ date('H:i', strtotime($rociste->vreme)) }} </td>
                             <td style="width: 40%;"><i>{{ str_limit($rociste->opis, 30) }}</i></td>
                             <td style="width: 20%; text-align:center">
-                    
+
                     <button class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena" data-toggle="modal" data-target="#editModal" value="{{$rociste->id}}"><i class="fa fa-pencil" style="font-size: 0.875em;"></i></button>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-xs otvori_modal"  value="{{$rociste->id}}"><i class="fa fa-trash" style="font-size: 0.875em;"></i></button>
                             </td>
@@ -226,7 +227,7 @@
     {{-- POcetak Modala za dijalog izmena--}}
     <div class="modal fade" id="editModal" role="dialog">
       <div class="modal-dialog">
-      
+
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
@@ -265,9 +266,9 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
           </div>
-          
+
         </div>
-        
+
       </div>
     </div>
     {{-- Kraj Modala za dijalog izmena--}}
@@ -276,7 +277,7 @@
  @section('skripte')
 <script>
 $( document ).ready(function() {
-    
+
     var detalj_ruta = "{{ route('rocista.detalj') }}";
     var ruta_brisanje = "{{ route('rocista.brisanje') }}";
 
@@ -286,13 +287,13 @@ $( document ).ready(function() {
     //Brisanje modal
     $(document).on('click','.otvori_modal',function(){
 
-        var id_brisanje = $(this).val();     
-        
+        var id_brisanje = $(this).val();
+
         $('#brisanjeModal').modal('show');
 
         $.ajax({
         url: detalj_ruta,
-        type:"GET", 
+        type:"GET",
         data: {"id":id_brisanje},
         success: function(result){
           //$("#datum_a").text(result.rociste.datum);
@@ -301,17 +302,17 @@ $( document ).ready(function() {
             $("#tip_a").html('Рок <span class="label label-success">Дана '+result.rociste.datum+' у '+result.rociste.vreme+' сати</span>');
           } else {
             $("#tip_a").text('Рочиште');
-          }    
+          }
         }
       });
 
         $('#btn-obrisi').click(function(){
             $.ajax({
             url: ruta_brisanje,
-            type:"POST", 
-            data: {"id":id_brisanje, _token: "{!! csrf_token() !!}"}, 
+            type:"POST",
+            data: {"id":id_brisanje, _token: "{!! csrf_token() !!}"},
             success: function(){
-            location.reload(); 
+            location.reload();
           }
         });
 
@@ -328,20 +329,20 @@ $( document ).ready(function() {
 
         $.ajax({
         url: detalj_ruta,
-        type:"GET", 
+        type:"GET",
         data: {"id":id_menjanje},
         success: function(result){
           $("#edit_id").val(result.rociste.id);
           $("#datumm").val(result.rociste.datum);
           $("#vremem").val(result.rociste.vreme);
           $("#opism").val(result.rociste.opis);
-          
+
             $.each(result.tipovi_rocista, function(index, lokObjekat){
             $('#tip_idm').append('<option value="'+lokObjekat.id+'">'+lokObjekat.naziv+'</option>');
             });
             $("#tip_idm").val(result.rociste.tip_id);
         }
-      });     
+      });
 
     });
 });
@@ -349,5 +350,5 @@ $( document ).ready(function() {
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
-@endsection 
+@endsection
 
