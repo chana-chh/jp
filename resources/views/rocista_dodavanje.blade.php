@@ -11,14 +11,14 @@
         <span><img alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px"></span>
         Додавање новог рочишта
     </h1>
-    <hr style="border-top: 2px solid #18BC9C">
 
-   <form action="{{ route('rocista.dodavanje.post') }}" method="POST">
+   <form action="{{ route('rocista.dodavanje.post') }}" method="POST" style="margin-top: 45px">
               {{ csrf_field() }}
         
             <div class="row">
             <div class="col-md-10 col-md-offset-1">
-         <div class="form-group{{ $errors->has('predmet_id') ? ' has-error' : '' }}">
+            
+            <div class="form-group{{ $errors->has('predmet_id') ? ' has-error' : '' }}" style="margin-right: 15px; margin-left: 15px">
                     <label for="predmet_id">Предмет:</label>
                     <select name="predmet_id" id="predmet_id" class="chosen-select form-control" data-placeholder="Предмети" >
                     <option value=""></option>
@@ -34,11 +34,13 @@
                         </span>
                         @endif
                 </div>
-        </div>
+                </div>
+                </div>
 
-            </div>
-            <div class="row">
-                <div class="col-md-4">
+
+            <div class="row" style="margin-top: 15px">
+            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-4">
         <div class="form-group{{ $errors->has('datum') ? ' has-error' : '' }}">
             <label for="datum">Датум: </label>
             <input type="date" name="datum" id="datum" class="form-control" value="{{ old('datum') }}">
@@ -77,13 +79,18 @@
                         </span>
                         @endif
                 </div>
-        </div>
-        </div>
 
+        </div>
+        </div>
+        </div>
+         <div class="row" style="margin-top: 15px">
+        <div class="col-md-10 col-md-offset-1">
         <hr style="border-top: 2px solid #18BC9C">
+        </div>
+        </div>
 
-        <div class="row">
-        <div class="col-md-12">
+        <div class="row" style="margin-top: 15px">
+        <div class="col-md-10 col-md-offset-1">
         <div class="form-group{{ $errors->has('opis') ? ' has-error' : '' }}">
             <label for="opis">Опис: </label>
             <TEXTAREA name="opis" id="opis" class="form-control" rows="3">{{old('opis') }}</TEXTAREA>
@@ -97,9 +104,13 @@
         </div>
 
 
+        <div class="row" style="margin-top: 45px">
+        <div class="col-md-10 col-md-offset-1">
         <div class="form-group text-right" style="margin-top: 20px">
             <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
             <a class="btn btn-danger" href="{{route('rocista')}}"><i class="fa fa-ban"></i> Откажи</a>
+        </div>
+        </div>
         </div>
 
             </form>

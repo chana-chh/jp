@@ -84,7 +84,7 @@
                             <td style="width: 15%;"><span class="text-success">{{ $rociste->tipRocista->naziv }}</span> </td>
                             <td style="width: 15%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
                             <td style="width: 10%;">{{ date('H:i', strtotime($rociste->vreme)) }} </td>
-                            <td style="width: 40%;"><i>{{ $rociste->opis }}</i></td>
+                            <td style="width: 40%;"><i>{{ str_limit($rociste->opis, 30) }}</i></td>
                             <td style="width: 20%; text-align:center">
                     
                     <button class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena" data-toggle="modal" data-target="#editModal" value="{{$rociste->id}}"><i class="fa fa-pencil" style="font-size: 0.875em;"></i></button>
