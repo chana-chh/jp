@@ -23,16 +23,19 @@
     $(document).ready(function() {
         var naslovi = {!! $naslovie !!};
         var datumi  = {!! $datumie  !!};
+        var detalji  = {!! $detaljie  !!};
         var duzina = naslovi.length;
         var dogadjaji = [];
 
         for(var i = 0;  i < duzina; i++) {
             var naslov = naslovi[i];
             var datum = datumi[i];
+            var detalj = detalji[i];
             var dodajDogadjaj = {};
             dodajDogadjaj = {
                 title: naslov,
                 start: datum,
+                description: detalj
             }
             dogadjaji.push(dodajDogadjaj);
         }
@@ -41,6 +44,9 @@
             weekends: false,
             height: 700,
             events: dogadjaji,
+            eventRender: function (event, element, view) {
+            element.find('.fc-title').append('<div class="hr-line-solid-no-margin"></div><hr style="margin: 2px"><span style="font-size: 10px">'+event.description+'</span></div>');
+            },
         })
 });
 </script>

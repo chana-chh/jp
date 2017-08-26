@@ -94,21 +94,23 @@ class RocistaKontroler extends Kontroler
     {
 
         $rocista =  Rociste::all();
-
+        //Razrešio sam događaj u kalendaru i dodao opis :)
         $naslovi = array();
         $datumi  = array();
+        $detalji  = array();
         foreach ($rocista as $rociste) {
             $datumi [] = $rociste->datum;
             $naslovi [] = [
                 date('H:i', strtotime($rociste->vreme)) . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
-                // $rociste->opis,
             ];
+            $detalji [] = $rociste->opis;
         }
 
         $naslovie = json_encode($naslovi);
         $datumie = json_encode($datumi);
+        $detaljie = json_encode($detalji);
 
-        return view('kalendar')->with(compact ('naslovie', 'datumie'));
+        return view('kalendar')->with(compact ('naslovie', 'datumie', 'detaljie'));
     }
 }
