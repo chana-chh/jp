@@ -22,6 +22,7 @@
                 <thead>
                       <th>#</th>
                       <th>Име и презиме</th>
+                      <th>Број предмета</th>
                       <th>Напомена</th>
                       <th style="text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
@@ -30,6 +31,7 @@
                         <tr>
                                 <td>{{$referent->id}}</td>
                                 <td><strong>{{$referent->ime}} {{$referent->prezime}}</strong></td>
+                                <td><strong>{{$referent->predmet->count()}}</strong></td>
                                 <td>{{$referent->napomena}}</td>
 
                                  <td style="text-align:center">
