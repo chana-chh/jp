@@ -35,8 +35,8 @@
                             <li><a href="{{ route('vrste_predmeta') }}">Врсте предмета</a></li>
                             <li><a href="{{route('vrste_upisnika')}}">Врсте уписника</a></li>
                             <li><a href="{{ route('uprave') }}">Грдаске управе</a></li>
-                            <li><a href="#">Статуси</a></li>
-                            <li><a href="#">Типови рочишта</a></li>
+                            <li><a href="{{ route('statusi') }}">Статуси</a></li>
+                            <li><a href="{{ route('tipovi_rocista') }}">Типови рочишта</a></li>
                     </ul>
                 </li>
                 @endif

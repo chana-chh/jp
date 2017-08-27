@@ -20,7 +20,12 @@ class PredmetiKontroler extends Kontroler
 	public function getLista()
 	{
 		$predmeti = Predmet::all();
-		return view('predmeti')->with(compact ('predmeti'));
+		$upisnici = VrstaUpisnika::all();
+		$sudovi = Sud::all();
+		$vrste = VrstaPredmeta::all();
+		$referenti = Referent::all();
+
+		return view('predmeti')->with(compact ('vrste', 'upisnici', 'sudovi', 'referenti','predmeti'));
 	}
 
 	public function getPregled($id)

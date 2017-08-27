@@ -42,11 +42,25 @@ Route::post('sifarnici/uprave/izmena/{id}', 'UpraveKontroler@postIzmena')->name(
 Route::get('sifarnici/uprave/pregled/{id}', 'UpraveKontroler@getPregled')->name('uprave.pregled');
 
 //Sudovi
+Route::get('sifarnici/tipovi_rocista', 'TipoviRocistaKontroler@getLista')->name('tipovi_rocista');
+Route::post('sifarnici/tipovi_rocista/dodavanje', 'TipoviRocistaKontroler@postDodavanje')->name('tipovi_rocista.dodavanje');
+Route::post('sifarnici/tipovi_rocista/brisanje', 'TipoviRocistaKontroler@postBrisanje')->name('tipovi_rocista.brisanje');
+Route::post('sifarnici/tipovi_rocista/izmena/{id}', 'TipoviRocistaKontroler@postIzmena')->name('tipovi_rocista.izmena');
+Route::get('sifarnici/tipovi_rocista/pregled/{id}', 'TipoviRocistaKontroler@getPregled')->name('tipovi_rocista.pregled');
+
+//Sudovi
 Route::get('sifarnici/sudovi', 'SudoviKontroler@getLista')->name('sudovi');
 Route::post('sifarnici/sudovi/dodavanje', 'SudoviKontroler@postDodavanje')->name('sudovi.dodavanje');
 Route::post('sifarnici/sudovi/brisanje', 'SudoviKontroler@postBrisanje')->name('sudovi.brisanje');
 Route::post('sifarnici/sudovi/izmena/{id}', 'SudoviKontroler@postIzmena')->name('sudovi.izmena');
 Route::get('sifarnici/sudovi/pregled/{id}', 'SudoviKontroler@getPregled')->name('sudovi.pregled');
+
+//Statusi
+Route::get('sifarnici/statusi', 'StatusiKontroler@getLista')->name('statusi');
+Route::post('sifarnici/statusi/dodavanje', 'StatusiKontroler@postDodavanje')->name('statusi.dodavanje');
+Route::post('sifarnici/statusi/brisanje', 'StatusiKontroler@postBrisanje')->name('statusi.brisanje');
+Route::post('sifarnici/statusi/izmena/{id}', 'StatusiKontroler@postIzmena')->name('statusi.izmena');
+Route::get('sifarnici/statusi/pregled/{id}', 'StatusiKontroler@getPregled')->name('statusi.pregled');
 
 //Referenti
 Route::get('sifarnici/referenti', 'ReferentiKontroler@getLista')->name('referenti');
