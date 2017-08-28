@@ -22,6 +22,8 @@
                 <thead>
                       <th>#</th>
                       <th>Назив</th>
+                      <th>Акроним</th>
+                      <th>Следећи број</th>
                       <th>Напомена</th>
                       <th style="text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
@@ -30,6 +32,8 @@
                         <tr>
                                 <td>{{$vrsta->id}}</td>
                                 <td><strong>{{$vrsta->naziv}}</strong></td>
+                                <td>{{$vrsta->slovo}}</td>
+                                <td>{{$vrsta->sledeci_broj}}</td>
                                 <td>{{$vrsta->napomena}}</td>
 
                                  <td style="text-align:center">

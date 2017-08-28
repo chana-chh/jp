@@ -74,9 +74,9 @@
     @if (Gate::allows('admin'))
     <div class="panel panel-default">
   <div class="panel-body">
-    <p>Корисник који је последњи вршио измене на предмету је {{ $predmet->korisnik->name }}</p>
-    <p>Предмет је додат у базу {{ date('d.m.Y', strtotime($predmet->created_at)) }}</p>
-    <p>Предмет је последњи пут измењен {{ date('d.m.Y', strtotime($predmet->updated_at)) }}</p>
+    <p>Корисник који је последњи вршио измене на предмету је <strong class="text-primary">{{ $korisnik->name }}</strong></p>
+    <p>Предмет је додат у базу <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong></p>
+    <p>Предмет је последњи пут измењен <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->updated_at)) }}</strong></p>
   </div>
 </div>
 @endif

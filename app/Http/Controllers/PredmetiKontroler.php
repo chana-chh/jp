@@ -14,6 +14,7 @@ use App\Modeli\VrstaPredmeta;
 use App\Modeli\Sud;
 use App\Modeli\Referent;
 use App\Modeli\TipRocista;
+use App\Modeli\Korisnik;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -32,7 +33,9 @@ class PredmetiKontroler extends Kontroler
 	{
 		$predmet = Predmet::find($id);
 		$tipovi_rocista = TipRocista::all();
-		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
+		$korisnik = Korisnik::find($predmet->korisnik->id);
+
+		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista', 'korisnik'));
 	}
 
 	public function getDodavanje()
