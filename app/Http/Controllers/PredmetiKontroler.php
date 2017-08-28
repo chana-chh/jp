@@ -33,9 +33,8 @@ class PredmetiKontroler extends Kontroler
 	{
 		$predmet = Predmet::find($id);
 		$tipovi_rocista = TipRocista::all();
-		$korisnik = Korisnik::find($predmet->korisnik->id);
 
-		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista', 'korisnik'));
+		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
 	}
 
 	public function getDodavanje()

@@ -16,7 +16,7 @@ class Predmet extends Model
 	// belongsTo
 	public function korisnik()
 	{
-	return $this->belongsTo('App\Modeli\Predmet', 'korisnik_id', 'id');
+	return $this->belongsTo('App\Modeli\Korisnik', 'korisnik_id', 'id');
 	}
 
 	public function roditelj()
