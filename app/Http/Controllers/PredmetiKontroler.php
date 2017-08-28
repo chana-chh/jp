@@ -18,15 +18,38 @@ use App\Modeli\Korisnik;
 
 class PredmetiKontroler extends Kontroler
 {
-	public function getLista()
+	public function getLista(Request $req)
 	{
-		$predmeti = Predmet::all();
+		$predmeti = null;
 		$upisnici = VrstaUpisnika::all();
 		$sudovi = Sud::all();
 		$vrste = VrstaPredmeta::all();
 		$referenti = Referent::all();
 
+		If($req->isMethod('get'))
+		{
+			$predmeti = Predmet::all();
+		}
+
+		If($req->isMethod('post'))
+		{
+			$predmeti = $this->naprednaPretraga($req->all());
+		}
+
 		return view('predmeti')->with(compact ('vrste', 'upisnici', 'sudovi', 'referenti','predmeti'));
+	}
+
+	private function naprednaPretraga($params)
+	{
+		// Ovo je samo primer i radi samo za strnku 1
+		// Inace ce ovo da bude sirova kobaja od SQL-a
+		$predmeti = Predmet::where('stranka_1', 'like', '%' . $params['stranka_1'] . '%')->get();
+		return $predmeti;
+	}
+
+	public function postPretraga(Request $req)
+	{
+		dd($req->all());
 	}
 
 	public function getPregled($id)
