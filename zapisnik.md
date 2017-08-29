@@ -6,7 +6,7 @@
 
 - Razmisliti o sledecem broju - da li se ikad javlja potreba da se menja rucno? - together
 
-- Da se izbace rocista iz menija - chana
+- Da se izbace rocista iz menija kalendar = rocista (kaendar/rocista) - chana
 
 - Da se doda pocetna (home) u meni - chana
 
