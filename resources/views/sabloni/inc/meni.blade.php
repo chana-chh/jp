@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ route('pocetna') }}">
-        <span><img alt="Правобранилаштво" src="{{url('/images/cekic.png')}}" style="height:32px;  width:32px"></span> Правобранилаштво Крагујевац</a>
+        <span><img alt="Правобранилаштво" src="{{url('/images/cekic.png')}}" style="height:32px;  width:32px"></span> Јавно правобранилаштво Крагујевац</a>
         </div>
 
         <div class="collapse navbar-collapse" id="kolaps">
