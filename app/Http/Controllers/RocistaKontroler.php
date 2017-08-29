@@ -92,7 +92,6 @@ class RocistaKontroler extends Kontroler
 
     public function getKalendar()
     {
-
         $rocista =  Rociste::all();
         //Razrešio sam događaj u kalendaru i dodao opis :)
         $naslovi = array();
@@ -104,7 +103,7 @@ class RocistaKontroler extends Kontroler
                 date('H:i', strtotime($rociste->vreme)) . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis. ' - <a href="'. route('predmeti.pregled', $rociste->predmet->id) .'">Text</a>';
+            $detalji [] = $rociste->opis. ' - <a href="'. route('predmeti.pregled', $rociste->predmet->id) .'" style="color: #ddd;">Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);

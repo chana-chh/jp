@@ -42,17 +42,17 @@
 
         $('#calendar').fullCalendar({
             header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,basicWeek,basicDay'
-    },
-    defaultView: 'month',
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            defaultView: 'basicWeek',
             weekends: false,
-            {{--  height: 700,  --}}
+            height: 700,
             events: dogadjaji,
             eventRender: function (event, element, view) {
-            element.find('.fc-title').append('<div class="hr-line-solid-no-margin"></div><hr style="margin: 2px"><span style="font-size: 10px">'+event.description+'</span></div><br>');
-            },
+                element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
+            }
         })
 });
 </script>
