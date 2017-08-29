@@ -1,11 +1,21 @@
 # TODO
 
-## Administriranje
+## Krupni zahvati na programu
 
-Razmisliti o sledecem broju - da li se ikad javlja potreba da se menja rucno?
+- Jos jednom proveriti sve migracije (za svaki slucaj) - together (ako se uopste pise ovako ;-)
 
-Kalendar - Posto ima dovoljno mesta u sirinu da budu celi nazivi dana u mesec i nedelja kao sto je u dan. Da u nedelja bude ceo naziv meseca kao sto je u mesec i dan.
+- Razmisliti o sledecem broju - da li se ikad javlja potreba da se menja rucno? - together
 
-Nije uradjen tok novca u meniju (mora da se konsultuje Svetlana).
+- Da se izbace rocista iz menija - chana
 
-Nije zavrsen pregled predmeta (radim se na tome).
+- Da se doda pocetna (home) u meni - chana
+
+- Nije uradjen tok novca u meniju (mora da se konsultuje Svetlana). Kad se napravi da se doda na pocetnu stranu neki znacajan iznos - stasha
+
+- Nije zavrsen pregled predmeta (radim se na tome). - chana 30.08.2017
+
+## Sitne prepravke u dizajnu - chana
+
+- da se pregazi klasa za naslove u dropdown u meniju i da se koristi umesto linka (a)
+- da se ture olovke umesto oka jer realno se ide na izmenu, a ne pregled
+- da se malo usklade ikonice na dugmicima
