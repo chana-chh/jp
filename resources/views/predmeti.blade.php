@@ -97,11 +97,15 @@
                     <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="form-group col-md-3 text-center">
-                                <label for="arhiviran">Архивиран предмет (увек филтрира)</label>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="arhiviran" id="arhiviran"> а/а
-                                </div>
+                            <div class="form-group col-md-3">
+                                <label for="arhiviran">Архива</label>
+                                <select
+                                    name="arhiviran" id="arhiviran"
+                                    class="chosen-select form-control" data-placeholder="Архива">
+                                    <option value=""></option>
+                                    <option value="0">Активни</option>
+                                    <option value="1">Архивирани</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="vrsta_upisnika_id">Врста уписника</label>

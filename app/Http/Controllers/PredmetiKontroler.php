@@ -42,13 +42,10 @@ class PredmetiKontroler extends Kontroler
 	private function naprednaPretraga($params)
 	{
 		$predmeti = null;
-
 		$where = [];
 		// arhiva
-		if(isset($params['arhiviran'])) {
-			$where[] = ['arhiviran', '=', 1];
-		} else {
-			$where[] = ['arhiviran', '=', 0];
+		if($params['arhiviran']) {
+			$where[] = ['arhiviran', '=', $params['arhiviran']];
 		}
 		// sifarnici
 		if($params['vrsta_upisnika_id']) {
