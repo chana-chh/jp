@@ -9,12 +9,12 @@
     <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
 
         <div class="row">
-          <img src="{{url('/images/grb.jpg')}}" class="img-responsive" alt="grb">
+          <img src="{{url('/images/grb.png')}}" class="center-block" alt="Грб Града Крагујевца" style="margin-bottom: 15px;">
         </div>
 
-        <div class="panel panel-default" >
+        <div class="panel panel-info noborder" >
             <div class="panel-heading">
-                <div class="panel-title text-center">Добродошли, молимо вас да се пријавите</div>
+                <div class="panel-title text-center" style="text-decoration: none; color: #2c3e50">Добродошли, молимо вас да се пријавите</div>
             </div>
 
             <div class="panel-body" >

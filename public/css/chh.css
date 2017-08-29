@@ -237,3 +237,28 @@ textarea {
 margin-left: 5px;
 padding-left: 5px;
 }
+
+.panel-info > .panel-heading {
+     background-color: #afbfc0 !important;
+}
+
+.panel.noborder {
+   border: 1px solid #18bc9c;
+    box-shadow: none;
+}
+
+.btn-info {
+	background-color: #c2d3cd;
+	border-color: #9fa4a9;
+	color: #FFFFFF;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+	color: #FFFFFF;
+	background-color: #9fa4a9;
+	border-color: #9fa4a9; 
+}
