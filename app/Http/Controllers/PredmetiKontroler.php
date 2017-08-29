@@ -44,7 +44,7 @@ class PredmetiKontroler extends Kontroler
 		$predmeti = null;
 		$where = [];
 		// arhiva
-		if($params['arhiviran']) {
+		if($params['arhiviran'] !== null) {
 			$where[] = ['arhiviran', '=', $params['arhiviran']];
 		}
 		// sifarnici
