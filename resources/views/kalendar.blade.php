@@ -46,6 +46,11 @@
                 center: 'title',
                 right: 'month,basicWeek,basicDay'
             },
+                    views: {
+            month: {
+            columnFormat:'dddd'
+            }
+            },
             defaultView: 'basicWeek',
             weekends: false,
             height: 700,
