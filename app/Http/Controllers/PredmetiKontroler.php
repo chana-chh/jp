@@ -41,15 +41,69 @@ class PredmetiKontroler extends Kontroler
 
 	private function naprednaPretraga($params)
 	{
-		// Ovo je samo primer i radi samo za strnku 1
-		// Inace ce ovo da bude sirova kobaja od SQL-a
-		$predmeti = Predmet::where('stranka_1', 'like', '%' . $params['stranka_1'] . '%')->get();
-		return $predmeti;
-	}
+		$predmeti = null;
 
-	public function postPretraga(Request $req)
-	{
-		dd($req->all());
+		$where = [];
+		// arhiva
+		if(isset($params['arhiviran'])) {
+			$where[] = ['arhiviran', '=', 1];
+		} else {
+			$where[] = ['arhiviran', '=', 0];
+		}
+		// sifarnici
+		if($params['vrsta_upisnika_id']) {
+			$where[] = ['vrsta_upisnika_id', '=', $params['vrsta_upisnika_id']];
+		}
+		if($params['broj_predmeta']) {
+			$where[] = ['broj_predmeta', '=', $params['broj_predmeta']];
+		}
+		if($params['godina_predmeta']) {
+			$where[] = ['godina_predmeta', '=', $params['godina_predmeta']];
+		}
+		if($params['sud_id']) {
+			$where[] = ['sud_id', '=', $params['sud_id']];
+		}
+		if($params['vrsta_predemta_id']) {
+			$where[] = ['vrsta_predemta_id', '=', $params['vrsta_predemta_id']];
+		}
+		if($params['referent_id']) {
+			$where[] = ['referent_id', '=', $params['referent_id']];
+		}
+		if($params['vrednost_tuzbe']) {
+			$where[] = ['vrednost_tuzbe', '=', $params['vrednost_tuzbe']];
+		}
+		// tekst
+		if($params['stranka_1']) {
+			$where[] = ['stranka_1', 'like', '%' . $params['stranka_1'] . '%'];
+		}
+		if($params['stranka_2']) {
+			$where[] = ['stranka_2', 'like', '%' . $params['stranka_2'] . '%'];
+		}
+		if($params['opis_kp']) {
+			$where[] = ['opis_kp', 'like', '%' . $params['opis_kp'] . '%'];
+		}
+		if($params['opis_adresa']) {
+			$where[] = ['opis_adresa', 'like', '%' . $params['opis_adresa'] . '%'];
+		}
+		if($params['opis']) {
+			$where[] = ['opis', 'like', '%' . $params['opis'] . '%'];
+		}
+		if($params['napomena']) {
+			$where[] = ['napomena', 'like', '%' . $params['napomena'] . '%'];
+		}
+		// datumi
+		if(!$params['datum_1'] && !$params['datum_2']) {
+			$predmeti = Predmet::where($where)->get();
+		}
+		if($params['datum_1'] && !$params['datum_2']) {
+			$where[] = ['datum_tuzbe', '=', $params['datum_1']];
+			$predmeti = Predmet::where($where)->get();
+		}
+		if($params['datum_1'] && $params['datum_2']) {
+			$predmeti = Predmet::where($where)->whereBetween('datum_tuzbe', [$params['datum_1'], $params['datum_2']])->get();
+		}
+
+		return $predmeti;
 	}
 
 	public function getPregled($id)

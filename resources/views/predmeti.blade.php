@@ -45,14 +45,14 @@
                         </td>
                         <td class="text-info">
                             <strong>
-                                {{$predmet->vrstaUpisnika->slovo}} {{$predmet->broj_predmeta}}/{{$predmet->godina_predmeta}}
+                                {{ $predmet->broj() }}
                             </strong>
                         </td>
                         <td>{{$predmet->vrstaPredmeta->naziv}}</td>
                         <td>{{$predmet->opis_kp}}, {{$predmet->opis_adresa}}, {{$predmet->opis}}</td>
                         <td>{{$predmet->stranka_1}}</td>
                         <td>{{$predmet->stranka_2}}</td>
-                        <td>{{$predmet->datum_tuzbe}}</td>
+                        <td>{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
                         <td>{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
                         <td style="text-align:center">
                             <a  class="btn btn-success btn-sm otvori_izmenu"
@@ -98,9 +98,9 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="form-group col-md-3 text-center">
-                                <label for="aa">Архивиран предмет</label>
+                                <label for="arhiviran">Архивиран предмет (увек филтрира)</label>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="aa" id="aa"> а/а
+                                    <input type="checkbox" name="arhiviran" id="arhiviran"> а/а
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
@@ -226,8 +226,9 @@
                                     class="form-control">
                             </div>
                             <div class="col-md-6">
+                                <label class="text-warning">Напомена</label>
                                 <p class="text-warning">
-                                    Ако се унесе само први или само други датум, претрага ће се вршити за предмете са тим датумом. Ако се унесу оба датума и први датум је временски пре другог датума претрага ће се вршити за предмете између та два датума. Ако се унесу оба датума и први датум је временски после другог датума претрага ће се вршити за све предмете (као да датуми нису ни унети).
+                                    Ако се унесе само први датум претрага ће се вршити за предмете са тим датумом. Ако се унесу оба датума претрага ће се вршити за предмете између та два датума.
                                 </p>
                             </div>
                         </div>
