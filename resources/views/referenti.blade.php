@@ -116,7 +116,7 @@
 $( document ).ready(function() {
 
         $('#tabelaReferenti').DataTable({
-
+        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
         search: "Пронађи у таблеи",
             paginate: {

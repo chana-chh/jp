@@ -104,7 +104,7 @@
 $( document ).ready(function() {
 
         $('#tabelaVrstePredmeta').DataTable({
-
+        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
         search: "Пронађи у таблеи",
             paginate: {

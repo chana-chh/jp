@@ -72,9 +72,11 @@
 <h3 >Додавање нове врсте уписника</h3>
 <hr>
 <div class="well">
-    <form action="{{ route('vrste_upisnika.dodavanje') }}" method="POST">
+    <form action="{{ route('vrste_upisnika.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
+        <div class="row">
+        <div class="col-md-9">
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
             <label for="naziv">Врста уписника (назив): </label>
             <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" required>
@@ -84,10 +86,24 @@
                 </span>
             @endif
         </div>
+        </div>
+
+        <div class="col-md-3">
+        <div class="form-group{{ $errors->has('slovo') ? ' has-error' : '' }}">
+            <label for="slovo">Акроним: </label>
+            <input type="text" name="slovo" id="slovo" class="form-control" value="{{ old('slovo') }}" required>
+            @if ($errors->has('slovo'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('slovo') }}</strong>
+                </span>
+            @endif
+        </div>
+        </div>
+        </div>
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <TEXTAREA name="napomena" id="napomena" class="form-control" rows="2">{{old('napomena') }}</TEXTAREA>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
@@ -108,7 +124,7 @@
 $( document ).ready(function() {
 
         $('#tabelaVrsteUpisnika').DataTable({
-
+        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
         search: "Пронађи у таблеи",
             paginate: {
@@ -152,4 +168,6 @@ $( document ).ready(function() {
     });
 });
 </script>
+<script src="{{ asset('/js/parsley.js') }}"></script>
+<script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection

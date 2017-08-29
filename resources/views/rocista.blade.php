@@ -59,6 +59,7 @@
 $( document ).ready(function() {
     $('#tabelaRocista').DataTable({
         order: [[ 1, "desc" ]],
+        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         responsive: true,
         language: {
             search: "Пронађи у табели",
