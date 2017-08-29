@@ -48,7 +48,7 @@
     },
     defaultView: 'month',
             weekends: false,
-            height: 700,
+            {{--  height: 700,  --}}
             events: dogadjaji,
             eventRender: function (event, element, view) {
             element.find('.fc-title').append('<div class="hr-line-solid-no-margin"></div><hr style="margin: 2px"><span style="font-size: 10px">'+event.description+'</span></div><br>');
