@@ -60,36 +60,38 @@ class RocistaKontroler extends Kontroler
     public function postIzmena(Request $req)
     {
         $this->validate($req, [
-            'datumm' => 'required|date',
-            'vremem' => 'required',
-            'tip_idm' => 'required|integer',
+            'rok_izmena_datum' => 'required|date',
+            'rok_izmena_vreme' => 'required',
+            'rok_izmena_tip_id' => 'required|integer',
         ]);
 
-        $id = $req->edit_id;
+        $id = $req->rok_izmena_id;
 
         $rociste = Rociste::find($id);
-        $rociste->datum = $req->datumm;
-        $rociste->vreme = $req->vremem;
-        $rociste->opis = $req->opism;
-        $rociste->tip_id = $req->tip_idm;
+        $rociste->datum = $req->rok_izmena_datum;
+        $rociste->vreme = $req->rok_izmena_vreme;
+        $rociste->opis = $req->rok_izmena_opis;
+        $rociste->tip_id = $req->rok_izmena_tip_id;
         $rociste -> save();
 
         Session::flash('uspeh','Рок/рочиште је успешно измењено!');
-        return Redirect::back();
+        return redirect()->route('predmeti.pregled', $req->predmet_id);
     }
 
     public function postBrisanje(Request $req)
     {
         $id = $req->id;
+
         $rociste = Rociste::find($id);
         $odgovor = $rociste->delete();
+
         if ($odgovor)
         {
-            Session::flash('uspeh','Рочиште је успешно обрисано!');
+            Session::flash('uspeh','Рок/рочиште је успешно обрисано!');
         }
         else
         {
-            Session::flash('greska','Дошло је до грешке приликом брисања рочишта. Покушајте поново, касније!');
+            Session::flash('greska','Дошло је до грешке приликом брисања рока/рочишта. Покушајте поново, касније!');
         }
     }
 
