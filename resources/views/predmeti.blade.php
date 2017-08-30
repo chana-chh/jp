@@ -11,10 +11,10 @@
         <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
         Преглед предмета укључујући и архивиране предмете
     </h1>
-    <div class="row">
-        <div class="col-md-3 col-md-offset-9">
-            <a class="btn btn-primary" href="{{ route('predmeti.dodavanje.get') }}" style="float: right;">
-                <i class="fa fa-plus-circle fa-fw"></i> Нови предмет
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-primary" href="{{ route('predmeti.dodavanje.get') }}">
+                <i class="fa fa-plus-circle"></i> Нови предмет
             </a>
         </div>
     </div>
@@ -43,9 +43,11 @@
                         <td style="text-align:center;" class="text-danger">
                             {{ $predmet->arhiviran == 0 ? '' : 'а/а' }}
                         </td>
-                        <td class="text-info">
+                        <td>
                             <strong>
-                                {{ $predmet->broj() }}
+                                <a href="{{ route('predmeti.pregled', $predmet->id) }}">
+                                    {{ $predmet->broj() }}
+                                </a>
                             </strong>
                         </td>
                         <td>{{$predmet->vrstaPredmeta->naziv}}</td>
@@ -67,16 +69,6 @@
         </table>
     @endif
     <hr style="border-top: 2px solid #18BC9C">
-
-
-
-
-
-
-
-
-
-
     <div class="panel-group" id="accordion"> {{-- Pocetak PANEL GRUPE --}}
         <div class="panel panel-default"> {{-- Pocetak PANELA --}}
             <div class="panel-heading"> {{-- Pocetak naslova panela --}}
@@ -91,7 +83,6 @@
                     </a>
                 </h4>
             </div> {{-- Kraj naslova panela --}}
-
             <div id="collapseOne" class="panel-collapse collapse in"> {{-- Pocetak XXX panela --}}
                 <div class="panel-body"> {{-- Pocetak tela panela --}}
                     <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">

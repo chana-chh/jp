@@ -10,7 +10,7 @@ class Predmet extends Model
 
 	public function broj()
 	{
-		return $this->vrstaUpisnika->slovo . ' ' . $this->broj_predmeta . '/' . $this->godina_predmeta;
+		return $this->vrstaUpisnika->slovo . '-' . $this->broj_predmeta . '/' . $this->godina_predmeta;
 	}
 
 	// belongsTo
