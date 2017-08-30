@@ -337,16 +337,41 @@
 
 
 
+
     {{--  POCETAK UPRAVA  --}}
-    <div class="well">
+    <div class="well" style="overflow: auto;">
         <h3>Управе</h3>
         <hr style="border-top: 1px solid #18BC9C">
-        @foreach ($predmet->uprave as $uprava)
-        <p>
-            {{ $uprava->sifra }} - {{ $uprava->naziv }}
-            {{ $uprava->napomena }}
-        </p>
-        @endforeach
+        <table class="table table-striped table-responsive">
+            <tbody>
+                @foreach ($predmet->uprave as $uprava)
+                    <tr>
+                        <td style="width: 10%;">{{ $uprava->sifra }}</td>
+                        <td style="width: 20%;"><strong class="text-info">{{ $uprava->naziv }}</strong></td>
+                        <td style="width: 15%;">{{ date('d.m.Y', strtotime($uprava->pivot->datum_knjizenja)) }}</td>
+                        <td style="width: 40%;"><em>{{ str_limit($uprava->pivot->napomena, 30) }}</em></td>
+                        <td style="width: 15%; text-align: right;">
+                            <button
+                                class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
+                                data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$uprava->id}}">
+                                    <i class="fa fa-pencil"></i>
+                            </button>
+                            <button
+                                class="btn btn-danger btn-xs" id="dugmeRocisteBrisanje"
+                                value="{{$uprava->id}}">
+                                    <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <hr style="border-top: 1px solid #18BC9C">
+        <button
+            class="btn btn-success btn-sm" id="dugmeDodajRociste"
+            data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај управу
+        </button>
     </div>
     {{--  KRAJ UPRAVA  --}}
 @endsection

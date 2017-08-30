@@ -15,6 +15,7 @@ class CreatePredmetiUpraveTable extends Migration
             $table->text('napomena')->nullable();
 
             // indeksi
+            $table->primary(['predmet_id', 'uprava_id']);
             $table->foreign('predmet_id')->references('id')->on('predmeti')->onDelete('restrict');
             $table->foreign('uprava_id')->references('id')->on('s_uprave')->onDelete('restrict');
         });
