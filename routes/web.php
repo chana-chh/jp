@@ -41,7 +41,7 @@ Route::post('sifarnici/uprave/brisanje', 'UpraveKontroler@postBrisanje')->name('
 Route::post('sifarnici/uprave/izmena/{id}', 'UpraveKontroler@postIzmena')->name('uprave.izmena');
 Route::get('sifarnici/uprave/pregled/{id}', 'UpraveKontroler@getPregled')->name('uprave.pregled');
 
-//Sudovi
+//Tipovi rocista
 Route::get('sifarnici/tipovi_rocista', 'TipoviRocistaKontroler@getLista')->name('tipovi_rocista');
 Route::post('sifarnici/tipovi_rocista/dodavanje', 'TipoviRocistaKontroler@postDodavanje')->name('tipovi_rocista.dodavanje');
 Route::post('sifarnici/tipovi_rocista/brisanje', 'TipoviRocistaKontroler@postBrisanje')->name('tipovi_rocista.brisanje');
@@ -86,7 +86,6 @@ Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmet
 Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
 
-
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
 Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
@@ -96,3 +95,13 @@ Route::post('rocista/izmena', 'RocistaKontroler@postIzmena')->name('rocista.izme
 Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista.pregled');
 Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
 Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
+
+//Uprave
+// Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
+// Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
+Route::post('uprave/dodavanje', 'PredmetiUpraveKontroler@postDodavanje')->name('uprave_predmeti.dodavanje.post');
+Route::post('rocista/brisanje', 'RocistaKontroler@postBrisanje')->name('rocista.brisanje');
+Route::post('rocista/izmena', 'RocistaKontroler@postIzmena')->name('rocista.izmena');
+// Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista.pregled');
+// Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
+// Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');

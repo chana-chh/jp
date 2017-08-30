@@ -82,7 +82,7 @@
     </table>
 
     @if (Gate::allows('admin'))
-    <div class="panel panel-info">
+    <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Мета информације о предмету</h3>
         </div>
@@ -131,7 +131,8 @@
                         <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                         <td style="width: 15%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
                         <td style="width: 10%;"><strong>{{ date('H:i', strtotime($rociste->vreme)) }}</strong></td>
-                        <td style="width: 40%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>
+                        {{--  <td style="width: 40%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>  --}}
+                        <td style="width: 40%;"><em>{{ $rociste->opis }}</em></td>
                         <td style="width: 20%; text-align: right;">
                             <button
                                 class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
@@ -349,15 +350,16 @@
                         <td style="width: 10%;">{{ $uprava->sifra }}</td>
                         <td style="width: 20%;"><strong class="text-info">{{ $uprava->naziv }}</strong></td>
                         <td style="width: 15%;">{{ date('d.m.Y', strtotime($uprava->pivot->datum_knjizenja)) }}</td>
-                        <td style="width: 40%;"><em>{{ str_limit($uprava->pivot->napomena, 30) }}</em></td>
+                        {{--  <td style="width: 40%;"><em>{{ str_limit($uprava->pivot->napomena, 30) }}</em></td>  --}}
+                        <td style="width: 40%;"><em>{{ $uprava->pivot->napomena }}</em></td>
                         <td style="width: 15%; text-align: right;">
                             <button
-                                class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
-                                data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$uprava->id}}">
+                                class="btn btn-success btn-xs" id="dugmeUpravaIzmena"
+                                data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$uprava->id}}">
                                     <i class="fa fa-pencil"></i>
                             </button>
                             <button
-                                class="btn btn-danger btn-xs" id="dugmeRocisteBrisanje"
+                                class="btn btn-danger btn-xs" id="dugmeUpravaBrisanje"
                                 value="{{$uprava->id}}">
                                     <i class="fa fa-trash"></i>
                             </button>
@@ -368,11 +370,86 @@
         </table>
         <hr style="border-top: 1px solid #18BC9C">
         <button
-            class="btn btn-success btn-sm" id="dugmeDodajRociste"
-            data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
+            class="btn btn-success btn-sm" id="dugmeDodajUpravu"
+            data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
                 <i class="fa fa-plus-circle"></i> Додај управу
         </button>
     </div>
+
+    {{--  pocetak modal_uprava_dodavanje  --}}
+    <div class="modal fade" id="dodajUpravuModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-success">Додавање управе</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('uprave_predmeti.dodavanje.post') }}" method="POST" id="frmUpravaDodavanje" data-parsley-validate>
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group{{ $errors->has('uprava_dodavanje_id') ? ' has-error' : '' }}">
+                                    <label for="uprava_dodavanje_id">Управа</label>
+                                    <select name="uprava_dodavanje_id" id="uprava_dodavanje_id" class="chosen-select form-control"
+                                        data-placeholder="Управа" required>
+                                        <option value=""></option>
+                                        @foreach($spisak_uprava as $upr)
+                                            <option value="{{ $upr->id }}"{{ old('uprava_dodavanje_id') == $upr->id ? ' selected' : '' }}>
+                                                {{ $upr->sifra }} - {{ $upr->naziv }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('uprava_dodavanje_id'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('uprava_dodavanje_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group{{ $errors->has('uprava_dodavanje_datum') ? ' has-error' : '' }}">
+                                    <label for="uprava_dodavanje_datum">Датум</label>
+                                    <input type="date" name="uprava_dodavanje_datum" id="uprava_dodavanje_datum" class="form-control"
+                                    value="{{ old('uprava_dodavanje_datum') }}" required>
+                                    @if ($errors->has('uprava_dodavanje_datum'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('uprava_dodavanje_datum') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="border-top: 2px solid #18BC9C">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group{{ $errors->has('uprava_dodavanje_napomena') ? ' has-error' : '' }}">
+                                    <label for="uprava_dodavanje_napomena">Напомена</label>
+                                    <textarea name="uprava_dodavanje_napomena" id="uprava_dodavanje_napomena" class="form-control">{{old('uprava_dodavanje_napomena') }}</textarea>
+                                    @if ($errors->has('uprava_dodavanje_napomena'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('uprava_dodavanje_napomena') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="dugmeModalDodajUpravu">
+                        <i class="fa fa-floppy-o"></i> Сними
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_uprava_dodavanje  --}}
+
     {{--  KRAJ UPRAVA  --}}
 @endsection
 
@@ -387,7 +464,7 @@
                 $('#frmRocisteDodavanje').submit();
             });
 
-            //Izmene modal
+            // Modal rocista izmene
             $("#dugmeModalIzmeniRociste").on('click', function() {
                 $('#frmRocisteIzmena').submit();
             });
@@ -415,7 +492,7 @@
 
             });
 
-            //Brisanje modal
+            // Modal rocista brisanje
             $(document).on('click', '#dugmeRocisteBrisanje', function() {
                 var id_brisanje = $(this).val();
 
@@ -460,9 +537,13 @@
                     $('#brisanjeRocistaModal').modal('hide');
                 });
             });
+
+            // Modal uprave dodavanje
+            $("#dugmeModalDodajUpravu").on('click', function() {
+                $('#frmUpravaDodavanje').submit();
+            });
         });
     </script>
     <script src="{{ asset('/js/parsley.js') }}"></script>
     <script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection
-

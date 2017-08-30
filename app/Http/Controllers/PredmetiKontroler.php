@@ -15,6 +15,7 @@ use App\Modeli\Sud;
 use App\Modeli\Referent;
 use App\Modeli\TipRocista;
 use App\Modeli\Korisnik;
+use App\Modeli\Uprava;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -107,8 +108,9 @@ class PredmetiKontroler extends Kontroler
 	{
 		$predmet = Predmet::find($id);
 		$tipovi_rocista = TipRocista::all();
+		$spisak_uprava = Uprava::all();
 
-		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista'));
+		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista', 'spisak_uprava'));
 	}
 
 	public function getDodavanje()
