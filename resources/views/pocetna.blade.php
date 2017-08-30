@@ -80,7 +80,7 @@
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
-                        <a href="#" style="text-decoration: none; color: #2c3e50">Ток новца</a>
+                        <a href="{{ route('tok') }}" style="text-decoration: none; color: #2c3e50">Ток новца</a>
                     </h2>
                 </div>
                 <div class="panel-body">
