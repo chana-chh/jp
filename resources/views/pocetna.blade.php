@@ -84,7 +84,7 @@
                     </h2>
                 </div>
                 <div class="panel-body">
-                    <a href="#">
+                    <a href="{{ route('tok') }}">
                         <img class="grow center-block" alt="novac" src="{{url('/images/novac.png')}}" style="height:128px;">
                     </a>
                 </div>
