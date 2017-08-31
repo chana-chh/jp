@@ -89,16 +89,16 @@
                     </a>
                 </div>
                 <div class="panel-footer text-center">
-                <h4>
+                <h4 style="margin-top: -1px 0px -1px 0px;">
                         Биланс вредности спора:
                         <a href="#"  style="text-decoration: none;">
-                            <strong>{{$vrednost_spora}}</strong>
+                            <strong>{{number_format($vrednost_spora,2)}}</strong>
                         </a>
                     </h4>
-                    <h4>
+                    <h4 style="margin: -1px 0px -1px 0px;">
                         Биланс износа трошкова:
                         <a href="#"  style="text-decoration: none;">
-                            <strong>{{$iznos_troskova}}</strong>
+                            <strong>{{number_format($iznos_troskova,2)}}</strong>
                         </a>
                     </h4>
                 </div>

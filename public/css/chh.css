@@ -217,7 +217,7 @@ textarea {
 .grows:hover { transform: scale(1.1); box-shadow: 0px 20px 10px -8px rgba(0,0,0,0.2) }
 
 .ceo {
-  margin: 15px 0px 0px 0px;
+  margin: 15px 10px 15px 10px;
 }
 
 .ceo_dva {
@@ -261,4 +261,33 @@ padding-left: 5px;
 	color: #FFFFFF;
 	background-color: #9fa4a9;
 	border-color: #9fa4a9; 
+}
+
+.boxic {
+	border: 1px solid #18bc9c;
+	/*box-shadow: 4px 4px 5px 0px rgba(128,128,128,1);*/
+	border-radius: 10px 10px 10px 10px;
+	text-align: center;
+}
+
+.tankoza {
+	color:#18bc9c;
+	font-weight: 300 !important;
+	font-size:1.875em;
+}
+
+.krug {
+	border: 1px solid #18bc9c;
+	border-radius: 50%;
+	width: 200px;
+	height: 200px;
+	line-height: 200px;
+	text-align: center;
+	vertical-align: middle;
+	margin-left: 140px;
+}
+@media only screen and (max-width: 1300px) {
+   .krug {
+   	margin-left: 20px;
+   }
 }

@@ -46,7 +46,15 @@ class TokoviNovcaKontroler extends Kontroler
         $tokovi_period = Tok::whereBetween('datum', [Carbon::now()->firstOfMonth()->subMonths($i)->startOfMonth(), Carbon::now()->firstOfMonth()->subMonths($i)->endOfMonth()])->get();
         $array[] = ['vrednost_spora_potrazuje' => $tokovi_period->pluck('vrednost_spora_potrazuje')->sum(), 'mesec'=> Carbon::now()->firstOfMonth()->subMonths($i)->startOfMonth()->format('M')];
         }
+        foreach ($array as $e) {
+        	$labele[] = $e['mesec'];
+        }
 
-    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec', 'tokovi_predmeti', 'vrste_upisnika' , 'array'));
+        foreach ($array as $e) {
+        	$vrednosti[] = $e['vrednost_spora_potrazuje'];
+        }
+         
+
+    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec', 'tokovi_predmeti', 'vrste_upisnika' , 'array', 'labele', 'vrednosti'));
     }
 }

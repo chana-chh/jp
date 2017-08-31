@@ -5,7 +5,6 @@
 @section('meni')
     @include('sabloni.inc.meni')
 @endsection
-
 @section('naslov')
     <h1 class="page-header">
         <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
@@ -14,11 +13,35 @@
 @endsection
 
 @section('sadrzaj')
-<h2>Укупно:</h2>
-<h3>Сума вредност спорова потраживање: {{$vrednost_spora_potrazuje_suma}}</h3>
-<h3>Сума вредност спорова дуг: {{$vrednost_spora_duguje_suma}}</h3>
-<h3>Сума износа трошкова потражује: {{$iznos_troskova_potrazuje_suma}}</h3>
-<h3>Сума износа трошкова дуг: {{$iznos_troskova_duguje_suma}}</h3>
+<div class="row">
+<div class="col-md-10 col-md-offset-1 boxic">
+<div class="row">
+<h3>Сума вредности спорова:</h3>
+<hr class="ceo">
+<div class="col-md-6">
+<h3>Град потражује:</h3>
+<p class="tankoza krug">{{number_format($vrednost_spora_potrazuje_suma, 2)}}</p>
+</div>
+<div class="col-md-6">
+<h3>Град дугује:</h3>
+<p class="tankoza krug">{{number_format($vrednost_spora_duguje_suma, 2)}}</p>
+</div>
+</div>
+<div class="row">
+<h3>Сума износа трошкова:</h3>
+<hr class="ceo">
+<div class="col-md-6">
+<h3>Град потражује:</h3>
+<p class="tankoza krug">{{number_format($iznos_troskova_potrazuje_suma, 2)}}</p>
+</div>
+<div class="col-md-6">
+<h3>Град дугује:</h3>
+<p class="tankoza krug">{{number_format($iznos_troskova_duguje_suma, 2)}}</p>
+</div>
+</div>
+
+</div>
+</div>
 <hr>
 <h2>Овог месеца</h2>
 <h3>Сума вредност спорова потраживање: {{$vrednost_spora_potrazuje_mesec}}</h3>
@@ -85,15 +108,16 @@ $( document ).ready(function() {
 
         }
     });
-    var niz = " {{ json_encode($array) }} ";
+    var labelej =  {!!json_encode($labele)!!};
+    var vrednostij =  {!!json_encode($vrednosti)!!};
     var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
+    var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: labelej,
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: ' dinara ukupno',
+            data: vrednostij,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
