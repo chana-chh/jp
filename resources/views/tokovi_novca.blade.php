@@ -53,6 +53,9 @@
                 </tbody>
             </table>
         @endif
+        @foreach ($array as $a)
+            <p>{{ $a['mesec'] }} {{ $loop->iteration }}: {{ $a['vrednost_spora_potrazuje'] }}</p>
+        @endforeach
 @endsection
 @section('skripte')
 <script>
