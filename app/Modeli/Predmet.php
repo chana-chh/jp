@@ -55,7 +55,7 @@ class Predmet extends Model
 		return $this->hasMany('App\Modeli\Tok', 'predmet_id', 'id');
 	}
 
-	public function uprave()
+	public function knjizenja()
 	{
 		return $this->hasMany('App\Modeli\PredmetUprava', 'predmet_id', 'id');
 	}
