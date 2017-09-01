@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 use App\Modeli\Tok;
 use App\Modeli\VrsteUpisnika;
+use App\Modeli\Predmet;
 
 class TokoviNovcaKontroler extends Kontroler
 {
@@ -41,6 +42,8 @@ class TokoviNovcaKontroler extends Kontroler
         ->groupBy('broj')
         ->get();
 
+        $predmeti = Predmet::all();
+
         //Raspodela u periodu
         for ($i = 1; $i <= $broj_meseci; $i++) {
         $tokovi_period = Tok::whereBetween('datum', [Carbon::now()->firstOfMonth()->subMonths($i)->startOfMonth(), Carbon::now()->firstOfMonth()->subMonths($i)->endOfMonth()])->get();
@@ -55,6 +58,6 @@ class TokoviNovcaKontroler extends Kontroler
         }
          
 
-    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec', 'tokovi_predmeti', 'vrste_upisnika' , 'array', 'labele', 'vrednosti'));
+    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec', 'tokovi_predmeti', 'vrste_upisnika' , 'array', 'labele', 'vrednosti', 'predmeti'));
     }
 }

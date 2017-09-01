@@ -284,10 +284,16 @@ padding-left: 5px;
 	line-height: 200px;
 	text-align: center;
 	vertical-align: middle;
-	margin-left: 140px;
+	margin-left: 80px;
 }
+
+.dugmici{
+	text-align: center;
+	margin-top: 30px;
+}
+
 @media only screen and (max-width: 1300px) {
    .krug {
-   	margin-left: 20px;
+   	margin-left: 10px;
    }
 }

@@ -8,33 +8,35 @@
 @section('naslov')
     <h1 class="page-header">
         <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
-        Лова
+        Ток новца
     </h1>
-@endsection
-
-@section('sadrzaj')
+{{-- Sekcija sa krugovima - POCETAK --}}
 <div class="row">
 <div class="col-md-10 col-md-offset-1 boxic">
+
 <div class="row">
-<h3>Сума вредности спорова:</h3>
-<hr class="ceo">
 <div class="col-md-6">
+<h3>Сума вредности спорова:</h3>
+</div>
+<div class="col-md-6">
+<h3>Сума износа трошкова:</h3>
+</div>
+</div>
+<hr class="ceo">
+<div class="row">
+<div class="col-md-3">
 <h3>Град потражује:</h3>
 <p class="tankoza krug">{{number_format($vrednost_spora_potrazuje_suma, 2)}}</p>
 </div>
-<div class="col-md-6">
+<div class="col-md-3">
 <h3>Град дугује:</h3>
 <p class="tankoza krug">{{number_format($vrednost_spora_duguje_suma, 2)}}</p>
 </div>
-</div>
-<div class="row">
-<h3>Сума износа трошкова:</h3>
-<hr class="ceo">
-<div class="col-md-6">
+<div class="col-md-3">
 <h3>Град потражује:</h3>
 <p class="tankoza krug">{{number_format($iznos_troskova_potrazuje_suma, 2)}}</p>
 </div>
-<div class="col-md-6">
+<div class="col-md-3">
 <h3>Град дугује:</h3>
 <p class="tankoza krug">{{number_format($iznos_troskova_duguje_suma, 2)}}</p>
 </div>
@@ -42,111 +44,38 @@
 
 </div>
 </div>
-<hr>
-<h2>Овог месеца</h2>
-<h3>Сума вредност спорова потраживање: {{$vrednost_spora_potrazuje_mesec}}</h3>
-<h3>Сума вредност спорова дуг: {{$vrednost_spora_duguje_mesec}}</h3>
-<h3>Сума износа трошкова потражује: {{$iznos_troskova_potrazuje_mesec}}</h3>
-<h3>Сума износа трошкова дуг: {{$iznos_troskova_duguje_mesec}}</h3>
-<hr>
-<h2>Груписано по предмету</h2>
-@if($tokovi_predmeti->isEmpty())
-            <h3 class="text-danger">Тренутно нема предмета у бази података</h3>
-        @else
-            <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
-                <thead>
-                      <th>Број предмета</th>
-                      <th>Вредност спора потражује</th>
-                      <th>Опис</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
-                </thead>
-                <tbody id="tokovi_predmeti_lista" name="tokovi_predmeti_lista">
-                @foreach ($tokovi_predmeti as $tok)
-                        <tr>
-                                <td>{{$vrste_upisnika[($tok->vrsta)-1]}}-{{$tok->broj}}/{{$tok->godina}}</td>
-                                <td><strong>{{$tok->vsp}}</strong></td>
-                                <td>{{$tok->opis}}</td>
+{{-- Sekcija sa krugovima - KRAJ --}}
 
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="#"><i class="fa fa-eye"></i></a>
-                    <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="#"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                @endforeach
-                </tbody>
-            </table>
-        @endif
-        @foreach ($array as $a)
-            <p>{{ $loop->iteration }}. {{ $a['mesec'] }} : {{ $a['vrednost_spora_potrazuje'] }}</p>
-        @endforeach
-@endsection
-@section('traka')
-<canvas id="myChart"></canvas>
-@endsection
-@section('skripte')
-<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
-<script>
-$( document ).ready(function() {
-    $('#tabelaTokPredmet').DataTable({
-        order: [[ 1, "desc" ]],
-        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
-        responsive: true,
-        language: {
-            search: "Пронађи у табели",
-            paginate: {
-                first:      "Прва",
-                previous:   "Претходна",
-                next:       "Следећа",
-                last:       "Последња"
-            },
-            processing:   "Процесирање у току...",
-            lengthMenu:   "Прикажи _MENU_ елемената",
-            zeroRecords:  "Није пронађен ниједан запис",
-            info:         "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-            infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
-            
+{{-- Sekcija sa dugicima - POCETAK --}}
+<div class="row dugmici">
+<div class="col-md-10 col-md-offset-1">
 
-        }
-    });
-    var labelej =  {!!json_encode($labele)!!};
-    var vrednostij =  {!!json_encode($vrednosti)!!};
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: labelej,
-        datasets: [{
-            label: ' dinara ukupno',
-            data: vrednostij,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-});
-</script>
+<div class="row">
+<div class="col-md-6" style="border-right: 2px dashed #18BC9C" >
+<h3>Табеларни приказ:</h3>
+<div class="row">
+<div class="col-md-6">
+<button type="button" class="btn btn-primary btn-block">Груписано по предметима</button>
+</div>
+<div class="col-md-6">
+<button type="button" class="btn btn-primary btn-block">Груписано по врсти предмета</button>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<h3>Графички приказ:</h3>
+<div class="row">
+<div class="col-md-6">
+<button type="button" class="btn btn-primary btn-block">Претходни месец</button>
+</div>
+<div class="col-md-6">
+<button type="button" class="btn btn-primary btn-block">Претходних шест месеци</button>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+{{-- Sekcija sa dugmicima - KRAJ --}}
 @endsection
