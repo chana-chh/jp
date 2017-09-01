@@ -11,7 +11,7 @@
 
     <div class="row" style="margin-top: 80px;">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -56,27 +56,8 @@
                 </div>
             </div>
         </div>
-{{--  <div class="col-md-4">
-<div class="panel panel-info noborder">
-                <div class="panel-heading">
-                    <h2 class="text-center">
-                        <a href="{{ route('rocista') }}" style="text-decoration: none; color: #2c3e50">Рочишта</a>
-                    </h2>
-                </div>
-                <div class="panel-body">
-  <a href="{{ route('rocista') }}">
-  <img class="grow center-block" alt="rokovi" src="{{url('/images/rokovi.png')}}" style="height:128px;">
-  </a>
-   </div>
-                <div class="panel-footer text-center">
-                    <h3>
-                        А шта овде ???
-                    </h3>
-                </div>
-            </div>
-</div>  --}}
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -104,5 +85,25 @@
                 </div>
             </div>
         </div>
+
+         <div class="col-md-3">
+<div class="panel panel-info noborder">
+                <div class="panel-heading">
+                    <h2 class="text-center">
+                        <a href="#" style="text-decoration: none; color: #2c3e50">Извештаји</a>
+                    </h2>
+                </div>
+                <div class="panel-body">
+  <a href="#">
+  <img class="grow center-block" alt="rokovi" src="{{url('/images/stampac.png')}}" style="height:128px;">
+  </a>
+   </div>
+                <div class="panel-footer text-center">
+                    <h3>
+                        Штампање извештаја
+                    </h3>
+                </div>
+            </div>
+</div> 
 </div>
 @endsection
