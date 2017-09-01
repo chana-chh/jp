@@ -55,10 +55,8 @@ class Predmet extends Model
 		return $this->hasMany('App\Modeli\Tok', 'predmet_id', 'id');
 	}
 
-	// belongsToMany
 	public function uprave()
 	{
-		return $this->belongsToMany('App\Modeli\Uprava', 'predmeti_uprave', 'predmet_id','uprava_id')
-					->WithPivot('datum_knjizenja', 'napomena');
+		return $this->hasMany('App\Modeli\PredmetUprava', 'predmet_id', 'id');
 	}
 }

@@ -11,6 +11,6 @@ class Uprava extends Model
 
     public function predmet()
     {
-        return $this->belongsToMany('App\Modeli\Predmet', 'predmeti_uprave', 'uprava_id', 'predmet_id');
+        return $this->hasMany('App\Modeli\Predmet', 'predmeti_uprave', 'uprava_id', 'id');
     }
 }
