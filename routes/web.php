@@ -108,3 +108,5 @@ Route::post('rocista/izmena', 'RocistaKontroler@postIzmena')->name('rocista.izme
 
 //Tokovi novca
 Route::get('tok', 'TokoviNovcaKontroler@getPocetna')->name('tok');
+Route::get('tok/grupa/predmet', 'TokoviNovcaKontroler@getGrupaPredmet')->name('tok.grupa_predmet');
+Route::get('tok/grupa/vrste_predmeta', 'TokoviNovcaKontroler@getGrupaVrstaPredmeta')->name('tok.grupa_vrste_predmeta');

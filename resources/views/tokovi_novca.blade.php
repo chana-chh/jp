@@ -55,10 +55,10 @@
 <h3>Табеларни приказ:</h3>
 <div class="row">
 <div class="col-md-6">
-<button type="button" class="btn btn-primary btn-block">Груписано по предметима</button>
+<a class="btn btn-primary btn-block" href="{{ route('tok.grupa_predmet') }}">Груписано по предметима</a>
 </div>
 <div class="col-md-6">
-<button type="button" class="btn btn-primary btn-block">Груписано по врсти предмета</button>
+<a class="btn btn-primary btn-block" href="{{ route('tok.grupa_vrste_predmeta') }}">Груписано по врсти предмета</a>
 </div>
 </div>
 </div>
