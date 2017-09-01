@@ -17,8 +17,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', 'HomeController@index')->name('home'); // ???
-Auth::routes();
+// Auth::routes();
 
 //Vrste predmeta
 Route::get('sifarnici/vrste_predmeta', 'VrstePredmetaKontroler@getLista')->name('vrste_predmeta');
@@ -100,10 +99,10 @@ Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.ka
 // Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
 // Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
 Route::post('uprave/dodavanje', 'PredmetiUpraveKontroler@postDodavanje')->name('uprave_predmeti.dodavanje.post');
-Route::post('rocista/brisanje', 'RocistaKontroler@postBrisanje')->name('rocista.brisanje');
-Route::post('rocista/izmena', 'RocistaKontroler@postIzmena')->name('rocista.izmena');
+Route::post('uprave/brisanje', 'PredmetiUpraveKontroler@postBrisanje')->name('uprave_predmeti.brisanje');
+Route::post('uprave/izmena', 'PredmetiUpraveKontroler@postIzmena')->name('uprave_predmeti.izmena');
 // Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista.pregled');
-// Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
+Route::get('uprave/detalj', 'PredmetiUpraveKontroler@getDetalj')->name('uprave_predmeti.detalj');
 // Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
 
 //Tokovi novca

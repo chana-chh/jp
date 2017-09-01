@@ -310,8 +310,8 @@
                     <h3 class="modal-title text-danger">Брисање рока/рочишта</h3>
                 </div>
                 <div class="modal-body">
-                    <h3>Да ли желите трајно да обришете?</h3>
-                    <h4 id="brisanje_poruka"></h4>
+                    <h3>Да ли желите трајно да обришете рок/рочиште?</h3>
+                    <h4 id="brisanje_roka_poruka"></h4>
                     <p class="text-danger">Ова акција је неповратна!</p>
                 </div>
                 <div class="modal-footer">
@@ -450,52 +450,46 @@
     {{--  kraj modal_uprava_dodavanje  --}}
 
     {{--  pocetak modal_uprava_izmena  --}}
-    <div class="modal fade" id="izmeniRocisteModal">
+    <div class="modal fade" id="izmeniUpravuModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title text-warning">Измена рока/рочишта</h4>
+                    <h4 class="modal-title text-warning">Измена управе</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('rocista.izmena') }}" method="POST" id="frmRocisteIzmena" data-parsley-validate>
+                    <form action="{{ route('uprave_predmeti.izmena') }}" method="POST" id="frmUpravaIzmena" data-parsley-validate>
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="rok_izmena_tip_id">Тип рочишта</label>
-                                    <select class="form-control" name="rok_izmena_tip_id" id="rok_izmena_tip_id" required>
+                                    <label for="uprava_izmena_id">Управа</label>
+                                    <select class="form-control" name="uprava_izmena_id" id="uprava_izmena_id" required>
                                         <option value=""></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="rok_izmena_datum">Датум</label>
-                                    <input type="date" class="form-control" id="rok_izmena_datum" name="rok_izmena_datum" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="rok_izmena_vreme">Време</label>
-                                    <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme" required>
+                                    <label for="uprava_izmena_datum">Датум</label>
+                                    <input type="date" class="form-control" id="uprava_izmena_datum" name="uprava_izmena_datum" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="rok_izmena_opis">Опис</label>
-                                    <textarea class="form-control" id="rok_izmena_opis" name="rok_izmena_opis"></textarea>
+                                    <label for="uprava_izmena_napomena">Напомена</label>
+                                    <textarea class="form-control" id="uprava_izmena_napomena" name="uprava_izmena_napomena"></textarea>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="rok_izmena_id" name="rok_izmena_id">
+                        <input type="hidden" id="knjizenje_id" name="knjizenje_id">
                         <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="dugmeModalIzmeniRociste">
+                    <button type="button" class="btn btn-success" id="dugmeModalIzmeniUpravu">
                         <i class="fa fa-floppy-o"></i> Сними
                     </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
@@ -507,14 +501,42 @@
     </div>
     {{--  kraj modal_uprava_izmena  --}}
 
+    {{--  pocetak modal_uprava_brisanje  --}}
+    <div class="modal fade" id="brisanjeUpraveModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title text-danger">Брисање управе</h3>
+                </div>
+                <div class="modal-body">
+                    <h3>Да ли желите трајно да обришете управу?</h3>
+                    <h4 id="brisanje_uprave_poruka"></h4>
+                    <p class="text-danger">Ова акција је неповратна!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="dugmeModalObrisiUpravuBrisi">
+                        <i class="fa fa-trash"></i> Обриши
+                    </button>
+                    <button type="button" class="btn btn-danger" id="dugmeModalObrisiUpravuOtazi">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_uprava_brisanje  --}}
+
     {{--  KRAJ UPRAVA  --}}
 @endsection
 
 @section('skripte')
     <script>
         $( document ).ready(function() {
-            var detalj_ruta = "{{ route('rocista.detalj') }}";
-            var ruta_brisanje = "{{ route('rocista.brisanje') }}";
+            var rok_detalj_ruta = "{{ route('rocista.detalj') }}";
+            var rok_brisanje_ruta = "{{ route('rocista.brisanje') }}";
+            var uprava_detalj_ruta = "{{ route('uprave_predmeti.detalj') }}";
+            var uprava_brisanje_ruta = "{{ route('uprave_predmeti.brisanje') }}";
 
             // Modal rocista dodavanje
             $("#dugmeModalDodajRociste").on('click', function() {
@@ -530,7 +552,7 @@
                 var id_menjanje = $(this).val();
 
                 $.ajax({
-                    url: detalj_ruta,
+                    url: rok_detalj_ruta,
                     type:"GET",
                     data: {"id": id_menjanje},
                     success: function(result) {
@@ -546,7 +568,6 @@
                         $("#rok_izmena_tip_id").val(result.rociste.tip_id);
                     }
                 });
-
             });
 
             // Modal rocista brisanje
@@ -556,7 +577,7 @@
                 $('#brisanjeRocistaModal').modal('show');
 
                 $.ajax({
-                    url: detalj_ruta,
+                    url: rok_detalj_ruta,
                     type:"GET",
                     data: {"id": id_brisanje},
                     success: function(result) {
@@ -564,11 +585,11 @@
                         var mesec = datum.getMonth() + 1;
                         var d = datum.getDate() + '.' + mesec + '.' + datum.getFullYear();
                         if (result.rociste.tip_id == 1) {
-                            $("#brisanje_poruka").text(
+                            $("#brisanje_roka_poruka").text(
                                 'Рок дана ' + d + ' у ' + result.rociste.vreme + ' сати'
                             );
                         } else {
-                            $("#brisanje_poruka").text(
+                            $("#brisanje_roka_poruka").text(
                                 'Рочиште дана ' + d + ' у ' + result.rociste.vreme + ' сати'
                             );
                         }
@@ -578,7 +599,7 @@
                 $('#dugmeModalObrisiRocisteBrisi').on('click', function() {
 
                     $.ajax({
-                        url: ruta_brisanje,
+                        url: rok_brisanje_ruta,
                         type:"POST",
                         data: {"id": id_brisanje, _token: "{!! csrf_token() !!}"},
                         success: function() {
@@ -598,6 +619,59 @@
             // Modal uprave dodavanje
             $("#dugmeModalDodajUpravu").on('click', function() {
                 $('#frmUpravaDodavanje').submit();
+            });
+
+            // Modal uprave izmene
+            $("#dugmeModalIzmeniUpravu").on('click', function() {
+                $('#frmUpravaIzmena').submit();
+            });
+
+            $(document).on('click','#dugmeUpravaIzmena', function() {
+                var id_menjanje = $(this).val();
+
+                $.ajax({
+                    url: uprava_detalj_ruta,
+                    type:"GET",
+                    data: {"id": id_menjanje},
+                    success: function(result) {
+                        console.log(result);
+                        $("#knjizenje_id").val(result.knjizenje.id);
+                        $("#uprava_izmena_datum").val(result.knjizenje.datum_knjizenja);
+                        $("#uprava_izmena_napomena").val(result.knjizenje.napomena);
+
+                        $.each(result.uprave, function(index, lokObjekat) {
+                            $('#uprava_izmena_id').append('<option value="' + lokObjekat.id + '">' + lokObjekat.sifra + ' - ' + lokObjekat.naziv + '</option>');
+                        });
+
+                        $("#uprava_izmena_id").val(result.knjizenje.uprava_id);
+                    }
+                });
+            });
+
+            // Modal rocista brisanje
+            $(document).on('click', '#dugmeUpravaBrisanje', function() {
+                var id_brisanje = $(this).val();
+
+                $('#brisanjeUpraveModal').modal('show');
+
+                $('#dugmeModalObrisiUpravuBrisi').on('click', function() {
+
+                    $.ajax({
+                        url: uprava_brisanje_ruta,
+                        type:"POST",
+                        data: {"id": id_brisanje, _token: "{!! csrf_token() !!}"},
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+
+                    $('#brisanjeUpraveModal').modal('hide');
+
+                });
+
+                $('#dugmeModalObrisiUpravuOtazi').on('click', function() {
+                    $('#brisanjeUpraveModal').modal('hide');
+                });
             });
         });
     </script>
