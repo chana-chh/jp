@@ -16,6 +16,7 @@ use App\Modeli\Referent;
 use App\Modeli\TipRocista;
 use App\Modeli\Korisnik;
 use App\Modeli\Uprava;
+use App\Modeli\Status;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -109,8 +110,15 @@ class PredmetiKontroler extends Kontroler
 		$predmet = Predmet::find($id);
 		$tipovi_rocista = TipRocista::all();
 		$spisak_uprava = Uprava::all();
+		$statusi = Status::all();
+		$vs_duguje = $predmet->tokovi->sum('vrednost_spora_duguje');
+		$vs_potrazuje = $predmet->tokovi->sum('vrednost_spora_potrazuje');
+		$vs = $vs_potrazuje - $vs_duguje;
+		$it_duguje = $predmet->tokovi->sum('iznos_troskova_duguje');
+		$it_potrazuje = $predmet->tokovi->sum('iznos_troskova_potrazuje');
+		$it = $it_potrazuje - $it_duguje;
 
-		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista', 'spisak_uprava'));
+		return view('predmet_pregled')->with(compact ('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
 	}
 
 	public function getDodavanje()

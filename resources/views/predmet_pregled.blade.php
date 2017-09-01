@@ -82,39 +82,106 @@
     </table>
 
     @if (Gate::allows('admin'))
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Мета информације о предмету</h3>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Мета информације о предмету</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Корисник који је последњи вршио измене на предмету је
+                    <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
+                </p>
+                <p>
+                    Предмет је додат у базу
+                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong>
+                </p>
+                <p>
+                    Предмет је последњи пут измењен
+                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->updated_at)) }}</strong>
+                </p>
+            </div>
         </div>
-        <div class="panel-body">
-            <p>
-                Корисник који је последњи вршио измене на предмету је
-                <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
-            </p>
-            <p>
-                Предмет је додат у базу
-                <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong>
-            </p>
-            <p>
-                Предмет је последњи пут измењен
-                <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->updated_at)) }}</strong>
-            </p>
-        </div>
-    </div>
     @endif
+
     {{--  POCETAK TOK_PREDMETA  --}}
-    <div class="well">
-        <h3>Токови</h3>
+    <div class="well" style="overflow: auto;">
+        <h3 style="margin-bottom: 20px">Токови</h3>
         <hr style="border-top: 1px solid #18BC9C">
-        @foreach ($predmet->tokovi as $tok)
-            {{ date('d.m.Y', strtotime($tok->datum)) }} -
-            {{ $tok->status->naziv }} ({{ $tok->opis }})<br>
-            Вредност спора потражује: {{ $tok->vrednost_spora_potrazuje }}<br>
-            Вредност спора дугује: {{ $tok->vrednost_spora_duguje }}<br>
-            Износ трошкова потражује: {{ $tok->iznos_troskova_potrazuje }}<br>
-            Износ трошкова дугује: {{ $tok->iznos_troskova_duguje }}<br>
-        @endforeach
+        <table class="table table-striped table-responsive">
+            <tbody>
+                @foreach ($predmet->tokovi as $tok)
+                    <tr>
+                        <td style="width: 10%;"><strong>{{ date('d.m.Y', strtotime($tok->datum)) }}</strong></td>
+                        <td style="width: 15%;"><strong class="text-info">{{ $tok->status->naziv }}</strong></td>
+                        <td style="width: 20%;">{{ $tok->opis }}</td>
+                        <td style="width: 10%;"  class="text-right text-danger">
+                            {{ number_format($tok->vrednost_spora_duguje, 2, ',', '.') }}
+                        </td>
+                        <td style="width: 10%;" class="text-right text-success">
+                            {{ number_format($tok->vrednost_spora_potrazuje, 2, ',', '.') }}
+                        </td>
+                        <td style="width: 10%;" class="text-right text-danger">
+                            {{ number_format($tok->iznos_troskova_duguje, 2, ',', '.') }}
+                        </td>
+                        <td style="width: 10%;" class="text-right text-success">
+                            {{ number_format($tok->iznos_troskova_potrazuje, 2, ',', '.') }}
+                        </td>
+                        <td style="width: 15%; text-align: right;">
+                            <button
+                                class="btn btn-success btn-xs" id="dugmeStatusIzmena"
+                                data-toggle="modal" data-target="#izmeniStatusModal" value="{{ $tok->id }}">
+                                    <i class="fa fa-pencil"></i>
+                            </button>
+                            <button
+                                class="btn btn-danger btn-xs" id="dugmeStatusBrisanje"
+                                value="{{ $tok->id }}">
+                                    <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr class="warning">
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">Укупно:</th>
+                    <th class="text-right text-danger">
+                        {{ number_format($vs_duguje, 2, ',', '.') }}
+                    </th>
+                    <th class="text-right text-success">
+                        {{ number_format($vs_potrazuje, 2, ',', '.') }}
+                    </th>
+                    <th class="text-right text-danger">
+                        {{ number_format($it_duguje, 2, ',', '.') }}
+                    </th>
+                    <th class="text-right text-success">
+                        {{ number_format($it_potrazuje, 2, ',', '.') }}
+                    </th>
+                    <th></th>
+                </tr>
+                <tr class="warning">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">Салдо:</th>
+                    <th class="text-right{{ $vs >= 0 ? ' text-success' : ' text-danger' }}">
+                        {{ number_format($vs, 2, ',', '.') }}
+                    </th>
+                    <th class="text-right">Салдо:</th>
+                    <th class="text-right{{ $it >= 0 ? ' text-success' : ' text-danger' }}">
+                        {{ number_format($it, 2, ',', '.') }}
+                    </th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
         <hr style="border-top: 1px solid #18BC9C">
+        <button
+            class="btn btn-success btn-sm" id="dugmeDodajStatus"
+            data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај статус/ток
+        </button>
     </div>
     {{--  KRAJ TOK_PREDMETA  --}}
 @endsection
@@ -328,14 +395,6 @@
     {{--  kraj modal_rocista_brisanje  --}}
 
     {{--  KRAJ ROCISTA  --}}
-
-
-
-
-
-
-
-
 
 
 
@@ -576,7 +635,7 @@
 
                 $('#brisanjeRocistaModal').modal('show');
 
-                $.ajax({
+                {{--  $.ajax({
                     url: rok_detalj_ruta,
                     type:"GET",
                     data: {"id": id_brisanje},
@@ -594,7 +653,7 @@
                             );
                         }
                     }
-                });
+                });  --}}
 
                 $('#dugmeModalObrisiRocisteBrisi').on('click', function() {
 
@@ -648,7 +707,7 @@
                 });
             });
 
-            // Modal rocista brisanje
+            // Modal uprave brisanje
             $(document).on('click', '#dugmeUpravaBrisanje', function() {
                 var id_brisanje = $(this).val();
 

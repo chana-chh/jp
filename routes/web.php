@@ -95,15 +95,17 @@ Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista
 Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
 Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
 
-//Uprave
-// Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
-// Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
+//Knjizenja
 Route::post('uprave/dodavanje', 'PredmetiUpraveKontroler@postDodavanje')->name('uprave_predmeti.dodavanje.post');
 Route::post('uprave/brisanje', 'PredmetiUpraveKontroler@postBrisanje')->name('uprave_predmeti.brisanje');
 Route::post('uprave/izmena', 'PredmetiUpraveKontroler@postIzmena')->name('uprave_predmeti.izmena');
-// Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista.pregled');
 Route::get('uprave/detalj', 'PredmetiUpraveKontroler@getDetalj')->name('uprave_predmeti.detalj');
-// Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
+
+//Tok predmeta
+Route::post('status/dodavanje', 'PredmetiStatusKontroler@postDodavanje')->name('status.dodavanje.post');
+Route::post('status/brisanje', 'PredmetiStatusKontroler@postBrisanje')->name('status.brisanje');
+Route::post('status/izmena', 'PredmetiStatusKontroler@postIzmena')->name('status.izmena');
+Route::get('status/detalj', 'PredmetiStatusKontroler@getDetalj')->name('status.detalj');
 
 //Tokovi novca
 Route::get('tok', 'TokoviNovcaKontroler@getPocetna')->name('tok');
