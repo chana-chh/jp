@@ -345,22 +345,21 @@
         <hr style="border-top: 1px solid #18BC9C">
         <table class="table table-striped table-responsive">
             <tbody>
-                @foreach ($predmet->uprave as $uprava)
+                @foreach ($predmet->knjizenja as $knjizenje)
                     <tr>
-                        <td style="width: 10%;">{{ $uprava->sifra }}</td>
-                        <td style="width: 20%;"><strong class="text-info">{{ $uprava->naziv }}</strong></td>
-                        <td style="width: 15%;">{{ date('d.m.Y', strtotime($uprava->pivot->datum_knjizenja)) }}</td>
-                        {{--  <td style="width: 40%;"><em>{{ str_limit($uprava->pivot->napomena, 30) }}</em></td>  --}}
-                        <td style="width: 40%;"><em>{{ $uprava->pivot->napomena }}</em></td>
-                        <td style="width: 15%; text-align: right;">
+                        <td style="width: 10%;">{{ $knjizenje->uprava->sifra }}</td>
+                        <td style="width: 20%;"><strong class="text-info">{{ $knjizenje->uprava->naziv }}</strong></td>
+                        <td style="width: 15%;">{{ date('d.m.Y', strtotime($knjizenje->datum_knjizenja)) }}</td>
+                        <td style="width: 35%;"><em>{{ $knjizenje->napomena }}</em></td>
+                        <td style="width: 20%; text-align: right;">
                             <button
                                 class="btn btn-success btn-xs" id="dugmeUpravaIzmena"
-                                data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$uprava->id}}">
+                                data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$knjizenje->id}}">
                                     <i class="fa fa-pencil"></i>
                             </button>
                             <button
                                 class="btn btn-danger btn-xs" id="dugmeUpravaBrisanje"
-                                value="{{$uprava->id}}">
+                                value="{{$knjizenje->id}}">
                                     <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -449,6 +448,64 @@
         </div>
     </div>
     {{--  kraj modal_uprava_dodavanje  --}}
+
+    {{--  pocetak modal_uprava_izmena  --}}
+    <div class="modal fade" id="izmeniRocisteModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-warning">Измена рока/рочишта</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('rocista.izmena') }}" method="POST" id="frmRocisteIzmena" data-parsley-validate>
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rok_izmena_tip_id">Тип рочишта</label>
+                                    <select class="form-control" name="rok_izmena_tip_id" id="rok_izmena_tip_id" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rok_izmena_datum">Датум</label>
+                                    <input type="date" class="form-control" id="rok_izmena_datum" name="rok_izmena_datum" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rok_izmena_vreme">Време</label>
+                                    <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="rok_izmena_opis">Опис</label>
+                                    <textarea class="form-control" id="rok_izmena_opis" name="rok_izmena_opis"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="rok_izmena_id" name="rok_izmena_id">
+                        <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="dugmeModalIzmeniRociste">
+                        <i class="fa fa-floppy-o"></i> Сними
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_uprava_izmena  --}}
 
     {{--  KRAJ UPRAVA  --}}
 @endsection

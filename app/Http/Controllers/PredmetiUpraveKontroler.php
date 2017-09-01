@@ -9,6 +9,7 @@ use Gate;
 use Auth;
 
 use App\Modeli\Predmet;
+use App\Modeli\PredmetUprava;
 
 class PredmetiUpraveKontroler extends Kontroler
 {
@@ -19,13 +20,16 @@ class PredmetiUpraveKontroler extends Kontroler
                 'uprava_dodavanje_datum' => 'required|date',
             ]);
 
+
 		$uprava_id = $req->uprava_dodavanje_id;
 		$predmet_id = $req->predmet_id;
-		$datum = $req->uprava_dodavanje_datum;
-		$napomena = $req->uprava_dodavanje_napomena;
 
-		$predmet = Predmet::find($predmet_id);
-		$predmet->uprave()->attach($uprava_id, ['datum_knjizenja' => $datum, 'napomena' => $napomena]);
+		$knjizenje = new PredmetUprava();
+		$knjizenje->predmet_id = $predmet_id;
+		$knjizenje->uprava_id = $uprava_id;
+		$knjizenje->datum_knjizenja = $req->uprava_dodavanje_datum;
+		$knjizenje->napomena = $req->uprava_dodavanje_napomena;
+		$knjizenje->save();
 
         Session::flash('uspeh','Управа је успешно додата!');
         return redirect()->route('predmeti.pregled', $predmet_id);
