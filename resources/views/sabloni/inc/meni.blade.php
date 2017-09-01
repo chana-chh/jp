@@ -23,14 +23,10 @@
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-secret fa-fw" style="color: #18BC9C"></i>  Администрирање<span class="caret">
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                            <li role="separator" class="divider"></li>
-                            <li class="list-group-item-info"><a href="#"><i class="fa fa-user"></i> Корисници</a></li>
-                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header"><i class="fa fa-user"></i> Корисници</li>
                             <li><a href="{{ route('korisnici') }}">Корисници</a></li>
                             <li><a href="{{ route('referenti') }}">Референти</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="list-group-item-info"><a href="#"><i class="fa fa-cog"></i> Шифарници</a></li>
-                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header"><i class="fa fa-cog"></i> Шифарници</li>
                             <li><a href="{{ route('sudovi') }}">Судови</a></li>
                             <li><a href="{{ route('vrste_predmeta') }}">Врсте предмета</a></li>
                             <li><a href="{{route('vrste_upisnika')}}">Врсте уписника</a></li>
