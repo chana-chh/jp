@@ -81,28 +81,6 @@
         </tbody>
     </table>
 
-    @if (Gate::allows('admin'))
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Мета информације о предмету</h3>
-            </div>
-            <div class="panel-body">
-                <p>
-                    Корисник који је последњи вршио измене на предмету је
-                    <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
-                </p>
-                <p>
-                    Предмет је додат у базу
-                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong>
-                </p>
-                <p>
-                    Предмет је последњи пут измењен
-                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->updated_at)) }}</strong>
-                </p>
-            </div>
-        </div>
-    @endif
-
     {{--  POCETAK TOK_PREDMETA  --}}
     <div class="well" style="overflow: auto;">
         <h3 style="margin-bottom: 20px">Токови</h3>
@@ -587,6 +565,27 @@
     {{--  kraj modal_uprava_brisanje  --}}
 
     {{--  KRAJ UPRAVA  --}}
+    @if (Gate::allows('admin'))
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Мета информације о предмету</h4>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Последњу измену је извршио
+                    <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
+                </p>
+                <p>
+                    Предмет је додат у базу
+                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong>
+                </p>
+                <p>
+                    Предмет је последњи пут измењен
+                    <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->updated_at)) }}</strong>
+                </p>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section('skripte')

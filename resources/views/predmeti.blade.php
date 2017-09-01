@@ -11,6 +11,7 @@
         <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
         Преглед предмета укључујући и архивиране предмете
     </h1>
+
     <div class="panel panel-default">
         <div class="panel-body">
             <a class="btn btn-primary" href="{{ route('predmeti.dodavanje.get') }}">
@@ -18,6 +19,7 @@
             </a>
         </div>
     </div>
+
     <hr style="border-top: 2px solid #18BC9C">
 
     @if($predmeti->isEmpty())
@@ -69,21 +71,35 @@
         </table>
     @endif
     <hr style="border-top: 2px solid #18BC9C">
+
+    {{--  <div class="well">
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseNaprednaPretraga">
+            <i class="fa fa-search"></i> Напредна претрага
+        </a>
+        <a href="{{ route('predmeti') }}" class="btn btn-info">
+            <i class="fa fa-ban"></i> Поништи филтер
+        </a>
+    </div>
+
+    <div class="collapse in" id="collapseNaprednaPretraga">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                TEKST i FORMA
+            </div>
+        </div>
+    </div>  --}}
+
     <div class="panel-group" id="accordion"> {{-- Pocetak PANEL GRUPE --}}
         <div class="panel panel-default"> {{-- Pocetak PANELA --}}
             <div class="panel-heading"> {{-- Pocetak naslova panela --}}
-                <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        <button class="btn btn-primary">
-                            <i class="fa fa-search"></i> Напредна претрага
-                        </button>
-                        <a href="{{ route('predmeti') }}" class="btn btn-info">
-                            <i class="fa fa-ban"></i> Поништи филтер
-                        </a>
-                    </a>
-                </h4>
+                <a class="btn btn-primary" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <i class="fa fa-search"></i> Напредна претрага
+                </a>
+                <a href="{{ route('predmeti') }}" class="btn btn-info">
+                    <i class="fa fa-ban"></i> Поништи филтер
+                </a>
             </div> {{-- Kraj naslova panela --}}
-            <div id="collapseOne" class="panel-collapse collapse in"> {{-- Pocetak XXX panela --}}
+            <div id="collapseOne" class="panel-collapse collapse"> {{-- Pocetak XXX panela --}}
                 <div class="panel-body"> {{-- Pocetak tela panela --}}
                     <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">
                         {{ csrf_field() }}
@@ -243,6 +259,7 @@
             </div> {{-- Kraj XXX panela --}}
         </div> {{-- Kraj PANELA --}}
     </div> {{-- Kraj PANEL GRUPE --}}
+
 @endsection
 
 
@@ -279,13 +296,10 @@
                 infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
             }
         });
-        $('.chosen-select').chosen({allow_single_deselect: true});
-        $('.collapse').collapse();
-    });
 
-    $('#dugme_pretrazi').click(function() {
-        $('#pretraga').submit();
+        $('#dugme_pretrazi').click(function() {
+            $('#pretraga').submit();
+        });
     });
-
 </script>
 @endsection
