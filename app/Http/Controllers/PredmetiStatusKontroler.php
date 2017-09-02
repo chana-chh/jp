@@ -17,22 +17,28 @@ class PredmetiStatusKontroler extends Kontroler
 	public function postDodavanje(Request $req)
     {
         $this->validate($req, [
-				'uprava_dodavanje_id' => 'required|integer',
-                'uprava_dodavanje_datum' => 'required|date',
+				'status_dodavanje_status_id' => 'required|integer',
+                'status_dodavanje_datum' => 'required|date',
+                'status_dodavanje_vsd' => 'required|numeric',
+                'status_dodavanje_vsp' => 'required|numeric',
+                'status_dodavanje_itd' => 'required|numeric',
+                'status_dodavanje_itp' => 'required|numeric',
             ]);
 
-
-		$uprava_id = $req->uprava_dodavanje_id;
 		$predmet_id = $req->predmet_id;
 
-		$knjizenje = new PredmetUprava();
-		$knjizenje->predmet_id = $predmet_id;
-		$knjizenje->uprava_id = $uprava_id;
-		$knjizenje->datum_knjizenja = $req->uprava_dodavanje_datum;
-		$knjizenje->napomena = $req->uprava_dodavanje_napomena;
-		$knjizenje->save();
+		$status = new Tok();
+		$status->predmet_id = $predmet_id;
+		$status->status_id = $req->status_dodavanje_status_id;
+		$status->datum = $req->status_dodavanje_datum;
+		$status->vrednost_spora_duguje = $req->status_dodavanje_vsd;
+		$status->vrednost_spora_potrazuje = $req->status_dodavanje_vsp;
+		$status->iznos_troskova_duguje = $req->status_dodavanje_itd;
+		$status->iznos_troskova_potrazuje = $req->status_dodavanje_itp;
+		$status->opis = $req->status_dodavanje_opis;
+		$status->save();
 
-        Session::flash('uspeh','Управа је успешно додата!');
+        Session::flash('uspeh','Статус је успешно додат!');
         return redirect()->route('predmeti.pregled', $predmet_id);
 	}
 

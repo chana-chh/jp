@@ -71,17 +71,21 @@
                 </div>
                 <div class="panel-footer text-center">
                 <h4 style="margin-top: -1px 0px -1px 0px;">
-                        Биланс вредности спора:
-                        <a href="#"  style="text-decoration: none;">
-                            <strong>{{number_format($vrednost_spora,2)}}</strong>
-                        </a>
-                    </h4>
-                    <h4 style="margin: -1px 0px -1px 0px;">
-                        Биланс износа трошкова:
-                        <a href="#"  style="text-decoration: none;">
-                            <strong>{{number_format($iznos_troskova,2)}}</strong>
-                        </a>
-                    </h4>
+                    Биланс вредности спора:
+                    <a href="#"  style="text-decoration: none;">
+                        <strong class="{{ $vrednost_spora>= 0 ? 'text-success' : 'text-danger' }}">
+                            {{ number_format($vrednost_spora, 2, ',', '.') }}
+                        </strong>
+                    </a>
+                </h4>
+                <h4 style="margin: -1px 0px -1px 0px;">
+                    Биланс износа трошкова:
+                    <a href="#"  style="text-decoration: none;">
+                        <strong class="{{ $iznos_troskova>= 0 ? 'text-success' : 'text-danger' }}">
+                            {{ number_format($iznos_troskova, 2, ',', '.') }}
+                        </strong>
+                    </a>
+                </h4>
                 </div>
             </div>
         </div>
@@ -104,6 +108,6 @@
                     </h3>
                 </div>
             </div>
-</div> 
+</div>
 </div>
 @endsection

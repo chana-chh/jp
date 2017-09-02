@@ -82,6 +82,7 @@
     </table>
 
     {{--  POCETAK TOK_PREDMETA  --}}
+
     <div class="well" style="overflow: auto;">
         <h3 style="margin-bottom: 20px">Токови</h3>
         <hr style="border-top: 1px solid #18BC9C">
@@ -161,11 +162,137 @@
                 <i class="fa fa-plus-circle"></i> Додај статус/ток
         </button>
     </div>
+
+    {{--  pocetak modal_status_dodavanje  --}}
+    <div class="modal fade" id="dodajStatusModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-success">Додавање статуса</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('status.dodavanje.post') }}" method="POST" id="frmStatusDodavanje" data-parsley-validate>
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group{{ $errors->has('status_dodavanje_status_id') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_status_id">Статус</label>
+                                    <select name="status_dodavanje_status_id" id="status_dodavanje_status_id" class="chosen-select form-control"
+                                        data-placeholder="Статус" required>
+                                        <option value=""></option>
+                                        @foreach($statusi as $status)
+                                            <option value="{{ $status->id }}"{{ old('status_dodavanje_status_id') == $status->id ? ' selected' : '' }}>
+                                                {{ $status->naziv }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('status_dodavanje_status_id'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_status_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group{{ $errors->has('status_dodavanje_datum') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_datum">Датум</label>
+                                    <input type="date" name="status_dodavanje_datum" id="status_dodavanje_datum" class="form-control"
+                                    value="{{ old('status_dodavanje_datum') }}" required>
+                                    @if ($errors->has('status_dodavanje_datum'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_datum') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group{{ $errors->has('status_dodavanje_vsd') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_vsd">Вредност спора дугује</label>
+                                    <input type="number" name="status_dodavanje_vsd" id="status_dodavanje_vsd" class="form-control"
+                                    value="{{ old('status_dodavanje_vsd', 0) }}" step="0.01" required>
+                                    @if ($errors->has('status_dodavanje_vsd'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_vsd') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group{{ $errors->has('status_dodavanje_vsp') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_vsp">Вредност спора потражује</label>
+                                    <input type="number" name="status_dodavanje_vsp" id="status_dodavanje_vsp" class="form-control"
+                                    value="{{ old('status_dodavanje_vsp', 0) }}" step="0.01" required>
+                                    @if ($errors->has('status_dodavanje_vsp'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_vsp') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group{{ $errors->has('status_dodavanje_itd') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_itd">Износ трошкова дугује</label>
+                                    <input type="number" name="status_dodavanje_itd" id="status_dodavanje_itd" class="form-control"
+                                    value="{{ old('status_dodavanje_itd', 0) }}" step="0.01" required>
+                                    @if ($errors->has('status_dodavanje_itd'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_itd') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group{{ $errors->has('status_dodavanje_itp') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_itp">Износ трошкова потражује</label>
+                                    <input type="number" name="status_dodavanje_itp" id="status_dodavanje_itp" class="form-control"
+                                    value="{{ old('status_dodavanje_itp', 0) }}" step="0.01" required>
+                                    @if ($errors->has('status_dodavanje_itp'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_itp') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="border-top: 2px solid #18BC9C">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group{{ $errors->has('status_dodavanje_opis') ? ' has-error' : '' }}">
+                                    <label for="status_dodavanje_opis">Опис</label>
+                                    <textarea name="status_dodavanje_opis" id="status_dodavanje_opis" class="form-control">{{ old('status_dodavanje_opis') }}</textarea>
+                                    @if ($errors->has('status_dodavanje_opis'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('status_dodavanje_opis') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="dugmeModalDodajStatus">
+                        <i class="fa fa-floppy-o"></i> Сними
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_status_dodavanje  --}}
+
     {{--  KRAJ TOK_PREDMETA  --}}
 @endsection
 
 @section('traka')
     {{--  POCETAK ROCISTA  --}}
+
     <div class="well" style="overflow: auto;">
         <h3 style="margin-bottom: 20px">Рочишта</h3>
         <hr style="border-top: 1px solid #18BC9C">
@@ -376,7 +503,10 @@
 
 
 
+
+
     {{--  POCETAK UPRAVA  --}}
+
     <div class="well" style="overflow: auto;">
         <h3>Управе</h3>
         <hr style="border-top: 1px solid #18BC9C">
@@ -730,6 +860,11 @@
                 $('#dugmeModalObrisiUpravuOtazi').on('click', function() {
                     $('#brisanjeUpraveModal').modal('hide');
                 });
+            });
+
+            // Modal status dodavanje
+            $("#dugmeModalDodajStatus").on('click', function() {
+                $('#frmStatusDodavanje').submit();
             });
         });
     </script>
