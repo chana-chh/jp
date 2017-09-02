@@ -23,6 +23,7 @@ class PredmetiStatusKontroler extends Kontroler
                 'status_dodavanje_vsp' => 'required|numeric',
                 'status_dodavanje_itd' => 'required|numeric',
                 'status_dodavanje_itp' => 'required|numeric',
+                'status_dodavanje_opis' => 'required',
             ]);
 
 		$predmet_id = $req->predmet_id;
@@ -45,20 +46,27 @@ class PredmetiStatusKontroler extends Kontroler
 	public function postIzmena(Request $req)
 	{
 		$this->validate($req, [
-            'uprava_izmena_datum' => 'required|date',
-            'uprava_izmena_id' => 'required|integer',
-            'knjizenje_id' => 'required|integer',
-            'predmet_id' => 'required|integer',
+            'status_izmena_status_id' => 'required|integer',
+			'status_izmena_datum' => 'required|date',
+			'status_izmena_vsd' => 'required|numeric',
+			'status_izmena_vsp' => 'required|numeric',
+			'status_izmena_itd' => 'required|numeric',
+			'status_izmena_itp' => 'required|numeric',
+			'status_izmena_opis' => 'required',
         ]);
 
-        $knjizenje = PredmetUprava::findOrFail($req->knjizenje_id);
-		$knjizenje->predmet_id = $req->predmet_id;
-		$knjizenje->uprava_id = $req->uprava_izmena_id;
-		$knjizenje->datum_knjizenja = $req->uprava_izmena_datum;
-		$knjizenje->napomena = $req->uprava_izmena_napomena;
-        $knjizenje -> save();
+        $tok = Tok::findOrFail($req->tok_id);
+		$tok->predmet_id = $req->predmet_id;
+		$tok->status_id = $req->status_izmena_status_id;
+		$tok->datum = $req->status_izmena_datum;
+		$tok->vrednost_spora_duguje = $req->status_izmena_vsd;
+		$tok->vrednost_spora_potrazuje = $req->status_izmena_vsp;
+		$tok->iznos_troskova_duguje = $req->status_izmena_itd;
+		$tok->iznos_troskova_potrazuje = $req->status_izmena_itp;
+		$tok->opis = $req->status_izmena_opis;
+        $tok -> save();
 
-        Session::flash('uspeh','Управа је успешно измењена!');
+        Session::flash('uspeh','Статус је успешно измењен!');
         return redirect()->route('predmeti.pregled', $req->predmet_id);
 	}
 
@@ -66,24 +74,21 @@ class PredmetiStatusKontroler extends Kontroler
 	{
 		if($req->ajax())
         {
-            $knjizenje = PredmetUprava::findOrFail($req->id);
-            $uprave = Uprava::all();
-            return response()->json(['knjizenje' => $knjizenje, 'uprave' => $uprave]);
+            $tok = Tok::findOrFail($req->id);
+            $statusi = Status::all();
+            return response()->json(['tok' => $tok, 'statusi' => $statusi]);
         }
 	}
 
 	public function postBrisanje(Request $req)
 	{
-		$knjizenje = PredmetUprava::find($req->id);
-		$odgovor = $knjizenje->delete();
+		$status = Tok::find($req->id);
+		$odgovor = $status->delete();
 
-		if ($odgovor)
-		{
-			Session::flash('uspeh','Управа је успешно обрисана!');
-		}
-		else
-		{
-			Session::flash('greska','Дошло је до грешке приликом брисања управе. Покушајте поново, касније!');
+		if ($odgovor) {
+			Session::flash('uspeh','Статус је успешно обрисан!');
+		} else {
+			Session::flash('greska','Дошло је до грешке приликом брисања статуса. Покушајте поново, касније!');
 		}
 	}
 }

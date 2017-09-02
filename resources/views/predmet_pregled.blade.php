@@ -87,12 +87,24 @@
         <h3 style="margin-bottom: 20px">Токови</h3>
         <hr style="border-top: 1px solid #18BC9C">
         <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Датум</th>
+                    <th>Статус</th>
+                    <th>Опис</th>
+                    <th>Спор дугује</th>
+                    <th>Спор потражује</th>
+                    <th>Трошкови дугује</th>
+                    <th>Трошкови потражује</th>
+                    <th class="text-center"><i class="fa fa-cogs"></i></th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach ($predmet->tokovi as $tok)
                     <tr>
                         <td style="width: 10%;"><strong>{{ date('d.m.Y', strtotime($tok->datum)) }}</strong></td>
                         <td style="width: 15%;"><strong class="text-info">{{ $tok->status->naziv }}</strong></td>
-                        <td style="width: 20%;">{{ $tok->opis }}</td>
+                        <td style="width: 25%;">{{ $tok->opis }}</td>
                         <td style="width: 10%;"  class="text-right text-danger">
                             {{ number_format($tok->vrednost_spora_duguje, 2, ',', '.') }}
                         </td>
@@ -105,7 +117,7 @@
                         <td style="width: 10%;" class="text-right text-success">
                             {{ number_format($tok->iznos_troskova_potrazuje, 2, ',', '.') }}
                         </td>
-                        <td style="width: 15%; text-align: right;">
+                        <td style="width: 10%; text-align: right;">
                             <button
                                 class="btn btn-success btn-xs" id="dugmeStatusIzmena"
                                 data-toggle="modal" data-target="#izmeniStatusModal" value="{{ $tok->id }}">
@@ -257,12 +269,11 @@
                                 </div>
                             </div>
                         </div>
-                        <hr style="border-top: 2px solid #18BC9C">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group{{ $errors->has('status_dodavanje_opis') ? ' has-error' : '' }}">
                                     <label for="status_dodavanje_opis">Опис</label>
-                                    <textarea name="status_dodavanje_opis" id="status_dodavanje_opis" class="form-control">{{ old('status_dodavanje_opis') }}</textarea>
+                                    <textarea name="status_dodavanje_opis" id="status_dodavanje_opis" class="form-control" required>{{ old('status_dodavanje_opis') }}</textarea>
                                     @if ($errors->has('status_dodavanje_opis'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('status_dodavanje_opis') }}</strong>
@@ -286,6 +297,110 @@
         </div>
     </div>
     {{--  kraj modal_status_dodavanje  --}}
+
+    {{--  pocetak modal_status_izmena  --}}
+    <div class="modal fade" id="izmeniStatusModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-warning">Измена статуса</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('status.izmena') }}" method="POST" id="frmStatusIzmena" data-parsley-validate>
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="status_izmena_status_id">Статус</label>
+                                    <select class="form-control" name="status_izmena_status_id" id="status_izmena_status_id" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="status_izmena_datum">Датум</label>
+                                    <input type="date" class="form-control" id="status_izmena_datum" name="status_izmena_datum" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status_izmena_vsd">Вредност спора дугује</label>
+                                    <input type="number" class="form-control" id="status_izmena_vsd" name="status_izmena_vsd" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status_izmena_vsp">Вредност спора потражује</label>
+                                    <input type="number" class="form-control" id="status_izmena_vsp" name="status_izmena_vsp" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status_izmena_itd">Износ трошкова дугује</label>
+                                    <input type="number" class="form-control" id="status_izmena_itd" name="status_izmena_itd" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status_izmena_itp">Износ трошкова потражује</label>
+                                    <input type="number" class="form-control" id="status_izmena_itp" name="status_izmena_itp" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="status_izmena_opis">Опис</label>
+                                    <textarea class="form-control" id="status_izmena_opis" name="status_izmena_opis" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="tok_id" name="tok_id">
+                        <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="dugmeModalIzmeniStatus">
+                        <i class="fa fa-floppy-o"></i> Сними
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_status_izmena  --}}
+
+    {{--  pocetak modal_status_brisanje  --}}
+    <div class="modal fade" id="brisanjeStatusModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title text-danger">Брисање статуса</h3>
+                </div>
+                <div class="modal-body">
+                    <h3>Да ли желите трајно да обришете статус?</h3>
+                    <h4 id="brisanje_statusa_poruka"></h4>
+                    <p class="text-danger">Ова акција је неповратна!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="dugmeModalObrisiStatusBrisi">
+                        <i class="fa fa-trash"></i> Обриши
+                    </button>
+                    <button type="button" class="btn btn-danger" id="dugmeModalObrisiStatusOtazi">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_status_brisanje  --}}
 
     {{--  KRAJ TOK_PREDMETA  --}}
 @endsection
@@ -725,6 +840,8 @@
             var rok_brisanje_ruta = "{{ route('rocista.brisanje') }}";
             var uprava_detalj_ruta = "{{ route('uprave_predmeti.detalj') }}";
             var uprava_brisanje_ruta = "{{ route('uprave_predmeti.brisanje') }}";
+            var status_detalj_ruta = "{{ route('status.detalj') }}";
+            var status_brisanje_ruta = "{{ route('status.brisanje') }}";
 
             // Modal rocista dodavanje
             $("#dugmeModalDodajRociste").on('click', function() {
@@ -822,7 +939,6 @@
                     type:"GET",
                     data: {"id": id_menjanje},
                     success: function(result) {
-                        console.log(result);
                         $("#knjizenje_id").val(result.knjizenje.id);
                         $("#uprava_izmena_datum").val(result.knjizenje.datum_knjizenja);
                         $("#uprava_izmena_napomena").val(result.knjizenje.napomena);
@@ -866,6 +982,63 @@
             $("#dugmeModalDodajStatus").on('click', function() {
                 $('#frmStatusDodavanje').submit();
             });
+
+            // Modal status izmene
+            $("#dugmeModalIzmeniStatus").on('click', function() {
+                $('#frmStatusIzmena').submit();
+            });
+
+            $(document).on('click','#dugmeStatusIzmena', function() {
+                var id_menjanje = $(this).val();
+
+                $.ajax({
+                    url: status_detalj_ruta,
+                    type:"GET",
+                    data: {"id": id_menjanje},
+                    success: function(result) {
+                        $("#tok_id").val(result.tok.id);
+                        $("#status_izmena_datum").val(result.tok.datum);
+                        $("#status_izmena_opis").val(result.tok.opis);
+                        $("#status_izmena_vsd").val(result.tok.vrednost_spora_duguje);
+                        $("#status_izmena_vsp").val(result.tok.vrednost_spora_potrazuje);
+                        $("#status_izmena_itd").val(result.tok.iznos_troskova_duguje);
+                        $("#status_izmena_itp").val(result.tok.iznos_troskova_potrazuje);
+
+                        $.each(result.statusi, function(index, lokObjekat) {
+                            $('#status_izmena_status_id').append('<option value="' + lokObjekat.id + '">' + lokObjekat.naziv + '</option>');
+                        });
+
+                        $("#status_izmena_status_id").val(result.tok.status_id);
+                    }
+                });
+            });
+
+            // Modal status brisanje
+            $(document).on('click', '#dugmeStatusBrisanje', function() {
+                var id_brisanje = $(this).val();
+
+                $('#brisanjeStatusModal').modal('show');
+
+                $('#dugmeModalObrisiStatusBrisi').on('click', function() {
+
+                    $.ajax({
+                        url: status_brisanje_ruta,
+                        type:"POST",
+                        data: {"id": id_brisanje, _token: "{!! csrf_token() !!}"},
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+
+                    $('#brisanjeStatusModal').modal('hide');
+
+                });
+
+                $('#dugmeModalObrisiStatusOtazi').on('click', function() {
+                    $('#brisanjeStatusModal').modal('hide');
+                });
+            });
+
         });
     </script>
     <script src="{{ asset('/js/parsley.js') }}"></script>
