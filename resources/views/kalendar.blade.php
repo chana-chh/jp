@@ -11,8 +11,28 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header">Календарски преглед рочишта</h1>
-    <div class="col-md-12" id='calendar'></div>
+    <h1 class="page-header">
+    <span><img alt="рочиште" src="{{url('/images/kalendar.png')}}" style="height:64px"></span>&emsp;
+    Календарски преглед рочишта</h1>
+    <div class="row boxic">
+    <div class="col-md-12 ceo" id='calendar'></div>
+    </div>
+{{-- Sekcija sa dugicima - POCETAK --}}
+<div class="row dugmici">
+<div class="col-md-10 col-md-offset-1">
+
+<div class="row">
+<div class="col-md-6" style="border-right: 2px dashed #18BC9C" >
+<a class="btn btn-primary btn-block" href="#">Нисам сигуран шта</a>
+</div>
+<div class="col-md-6">
+<a class="btn btn-primary btn-block" href="{{ route('rocista') }}">Табеларни приказ рочишта</a>
+</div>
+</div>
+
+</div>
+</div>
+{{-- Sekcija sa dugmicima - KRAJ --}}
 @endsection
 
 @section('skripte')
@@ -53,7 +73,7 @@
             },
             defaultView: 'basicWeek',
             weekends: false,
-            height: 700,
+            height: 630,
             events: dogadjaji,
             eventRender: function (event, element, view) {
                 element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
