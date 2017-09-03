@@ -9,7 +9,7 @@
 @section('naslov')
     <h1 class="page-header">
         <span><img alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px"></span>
-        Преглед свих рочишта
+        Табеларни преглед свих рочишта
     </h1>
     <div class="row">
         <div class="col-md-3 col-md-offset-9">
@@ -52,6 +52,11 @@
                 </tbody>
             </table>
         @endif
+        <div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    <a href="{{ route('rocista.kalendar') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на календарски приказ</a>
+    </div>
+    </div>
 @endsection
 
 @section('skripte')

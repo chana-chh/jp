@@ -113,3 +113,6 @@ Route::get('tok/grupa/predmet', 'TokoviNovcaKontroler@getGrupaPredmet')->name('t
 Route::get('tok/grupa/vrste_predmeta', 'TokoviNovcaKontroler@getGrupaVrstaPredmeta')->name('tok.grupa_vrste_predmeta');
 Route::get('tok/tekuci_mesec', 'TokoviNovcaKontroler@getTekuciMesec')->name('tok.tekuci_mesec');
 Route::get('tok/tekuca_godina', 'TokoviNovcaKontroler@getTekucaGodina')->name('tok.tekuca_godina');
+
+//O programu
+Route::get('o_programu', function () { return view('o_programu'); })->name('o_programu');
