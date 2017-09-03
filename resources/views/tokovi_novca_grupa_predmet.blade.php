@@ -43,6 +43,11 @@
                 </tbody>
             </table>
         @endif
+        <div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    <a href="{{ route('tok') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
+    </div>
+    </div>
         </div>
         </div>
 @endsection

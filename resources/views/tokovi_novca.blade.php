@@ -66,10 +66,10 @@
 <h3>Графички приказ:</h3>
 <div class="row">
 <div class="col-md-6">
-<button type="button" class="btn btn-primary btn-block">Претходни месец</button>
+<a class="btn btn-primary btn-block" href="{{ route('tok.tekuci_mesec') }}">Текући месец</a>
 </div>
 <div class="col-md-6">
-<button type="button" class="btn btn-primary btn-block">Претходних шест месеци</button>
+<a class="btn btn-primary btn-block" href="{{ route('tok.tekuca_godina') }}">Текућа година</a>
 </div>
 </div>
 </div>

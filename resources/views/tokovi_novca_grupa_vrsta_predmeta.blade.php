@@ -17,7 +17,7 @@
         @else
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
-                      <th>Број предмета</th>
+                      <th>Врста предмета</th>
                       <th>Вредност спора потражује</th>
                       <th>Вредност спора дугује</th>
                       <th>Износ трошкова потражује</th>
@@ -41,6 +41,11 @@
                 </tbody>
             </table>
         @endif
+        <div class="row">
+    <div class="col-md-12" style="margin-top: 20px">
+    <a href="{{ route('tok') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
+    </div>
+    </div>
         </div>
         </div>
 @endsection
