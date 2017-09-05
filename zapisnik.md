@@ -19,3 +19,5 @@
 - Nije uradjen tok novca u meniju (mora da se konsultuje Svetlana). Kad se napravi da se doda na pocetnu stranu neki znacajan iznos.
 
 - Mora negde da se doda mehanizam za arhiviranje predmeta
+
+### Проба гита на лаптопету
