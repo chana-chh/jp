@@ -20,10 +20,10 @@
         @else
             <table class="table table-striped tabelaStatusi" name="tabelaStatusi" id="tabelaStatusi">
                 <thead>
-                      <th>#</th>
-                      <th>Назив</th>
-                      <th>Напомена</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 10%;">#</th>
+                      <th style="width: 30%;">Назив</th>
+                      <th style="width: 50%;">Напомена</th>
+                      <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="statusi_lista" name="statusi_lista">
                 @foreach ($statusi as $status)
@@ -83,7 +83,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
@@ -103,11 +103,18 @@
 <script>
 $( document ).ready(function() {
 
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
         $('#tabelaStatusi').DataTable({
 
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
-        search: "Пронађи у таблеи",
+        search: "Пронађи у табели",
             paginate: {
             first:      "Прва",
             previous:   "Претходна",

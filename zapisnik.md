@@ -8,6 +8,8 @@
 
 - Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima
 
+- Edge koliko ja vidim ne šiša zadate širine kolona u procentima, serem mu se na ivicu
+
 ## Krupni zahvati na programu
 
 - Jos jednom proveriti sve migracije (za svaki slucaj) - together (ako se uopste pise ovako ;-)

@@ -47,7 +47,7 @@
 {{-- Sekcija sa krugovima - KRAJ --}}
 
 {{-- Sekcija sa dugicima - POCETAK --}}
-<div class="row dugmici">
+<div class="row dugmici ceo_dva">
 <div class="col-md-10 col-md-offset-1">
 
 <div class="row">

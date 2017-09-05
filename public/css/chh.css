@@ -221,7 +221,7 @@ textarea {
 }
 
 .ceo_dva {
-  margin: 15px 0px 0px 0px;
+  margin: 20px 0px 0px 0px;
 }
 
 .img-thumbnail{
@@ -304,6 +304,17 @@ padding-left: 5px;
 @media only screen and (max-width: 1300px) {
    .krug {
    	margin-left: 10px;
+   }
+}
+
+.snimi {
+	border-right: 2px dashed #18BC9C;
+}
+
+@media only screen and (max-width: 1300px) {
+   .snimi {
+   	margin-bottom: 15px;
+   	border-right: 0;
    }
 }
 
