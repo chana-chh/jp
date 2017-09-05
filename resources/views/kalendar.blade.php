@@ -23,10 +23,11 @@
 
 <div class="row">
 <div class="col-md-6" style="border-right: 2px dashed #18BC9C" >
-<a class="btn btn-primary btn-block" href="#">Нисам сигуран шта</a>
+<a class="btn btn-primary btn-block" href="{{ route('rocista.dodavanje.get') }}"><i class="fa fa-plus-circle fa-fw"></i>&emsp;Додај рочиште
+</a>
 </div>
 <div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('rocista') }}">Табеларни приказ рочишта</a>
+<a class="btn btn-primary btn-block" href="{{ route('rocista') }}"><i class="fa fa-table fa-fw"></i>&emsp;Табеларни приказ рочишта</a>
 </div>
 </div>
 

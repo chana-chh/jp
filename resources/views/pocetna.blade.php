@@ -38,7 +38,7 @@
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
-                        <a href="{{ route('rocista.kalendar') }}" style="text-decoration: none; color: #2c3e50">Календар</a>
+                        <a href="{{ route('rocista.kalendar') }}" style="text-decoration: none; color: #2c3e50">Календар рочишта</a>
                     </h2>
                 </div>
                 <div class="panel-body">
@@ -70,22 +70,22 @@
                     </a>
                 </div>
                 <div class="panel-footer text-center">
-                <h4 style="margin-top: -1px 0px -1px 0px;">
-                    Биланс вредности спора:
+                <h5>
+                    Салдо вредности спора:
                     <a href="#"  style="text-decoration: none;">
                         <strong class="{{ $vrednost_spora>= 0 ? 'text-success' : 'text-danger' }}">
                             {{ number_format($vrednost_spora, 2, ',', '.') }}
                         </strong>
                     </a>
-                </h4>
-                <h4 style="margin: -1px 0px -1px 0px;">
-                    Биланс износа трошкова:
+                </h5>
+                <h5>
+                    Салдо износа трошкова:
                     <a href="#"  style="text-decoration: none;">
                         <strong class="{{ $iznos_troskova>= 0 ? 'text-success' : 'text-danger' }}">
                             {{ number_format($iznos_troskova, 2, ',', '.') }}
                         </strong>
                     </a>
-                </h4>
+                </h5>
                 </div>
             </div>
         </div>

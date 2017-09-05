@@ -29,8 +29,8 @@
                         <th style="width: 15%;">Број предмета</th>
                         <th style="width: 15%;">Тип рочишта</th>
                         <th style="width: 15%;">Датум</th>
-                        <th style="width: 20%;">Време</th>
-                        <th style="width: 25%;">Опис</th>
+                        <th style="width: 10%;">Време</th>
+                        <th style="width: 35%;">Опис</th>
                         <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
                                 </a>
                             </strong></td>
                             <td>{{$rociste->tipRocista->naziv}}</td>
-                            <td><strong style="color: #18BC9C;">{{$rociste->datum}}</strong></td>
+                            <td><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
                             <td>{{$rociste->vreme}}</td>
                             <td><em>{{$rociste->opis}}</em></td>
                             <td style="text-align:center">
