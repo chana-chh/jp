@@ -1,12 +1,16 @@
 # TODO
 
+## Novo
+
+- ChartJS jos uvek vuce sa CDN, lokalna instalacija je moguca kroz npm
+
+- Napraviti Middleware
+
 ## Krupni zahvati na programu
 
 - Jos jednom proveriti sve migracije (za svaki slucaj) - together (ako se uopste pise ovako ;-)
 
 - Sto se tice pregleda predmeta traka je mala da bi se u nju ugurale tabele (cim se malo smanji rezolucija dolazi do sranja).
-
-- Kalendar / rocista da se razmotri
 
 - Nije uradjen tok novca u meniju (mora da se konsultuje Svetlana). Kad se napravi da se doda na pocetnu stranu neki znacajan iznos.
 

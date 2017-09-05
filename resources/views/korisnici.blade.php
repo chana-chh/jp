@@ -34,7 +34,7 @@
                                 <td>{{$korisnik->username}}</td>
                                 <td style="text-align:center">{!! $korisnik->level == 0 ? '<i class="fa fa-check text-success">' : '' !!}</td>
                                  <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('korisnici.pregled', $korisnik->id) }}"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('korisnici.pregled', $korisnik->id) }}"><i class="fa fa-pencil"></i></a>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$korisnik->id}}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
@@ -69,7 +69,7 @@
 <h3 >Додавање корисника</h3>
 <hr>
 <div class="well">
-    <form action="{{ route('korisnici.dodavanje') }}" method="POST">
+    <form action="{{ route('korisnici.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -173,4 +173,6 @@ $( document ).ready(function() {
     });
 });
 </script>
+<script src="{{ asset('/js/parsley.js') }}"></script>
+<script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection

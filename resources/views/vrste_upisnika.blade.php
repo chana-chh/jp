@@ -37,7 +37,7 @@
                                 <td>{{$vrsta->napomena}}</td>
 
                                  <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('vrste_upisnika.pregled', $vrsta->id) }}"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('vrste_upisnika.pregled', $vrsta->id) }}"><i class="fa fa-pencil"></i></a>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$vrsta->id}}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>

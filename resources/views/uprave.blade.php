@@ -35,7 +35,7 @@
                                 <td>{{$uprava->napomena}}</td>
 
                                  <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('uprave.pregled', $uprava->id) }}"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('uprave.pregled', $uprava->id) }}"><i class="fa fa-pencil"></i></a>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$uprava->id}}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
@@ -70,7 +70,7 @@
 <h3 >Додавање нових управа</h3>
 <hr>
 <div class="well">
-    <form action="{{ route('uprave.dodavanje') }}" method="POST">
+    <form action="{{ route('uprave.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
@@ -160,4 +160,6 @@ $( document ).ready(function() {
     });
 });
 </script>
+<script src="{{ asset('/js/parsley.js') }}"></script>
+<script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection
