@@ -32,7 +32,7 @@
         <div class="col-md-8">
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
                     <label for="napomena">Напомена:</label>
-                    <textarea name="napomena" id="napomena" rows:"4" maxlength="255" class="form-control">{{ old('napomena', $status->napomena) }}</textarea>
+                    <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena', $status->napomena) }}</textarea>
                     @if ($errors->has('napomena'))
                         <span class="help-block">
                             <strong>{{ $errors->first('napomena') }}</strong>
@@ -49,6 +49,7 @@
         </div>
         <div class="col-md-6">
             <a class="btn btn-danger btn-block" href="{{route('statusi')}}"><i class="fa fa-ban"></i>&emsp;Откажи</a>
+        </div>
         </div>
         </div>
         </div>

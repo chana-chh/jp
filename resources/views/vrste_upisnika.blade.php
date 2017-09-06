@@ -20,12 +20,12 @@
         @else
             <table class="table table-striped tabelaVrsteUpisnika" name="tabelaVrsteUpisnika" id="tabelaVrsteUpisnika">
                 <thead>
-                      <th>#</th>
-                      <th>Назив</th>
-                      <th>Акроним</th>
-                      <th>Следећи број</th>
-                      <th>Напомена</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 7%;">#</th>
+                      <th style="width: 30%;">Назив</th>
+                      <th style="width: 10%;">Акроним</th>
+                      <th style="width: 15%;">Следећи број</th>
+                      <th style="width: 28%;">Напомена</th>
+                      <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="vrste_upisnika_lista" name="vrste_upisnika_lista">
                 @foreach ($vrste_upisnika as $vrsta)
@@ -33,7 +33,7 @@
                                 <td>{{$vrsta->id}}</td>
                                 <td><strong>{{$vrsta->naziv}}</strong></td>
                                 <td>{{$vrsta->slovo}}</td>
-                                <td>{{$vrsta->sledeci_broj}}</td>
+                                <td><strong style="color: #18BC9C;">{{$vrsta->sledeci_broj}}</strong></td>
                                 <td>{{$vrsta->napomena}}</td>
 
                                  <td style="text-align:center">
@@ -103,7 +103,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <TEXTAREA name="napomena" id="napomena" class="form-control" rows="2">{{old('napomena') }}</TEXTAREA>
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
@@ -122,6 +122,13 @@
 @section('skripte')
 <script>
 $( document ).ready(function() {
+
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
 
         $('#tabelaVrsteUpisnika').DataTable({
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],

@@ -75,7 +75,7 @@ class RocistaKontroler extends Kontroler
         $rociste -> save();
 
         Session::flash('uspeh','Рок/рочиште је успешно измењено!');
-        return redirect()->route('predmeti.pregled', $req->predmet_id);
+        return Redirect::back();
     }
 
     public function postBrisanje(Request $req)
@@ -98,7 +98,7 @@ class RocistaKontroler extends Kontroler
     public function getKalendar()
     {
         $rocista =  Rociste::all();
-        //Razrešio sam događaj u kalendaru i dodao opis :)
+        
         $naslovi = array();
         $datumi  = array();
         $detalji  = array();

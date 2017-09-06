@@ -20,11 +20,11 @@
         @else
             <table class="table table-striped tabelaUprave" name="tabelaUprave" id="tabelaUprave">
                 <thead>
-                      <th>#</th>
-                      <th>Назив</th>
-                      <th>Шифра</th>
-                      <th>Напомена</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 7%;">#</th>
+                      <th style="width: 38%;">Назив</th>
+                      <th style="width: 10%;">Шифра</th>
+                      <th style="width: 35%;">Напомена</th>
+                      <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="uprave_lista" name="uprave_lista">
                 @foreach ($uprave as $uprava)
@@ -95,7 +95,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
@@ -115,10 +115,17 @@
 <script>
 $( document ).ready(function() {
 
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
         $('#tabelaUprave').DataTable({
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
-        search: "Пронађи у таблеи",
+        search: "Пронађи у табели",
             paginate: {
             first:      "Прва",
             previous:   "Претходна",

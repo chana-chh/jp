@@ -287,6 +287,17 @@ padding-left: 5px;
 	margin-left: 80px;
 }
 
+.krug_mali {
+	border: 1px solid #18bc9c;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	vertical-align: middle;
+	margin-left: 15px;
+}
+
 .dugmici{
 	text-align: center;
 	margin-top: 30px;
