@@ -20,10 +20,10 @@
         @else
             <table class="table table-striped tabelaVrstePredmeta" name="tabelaVrstePredmeta" id="tabelaVrstePredmeta">
                 <thead>
-                      <th>#</th>
-                      <th>Назив</th>
-                      <th>Напомена</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 10%;">#</th>
+                      <th style="width: 40%;">Назив</th>
+                      <th style="width: 40%;">Напомена</th>
+                      <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="vrste_predmeta_lista" name="vrste_predmeta_lista">
                 @foreach ($vrste_predmeta as $vrsta)
@@ -83,7 +83,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
@@ -102,6 +102,13 @@
 @section('skripte')
 <script>
 $( document ).ready(function() {
+
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
 
         $('#tabelaVrstePredmeta').DataTable({
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],

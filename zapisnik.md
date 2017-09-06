@@ -4,7 +4,9 @@
 
 - ChartJS jos uvek vuce sa CDN, lokalna instalacija je moguca kroz npm
 
-- Napraviti Middleware
+- Ukloniti komponente iz print opcija
+
+- Napraviti Middleware za GateWay
 
 - Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima
 
@@ -19,5 +21,3 @@
 - Nije uradjen tok novca u meniju (mora da se konsultuje Svetlana). Kad se napravi da se doda na pocetnu stranu neki znacajan iznos.
 
 - Mora negde da se doda mehanizam za arhiviranje predmeta
-
-### Проба гита на лаптопету
