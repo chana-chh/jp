@@ -6,6 +6,7 @@ Rešen razmak između događaja u kalendaru
 Rešen problem sa širinom kolone u EDGE-u
 Ubačen ChartJS u js i grafikoni rade normalno
 Izbačeni dugmići iz štampe
+Kompletno rešen export za dataTables
 
 - Napraviti Middleware za GateWay
 

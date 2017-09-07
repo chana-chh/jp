@@ -279,13 +279,19 @@
 <script>
     $( document ).ready(function() {
         $('#tabelaPredmeti').DataTable({
-            responsive: true,
-            dom: 'Bfrtip',
+            dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
             'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
+            'csvHtml5',{
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+        columns: [ 1, 2, 3, 4, 5, 6, 7 ]
+      }
+            }
+                
         ],
             columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
             language: {
