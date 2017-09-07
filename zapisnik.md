@@ -5,8 +5,7 @@
 Rešen razmak između događaja u kalendaru
 Rešen problem sa širinom kolone u EDGE-u
 Ubačen ChartJS u js i grafikoni rade normalno
-
-- Ukloniti komponente iz print opcija
+Izbačeni dugmići iz štampe
 
 - Napraviti Middleware za GateWay
 
