@@ -280,6 +280,13 @@
     $( document ).ready(function() {
         $('#tabelaPredmeti').DataTable({
             responsive: true,
+            dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ],
             columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
             language: {
                 search: "Пронађи у табели",
