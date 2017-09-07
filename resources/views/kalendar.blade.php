@@ -77,6 +77,8 @@
             height: 630,
             events: dogadjaji,
             eventRender: function (event, element, view) {
+                $(element).css("margin-top", "5px");
+                $(element).css("margin-bottom", "5px");
                 element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
             },
             dayNames: ['недеља', 'понедељак', 'уторак', 'среда', 'четвртак', 'петак', 'субота'],

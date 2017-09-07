@@ -2,7 +2,9 @@
 
 ## Novo
 
-- ChartJS jos uvek vuce sa CDN, lokalna instalacija je moguca kroz npm
+Rešen razmak između događaja u kalendaru
+Rešen problem sa širinom kolone u EDGE-u
+Ubačen ChartJS u js i grafikoni rade normalno
 
 - Ukloniti komponente iz print opcija
 
@@ -10,7 +12,6 @@
 
 - Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima
 
-- Edge koliko ja vidim ne šiša zadate širine kolona u procentima, serem mu se na ivicu
 
 ## Krupni zahvati na programu
 
