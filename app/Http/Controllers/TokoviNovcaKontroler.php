@@ -26,7 +26,10 @@ class TokoviNovcaKontroler extends Kontroler
         $iznos_troskova_potrazuje_suma = $tokovi->pluck('iznos_troskova_potrazuje')->sum();
         $iznos_troskova_duguje_suma = $tokovi->pluck('iznos_troskova_duguje')->sum();
 
-    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma'));
+        $it = $iznos_troskova_potrazuje_suma - $iznos_troskova_duguje_suma;
+        $vs = $vrednost_spora_potrazuje_suma - $vrednost_spora_duguje_suma;
+
+    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'it', 'vs'));
     }
 
     public function getGrupaPredmet(){

@@ -104,7 +104,7 @@
                     <tr>
                         <td style="width: 10%;"><strong>{{ date('d.m.Y', strtotime($tok->datum)) }}</strong></td>
                         <td style="width: 15%;"><strong class="text-info">{{ $tok->status->naziv }}</strong></td>
-                        <td style="width: 25%;">{{ $tok->opis }}</td>
+                        <td style="width: 25%;">{{ str_limit($tok->opis, 30)}}</td>
                         <td style="width: 10%;"  class="text-right text-danger">
                             {{ number_format($tok->vrednost_spora_duguje, 2, ',', '.') }}
                         </td>
@@ -416,11 +416,10 @@
                 @foreach ($predmet->rocista as $rociste)
                     <tr>
                         <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
-                        <td style="width: 15%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
-                        <td style="width: 10%;"><strong>{{ date('H:i', strtotime($rociste->vreme)) }}</strong></td>
-                        {{--  <td style="width: 40%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>  --}}
-                        <td style="width: 40%;"><em>{{ $rociste->opis }}</em></td>
-                        <td style="width: 20%; text-align: right;">
+                        <td style="width: 18%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
+                        <td style="width: 13%;"><strong>{{ date('H:i', strtotime($rociste->vreme)) }}</strong></td>
+                        <td style="width: 37%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>
+                        <td style="width: 17%; text-align: right;">
                             <button
                                 class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
                                 data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$rociste->id}}">

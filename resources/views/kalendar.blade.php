@@ -21,8 +21,8 @@
 <div class="row dugmici">
 <div class="col-md-10 col-md-offset-1">
 
-<div class="row">
-<div class="col-md-6" style="border-right: 2px dashed #18BC9C" >
+<div class="row log">
+<div class="col-md-6 snimi">
 <a class="btn btn-primary btn-block" href="{{ route('rocista.dodavanje.get') }}"><i class="fa fa-plus-circle fa-fw"></i>&emsp;Додај рочиште
 </a>
 </div>
@@ -78,7 +78,6 @@
             events: dogadjaji,
             eventRender: function (event, element, view) {
                 $(element).css("margin-top", "5px");
-                $(element).css("margin-bottom", "5px");
                 element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
             },
             dayNames: ['недеља', 'понедељак', 'уторак', 'среда', 'четвртак', 'петак', 'субота'],

@@ -42,6 +42,14 @@
 </div>
 </div>
 
+<div class="row">
+<div class="col-md-6">
+<h3 class=" tankoza {{ $vs >= 0 ? ' text-success' : ' text-danger' }}" >Салдо: {{ number_format($vs, 2, ',', '.') }}</h3>
+</div>
+<div class="col-md-6">
+<h3 class=" tankoza {{ $it >= 0 ? ' text-success' : ' text-danger' }}" >Салдо: {{ number_format($it, 2, ',', '.') }}</h3>
+</div>
+</div>
 </div>
 </div>
 {{-- Sekcija sa krugovima - KRAJ --}}
@@ -51,14 +59,14 @@
 <div class="col-md-10 col-md-offset-1">
 
 <div class="row">
-<div class="col-md-6" style="border-right: 2px dashed #18BC9C" >
+<div class="col-md-6 snimi" {{-- style="border-right: 2px dashed #18BC9C" --}} >
 <h3>Табеларни приказ:</h3>
 <div class="row">
 <div class="col-md-6">
 <a class="btn btn-primary btn-block" href="{{ route('tok.grupa_predmet') }}">Груписано по предметима</a>
 </div>
 <div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('tok.grupa_vrste_predmeta') }}">Груписано по врсти предмета</a>
+<a class="btn btn-primary btn-block gornja" href="{{ route('tok.grupa_vrste_predmeta') }}">Груписано по врсти предмета</a>
 </div>
 </div>
 </div>
@@ -69,7 +77,7 @@
 <a class="btn btn-primary btn-block" href="{{ route('tok.tekuci_mesec') }}">Текући месец</a>
 </div>
 <div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('tok.tekuca_godina') }}">Текућа година</a>
+<a class="btn btn-primary btn-block gornja" href="{{ route('tok.tekuca_godina') }}">Текућа година</a>
 </div>
 </div>
 </div>
