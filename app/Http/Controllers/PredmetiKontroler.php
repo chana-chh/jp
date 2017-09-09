@@ -216,4 +216,19 @@ class PredmetiKontroler extends Kontroler
 		Session::flash('uspeh', 'Предмет је успешно измењен!');
         return redirect()->route('predmeti.pregled', $id);
 	}
+
+	public function postArhiviranje(Request $req)
+	{
+		if($req->ajax())
+		{
+			$predmet = Predmet::findOrFail($req->id);
+			if($predmet->arhiviran == 0) {
+				$predmet->arhiviran = 1;
+			} else {
+				$predmet->arhiviran = 0;
+			}
+			$predmet->save();
+		}
+
+	}
 }

@@ -22,8 +22,37 @@
         <div class="panel-body">
             <a href="{{ route('predmeti') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на предмете</a>
             <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Измени</a>
+            <button class="btn btn-warning" id="dugmeArhiviranje"><i class="fa fa-archive"></i> Архивирање/активирање предмета</button>
         </div>
     </div>
+
+    {{--  pocetak modal_arhiviranje  --}}
+    <div class="modal fade" id="arhiviranjeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title text-warning">Архивирање/активирање предмета</h3>
+                </div>
+                <div class="modal-body">
+                    <h3>Да ли желите да архивирате/активирате предмет?</h3>
+                    <p class="text-danger">
+                        Ако је предмет активан биће архивиран и обрнуто.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="dugmeModalArhivirajArhiviraj">
+                        <i class="fa fa-archive"></i> Архивирај/активирај
+                    </button>
+                    <button type="button" class="btn btn-danger" id="dugmeModalArhivirajOtazi">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_arhiviranje  --}}
+
     <table class="table table-striped" style="table-layout: fixed;">
         <tbody>
             <tr>
@@ -841,6 +870,8 @@
             var uprava_brisanje_ruta = "{{ route('uprave_predmeti.brisanje') }}";
             var status_detalj_ruta = "{{ route('status.detalj') }}";
             var status_brisanje_ruta = "{{ route('status.brisanje') }}";
+            var id_arhiviranje = {{ $predmet->id }};
+            var arhiviranje_ruta = "{{ route('predmeti.arhiviranje') }}";
 
             // Modal rocista dodavanje
             $("#dugmeModalDodajRociste").on('click', function() {
@@ -1035,6 +1066,31 @@
 
                 $('#dugmeModalObrisiStatusOtazi').on('click', function() {
                     $('#brisanjeStatusModal').modal('hide');
+                });
+            });
+
+            // Modal arhiviranje
+            $(document).on('click', '#dugmeArhiviranje', function() {
+
+                $('#arhiviranjeModal').modal('show');
+
+                $('#dugmeModalArhivirajArhiviraj').on('click', function() {
+
+                    $.ajax({
+                        url: arhiviranje_ruta,
+                        type:"POST",
+                        data: {"id": id_arhiviranje, _token: "{!! csrf_token() !!}"},
+                        success: function(result) {
+                            location.reload();
+                        }
+                    });
+
+                    $('#arhiviranjeModal').modal('hide');
+
+                });
+
+                $('#dugmeModalArhivirajOtazi').on('click', function() {
+                    $('#arhiviranjeModal').modal('hide');
                 });
             });
 

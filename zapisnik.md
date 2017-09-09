@@ -2,15 +2,9 @@
 
 ## Novo
 
-Rešen razmak između događaja u kalendaru
-Rešen problem sa širinom kolone u EDGE-u
-Ubačen ChartJS u js i grafikoni rade normalno
-Izbačeni dugmići iz štampe
-Kompletno rešen export za dataTables
+- Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima ???
 
-- Napraviti Middleware za GateWay
-
-- Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima
+- Brisanje predmeta u admin delu
 
 
 ## Krupni zahvati na programu
