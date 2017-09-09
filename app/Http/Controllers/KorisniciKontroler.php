@@ -12,6 +12,12 @@ use App\Modeli\Predmet;
 
 class KorisniciKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	$korisnici = Korisnik::all();
@@ -20,7 +26,7 @@ class KorisniciKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'name' => ['required', 'max:255'],
                 'username' => ['required', 'max:190'],
@@ -41,13 +47,13 @@ class KorisniciKontroler extends Kontroler
         $korisnik->level = $levelc;
 
         $korisnik->save();
-        
+
         Session::flash('uspeh','Корисник је успешно додат!');
         return redirect()->route('korisnici');
     }
 
     public function getPregled($id)
-        {       
+        {
                 $korisnik = Korisnik::find($id);
 
                 if ($korisnik->predmet()) {
@@ -57,10 +63,10 @@ class KorisniciKontroler extends Kontroler
                 }
                 return view('korisnici_pregled')->with(compact ('korisnik', 'broj_predmeta'));
             }
-    
+
     public function postIzmena(Request $r, $id)
         {
-            
+
             if ($r->password)
         {
             $this->validate($r, [
@@ -100,8 +106,8 @@ class KorisniciKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
-                
+    {
+
                 $id = $r->id;
                 $korisnik = Korisnik::find($id);
                 if ($korisnik->predmet()) {

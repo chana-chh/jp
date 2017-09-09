@@ -11,6 +11,12 @@ use App\Modeli\Sud;
 
 class SudoviKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	   $sudovi = Sud::all();
@@ -19,7 +25,7 @@ class SudoviKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'naziv' => ['required',
                 'max:190'],
@@ -30,13 +36,13 @@ class SudoviKontroler extends Kontroler
         $sud->napomena = $r->napomena;
 
         $sud->save();
-        
+
         Session::flash('uspeh','Ставка је успешно додата!');
         return redirect()->route('sudovi');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $sud = Sud::find($id);
                 return view('sudovi_pregled')->with(compact ('sud'));
@@ -59,7 +65,7 @@ class SudoviKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $sud = Sud::find($id);
                 $odgovor = $sud->delete();

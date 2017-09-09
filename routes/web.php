@@ -17,8 +17,6 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-// Auth::routes();
-
 //Vrste predmeta
 Route::get('sifarnici/vrste_predmeta', 'VrstePredmetaKontroler@getLista')->name('vrste_predmeta');
 Route::post('sifarnici/vrste_predmeta/dodavanje', 'VrstePredmetaKontroler@postDodavanje')->name('vrste_predmeta.dodavanje');

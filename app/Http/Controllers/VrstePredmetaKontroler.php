@@ -11,6 +11,12 @@ use App\Modeli\Vrstapredmeta;
 
 class VrstePredmetaKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	   $vrste_predmeta = Vrstapredmeta::all();
@@ -19,7 +25,7 @@ class VrstePredmetaKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'naziv' => ['required',
                 'max:190'],
@@ -30,13 +36,13 @@ class VrstePredmetaKontroler extends Kontroler
         $vrsta_predmeta->napomena = $r->napomena;
 
         $vrsta_predmeta->save();
-        
+
         Session::flash('uspeh','Ставка је успешно додата!');
         return redirect()->route('vrste_predmeta');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $vrsta_predmeta = Vrstapredmeta::find($id);
                 return view('vrste_predmeta_pregled')->with(compact ('vrsta_predmeta'));
@@ -59,7 +65,7 @@ class VrstePredmetaKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $vrsta_predmeta = Vrstapredmeta::find($id);
                 $odgovor = $vrsta_predmeta->delete();

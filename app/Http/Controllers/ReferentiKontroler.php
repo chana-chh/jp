@@ -11,6 +11,12 @@ use App\Modeli\Referent;
 
 class ReferentiKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	$referenti = Referent::all();
@@ -19,7 +25,7 @@ class ReferentiKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'ime' => ['required',
                 'max:100'],
@@ -33,13 +39,13 @@ class ReferentiKontroler extends Kontroler
         $referent->napomena = $r->napomena;
 
         $referent->save();
-        
+
         Session::flash('uspeh','Референт је успешно додат!');
         return redirect()->route('referenti');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $referent = Referent::find($id);
                 return view('referenti_pregled')->with(compact ('referent'));
@@ -65,7 +71,7 @@ class ReferentiKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $referent = Referent::find($id);
                 $odgovor = $referent->delete();

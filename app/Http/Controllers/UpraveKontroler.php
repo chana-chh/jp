@@ -11,6 +11,12 @@ use App\Modeli\Uprava;
 
 class UpraveKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	   $uprave = Uprava::all();
@@ -19,7 +25,7 @@ class UpraveKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'naziv' => ['required',
                 'max:190'],
@@ -31,13 +37,13 @@ class UpraveKontroler extends Kontroler
         $uprava->napomena = $r->napomena;
 
         $uprava->save();
-        
+
         Session::flash('uspeh','Ставка је успешно додата!');
         return redirect()->route('uprave');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $uprava = Uprava::find($id);
                 return view('uprave_pregled')->with(compact ('uprava'));
@@ -61,7 +67,7 @@ class UpraveKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $uprava = Uprava::find($id);
                 $odgovor = $uprava->delete();

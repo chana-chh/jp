@@ -11,6 +11,12 @@ use App\Modeli\Status;
 
 class StatusiKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	   $statusi = Status::all();
@@ -19,7 +25,7 @@ class StatusiKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'naziv' => ['required',
                 'max:190'],
@@ -30,13 +36,13 @@ class StatusiKontroler extends Kontroler
         $status->napomena = $r->napomena;
 
         $status->save();
-        
+
         Session::flash('uspeh','Ставка је успешно додата!');
         return redirect()->route('statusi');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $status = Status::find($id);
                 return view('statusi_pregled')->with(compact ('status'));
@@ -59,7 +65,7 @@ class StatusiKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $status = Status::find($id);
                 $odgovor = $status->delete();

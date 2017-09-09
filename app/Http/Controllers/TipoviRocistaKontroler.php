@@ -11,6 +11,12 @@ use App\Modeli\TipRocista;
 
 class TipoviRocistaKontroler extends Kontroler
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin');
+    }
+
     public function getLista()
     {
     	   $tipovi_rocista = TipRocista::all();
@@ -19,7 +25,7 @@ class TipoviRocistaKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-        
+
         $this->validate($r, [
                 'naziv' => ['required',
                 'max:190'],
@@ -30,13 +36,13 @@ class TipoviRocistaKontroler extends Kontroler
         $tip_rocista->napomena = $r->napomena;
 
         $tip_rocista->save();
-        
+
         Session::flash('uspeh','Ставка је успешно додата!');
         return redirect()->route('tipovi_rocista');
     }
 
     public function getPregled($id)
-        {       
+        {
 
                 $tip_rocista = TipRocista::find($id);
                 return view('tipovi_rocista_pregled')->with(compact ('tip_rocista'));
@@ -59,7 +65,7 @@ class TipoviRocistaKontroler extends Kontroler
         }
 
         public function postBrisanje(Request $r)
-    {   
+    {
                 $id = $r->id;
                 $tip_rocista = TipRocista::find($id);
                 $odgovor = $tip_rocista->delete();
