@@ -6,6 +6,8 @@
 
 - Brisanje predmeta u admin delu
 
+- Kod arhiviranja/aktiviranja dodati zapis u tok predmeta
+
 
 ## Krupni zahvati na programu
 
