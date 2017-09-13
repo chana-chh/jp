@@ -25,7 +25,7 @@
     @if($predmeti->isEmpty())
         <h3 class="text-danger">Нема записа у бази података</h3>
     @else
-        <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.875em;">
+        <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
             <thead>
                 <tr>
                     <th style="width: 4%;">а/а</th>
@@ -68,8 +68,8 @@
                                 <li>{{$predmet->opis}}</li>
                             </ul>
                         </td>
-                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->stranka_1}}</td>
-                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->stranka_2}}</td>
+                        <td style="vertical-align: middle; line-height: normal;"><em>{{$predmet->stranka_1}}</em></td>
+                        <td style="vertical-align: middle; line-height: normal;"><em>{{$predmet->stranka_2}}</em></td>
                         <td style="vertical-align: middle; line-height: normal;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
                         <td style="vertical-align: middle; line-height: normal;">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
                         <td style="text-align:center">
