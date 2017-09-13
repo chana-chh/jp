@@ -108,6 +108,7 @@ Route::get('status/detalj', 'PredmetiStatusKontroler@getDetalj')->name('status.d
 
 //Tokovi novca
 Route::get('tok', 'TokoviNovcaKontroler@getPocetna')->name('tok');
+Route::post('tok/pretraga', 'TokoviNovcaKontroler@getPretraga')->name('tok.pretraga');
 Route::get('tok/grupa/predmet', 'TokoviNovcaKontroler@getGrupaPredmet')->name('tok.grupa_predmet');
 Route::get('tok/grupa/vrste_predmeta', 'TokoviNovcaKontroler@getGrupaVrstaPredmeta')->name('tok.grupa_vrste_predmeta');
 Route::get('tok/tekuci_mesec', 'TokoviNovcaKontroler@getTekuciMesec')->name('tok.tekuci_mesec');

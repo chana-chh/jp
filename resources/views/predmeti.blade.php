@@ -25,39 +25,53 @@
     @if($predmeti->isEmpty())
         <h3 class="text-danger">Нема записа у бази података</h3>
     @else
-        <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed;">
+        <table class="table table-striped tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.875em;">
             <thead>
                 <tr>
                     <th style="width: 4%;">а/а</th>
                     <th style="width: 6%;">Број</th>
-                    <th style="width: 10%;">Врста предмета</th>
-                    <th style="width: 25%;">Опис</th>
-                    <th style="width: 15%;">Странка 1</th>
-                    <th style="width: 15%;">Странка 2</th>
-                    <th style="width: 10%;">Датум</th>
-                    <th style="width: 10%;">Референт</th>
+                    <th style="width: 11%;">Суд <span class="text-success">/ </span> број</th>
+                    <th style="width: 9%;">Врста предмета</th>
+                    <th style="width: 19%;">Опис</th>
+                    <th style="width: 14%;">Странка 1</th>
+                    <th style="width: 14%;">Странка 2</th>
+                    <th style="width: 9%;">Датум</th>
+                    <th style="width: 9%;">Референт</th>
                     <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
                 </tr>
             </thead>
             <tbody id="predmeti_lista" name="predmeti_lista">
                 @foreach ($predmeti as $predmet)
                     <tr>
-                        <td style="text-align:center;" class="text-danger">
+                        <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" class="text-danger">
                             {{ $predmet->arhiviran == 0 ? '' : 'а/а' }}
                         </td>
-                        <td>
+                        <td style="vertical-align: middle; line-height: normal;">
                             <strong>
                                 <a href="{{ route('predmeti.pregled', $predmet->id) }}">
                                     {{ $predmet->broj() }}
                                 </a>
                             </strong>
                         </td>
-                        <td>{{$predmet->vrstaPredmeta->naziv}}</td>
-                        <td>{{$predmet->opis_kp}}, {{$predmet->opis_adresa}}, {{$predmet->opis}}</td>
-                        <td>{{$predmet->stranka_1}}</td>
-                        <td>{{$predmet->stranka_2}}</td>
-                        <td>{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-                        <td>{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+                        <td style="vertical-align: middle; line-height: normal;">
+                            <ul style="list-style-type: none; padding-left:1px;">
+                                <li>{{$predmet->sud->naziv}}</li>
+                                <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
+                            </ul>
+
+                        </td>
+                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->vrstaPredmeta->naziv}}</td>
+                        <td>
+                            <ul style="list-style-type: none; padding-left:1px;">
+                                <li>{{$predmet->opis_kp}}</li>
+                                <li><span class="text-success">{{$predmet->opis_adresa}}&emsp;</span></li>
+                                <li>{{$predmet->opis}}</li>
+                            </ul>
+                        </td>
+                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->stranka_1}}</td>
+                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->stranka_2}}</td>
+                        <td style="vertical-align: middle; line-height: normal;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
+                        <td style="vertical-align: middle; line-height: normal;">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
                         <td style="text-align:center">
                             <a  class="btn btn-success btn-sm otvori_izmenu"
                                 id="dugmeIzmena"

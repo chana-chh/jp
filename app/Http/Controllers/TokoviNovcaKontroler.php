@@ -19,6 +19,8 @@ class TokoviNovcaKontroler extends Kontroler
     public function getPocetna()
     {	
         $tokovi = Tok::all();
+        $upisnici = VrstaUpisnika::all();
+        $vrste = VrstaPredmeta::all();
         
         // Ukupno
         $vrednost_spora_potrazuje_suma = $tokovi->pluck('vrednost_spora_potrazuje')->sum();
@@ -29,7 +31,42 @@ class TokoviNovcaKontroler extends Kontroler
         $it = $iznos_troskova_potrazuje_suma - $iznos_troskova_duguje_suma;
         $vs = $vrednost_spora_potrazuje_suma - $vrednost_spora_duguje_suma;
 
-    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'it', 'vs'));
+    	return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'it', 'vs', 'upisnici', 'vrste'));
+    }
+
+    public function getPretraga(Request $req){
+
+
+        $kobaja = [];
+
+        if($req['vrsta_predemta_id']) {
+            $kobaja[] = ['predmeti.vrsta_predmeta_id', '=', $req['vrsta_predemta_id']];
+        }
+        if($req['vrsta_upisnika_id']) {
+            $kobaja[] = ['predmeti.vrsta_upisnika_id', '=', $req['vrsta_upisnika_id']];
+        }
+        if($req['vrednost_vsp']) {
+            $kobaja[] = ['tokovi_predmeta.vrednost_spora_potrazuje', $req->operator_vsp, $req['vrednost_vsp']];
+        }
+        if($req['vrednost_vsd']) {
+            $kobaja[] = ['tokovi_predmeta.vrednost_spora_duguje', $req->operator_vsd, $req['vrednost_vsd']];
+        }
+        if($req['vrednost_itp']) {
+            $kobaja[] = ['tokovi_predmeta.iznos_troskova_potrazuje', $req->operator_itp, $req['vrednost_itp']];
+        }
+        if($req['vrednost_itd']) {
+            $kobaja[] = ['tokovi_predmeta.iznos_troskova_duguje', $req->operator_itd, $req['vrednost_itd']];
+        }
+
+        $tokovi = DB::table('tokovi_predmeta')
+        ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')
+        ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+        ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+        ->select(DB::raw('tokovi_predmeta.vrednost_spora_potrazuje as vsp, tokovi_predmeta.vrednost_spora_duguje as vsd, tokovi_predmeta.iznos_troskova_potrazuje as itp, tokovi_predmeta.iznos_troskova_duguje as itd, s_vrste_predmeta.naziv as vrsta_predmeta, s_vrste_upisnika.naziv as vrsta_upisnika'))
+        ->where($kobaja)
+        ->get();
+
+        return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
 
     public function getGrupaPredmet(){
@@ -80,10 +117,6 @@ class TokoviNovcaKontroler extends Kontroler
             $vrednosti_itp[] = $e['iznos_troskova_potrazuje'];
             $vrednosti_itd[] = $e['iznos_troskova_duguje'];
         }
-
-        // foreach ($array as $e) {
-        //     $vrednosti_vsp[] = $e['vrednost_spora_potrazuje'];
-        // }
 
         return view('tokovi_novca_tekuca_godina')->with(compact('labele', 'vrednosti_vsp', 'vrednosti_vsd', 'vrednosti_itp', 'vrednosti_itd'));
     }
