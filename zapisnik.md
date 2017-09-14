@@ -8,6 +8,10 @@
 
 - Kod arhiviranja/aktiviranja dodati zapis u tok predmeta
 
+- Kron job backupovanje
+
+- SoftDelete pogledati
+
 
 ## Krupni zahvati na programu
 

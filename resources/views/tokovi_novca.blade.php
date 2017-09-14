@@ -59,7 +59,7 @@
 <div class="col-md-10 col-md-offset-1">
 
 <div class="row">
-<div class="col-md-6 snimi" {{-- style="border-right: 2px dashed #18BC9C" --}} >
+<div class="col-md-6 snimi">
 <h3>Табеларни приказ:</h3>
 <div class="row">
 <div class="col-md-6">
@@ -132,13 +132,14 @@
                             </div>
                         </div>
                         <dir class="row">
-                            <div class="col-md-4">
-                                <h4>Вредности спорова потражује:</h4>
+                            <div class="col-md-3 col-md-offset-1">
+                                <h4 class="leva">Вредности спорова потражује:</h4>
                             </div>
                             <div class="col-md-4">
                                 <select
                                     name="operator_vsp" id="operator_vsp"
-                                    class="chosen-select form-control" data-placeholder="оператор">
+                                    class="form-control">
+                                        <option value="" disabled selected>Одаберите критеријум</option>
                                         <option value=">=">Је већа или једнака вредности</option>
                                         <option value="<=">Је мања или једнака вредности</option>
                                         <option value="=">Је једнака вредности</option>
@@ -146,71 +147,68 @@
                                         <option value="<">Је мања од вредности</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <input type="number" min="0" step="1.00" name="vrednost_vsp" id="vrednost_vsp" class="form-control">    
+                            <div class="col-md-3">
+                                <input type="number" min="0" step="1.00" name="vrednost_vsp" id="vrednost_vsp" class="form-control" placeholder="Унесите износ">    
                             </div>
                         </dir>
                         <dir class="row">
-                            <div class="col-md-4">
-                                <h4>Вредности спорова дугује:</h4>
+                            <div class="col-md-3 col-md-offset-1">
+                                <h4 class="leva">Вредности спорова дугује:</h4>
                             </div>
                             <div class="col-md-4">
-                            <label for="operator_vsd">Оператор</label>
                                 <select
                                     name="operator_vsd" id="operator_vsd"
-                                    class="chosen-select form-control" data-placeholder="оператор">
-                                        <option value=">=">&gt=</option>
-                                        <option value="<=">&lt=</option>
-                                        <option value="=">=</option>
-                                        <option value=">">&gt</option>
-                                        <option value="<">&lt</option>
+                                    class="form-control">
+                                        <option value="" disabled selected>Одаберите критеријум</option>
+                                        <option value=">=">Је већа или једнака вредности</option>
+                                        <option value="<=">Је мања или једнака вредности</option>
+                                        <option value="=">Је једнака вредности</option>
+                                        <option value=">">Је већа од вредности</option>
+                                        <option value="<">Је мања од вредности</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="vrednost_vsd">Вредност</label>
-                                <input type="number" min="0" step="1.00" name="vrednost_vsd" id="vrednost_vsd" class="form-control">
+                            <div class="col-md-3">
+                                <input type="number" min="0" step="1.00" name="vrednost_vsd" id="vrednost_vsd" class="form-control" placeholder="Унесите износ">
                             </div>
                         </dir>
                         <dir class="row">
-                            <div class="col-md-4">
-                                <h4>Износа трошкова потражује:</h4>
+                            <div class="col-md-3 col-md-offset-1">
+                                <h4 class="leva">Износа трошкова потражује:</h4>
                             </div>
                             <div class="col-md-4">
-                             <label for="operator_itp">Оператор</label>
                                 <select
                                     name="operator_itp" id="operator_itp"
-                                    class="chosen-select form-control" data-placeholder="оператор">
-                                        <option value=">=">&gt=</option>
-                                        <option value="<=">&lt=</option>
-                                        <option value="=">=</option>
-                                        <option value=">">&gt</option>
-                                        <option value="<">&lt</option>
+                                    class="form-control">
+                                        <option value="" disabled selected>Одаберите критеријум</option>
+                                        <option value=">=">Је већа или једнака вредности</option>
+                                        <option value="<=">Је мања или једнака вредности</option>
+                                        <option value="=">Је једнака вредности</option>
+                                        <option value=">">Је већа од вредности</option>
+                                        <option value="<">Је мања од вредности</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="vrednost_itp">Вредност</label>
-                                <input type="number" min="0" step="1.00" name="vrednost_itp" id="vrednost_itp" class="form-control">
+                            <div class="col-md-3">
+                                <input type="number" min="0" step="1.00" name="vrednost_itp" id="vrednost_itp" class="form-control" placeholder="Унесите износ">
                             </div>
                         </dir>
                         <dir class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3 col-md-offset-1">
                                 <h4>Износа трошкова дугује:</h4>
                             </div>
                             <div class="col-md-4">
-                             <label for="operator_itd">Оператор</label>
                                 <select
                                     name="operator_itd" id="operator_itd"
-                                    class="chosen-select form-control" data-placeholder="оператор">
-                                        <option value=">=">&gt=</option>
-                                        <option value="<=">&lt=</option>
-                                        <option value="=">=</option>
-                                        <option value=">">&gt</option>
-                                        <option value="<">&lt</option>
+                                    class="form-control">
+                                        <option value="" disabled selected>Одаберите критеријум</option>
+                                        <option value=">=">Је већа или једнака вредности</option>
+                                        <option value="<=">Је мања или једнака вредности</option>
+                                        <option value="=">Је једнака вредности</option>
+                                        <option value=">">Је већа од вредности</option>
+                                        <option value="<">Је мања од вредности</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="vrednost_itd">Вредност</label>
-                                <input type="number" min="0" step="1.00" name="vrednost_itd" id="vrednost_itd" class="form-control">
+                            <div class="col-md-3">
+                                <input type="number" min="0" step="1.00" name="vrednost_itd" id="vrednost_itd" class="form-control" placeholder="Унесите износ">
                             </div>
                         </dir>
                     </form>
