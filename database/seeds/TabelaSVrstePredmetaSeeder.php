@@ -7,13 +7,13 @@ class TabelaSVrstePredmetaSeeder extends Seeder
     public function run()
     {
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Експропријација',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'ујед пса - Нематеријална штета-',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'пад на улици - Нематеријална штета-',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'породиља - Материјална штета -',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'грла - Материјана штета -',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Ујед пса - Нематеријална штета-',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Пад на улици - Нематеријална штета-',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Породиља - Материјална штета -',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Грла - Материјана штета -',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Својина и предаја у државину',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Утврђујућа',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'такси - Материјана штета -',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Такси - Материјана штета -',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Накнада штете - дуг',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Материјална штета - накнада',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Дискриминација',]);
@@ -22,7 +22,7 @@ class TabelaSVrstePredmetaSeeder extends Seeder
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Клизиште',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Поништај решења',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Својина',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'обданиште - Накнада штете-',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Обданиште - Накнада штете-',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Накнада изгубљене добити',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Дуг',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Исељење',]);
@@ -32,7 +32,7 @@ class TabelaSVrstePredmetaSeeder extends Seeder
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Закуп',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Брисање уписа',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Бунари',]);
-        DB::table('s_vrste_predmeta')->insert(['naziv' => 'сметање државине',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Сметање државине',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Раскид уговора',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Уговор о делу',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Физичка деоба',]);

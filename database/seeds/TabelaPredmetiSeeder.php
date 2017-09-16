@@ -6,7 +6,7 @@ class TabelaPredmetiSeeder extends Seeder
 {
     public function run()
     {
-            
+
             DB::table('predmeti')->insert([
             'id' => 1,
             'sud_id' => 1,
@@ -24,8 +24,9 @@ class TabelaPredmetiSeeder extends Seeder
             'referent_id' => 2,
             'napomena' => 'Ово је напомена.',
             'korisnik_id' => 2,
+            'broj_predmeta_sud' => 'П-1234/2015',
             ]);
-            
+
             DB::table('predmeti')->insert([
             'id' => 2,
             'sud_id' => 1,
@@ -43,8 +44,9 @@ class TabelaPredmetiSeeder extends Seeder
             'referent_id' => 1,
             'napomena' => 'Ово је напомена о напомени.',
             'korisnik_id' => 1,
+            'broj_predmeta_sud' => 'П-1235/2015',
             ]);
-            
+
             DB::table('predmeti')->insert([
             'id' => 3,
             'sud_id' => 2,
@@ -62,8 +64,9 @@ class TabelaPredmetiSeeder extends Seeder
             'referent_id' => 3,
             'napomena' => 'Ово је напомена о напомени. Ово је напомена о напомени.',
             'korisnik_id' => 1,
+            'broj_predmeta_sud' => 'П-1236/2015',
             ]);
-            
+
             DB::table('predmeti')->insert([
             'id' => 4,
             'sud_id' => 3,
@@ -81,6 +84,7 @@ class TabelaPredmetiSeeder extends Seeder
             'referent_id' => 6,
             'napomena' => 'Ово је напомена о напомени. Ово је напомена о напомени.',
             'korisnik_id' => 2,
+            'broj_predmeta_sud' => 'П-1237/2015',
             ]);
     }
 }

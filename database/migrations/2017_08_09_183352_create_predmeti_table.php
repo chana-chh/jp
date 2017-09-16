@@ -28,6 +28,7 @@ class CreatePredmetiTable extends Migration
             $table->text('napomena')->nullable();
             $table->integer('roditelj_id')->unsigned()->nullable();
             $table->timestamps();
+            $table->softDeletes();
             $table->integer('korisnik_id')->unsigned()->nullable();
 
             // Jedinstven indeks za broj

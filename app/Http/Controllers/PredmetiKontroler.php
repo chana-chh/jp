@@ -17,6 +17,7 @@ use App\Modeli\TipRocista;
 use App\Modeli\Korisnik;
 use App\Modeli\Uprava;
 use App\Modeli\Status;
+use App\Modeli\Tok;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -219,15 +220,31 @@ class PredmetiKontroler extends Kontroler
 
 	public function postArhiviranje(Request $req)
 	{
+		$id = $req->id;
 		if($req->ajax())
 		{
-			$predmet = Predmet::findOrFail($req->id);
+			$predmet = Predmet::findOrFail($id);
+
 			if($predmet->arhiviran == 0) {
 				$predmet->arhiviran = 1;
 			} else {
 				$predmet->arhiviran = 0;
 			}
 			$predmet->save();
+
+			if($predmet->arhiviran == 1) {
+				// upisujem aa u tok predmeta
+				$tok = new Tok();
+				$tok->predmet_id = $id;
+				$tok->status_id = 8; // ovo je aa
+				$tok->datum = date('Y-m-d');
+				$tok->opis = 'архивирање предмета';
+				$tok->save();
+				/*
+					ZASTO OVO NE RADI ???
+				*/
+			}
+			return response()->json(['tok' => $tok, 'predmet' => $predmet]);
 		}
 
 	}
