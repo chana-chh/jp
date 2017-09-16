@@ -7,5 +7,3 @@
 - Kron job backupovanje
 
 - SoftDelete pogledati [kad se uradi brisanje videce se da li ovo radi]
-
-- dodavanje a/a u tok ne radi ???
