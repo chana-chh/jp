@@ -1055,10 +1055,8 @@
                         url: status_brisanje_ruta,
                         type:"POST",
                         data: {"id": id_brisanje, _token: "{!! csrf_token() !!}"},
-                        success: function(result) {
-                            // location.reload();
-                            console.log(result.tok);
-                            console.log(result.predmet);
+                        success: function() {
+                            location.reload();
                         }
                     });
 
@@ -1082,7 +1080,7 @@
                         url: arhiviranje_ruta,
                         type:"POST",
                         data: {"id": id_arhiviranje, _token: "{!! csrf_token() !!}"},
-                        success: function() {
+                        success: function(result) {
                             location.reload();
                         }
                     });

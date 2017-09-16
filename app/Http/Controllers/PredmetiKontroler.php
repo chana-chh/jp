@@ -220,9 +220,10 @@ class PredmetiKontroler extends Kontroler
 
 	public function postArhiviranje(Request $req)
 	{
-		$id = $req->id;
 		if($req->ajax())
 		{
+			$id = $req->id;
+
 			$predmet = Predmet::findOrFail($id);
 
 			if($predmet->arhiviran == 0) {
@@ -230,21 +231,21 @@ class PredmetiKontroler extends Kontroler
 			} else {
 				$predmet->arhiviran = 0;
 			}
+			$predmet->korisnik_id = Auth::user()->id;
 			$predmet->save();
 
 			if($predmet->arhiviran == 1) {
-				// upisujem aa u tok predmeta
 				$tok = new Tok();
 				$tok->predmet_id = $id;
-				$tok->status_id = 8; // ovo je aa
+				$tok->status_id = 8; // ovo je a/a
 				$tok->datum = date('Y-m-d');
-				$tok->opis = 'архивирање предмета';
+				$tok->opis = 'а/а';
+				$tok->vrednost_spora_duguje = 0;
+				$tok->vrednost_spora_potrazuje = 0;
+				$tok->iznos_troskova_duguje = 0;
+				$tok->iznos_troskova_potrazuje = 0;
 				$tok->save();
-				/*
-					ZASTO OVO NE RADI ???
-				*/
 			}
-			return response()->json(['tok' => $tok, 'predmet' => $predmet]);
 		}
 
 	}
