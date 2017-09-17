@@ -11,13 +11,14 @@
         Резултат претраге
     </h1>
     <div class="row" style="margin-top: 50px">
-<div class="col-md-10 col-md-offset-1">
+<div class="col-md-12">
     @if($tokovi->isEmpty())
             <h3 class="text-danger">За овакав упит нема резултата претраге</h3>
         @else
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
 
+                      <th>Број предмета</th>
                       <th>Врста предмета</th>
                       <th>Врста уписника</th>
                       <th>Вредност спора потражује</th>
@@ -31,15 +32,16 @@
                 @foreach ($tokovi as $tok)
                         <tr>
 
+                                <td>{{$tok->slovo}}-{{$tok->broj}}/{{$tok->godina}}</td>
                                 <td>{{$tok->vrsta_predmeta}}</td>
                                 <td>{{$tok->vrsta_upisnika}}</td>
-                                <td><strong>{{number_format($tok->vsp)}}</strong></td>
-                                <td><strong>{{number_format($tok->vsd)}}</strong></td>
-                                <td><strong>{{number_format($tok->itp)}}</strong></td>
-                                <td><strong>{{number_format($tok->itd)}}</strong></td>
+                                <td><strong>{{number_format(($tok->vsp), 2)}}</strong></td>
+                                <td><strong>{{number_format(($tok->vsd), 2)}}</strong></td>
+                                <td><strong>{{number_format(($tok->itp), 2)}}</strong></td>
+                                <td><strong>{{number_format(($tok->itd), 2)}}</strong></td>
 
                                  <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu"  href="#"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-success btn-sm otvori_izmenu"  href="{{ route('predmeti.pregled', $tok->id) }}"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                 @endforeach

@@ -137,6 +137,7 @@ class PredmetiKontroler extends Kontroler
 		$this->validate($req, [
 			'vrsta_upisnika_id' => 'required|integer',
 			'broj_predmeta' => 'required|integer',
+			'broj_predmeta_sud' => 'max:50',
 			'godina_predmeta' => 'required|integer',
 			'sud_id' => 'required|integer',
 			'vrsta_predmeta_id' => 'required|integer',
@@ -149,6 +150,7 @@ class PredmetiKontroler extends Kontroler
 		$predmet = new Predmet();
 		$predmet->vrsta_upisnika_id = $req->vrsta_upisnika_id;
 		$predmet->broj_predmeta = $req->broj_predmeta;
+		$predmet->broj_predmeta_sud = $req->broj_predmeta_sud;
 		$predmet->godina_predmeta = $req->godina_predmeta;
 		$predmet->sud_id = $req->sud_id;
 		$predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
@@ -190,6 +192,7 @@ class PredmetiKontroler extends Kontroler
 	{
 		$this->validate($req, [
 			'sud_id' => 'required|integer',
+			'broj_predmeta_sud' => 'max:50',
 			'vrsta_predmeta_id' => 'required|integer',
 			'datum_tuzbe' => 'required|date',
 			'stranka_1' => 'required',
@@ -199,6 +202,7 @@ class PredmetiKontroler extends Kontroler
 
 		$predmet = Predmet::find($id);
 		$predmet->sud_id = $req->sud_id;
+		$predmet->broj_predmeta_sud = $req->broj_predmeta_sud;
 		$predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
 		$predmet->datum_tuzbe = $req->datum_tuzbe;
 		$predmet->stranka_1 = $req->stranka_1;

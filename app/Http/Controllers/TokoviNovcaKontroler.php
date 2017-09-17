@@ -62,7 +62,16 @@ class TokoviNovcaKontroler extends Kontroler
         ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')
         ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
         ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-        ->select(DB::raw('tokovi_predmeta.vrednost_spora_potrazuje as vsp, tokovi_predmeta.vrednost_spora_duguje as vsd, tokovi_predmeta.iznos_troskova_potrazuje as itp, tokovi_predmeta.iznos_troskova_duguje as itd, s_vrste_predmeta.naziv as vrsta_predmeta, s_vrste_upisnika.naziv as vrsta_upisnika'))
+        ->select(DB::raw('  tokovi_predmeta.vrednost_spora_potrazuje as vsp, 
+                            tokovi_predmeta.vrednost_spora_duguje as vsd, 
+                            tokovi_predmeta.iznos_troskova_potrazuje as itp, 
+                            tokovi_predmeta.iznos_troskova_duguje as itd, 
+                            s_vrste_predmeta.naziv as vrsta_predmeta, 
+                            s_vrste_upisnika.naziv as vrsta_upisnika,
+                            predmeti.broj_predmeta as broj,
+                            predmeti.godina_predmeta as godina,
+                            predmeti.id as id,
+                            s_vrste_upisnika.slovo as slovo'))
         ->where($kobaja)
         ->get();
 

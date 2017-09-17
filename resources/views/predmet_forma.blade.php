@@ -64,6 +64,7 @@
         </div>
         </fieldset>
         <hr>
+        {{-- Red sa sudom --}}
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
@@ -79,6 +80,18 @@
                     @if ($errors->has('sud_id'))
                         <span class="help-block">
                             <strong>{{ $errors->first('sud_id') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group{{ $errors->has('broj_predmeta_sud') ? ' has-error' : '' }}">
+                    <label for="broj_predmeta_sud">Број предмета у суду:</label>
+                    <input type="text" name="broj_predmeta_sud" id="broj_predmeta_sud" class="form-control"
+                    value="{{ old('broj_predmeta_sud') }}" maxlength="50">
+                    @if ($errors->has('broj_predmeta_sud'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('broj_predmeta_sud') }}</strong>
                         </span>
                     @endif
                 </div>
@@ -101,9 +114,9 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
-                    <label for="datum_tuzbe">Датум предмета:</label>
+                    <label for="datum_tuzbe">Датум предмета (тужбе):</label>
                     <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
                     value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
                     @if ($errors->has('datum_tuzbe'))

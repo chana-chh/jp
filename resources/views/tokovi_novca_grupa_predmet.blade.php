@@ -29,11 +29,11 @@
                 @foreach ($predmeti as $predmet)
                         <tr>
                                 <td>{{$predmet->broj()}}</td>
-                                <td><strong>{{$predmet->tokovi->sum('vrednost_spora_potrazuje')}}</strong></td>
-                                <td><strong>{{$predmet->tokovi->sum('vrednost_spora_duguje')}}</strong></td>
-                                <td><strong>{{$predmet->tokovi->sum('iznos_troskova_potrazuje')}}</strong></td>
-                                <td><strong>{{$predmet->tokovi->sum('iznos_troskova_duguje')}}</strong></td>
-                                <td>{{$predmet->vrednost_tuzbe}}</td>
+                                <td><strong>{{number_format($predmet->tokovi->sum('vrednost_spora_potrazuje'), 2)}}</strong></td>
+                                <td><strong>{{number_format($predmet->tokovi->sum('vrednost_spora_duguje'), 2)}}</strong></td>
+                                <td><strong>{{number_format($predmet->tokovi->sum('iznos_troskova_potrazuje'), 2)}}</strong></td>
+                                <td><strong>{{number_format($predmet->tokovi->sum('iznos_troskova_duguje'), 2)}}</strong></td>
+                                <td>{{number_format(($predmet->vrednost_tuzbe), 2)}}</td>
 
                                  <td style="text-align:center">
                                  <a class="btn btn-success btn-sm otvori_izmenu"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>

@@ -13,7 +13,7 @@
 
 @section('sadrzaj')
 
-    <form action="{{ route('korisnici.izmena',  $korisnik->id) }}" method="POST">
+    <form action="{{ route('korisnici.izmena',  $korisnik->id) }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
         
         <div class="row">
@@ -110,4 +110,9 @@
 <hr style="border-top: 1px solid #18BC9C">
 <img alt="katanac" class="center-block" src="{{url('/images/katanac.png')}}" style="height:80px">
 </div>
+@endsection
+
+@section('skripte')
+<script src="{{ asset('/js/parsley.js') }}"></script>
+<script src="{{ asset('/js/parsley_sr.js') }}"></script>
 @endsection
