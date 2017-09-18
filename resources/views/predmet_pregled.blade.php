@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th style="width: 20%;">Суд</th>
-                <td style="width: 80%;">{{ $predmet->sud->naziv }}</td>
+                <td style="width: 80%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success">{{ $predmet->broj_predmeta_sud }}</span></td>
             </tr>
             <tr>
                 <th style="width: 20%;">Врста предмета</th>

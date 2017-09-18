@@ -141,13 +141,19 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <label for="broj_predmeta">Број предмета</label>
                                 <input type="number" min="1" step="1"
                                     name="broj_predmeta" id="broj_predmeta"
                                     class="form-control">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
+                                <label for="broj_predmeta_sud">Број предмета у суду</label>
+                                <input type="text" maxlen="50"
+                                    name="broj_predmeta_sud" id="broj_predmeta_sud"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group col-md-2">
                                 <label for="godina_predmeta">Година предмета</label>
                                 <input type="number" min="1900" step="1"
                                     name="godina_predmeta" id="godina_predmeta"

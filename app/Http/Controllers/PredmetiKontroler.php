@@ -57,6 +57,9 @@ class PredmetiKontroler extends Kontroler
 		if($params['broj_predmeta']) {
 			$where[] = ['broj_predmeta', '=', $params['broj_predmeta']];
 		}
+		if($params['broj_predmeta_sud']) {
+			$where[] = ['broj_predmeta_sud', 'like', '%' . $params['broj_predmeta_sud' . '%']];
+		}
 		if($params['godina_predmeta']) {
 			$where[] = ['godina_predmeta', '=', $params['godina_predmeta']];
 		}
