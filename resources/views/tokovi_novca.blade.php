@@ -131,7 +131,7 @@
                                 </select>
                             </div>
                         </div>
-                        <dir class="row">
+                        <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <h4 class="leva">Вредности спорова потражује:</h4>
                             </div>
@@ -150,8 +150,8 @@
                             <div class="col-md-3">
                                 <input type="number" min="0" step="1.00" name="vrednost_vsp" id="vrednost_vsp" class="form-control" placeholder="Унесите износ">    
                             </div>
-                        </dir>
-                        <dir class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <h4 class="leva">Вредности спорова дугује:</h4>
                             </div>
@@ -170,8 +170,8 @@
                             <div class="col-md-3">
                                 <input type="number" min="0" step="1.00" name="vrednost_vsd" id="vrednost_vsd" class="form-control" placeholder="Унесите износ">
                             </div>
-                        </dir>
-                        <dir class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <h4 class="leva">Износа трошкова потражује:</h4>
                             </div>
@@ -190,8 +190,8 @@
                             <div class="col-md-3">
                                 <input type="number" min="0" step="1.00" name="vrednost_itp" id="vrednost_itp" class="form-control" placeholder="Унесите износ">
                             </div>
-                        </dir>
-                        <dir class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <h4>Износа трошкова дугује:</h4>
                             </div>
@@ -210,7 +210,28 @@
                             <div class="col-md-3">
                                 <input type="number" min="0" step="1.00" name="vrednost_itd" id="vrednost_itd" class="form-control" placeholder="Унесите износ">
                             </div>
-                        </dir>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label for="opis">Датум 1</label>
+                                <input type="date"
+                                    name="datum_1" id="datum_1"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="opis">Датум 2</label>
+                                <input type="date"
+                                    name="datum_2" id="datum_2"
+                                    class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-warning">Напомена</label>
+                                <p class="text-warning">
+                                    Ако се унесе само први датум претрага ће се вршити за предмете са тим датумом. Ако се унесу оба датума претрага ће се вршити за предмете између та два датума.
+                                </p>
+                            </div>
+                        </div>
                     </form>
                 </div> {{-- Kraj tela panela --}}
                 <div class="panel-footer text-right">

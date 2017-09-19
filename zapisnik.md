@@ -15,3 +15,5 @@ public function backup() {
 ```
 
 - SoftDelete pogledati [kad se uradi brisanje videce se da li ovo radi]
+
+- Sorting po datumu ne radi u DataTables ako je formatiran po naski, mora da se doda neki UK date prepoznavac plugincic :(

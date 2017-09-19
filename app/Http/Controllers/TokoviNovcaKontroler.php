@@ -57,12 +57,21 @@ class TokoviNovcaKontroler extends Kontroler
         if($req['vrednost_itd']) {
             $kobaja[] = ['tokovi_predmeta.iznos_troskova_duguje', $req->operator_itd, $req['vrednost_itd']];
         }
+        if($req['datum_1'] && !$req['datum_2']) {
+            $kobaja[] = ['tokovi_predmeta.datum', '=', $req['datum_1']];
+        }
+        if($req['datum_1'] && $req['datum_2']) {
+            $kobaja[] = ['tokovi_predmeta.datum', '>=', $req['datum_1']];
+            $kobaja[] = ['tokovi_predmeta.datum', '<=', $req['datum_2']];
+        }
+
 
         $tokovi = DB::table('tokovi_predmeta')
         ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')
         ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
         ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-        ->select(DB::raw('  tokovi_predmeta.vrednost_spora_potrazuje as vsp, 
+        ->select(DB::raw('  tokovi_predmeta.datum as datum,
+                            tokovi_predmeta.vrednost_spora_potrazuje as vsp,
                             tokovi_predmeta.vrednost_spora_duguje as vsd, 
                             tokovi_predmeta.iznos_troskova_potrazuje as itp, 
                             tokovi_predmeta.iznos_troskova_duguje as itd, 

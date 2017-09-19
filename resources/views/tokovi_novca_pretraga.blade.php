@@ -15,26 +15,28 @@
     @if($tokovi->isEmpty())
             <h3 class="text-danger">За овакав упит нема резултата претраге</h3>
         @else
-            <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
+            <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet" style="table-layout: fixed; font-size: 0.9375em;">
                 <thead>
 
-                      <th>Број предмета</th>
-                      <th>Врста предмета</th>
-                      <th>Врста уписника</th>
-                      <th>Вредност спора потражује</th>
-                      <th>Вредност спора дугује</th>
-                      <th>Износ трошкова потражује</th>
-                      <th>Износ трошкова дугује</th>
+                      <th style="width: 7%;">Број предмета</th>
+                      <th style="width: 13%;">Врста предмета</th>
+                      <th style="width: 12%;">Врста уписника</th>
+                      <th style="width: 6%;">Датум</th>
+                      <th style="width: 14%;">Вредност спора потражује</th>
+                      <th style="width: 14%;">Вредност спора дугује</th>
+                      <th style="width: 14%;">Износ трошкова потражује</th>
+                      <th style="width: 14%;">Износ трошкова дугује</th>
 
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 6%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="tokovi_pretraga_lista" name="tokovi_pretraga_lista">
                 @foreach ($tokovi as $tok)
                         <tr>
 
-                                <td>{{$tok->slovo}}-{{$tok->broj}}/{{$tok->godina}}</td>
+                                <td class="text-primary" style="vertical-align: middle; line-height: normal;">{{$tok->slovo}}-{{$tok->broj}}/{{$tok->godina}}</td>
                                 <td>{{$tok->vrsta_predmeta}}</td>
                                 <td>{{$tok->vrsta_upisnika}}</td>
+                                <td>{{date('d.m.Y', strtotime($tok->datum))}}</td>
                                 <td><strong>{{number_format(($tok->vsp), 2)}}</strong></td>
                                 <td><strong>{{number_format(($tok->vsd), 2)}}</strong></td>
                                 <td><strong>{{number_format(($tok->itp), 2)}}</strong></td>
@@ -61,7 +63,21 @@
 <script>
 $( document ).ready(function() {
     $('table.tabelaTokPredmet').DataTable({
-        order: [[ 1, "desc" ]],
+        dom: 'Bflrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',{
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+        columns: [ 1, 2, 3, 4, 5, 6, 7 ]
+      }
+            }
+                
+        ],
+        order: [[ 0, "asc" ]],
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         responsive: true,
         language: {
