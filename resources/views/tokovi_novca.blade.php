@@ -248,24 +248,6 @@
 <script>
     $( document ).ready(function() {
 
-    	
-    // 	$(function () {
-    // 		$('.form > :input').keyup(function() {
-    //     	var empty = false;
-    //     	$('.form > :input').each(function() {
-    //         if ($(this).val() == '') {
-    //             empty = true;
-    //         }
-    //    	});
-
-    //     if (empty) {
-    //         $('#dugme_pretrazi').attr("disabled", true);
-    //     } else {
-    //         $('#dugme_pretrazi').removeAttr('disabled'); 
-    //     }
-    // });
-    // });
-
         $('#dugme_pretrazi').click(function() {
             $('#pretraga').submit();
         });
