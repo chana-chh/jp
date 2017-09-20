@@ -108,7 +108,7 @@
                                 <label for="vrsta_predemta_id">Врста предмета</label>
                                 <select
                                     name="vrsta_predemta_id" id="vrsta_predemta_id"
-                                    class="chosen-select form-control" data-placeholder="Врста предмета">
+                                    class="form-control" data-placeholder="Врста предмета">
                                         <option value=""></option>
                                         @foreach($vrste as $vrsta)
                                         <option value="{{ $vrsta->id }}">
@@ -121,7 +121,7 @@
                                 <label for="vrsta_upisnika_id">Врста уписника</label>
                                 <select
                                     name="vrsta_upisnika_id" id="vrsta_upisnika_id"
-                                    class="chosen-select form-control" data-placeholder="Врста уписника">
+                                    class="form-control" data-placeholder="Врста уписника">
                                     <option value=""></option>
                                     @foreach($upisnici as $upisnik)
                                     <option value="{{ $upisnik->id }}">
@@ -247,6 +247,24 @@
 @section('skripte')
 <script>
     $( document ).ready(function() {
+
+    	
+    // 	$(function () {
+    // 		$('.form > :input').keyup(function() {
+    //     	var empty = false;
+    //     	$('.form > :input').each(function() {
+    //         if ($(this).val() == '') {
+    //             empty = true;
+    //         }
+    //    	});
+
+    //     if (empty) {
+    //         $('#dugme_pretrazi').attr("disabled", true);
+    //     } else {
+    //         $('#dugme_pretrazi').removeAttr('disabled'); 
+    //     }
+    // });
+    // });
 
         $('#dugme_pretrazi').click(function() {
             $('#pretraga').submit();
