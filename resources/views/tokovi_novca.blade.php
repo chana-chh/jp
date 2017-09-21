@@ -108,7 +108,7 @@
                                 <label for="vrsta_predemta_id">Врста предмета</label>
                                 <select
                                     name="vrsta_predemta_id" id="vrsta_predemta_id"
-                                    class="form-control" data-placeholder="Врста предмета">
+                                    class="form-control select_vp" data-placeholder="Врста предмета">
                                         <option value=""></option>
                                         @foreach($vrste as $vrsta)
                                         <option value="{{ $vrsta->id }}">
@@ -121,7 +121,7 @@
                                 <label for="vrsta_upisnika_id">Врста уписника</label>
                                 <select
                                     name="vrsta_upisnika_id" id="vrsta_upisnika_id"
-                                    class="form-control" data-placeholder="Врста уписника">
+                                    class="form-control select_vu" data-placeholder="Врста уписника">
                                     <option value=""></option>
                                     @foreach($upisnici as $upisnik)
                                     <option value="{{ $upisnik->id }}">
@@ -249,8 +249,25 @@
     $( document ).ready(function() {
 
         $('#dugme_pretrazi').click(function() {
-            $('#pretraga').submit();
+            
+           var sviInputi = $( '#pretraga input, .select_vp, .select_vu' );
+           var prazni = 0;
+           
+           $(sviInputi).each(function(){
+           if($(this).val() === "") prazni+=1;
+        	});
+
+           console.log("Svi inputi: " + sviInputi.length + " Prazni:" + prazni);
+
+           if((sviInputi.length -1) -  prazni > 0){
+           	$('#pretraga').submit();
+        	}
+        	else {
+           	alert("Није одабран ниједан критеријум за претрагу!");
+        	}
+            
         });
+            
     });
 </script>
 @endsection
