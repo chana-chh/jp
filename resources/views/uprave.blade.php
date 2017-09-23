@@ -75,7 +75,7 @@
 
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
             <label for="naziv">Назив управе: </label>
-            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" required>
+            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" maxlength="190" required>
             @if ($errors->has('naziv'))
                 <span class="help-block">
                     <strong>{{ $errors->first('naziv') }}</strong>
@@ -85,7 +85,7 @@
 
                 <div class="form-group{{ $errors->has('sifra') ? ' has-error' : '' }}">
             <label for="sifra">Шифра управе (директног корисника): </label>
-            <input type="text" name="sifra" id="sifra" class="form-control" value="{{ old('sifra') }}" required>
+            <input type="text" name="sifra" id="sifra" class="form-control" value="{{ old('sifra') }}" maxlength="20" required>
             @if ($errors->has('sifra'))
                 <span class="help-block">
                     <strong>{{ $errors->first('sifra') }}</strong>

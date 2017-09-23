@@ -27,8 +27,7 @@ class VrstePredmetaKontroler extends Kontroler
     {
 
         $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
             ]);
 
         $vrsta_predmeta = new Vrstapredmeta();
@@ -50,8 +49,7 @@ class VrstePredmetaKontroler extends Kontroler
     public function postIzmena(Request $r, $id)
         {
             $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
             ]);
 
                 $vrsta_predmeta = Vrstapredmeta::find($id);

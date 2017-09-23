@@ -27,8 +27,8 @@ class UpraveKontroler extends Kontroler
     {
 
         $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
+                'sifra' => ['required', 'max:20'],
             ]);
 
         $uprava = new Uprava();
@@ -51,8 +51,8 @@ class UpraveKontroler extends Kontroler
     public function postIzmena(Request $r, $id)
         {
             $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
+                'sifra' => ['required', 'max:20'],
             ]);
 
                 	$uprava = Uprava::find($id);

@@ -108,7 +108,7 @@ class RocistaKontroler extends Kontroler
                 date('H:i', strtotime($rociste->vreme)) . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis. ' - <a href="'. route('predmeti.pregled', $rociste->predmet->id) .'" style="color: #ddd;">Предмет</a>';
+            $detalji [] = $rociste->opis. ' - <a href="'. route('predmeti.pregled', $rociste->predmet->id) .'" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);

@@ -91,7 +91,7 @@
         <div class="col-md-3">
         <div class="form-group{{ $errors->has('slovo') ? ' has-error' : '' }}">
             <label for="slovo">Акроним: </label>
-            <input type="text" name="slovo" id="slovo" class="form-control" value="{{ old('slovo') }}" required>
+            <input type="text" name="slovo" id="slovo" class="form-control" value="{{ old('slovo') }}" required maxlength="5">
             @if ($errors->has('slovo'))
                 <span class="help-block">
                     <strong>{{ $errors->first('slovo') }}</strong>

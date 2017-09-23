@@ -27,12 +27,13 @@ class VrsteUpisnikaKontroler extends Kontroler
     {
 
         $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
+                'slovo' => ['required', 'max:5'],
             ]);
 
         $vrsta_upisnika = new Vrstaupisnika();
         $vrsta_upisnika->naziv = $r->naziv;
+        $vrsta_upisnika->slovo = $r->slovo;
         $vrsta_upisnika->napomena = $r->napomena;
 
         $vrsta_upisnika->save();
@@ -50,12 +51,13 @@ class VrsteUpisnikaKontroler extends Kontroler
     public function postIzmena(Request $r, $id)
         {
             $this->validate($r, [
-                'naziv' => ['required',
-                'max:190'],
+                'naziv' => ['required', 'max:190'],
+                'slovo' => ['required', 'max:5'],
             ]);
 
                 $vrsta_upisnika = Vrstaupisnika::find($id);
                 $vrsta_upisnika->naziv = $r->naziv;
+                $vrsta_upisnika->slovo = $r->slovo;
         		$vrsta_upisnika->napomena = $r->napomena;
 
         		$vrsta_upisnika->save();
