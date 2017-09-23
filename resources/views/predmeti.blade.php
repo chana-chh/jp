@@ -296,7 +296,10 @@
 
 
 @section('skripte')
+<script src="{{ asset('/js/moment.min.js') }}"></script>
+<script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
+    $.fn.dataTable.moment('DD.MM.YYYY');
     $( document ).ready(function() {
         $('#tabelaPredmeti').DataTable({
             dom: 'Bflrtip',
