@@ -155,6 +155,8 @@
 @endsection
 
 @section('skripte')
+<script src="{{ asset('/js/moment.min.js') }}"></script>
+<script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
 $( document ).ready(function() {
     var rok_detalj_ruta = "{{ route('rocista.detalj') }}";
@@ -212,6 +214,9 @@ $( document ).ready(function() {
                     $('#brisanjeRocistaModal').modal('hide');
                 });
             });
+
+            $.fn.dataTable.moment('DD.MM.YYYY');
+            
     $('#tabelaRocista').DataTable({
         order: [[ 2, "desc" ]],
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
