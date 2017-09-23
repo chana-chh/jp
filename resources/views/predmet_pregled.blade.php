@@ -23,8 +23,36 @@
             <a href="{{ route('predmeti') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на предмете</a>
             <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Измени</a>
             <button class="btn btn-warning" id="dugmeArhiviranje"><i class="fa fa-archive"></i> Архивирање/активирање предмета</button>
+            @if (Gate::allows('admin'))
+                <button class="btn btn-danger" id="dugmeBrisanje"><i class="fa fa-trash"></i> Брисање предмета</button>
+            @endif
         </div>
     </div>
+
+    {{--  pocetak modal_predmet_brisanje  --}}
+    <div class="modal fade" id="brisanjePredmetaModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title text-danger">Брисање предмета</h3>
+                </div>
+                <div class="modal-body">
+                    <h3>Да ли желите трајно да обришете овај предмет?</h3>
+                    <p class="text-danger">Ова акција је неповратна!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="dugmeModalObrisiPredmetBrisi">
+                        <i class="fa fa-trash"></i> Обриши
+                    </button>
+                    <button type="button" class="btn btn-danger" id="dugmeModalObrisiPredmetOtazi">
+                        <i class="fa fa-ban"></i> Откажи
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{--  kraj modal_predmet_brisanje  --}}
 
     {{--  pocetak modal_arhiviranje  --}}
     <div class="modal fade" id="arhiviranjeModal">
@@ -838,6 +866,7 @@
     {{--  kraj modal_uprava_brisanje  --}}
 
     {{--  KRAJ UPRAVA  --}}
+
     @if (Gate::allows('admin'))
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -870,8 +899,10 @@
             var uprava_brisanje_ruta = "{{ route('uprave_predmeti.brisanje') }}";
             var status_detalj_ruta = "{{ route('status.detalj') }}";
             var status_brisanje_ruta = "{{ route('status.brisanje') }}";
-            var id_arhiviranje = {{ $predmet->id }};
+            var brisanje_ruta = "{{ route('predmeti.brisanje') }}";
             var arhiviranje_ruta = "{{ route('predmeti.arhiviranje') }}";
+            var predmeti_ruta = "{{ route('predmeti') }}";
+            var id_predmeta = {{ $predmet->id }};
 
             // Modal rocista dodavanje
             $("#dugmeModalDodajRociste").on('click', function() {
@@ -1079,8 +1110,8 @@
                     $.ajax({
                         url: arhiviranje_ruta,
                         type:"POST",
-                        data: {"id": id_arhiviranje, _token: "{!! csrf_token() !!}"},
-                        success: function(result) {
+                        data: {"id": id_predmeta, _token: "{!! csrf_token() !!}"},
+                        success: function() {
                             location.reload();
                         }
                     });
@@ -1091,6 +1122,31 @@
 
                 $('#dugmeModalArhivirajOtazi').on('click', function() {
                     $('#arhiviranjeModal').modal('hide');
+                });
+            });
+
+            // Modal brisanje predmeta
+            $(document).on('click', '#dugmeBrisanje', function() {
+
+                $('#brisanjePredmetaModal').modal('show');
+
+                $('#dugmeModalObrisiPredmetBrisi').on('click', function() {
+
+                    $.ajax({
+                        url: brisanje_ruta,
+                        type:"POST",
+                        data: {"id": id_predmeta, _token: "{!! csrf_token() !!}"},
+                        success: function() {
+                            window.location = predmeti_ruta;
+                        }
+                    });
+
+                    $('#brisanjePredmetaModal').modal('hide');
+
+                });
+
+                $('#dugmeModalObrisiPredmetOtazi').on('click', function() {
+                    $('#brisanjePredmetaModal').modal('hide');
                 });
             });
 

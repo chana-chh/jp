@@ -252,8 +252,23 @@ class PredmetiKontroler extends Kontroler
 				$tok->iznos_troskova_duguje = 0;
 				$tok->iznos_troskova_potrazuje = 0;
 				$tok->save();
+				Session::flash('info','Предмет је успешно архивиран!');
+			} else {
+				Session::flash('uspeh','Предмет је успешно активиран!');
 			}
 		}
 
+	}
+
+	public function postBrisanje(Request $req)
+	{
+		$predmet = Predmet::findOrFail($req->id);
+		$odgovor = $predmet->delete();
+
+		if ($odgovor) {
+			Session::flash('uspeh','Предмет је успешно обрисан!');
+		} else {
+			Session::flash('greska','Дошло је до грешке приликом брисања предмета. Покушајте поново, касније!');
+		}
 	}
 }
