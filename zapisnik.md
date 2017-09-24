@@ -24,7 +24,7 @@ public function backup() {
 
 - i pogled za restore u administrativnom delu sa malim brojem detalja u tabeli i bez posebne pretrage
     - dodati pregled obrisanih predmeta u admin meni
-    - dodati pogled predmeti_brisani (samo tabela obrisanih predmeta sa dugmetom za vaskrsnuce) modal
-    - dodati metodu u PredmetiKontroler getPredmetiBrisani (lista brisanih predmeta za pogled predmeti_brisani)
-    - dodati metodu u PredmetiKontroler postVracanjeBrisanogPredmeta (postavljanje deleted_at na NULL) - ajax
+    - dodati pogled predmeti_obrisani (samo tabela obrisanih predmeta sa dugmetom za vaskrsnuce) modal
+    - dodati metodu u PredmetiKontroler getPredmetiObrisani (lista brisanih predmeta za pogled predmeti_brisani)
+    - dodati metodu u PredmetiKontroler postVracanjeObrisanogPredmeta (postavljanje deleted_at na NULL) - ajax
     - obe metode u kontroleru zastititi sa admin middleware-om
