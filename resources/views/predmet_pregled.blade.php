@@ -686,10 +686,10 @@
                 @foreach ($predmet->knjizenja as $knjizenje)
                     <tr>
                         <td style="width: 10%;">{{ $knjizenje->uprava->sifra }}</td>
-                        <td style="width: 20%;"><strong class="text-info">{{ $knjizenje->uprava->naziv }}</strong></td>
+                        <td style="width: 30%;"><strong class="text-info">{{ $knjizenje->uprava->naziv }}</strong></td>
                         <td style="width: 15%;">{{ date('d.m.Y', strtotime($knjizenje->datum_knjizenja)) }}</td>
                         <td style="width: 35%;"><em>{{ $knjizenje->napomena }}</em></td>
-                        <td style="width: 20%; text-align: right;">
+                        <td style="width: 10%; text-align: right;">
                             <button
                                 class="btn btn-success btn-xs" id="dugmeUpravaIzmena"
                                 data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$knjizenje->id}}">

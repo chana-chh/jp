@@ -73,7 +73,7 @@
 
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
             <label for="naziv">Назив суда: </label>
-            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" required>
+            <input type="text" name="naziv" id="naziv" maxlength="190" class="form-control" value="{{ old('naziv') }}" required>
             @if ($errors->has('naziv'))
                 <span class="help-block">
                     <strong>{{ $errors->first('naziv') }}</strong>
@@ -83,7 +83,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>

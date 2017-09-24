@@ -75,7 +75,7 @@
 
         <div class="form-group{{ $errors->has('ime') ? ' has-error' : '' }}">
             <label for="ime">Име: </label>
-            <input type="text" name="ime" id="ime" class="form-control" value="{{ old('ime') }}" required>
+            <input type="text" name="ime" id="ime" maxlength="100" class="form-control" value="{{ old('ime') }}" required>
             @if ($errors->has('ime'))
                 <span class="help-block">
                     <strong>{{ $errors->first('ime') }}</strong>
@@ -85,7 +85,7 @@
 
         <div class="form-group{{ $errors->has('prezime') ? ' has-error' : '' }}">
             <label for="prezime">Презиме: </label>
-            <input type="text" name="prezime" id="prezime" class="form-control" value="{{ old('prezime') }}" required>
+            <input type="text" name="prezime" id="prezime" maxlength="150" class="form-control" value="{{ old('prezime') }}" required>
             @if ($errors->has('prezime'))
                 <span class="help-block">
                     <strong>{{ $errors->first('prezime') }}</strong>
@@ -95,7 +95,7 @@
 
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
-            <input type="text" name="napomena" id="napomena" class="form-control" value="{{ old('napomena') }}">
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
             @if ($errors->has('napomena'))
                 <span class="help-block">
                     <strong>{{ $errors->first('napomena') }}</strong>
