@@ -53,7 +53,7 @@
                 <h4 class="modal-title" id="brisanjeModalLabel">Упозорење!</h4>
             </div>
             <div class="modal-body">
-                <h4 class="text-primary">Да ли желите трајно да обришете ставку</strong></h4>
+                <h4 class="text-primary">Да ли желите трајно да обришете ставку</h4>
                 <p ><strong>Ова акција је неповратна!</strong></p>
             </div>
             <div class="modal-footer">
@@ -136,7 +136,7 @@ $( document ).ready(function() {
     $(document).on('click','.otvori_modal',function(){
 
         var id = $(this).val();
-        
+
         var ruta = "{{ route('referenti.brisanje') }}";
 
 
@@ -145,10 +145,10 @@ $( document ).ready(function() {
         $('#btn-obrisi').click(function(){
             $.ajax({
             url: ruta,
-            type:"POST", 
-            data: {"id":id, _token: "{!! csrf_token() !!}"}, 
+            type:"POST",
+            data: {"id":id, _token: "{!! csrf_token() !!}"},
             success: function(){
-            location.reload(); 
+            location.reload();
           }
         });
 

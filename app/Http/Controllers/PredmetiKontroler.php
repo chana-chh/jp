@@ -21,6 +21,12 @@ use App\Modeli\Tok;
 
 class PredmetiKontroler extends Kontroler
 {
+	public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('admin')->only(['getPredmetiObrisani', 'postVracanjeObrisanogPredmeta']);
+	}
+
 	public function getLista(Request $req)
 	{
 		$predmeti = null;
@@ -269,6 +275,31 @@ class PredmetiKontroler extends Kontroler
 			Session::flash('uspeh','Предмет је успешно обрисан!');
 		} else {
 			Session::flash('greska','Дошло је до грешке приликом брисања предмета. Покушајте поново, касније!');
+		}
+	}
+
+	public function getPredmetiObrisani()
+	{
+		$predmeti = Predmet::onlyTrashed()->get();
+		$upisnici = VrstaUpisnika::all();
+		$sudovi = Sud::all();
+		$vrste = VrstaPredmeta::all();
+		$referenti = Referent::all();
+
+		return view('predmeti_obrisani')->with(compact ('vrste', 'upisnici', 'sudovi', 'referenti','predmeti'));
+	}
+
+	public function postVracanjeObrisanogPredmeta(Request $req)
+	{
+		if($req->ajax())
+		{
+			$predmet = Predmet::onlyTrashed()->find($req->id);
+			if($predmet !== null) {
+				$predmet->restore();
+				Session::flash('uspeh','Предмет је успешно активиран!');
+			} else {
+				Session::flash('greska','Дошло је до грешке приликом активирања предмета!');
+			}
 		}
 	}
 }

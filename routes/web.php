@@ -83,6 +83,8 @@ Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmet
 Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
 Route::post('predmeti/arhiviranje', 'PredmetiKontroler@postArhiviranje')->name('predmeti.arhiviranje');
+Route::get('predmeti/obrisani', 'PredmetiKontroler@getPredmetiObrisani')->name('predmeti.obrisani');
+Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
