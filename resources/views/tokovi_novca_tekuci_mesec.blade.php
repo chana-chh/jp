@@ -28,7 +28,7 @@
 @endsection
 
 @section('skripte')
-<script src="{{ asset('/js/Chart.js') }}"></script>
+<script src="{{ asset('/js/Chart.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
 var grafik = document.getElementById("tekuci_mesec");
