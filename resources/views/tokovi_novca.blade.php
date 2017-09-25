@@ -16,8 +16,15 @@
 
 <div class="row">
 <div class="col-md-6">
+
+	<div class="row ceo_dva">
+	<div class="col-md-12">
     <h3>Сума вредности спорова:</h3>
     <hr class="ceo">
+</div>
+</div>
+
+<div class="row">
 <div class="col-md-6">
 <h3>Град потражује:</h3>
 <p class="tankoza krug">{{number_format($vrednost_spora_potrazuje_suma, 2)}}</p>
@@ -26,11 +33,26 @@
 <h3>Град дугује:</h3>
 <p class="tankoza krug">{{number_format($vrednost_spora_duguje_suma, 2)}}</p>
 </div>
+
+<div class="row ceo_dva">
+<div class="col-md-12">
+<hr class="ceo">
 <h3 class="{{ $vs >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($vs, 2, ',', '.') }}</h3>
 </div>
+</div>
+
+</div>
+</div>
+
 <div class="col-md-6">
+	<div class="row ceo_dva">
+		<div class="col-md-12">
     <h3>Сума износа трошкова:</h3>
     <hr class="ceo">
+</div>
+</div>
+
+    <div class="row">
 <div class="col-md-6">
 <h3>Град потражује:</h3>
 <p class="tankoza krug">{{number_format($iznos_troskova_potrazuje_suma, 2)}}</p>
@@ -39,7 +61,14 @@
 <h3>Град дугује:</h3>
 <p class="tankoza krug">{{number_format($iznos_troskova_duguje_suma, 2)}}</p>
 </div>
+
+<div class="row ceo_dva">
+	<div class="col-md-12">
+		<hr class="ceo">
 <h3 class="{{ $it >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($it, 2, ',', '.') }}</h3>
+</div>
+</div>
+</div>
 </div>
 </div>
 
