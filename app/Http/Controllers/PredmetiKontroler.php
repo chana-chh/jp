@@ -162,7 +162,7 @@ class PredmetiKontroler extends Kontroler
                         $params['datum_1'],
                         $params['datum_2']])->get();
         }
-
+        // dd($where);
         return $predmeti;
     }
 
