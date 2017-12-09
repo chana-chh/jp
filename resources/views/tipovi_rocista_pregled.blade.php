@@ -7,12 +7,36 @@
 @endsection
 
 @section('naslov')
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h1>
+Преглед и измена детаља типова рочишта
+        </h1>
+    </div>
+</div>
+<hr>
+<div class="row" style="margin-bottom: 16px; margin-top: 16px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="window.history.back();"
+               title="Повратак на претходну страну">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('pocetna') }}"
+               title="Повратак на почетну страну">
+                <i class="fa fa-home"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('tipovi_rocista') }}"
+               title="Повратак на листу типова рочишта">
+                <i class="fa fa-list"></i>
+            </a>
+        </div>
+    </div>
+</div>
     <div class="row ceo_dva">
     <div class="col-md-10 col-md-offset-1 boxic">
-    <h1 class="page-header">Преглед и измена детаља типова рочишта</h1>
 
-    <div class="well">
-    <form action="{{ route('tipovi_rocista.izmena',  $tip_rocista->id) }}" method="POST" data-parsley-validate>
+    <form action="{{ route('tipovi_rocista.izmena',  $tip_rocista->id) }}" method="POST" data-parsley-validate style="margin-top: 2rem;">
         {{ csrf_field() }}
 
         <div class="row">
@@ -44,15 +68,16 @@
         <div class="col-md-6 col-md-offset-6">
         <div class="form-group text-right ceo_dva">
         <div class="col-md-6 snimi">
-            <button type="submit" class="btn btn-success btn-block"><i class="fa fa-floppy-o"></i>&emsp;Сними</button>
+            <button type="submit" class="btn btn-success btn-block ono"><i class="fa fa-floppy-o"></i>&emsp;Сними</button>
         </div>
         <div class="col-md-6">
-            <a class="btn btn-danger btn-block" href="{{route('tipovi_rocista')}}"><i class="fa fa-ban"></i>&emsp;Откажи</a>
+            <a class="btn btn-danger btn-block ono" href="{{route('tipovi_rocista')}}"><i class="fa fa-ban"></i>&emsp;Откажи</a>
         </div>
         </div>
         </div>
+    </div>
     </form>
-</div>
+
 </div>
 </div>
 @endsection

@@ -6,124 +6,23 @@
     @include('sabloni.inc.meni')
 @endsection
 @section('naslov')
-    <h1 class="page-header">
+    
+<div class="row">
+    <div class="col-md-10">
+       <h1>
         <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
         Ток новца
     </h1>
-{{-- Sekcija sa krugovima - POCETAK --}}
-<div class="row">
-<div class="col-md-10 col-md-offset-1 boxic">
-
-<div class="row">
-<div class="col-md-6">
-
-	<div class="row ceo_dva">
-	<div class="col-md-12">
-    <h3>Сума вредности спорова:</h3>
-    <hr class="ceo">
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 40px;">
+        <button id="pretragaDugme" class="btn btn-success btn-block ono">
+            <i class="fa fa-filter fa-fw"></i> Napredni filter
+        </button>
+    </div>
 </div>
-</div>
-
-<div class="row">
-<div class="col-md-6">
-<h3>Град потражује:</h3>
-<p class="tankoza krug">{{number_format($vrednost_spora_potrazuje_suma, 2)}}</p>
-</div>
-<div class="col-md-6">
-<h3>Град дугује:</h3>
-<p class="tankoza krug">{{number_format($vrednost_spora_duguje_suma, 2)}}</p>
-</div>
-
-<div class="row ceo_dva">
-<div class="col-md-12">
-<hr class="ceo">
-<h3 class="{{ $vs >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($vs, 2, ',', '.') }}</h3>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="col-md-6">
-	<div class="row ceo_dva">
-		<div class="col-md-12">
-    <h3>Сума износа трошкова:</h3>
-    <hr class="ceo">
-</div>
-</div>
-
-    <div class="row">
-<div class="col-md-6">
-<h3>Град потражује:</h3>
-<p class="tankoza krug">{{number_format($iznos_troskova_potrazuje_suma, 2)}}</p>
-</div>
-<div class="col-md-6">
-<h3>Град дугује:</h3>
-<p class="tankoza krug">{{number_format($iznos_troskova_duguje_suma, 2)}}</p>
-</div>
-
-<div class="row ceo_dva">
-	<div class="col-md-12">
-		<hr class="ceo">
-<h3 class="{{ $it >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($it, 2, ',', '.') }}</h3>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-{{-- Sekcija sa krugovima - KRAJ --}}
-
-{{-- Sekcija sa dugicima - POCETAK --}}
-<div class="row dugmici ceo_dva">
-<div class="col-md-10 col-md-offset-1">
-
-<div class="row">
-<div class="col-md-6 snimi">
-<h3>Табеларни приказ:</h3>
-<div class="row">
-<div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('tok.grupa_predmet') }}">Груписано по предметима</a>
-</div>
-<div class="col-md-6">
-<a class="btn btn-primary btn-block gornja" href="{{ route('tok.grupa_vrste_predmeta') }}">Груписано по врсти предмета</a>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<h3>Графички приказ:</h3>
-<div class="row">
-<div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('tok.tekuci_mesec') }}">Текући месец</a>
-</div>
-<div class="col-md-6">
-<a class="btn btn-primary btn-block gornja" href="{{ route('tok.tekuca_godina') }}">Текућа година</a>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-{{-- Sekcija sa dugmicima - KRAJ --}}
 <hr>
-</div class="row">
-<div class="col-md-10 col-md-offset-1">
-    <div class="panel-group" id="accordion"> {{-- Pocetak PANEL GRUPE --}}
-        <div class="panel panel-default"> {{-- Pocetak PANELA --}}
-            <div class="panel-heading"> {{-- Pocetak naslova panela --}}
-                <a class="btn btn-primary" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                        <i class="fa fa-search"></i> Напредна претрага
-                </a>
-                <a href="{{ route('tok') }}" class="btn btn-info">
-                    <i class="fa fa-ban"></i> Поништи филтер
-                </a>
-            </div> {{-- Kraj naslova panela --}}
-            <div id="collapseOne" class="panel-collapse collapse"> {{-- Pocetak XXX panela --}}
-                <div class="panel-body"> {{-- Pocetak tela panela --}}
-                    <form id="pretraga" action="{{ route('tok.pretraga') }}" method="POST">
+<div id="pretraga_div" class="well" style="display: none;">
+     <form id="pretraga" action="{{ route('tok.pretraga') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -151,6 +50,20 @@
                                     </option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="stranka_1">Старнка 1</label>
+                                <input type="text" maxlen="255"
+                                    name="stranka_1" id="stranka_1"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="stranka_2">Старнка 2</label>
+                                <input type="text" maxlen="255"
+                                    name="stranka_2" id="stranka_2"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -254,21 +167,129 @@
                                 </p>
                             </div>
                         </div>
+                        <hr>
+        <div class="row dugmici">
+        <div class="col-md-6 col-md-offset-6">
+        <div class="form-group text-right ceo_dva">
+        <div class="col-md-6 snimi">
+            <button type="button" id="dugme_pretrazi" class="btn btn-success btn-block"><i class="fa fa-filter"></i>&emsp;Филтрирај</button>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-danger btn-block" href="{{ route('tok') }}"><i class="fa fa-ban"></i>&emsp;Откажи</a>
+        </div>
+        </div>
+        </div>
+        </div>
                     </form>
-                </div> {{-- Kraj tela panela --}}
-                <div class="panel-footer text-right">
-                    <button id="dugme_pretrazi" class="btn btn-success"><i class="fa fa-search"></i> Претражи</button>
-                </div>
-            </div> {{-- Kraj XXX panela --}}
-        </div> {{-- Kraj PANELA --}}
-    </div> {{-- Kraj PANEL GRUPE --}}
+</div>
+{{-- Sekcija sa krugovima - POCETAK --}}
+<div class="row">
+<div class="col-md-10 col-md-offset-1 boxic">
+
+<div class="row">
+<div class="col-md-6">
+
+	<div class="row ceo_dva">
+	<div class="col-md-12">
+    <h3>Сума вредности спорова:</h3>
+    <hr class="ceo">
 </div>
 </div>
+
+<div class="row">
+<div class="col-md-6">
+<h3>Град потражује:</h3>
+<p class="tankoza krug">{{number_format($vrednost_spora_potrazuje_suma, 2)}}</p>
+</div>
+<div class="col-md-6">
+<h3>Град дугује:</h3>
+<p class="tankoza krug">{{number_format($vrednost_spora_duguje_suma, 2)}}</p>
+</div>
+
+<div class="row ceo_dva">
+<div class="col-md-12">
+<hr class="ceo">
+<h3 class="{{ $vs >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($vs, 2, ',', '.') }}</h3>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="col-md-6">
+	<div class="row ceo_dva">
+		<div class="col-md-12">
+    <h3>Сума износа трошкова:</h3>
+    <hr class="ceo">
+</div>
+</div>
+
+    <div class="row">
+<div class="col-md-6">
+<h3>Град потражује:</h3>
+<p class="tankoza krug">{{number_format($iznos_troskova_potrazuje_suma, 2)}}</p>
+</div>
+<div class="col-md-6">
+<h3>Град дугује:</h3>
+<p class="tankoza krug">{{number_format($iznos_troskova_duguje_suma, 2)}}</p>
+</div>
+
+<div class="row ceo_dva">
+	<div class="col-md-12">
+		<hr class="ceo">
+<h3 class="{{ $it >= 0 ? ' tankoza' : ' tankoza_danger' }}" >Салдо: {{ number_format($it, 2, ',', '.') }}</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+{{-- Sekcija sa krugovima - KRAJ --}}
+
+{{-- Sekcija sa dugicima - POCETAK --}}
+<div class="row dugmici ceo_dva">
+<div class="col-md-10 col-md-offset-1">
+
+<div class="row">
+<div class="col-md-6 snimi">
+<h3>Табеларни приказ:</h3>
+<div class="row">
+<div class="col-md-6">
+<a class="btn btn-primary btn-block" href="{{ route('tok.grupa_predmet') }}">Груписано по предметима</a>
+</div>
+<div class="col-md-6">
+<a class="btn btn-primary btn-block gornja" href="{{ route('tok.grupa_vrste_predmeta') }}">Груписано по врсти предмета</a>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<h3>Графички приказ:</h3>
+<div class="row">
+<div class="col-md-6">
+<a class="btn btn-primary btn-block" href="{{ route('tok.tekuci_mesec') }}">Текући месец</a>
+</div>
+<div class="col-md-6">
+<a class="btn btn-primary btn-block gornja" href="{{ route('tok.tekuca_godina') }}">Текућа година</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+{{-- Sekcija sa dugmicima - KRAJ --}}
+
 @endsection
 
 @section('skripte')
 <script>
     $( document ).ready(function() {
+
+        $('#pretragaDugme').click(function () {
+            $('#pretraga_div').toggle();
+        });
 
         $('#dugme_pretrazi').click(function() {
             

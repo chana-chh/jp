@@ -20,12 +20,22 @@
 @section('sadrzaj')
     <div class="panel panel-default">
         <div class="panel-body">
-            <a href="{{ route('predmeti') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на предмете</a>
-            <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Измени</a>
-            <button class="btn btn-warning" id="dugmeArhiviranje"><i class="fa fa-archive"></i> Архивирање/активирање предмета</button>
+            <div class="row">
+                <div class="col-md-3">
+            <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono"><i class="fa fa-arrow-circle-left"></i> Назад на предмете</a>
+                </div>
+                <div class="col-md-3">
+            <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success btn-block ono"><i class="fa fa-pencil"></i> Измени</a>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-warning btn-block ono" id="dugmeArhiviranje"><i class="fa fa-archive"></i> Архивирање/активирање</button>
+        </div>
             @if (Gate::allows('admin'))
-                <button class="btn btn-danger" id="dugmeBrisanje"><i class="fa fa-trash"></i> Брисање предмета</button>
+            <div class="col-md-3">
+                <button class="btn btn-danger btn-block ono" id="dugmeBrisanje"><i class="fa fa-trash"></i> Брисање</button>
+            </div>
             @endif
+        </div>
         </div>
     </div>
 

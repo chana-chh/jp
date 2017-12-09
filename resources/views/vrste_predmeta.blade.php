@@ -9,12 +9,12 @@
 
 
 @section('naslov')
-    <h1 class="page-header">Врсте предмета</h1>
+    <h1 class="page-header"><img class="slicica_animirana" alt="Врсте уписника"
+                 src="{{url('/images/predmeti.png')}}" style="height:64px;">
+            &emsp;Врсте предмета</h1>
 @endsection
 
 @section('sadrzaj')
-<h2 >Листа тренутно расположивих врста предмета</h2>
-<hr>
   @if($vrste_predmeta->isEmpty())
             <h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
         @else
@@ -91,9 +91,21 @@
             @endif
         </div>
 
-        <div class="form-group text-right">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
-            <a class="btn btn-danger" href="{{route('vrste_predmeta')}}"><i class="fa fa-ban"></i> Откажи</a>
+        <div class="row dugmici">
+            <div class="col-md-12" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('vrste_predmeta')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

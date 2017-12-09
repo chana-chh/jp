@@ -45,6 +45,12 @@ class TokoviNovcaKontroler extends Kontroler
         if($req['vrsta_upisnika_id']) {
             $kobaja[] = ['predmeti.vrsta_upisnika_id', '=', $req['vrsta_upisnika_id']];
         }
+        if($req['stranka_1']) {
+            $kobaja[] = ['predmeti.stranka_1', 'like', '%'.$req['stranka_1'].'%'];
+        }
+        if($req['stranka_2']) {
+            $kobaja[] = ['predmeti.stranka_2', 'like', '%'.$req['stranka_2'].'%'];
+        }
         if($req['vrednost_vsp']) {
             $kobaja[] = ['tokovi_predmeta.vrednost_spora_potrazuje', $req->operator_vsp, $req['vrednost_vsp']];
         }
@@ -65,6 +71,7 @@ class TokoviNovcaKontroler extends Kontroler
             $kobaja[] = ['tokovi_predmeta.datum', '<=', $req['datum_2']];
         }
 
+        // dd($kobaja);
 
         $tokovi = DB::table('tokovi_predmeta')
         ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')

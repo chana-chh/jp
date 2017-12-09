@@ -7,11 +7,37 @@
 @endsection
 
 @section('naslov')
-<div class="row ceo_dva">
-    <div class="col-md-10 col-md-offset-1 boxic">
-    <h1 class="page-header">Преглед и измена детаља референата</h1>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h1><img class="slicica_animirana" alt="Референти"
+                 src="{{url('/images/referent.png')}}" style="height:64px;">
+            &emsp;Преглед и измена детаља референата
+        </h1>
+    </div>
+</div>
+<hr>
 
-    <div class="well">
+<div class="row" style="margin-bottom: 16px; margin-top: 16px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="window.history.back();"
+               title="Повратак на претходну страну">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('pocetna') }}"
+               title="Повратак на почетну страну">
+                <i class="fa fa-home"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('referenti') }}"
+               title="Повратак на листу референата">
+                <i class="fa fa-list"></i>
+            </a>
+        </div>
+    </div>
+</div>
+    <div class="row ceo_dva">
+    <div class="col-md-10 col-md-offset-1 boxic">
+
     <form action="{{ route('referenti.izmena',  $referent->id) }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
@@ -68,7 +94,7 @@
         </div>
         </div>
     </form>
-</div>
+
 </div>
 </div>
 @endsection

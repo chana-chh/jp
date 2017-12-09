@@ -6,15 +6,11 @@
     @include('sabloni.inc.meni')
 @endsection
 
-
-
 @section('naslov')
     <h1 class="page-header">Статуси</h1>
 @endsection
 
 @section('sadrzaj')
-<h2 >Листа тренутно расположивих статуса</h2>
-<hr>
   @if($statusi->isEmpty())
             <h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
         @else
@@ -91,9 +87,21 @@
             @endif
         </div>
 
-        <div class="form-group text-right">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
-            <a class="btn btn-danger" href="{{route('statusi')}}"><i class="fa fa-ban"></i> Откажи</a>
+        <div class="row dugmici">
+            <div class="col-md-12" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('statusi')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

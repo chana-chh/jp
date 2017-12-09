@@ -1,26 +1,26 @@
 @if(Session::has('uspeh'))
-<div class="alert alert-success fade in text-center" role="alert">
+<div class="alert alert-success fade in text-center"  id="poruka" role="alert">
  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   	{{ Session::get('uspeh') }}
 </div>
 @endif
 
 @if(Session::has('info'))
-<div class="alert alert-info fade in text-center" role="alert">
+<div class="alert alert-info fade in text-center" id="poruka" role="alert">
  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   	{{ Session::get('info') }}
 </div>
 @endif
 
 @if(Session::has('upozorenje'))
-<div class="alert alert-warning fade in text-center" role="alert">
+<div class="alert alert-warning fade in text-center" id="poruka" role="alert">
  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   	{{ Session::get('upozorenje') }}
 </div>
 @endif
 
 @if(Session::has('greska'))
-<div class="alert alert-danger fade in text-center" role="alert">
+<div class="alert alert-danger fade in text-center" id="poruka_greska" role="alert">
  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   	{{ Session::get('greska') }}
 </div>

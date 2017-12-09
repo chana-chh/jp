@@ -7,12 +7,38 @@
 @endsection
 
 @section('naslov')
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h1><img class="slicica_animirana" alt="Судови"
+                 src="{{url('/images/sud.jpg')}}" style="height:64px;">
+            &emsp;Преглед и измена детаља судова
+        </h1>
+    </div>
+</div>
+<hr>
+
+   <div class="row" style="margin-bottom: 16px; margin-top: 16px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="window.history.back();"
+               title="Повратак на претходну страну">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('pocetna') }}"
+               title="Повратак на почетну страну">
+                <i class="fa fa-home"></i>
+            </a>
+            <a class="btn btn-primary" href="{{ route('sudovi') }}"
+               title="Повратак на листу врсте уписника">
+                <i class="fa fa-list"></i>
+            </a>
+        </div>
+    </div>
+</div>
     <div class="row ceo_dva">
     <div class="col-md-10 col-md-offset-1 boxic">
-    <h1 class="page-header">Преглед и измена детаља судова</h1>
 
-    <div class="well">
-    <form action="{{ route('sudovi.izmena',  $sud->id) }}" method="POST" data-parsley-validate>
+    <form action="{{ route('sudovi.izmena',  $sud->id) }}" method="POST" data-parsley-validate style="margin-bottom: 16px; margin-top: 16px">
         {{ csrf_field() }}
 
         <div class="row">
@@ -53,7 +79,7 @@
         </div>
         </div>
     </form>
-</div>
+
 </div>
 </div>
 @endsection

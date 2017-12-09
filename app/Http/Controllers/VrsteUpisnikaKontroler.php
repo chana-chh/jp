@@ -34,6 +34,7 @@ class VrsteUpisnikaKontroler extends Kontroler
         $vrsta_upisnika = new Vrstaupisnika();
         $vrsta_upisnika->naziv = $r->naziv;
         $vrsta_upisnika->slovo = $r->slovo;
+        $vrsta_upisnika->sledeci_broj = 1;
         $vrsta_upisnika->napomena = $r->napomena;
 
         $vrsta_upisnika->save();
@@ -44,7 +45,6 @@ class VrsteUpisnikaKontroler extends Kontroler
 
     public function getPregled($id)
         {
-
                 $vrsta_upisnika = Vrstaupisnika::find($id);
                 return view('vrste_upisnika_pregled')->with(compact ('vrsta_upisnika'));
             }

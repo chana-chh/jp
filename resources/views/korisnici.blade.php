@@ -6,18 +6,19 @@
     @include('sabloni.inc.meni')
 @endsection
 
-
-
 @section('naslov')
-    <h1 class="page-header">Корисници</h1>
+    <h1 class="page-header"><img class="slicica_animirana" alt="Корисници"
+                 src="{{url('/images/korisnik.png')}}" style="height:64px;">
+            &emsp;Корисници
+    </h1>
 @endsection
 
 @section('sadrzaj')
-<h2 >Листа активних корисника</h2>
-<hr>
   @if($korisnici->isEmpty())
             <h3 class="text-danger">Тренутно нема корисника у бази</h3>
         @else
+        <div class="row" style="margin-top: 4rem;">
+            <div class="col-md-12">
             <table class="table table-striped tabelaKorisnici" name="tabelaKorisnici" id="tabelaKorisnici">
                 <thead>
                       <th>#</th>
@@ -41,6 +42,8 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
         @endif
 
         {{-- Modal za dijalog brisanje--}}
@@ -116,9 +119,21 @@
                 <label><input type="checkbox" name="admin" id="admin"> &emsp;Да ли је корисник администратор?</label>
         </div>
 
-        <div class="form-group text-right">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
-            <a class="btn btn-danger" href="{{route('korisnici')}}"><i class="fa fa-ban"></i> Откажи</a>
+        <div class="row dugmici">
+            <div class="col-md-12" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('korisnici')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

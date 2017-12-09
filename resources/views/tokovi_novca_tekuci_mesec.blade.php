@@ -11,12 +11,10 @@
         Ток новца у текућем месецу
     </h1>
     <div class="row" style="margin-top: 50px">
-<div class="col-md-10 col-md-offset-1 boxic">
-    <div class="row">
-    <div class="col-md-12">
+<div class="col-md-12 boxic">
+
     <canvas id="tekuci_mesec" height="450"></canvas>
-    </div>
-    </div>
+
         </div>
         </div>
 
@@ -46,7 +44,7 @@ type: 'doughnut',
       title: {
         display: true,
         fontColor: "#2C3E50",
-        fontSize: 26,
+        fontSize: 20,
         text: 'Неки додатни текст нисам сигуран који'
       },
       legend: {
@@ -54,7 +52,7 @@ type: 'doughnut',
       position: 'bottom',
       labels: {
         fontColor: "#2C3E50",
-        fontSize: 26,
+        fontSize: 20,
       }
     },
       maintainAspectRatio: false,

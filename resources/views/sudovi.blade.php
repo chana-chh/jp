@@ -6,24 +6,25 @@
     @include('sabloni.inc.meni')
 @endsection
 
-
-
 @section('naslov')
-    <h1 class="page-header">Судови</h1>
+    <h1 class="page-header"><img class="slicica_animirana" alt="Судови"
+                 src="{{url('/images/sud.jpg')}}" style="height:64px;">
+            &emsp;Судови
+        </h1>
 @endsection
 
 @section('sadrzaj')
-<h2 >Листа тренутно расположивих судова</h2>
-<hr>
   @if($sudovi->isEmpty())
             <h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
         @else
+        <div class="row" style="margin-top: 4rem;">
+            <div class="col-md-12">
             <table class="table table-striped tabelaSudovi" name="tabelaSudovi" id="tabelaSudovi">
                 <thead>
-                      <th>#</th>
-                      <th>Назив</th>
-                      <th>Напомена</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width: 7%;">#</th>
+                      <th style="width: 40%;">Назив</th>
+                      <th style="width: 43%;">Напомена</th>
+                      <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="sudovi_lista" name="sudovi_lista">
                 @foreach ($sudovi as $sud)
@@ -40,6 +41,8 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
         @endif
 
         {{-- Modal za dijalog brisanje--}}
@@ -91,9 +94,21 @@
             @endif
         </div>
 
-        <div class="form-group text-right">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
-            <a class="btn btn-danger" href="{{route('sudovi')}}"><i class="fa fa-ban"></i> Откажи</a>
+        <div class="row dugmici">
+            <div class="col-md-12" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('sudovi')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>

@@ -37,10 +37,10 @@
                                 <td>{{$tok->vrsta_predmeta}}</td>
                                 <td>{{$tok->vrsta_upisnika}}</td>
                                 <td>{{date('d.m.Y', strtotime($tok->datum))}}</td>
-                                <td><strong>{{number_format(($tok->vsp), 2)}}</strong></td>
-                                <td><strong>{{number_format(($tok->vsd), 2)}}</strong></td>
-                                <td><strong>{{number_format(($tok->itp), 2)}}</strong></td>
-                                <td><strong>{{number_format(($tok->itd), 2)}}</strong></td>
+                                <td>{{number_format(($tok->vsp), 2)}}</td>
+                                <td>{{number_format(($tok->vsd), 2)}}</td>
+                                <td>{{number_format(($tok->itp), 2)}}</td>
+                                <td>{{number_format(($tok->itd), 2)}}</td>
 
                                  <td style="text-align:center">
                                  <a class="btn btn-success btn-sm otvori_izmenu"  href="{{ route('predmeti.pregled', $tok->id) }}"><i class="fa fa-eye"></i></a>
@@ -48,6 +48,19 @@
                         </tr>
                 @endforeach
                 </tbody>
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </tfoot>
             </table>
         @endif
         <div class="row">
@@ -64,14 +77,50 @@
 <script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
 $( document ).ready(function() {
+
+    Number.prototype.format = function(n, x, s, c) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+        num = this.toFixed(Math.max(0, ~~n));
+
+    return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+    };
     $.fn.dataTable.moment('DD.MM.YYYY');
-    $('table.tabelaTokPredmet').DataTable({
+    var tabela = $('.tabelaTokPredmet').DataTable({
+        "footerCallback": function( tfoot, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\.,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+
+            suma_vsp = api.column( 4 ).data().reduce( function (a, b) {return intVal(a) + intVal(b);}, 0 );
+            suma_vsd = api.column( 5 ).data().reduce( function (a, b) {return intVal(a) + intVal(b);}, 0 );
+            suma_itp = api.column( 6 ).data().reduce( function (a, b) {return intVal(a) + intVal(b);}, 0 );
+            suma_itd = api.column( 7 ).data().reduce( function (a, b) {return intVal(a) + intVal(b);}, 0 );
+
+            var suma_prikaz_vsp = (suma_vsp == 0) ? "0.00" : (suma_vsp/100).format(2, 3, ',', '.');
+            var suma_prikaz_vsd = (suma_vsd == 0) ? "0.00" : (suma_vsd/100).format(2, 3, ',', '.');
+            var suma_prikaz_itp = (suma_itp == 0) ? "0.00" : (suma_itp/100).format(2, 3, ',', '.');
+            var suma_prikaz_itd = (suma_itd == 0) ? "0.00" : (suma_itd/100).format(2, 3, ',', '.');
+
+            $( api.column( 4 ).footer() ).html('Сума: '+suma_prikaz_vsp);
+            $( api.column( 5 ).footer() ).html('Сума: '+suma_prikaz_vsd);
+            $( api.column( 6 ).footer() ).html('Сума: '+suma_prikaz_itp);
+            $( api.column( 7 ).footer() ).html('Сума: '+suma_prikaz_itd);
+        },
         dom: 'Bflrtip',
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',{
+            { extend: 'copyHtml5', footer: true },
+            { extend: 'excelHtml5', footer: true },
+            { extend: 'csvHtml5', footer: true },
+            {
                 extend: 'pdfHtml5',
+                footer: true,
                 orientation: 'landscape',
                 pageSize: 'A4',
                 exportOptions: {
@@ -100,6 +149,22 @@ $( document ).ready(function() {
 
         }
     });
+//     var column = tabela.column( 5 );
+
+//     var intVal = function ( i ) {
+ 
+//                 return typeof i === 'string' ?
+//                     i.replace(/[\.,]/g, '')*1 :
+//                     typeof i === 'number' ?
+//                         i : 0;
+                         
+//             };
+ 
+// $( column.footer() ).html(
+//     column.data().reduce( function (a,b) {
+//         return intVal(a)+intVal(b);
+//     } )
+// );
      });
 </script>
 @endsection
