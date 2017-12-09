@@ -7,6 +7,7 @@ use Session;
 use Redirect;
 use Gate;
 use Auth;
+use Image;
 use App\Modeli\Predmet;
 use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
@@ -17,6 +18,7 @@ use App\Modeli\Korisnik;
 use App\Modeli\Uprava;
 use App\Modeli\Status;
 use App\Modeli\Tok;
+use App\Modeli\PredmetSlika;
 
 class PredmetiKontroler extends Kontroler
 {

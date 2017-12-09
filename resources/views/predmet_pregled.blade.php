@@ -481,6 +481,13 @@
 @endsection
 
 @section('traka')
+<div class="row">
+    <div class="col-md-12 text-center">
+       <a href=""><img alt="skenirano ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
+       <h4>Преглед скениране документације</h4>
+    </div>
+</div>
+<hr>
 {{--  POCETAK ROCISTA  --}}
 
 <div class="well" style="overflow: auto;">
@@ -698,15 +705,23 @@
 <div class="well" style="overflow: auto;">
     <h3>Управе</h3>
     <hr style="border-top: 1px solid #18BC9C">
-    <table class="table table-striped table-responsive">
+    <table class="table table-striped table-responsive" style="font-size: 85%;">
         <tbody>
             @foreach ($predmet->knjizenja as $knjizenje)
             <tr>
-                <td style="width: 10%;">{{ $knjizenje->uprava->sifra }}</td>
-                <td style="width: 30%;"><strong class="text-info">{{ $knjizenje->uprava->naziv }}</strong></td>
-                <td style="width: 15%;">{{ date('d.m.Y', strtotime($knjizenje->datum_knjizenja)) }}</td>
-                <td style="width: 35%;"><em>{{ $knjizenje->napomena }}</em></td>
-                <td style="width: 10%; text-align: right;">
+                <td style="width: 20%;">{{ $knjizenje->uprava->sifra }}</td>
+                <td style="width: 1%;"></td>
+                <td style="width: 79%;"><strong class="text-info">{{ $knjizenje->uprava->naziv }}</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">{{ date('d.m.Y', strtotime($knjizenje->datum_knjizenja)) }}</td>
+                <td style="width: 1%;"></td>
+                <td style="width: 79%;" title="{{$knjizenje->napomena}}"><em>{{ str_limit($knjizenje->napomena, 60)}}</em></td>
+            </tr>
+            <tr>
+                <td style="width: 20%;"></td>
+                <td style="width: 1%;"></td>
+                <td style="width: 79%; text-align: right;"">
                     <button
                         class="btn btn-success btn-xs" id="dugmeUpravaIzmena"
                         data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$knjizenje->id}}">
@@ -910,6 +925,7 @@
 @section('skripte')
 <script>
     $(document).ready(function () {
+
         var rok_detalj_ruta = "{{ route('rocista.detalj') }}";
         var rok_brisanje_ruta = "{{ route('rocista.brisanje') }}";
         var uprava_detalj_ruta = "{{ route('uprave_predmeti.detalj') }}";
@@ -986,12 +1002,12 @@
             $('#frmUpravaIzmena').submit();
         });
         $(document).on('click', '#dugmeUpravaIzmena', function () {
-            var id_menjanje = $(this).val();
+            var id_uprava_predmet = $(this).val();
             $.ajax({
                 url: uprava_detalj_ruta,
                 type: "GET",
                 data: {
-                    "id": id_menjanje
+                    "id": id_uprava_predmet
                 },
                 success: function (result) {
                     $("#knjizenje_id").val(result.knjizenje.id);
