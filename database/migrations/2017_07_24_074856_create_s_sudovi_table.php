@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSSudoviTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_sudovi', function (Blueprint $table) {
@@ -19,4 +20,5 @@ class CreateSSudoviTable extends Migration
     {
         Schema::dropIfExists('s_sudovi');
     }
+
 }

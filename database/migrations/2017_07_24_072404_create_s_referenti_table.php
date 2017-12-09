@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSReferentiTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_referenti', function (Blueprint $table) {
@@ -13,9 +14,6 @@ class CreateSReferentiTable extends Migration
             $table->string('ime', 100);
             $table->string('prezime', 150);
             $table->string('napomena')->nullable();
-
-            // indeksi
-            $table->unique(['ime', 'prezime']);
         });
     }
 
@@ -23,4 +21,5 @@ class CreateSReferentiTable extends Migration
     {
         Schema::dropIfExists('s_referenti');
     }
+
 }

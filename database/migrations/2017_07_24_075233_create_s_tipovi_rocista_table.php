@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSTipoviRocistaTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_tipovi_rocista', function (Blueprint $table) {
@@ -19,4 +20,5 @@ class CreateSTipoviRocistaTable extends Migration
     {
         Schema::dropIfExists('s_tipovi_rocista');
     }
+
 }

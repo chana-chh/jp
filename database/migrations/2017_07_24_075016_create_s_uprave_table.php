@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSUpraveTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_uprave', function (Blueprint $table) {
@@ -20,4 +21,5 @@ class CreateSUpraveTable extends Migration
     {
         Schema::dropIfExists('s_uprave');
     }
+
 }

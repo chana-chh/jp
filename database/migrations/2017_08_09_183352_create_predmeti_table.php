@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePredmetiTable extends Migration
 {
+
     public function up()
     {
         Schema::create('predmeti', function (Blueprint $table) {
@@ -32,7 +33,7 @@ class CreatePredmetiTable extends Migration
             $table->integer('korisnik_id')->unsigned()->nullable();
 
             // Jedinstven indeks za broj
-            $table->index(['vrsta_upisnika_id', 'broj_predmeta', 'godina_predmeta']);
+            $table->unique(['vrsta_upisnika_id', 'broj_predmeta', 'godina_predmeta']);
 
             // indeksi
             $table->foreign('sud_id')->references('id')->on('s_sudovi')->onDelete('restrict');
@@ -44,7 +45,6 @@ class CreatePredmetiTable extends Migration
         });
     }
 
-
     public function down()
     {
         Schema::dropForeign(['sud_id']);
@@ -55,4 +55,5 @@ class CreatePredmetiTable extends Migration
         Schema::dropForeign(['roditelj_id']);
         Schema::dropIfExists('predmeti');
     }
+
 }

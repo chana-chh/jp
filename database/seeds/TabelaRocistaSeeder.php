@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaRocistaSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('rocista')->insert([
@@ -12,7 +13,8 @@ class TabelaRocistaSeeder extends Seeder
             'tip_id' => 1,
             'datum' => '2017-12-31',
             'vreme' => '23:59:59',
-            'opis' => 'Описни придев',
-            ]);
+            'opis' => 'Опис',
+        ]);
     }
+
 }

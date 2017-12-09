@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTokoviPredmetaTable extends Migration
 {
+
     public function up()
     {
         Schema::create('tokovi_predmeta', function (Blueprint $table) {
@@ -32,4 +33,5 @@ class CreateTokoviPredmetaTable extends Migration
         Schema::dropForeign(['status_id']);
         Schema::dropIfExists('tokovi_predmeta');
     }
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateKorisniciTable extends Migration
 {
+
     public function up()
     {
         Schema::create('korisnici', function (Blueprint $table) {
@@ -23,4 +24,5 @@ class CreateKorisniciTable extends Migration
     {
         Schema::dropIfExists('korisnici');
     }
+
 }

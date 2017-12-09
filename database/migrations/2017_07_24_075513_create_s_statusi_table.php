@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSStatusiTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_statusi', function (Blueprint $table) {
@@ -19,4 +20,5 @@ class CreateSStatusiTable extends Migration
     {
         Schema::dropIfExists('s_statusi');
     }
+
 }

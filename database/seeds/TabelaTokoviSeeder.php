@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaTokoviSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('tokovi_predmeta')->insert([
@@ -16,6 +17,7 @@ class TabelaTokoviSeeder extends Seeder
             'vrednost_spora_duguje' => 5000,
             'iznos_troskova_potrazuje' => 5000,
             'iznos_troskova_duguje' => 5000,
-            ]);
+        ]);
     }
+
 }
