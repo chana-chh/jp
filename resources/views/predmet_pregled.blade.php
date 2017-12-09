@@ -483,7 +483,7 @@
 @section('traka')
 <div class="row">
     <div class="col-md-12 text-center">
-       <a href=""><img alt="skenirano ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
+       <a href="{{ route('predmeti.slike', $predmet->id) }}"><img alt="skenirano ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
        <h4>Преглед скениране документације</h4>
     </div>
 </div>

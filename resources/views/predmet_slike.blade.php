@@ -8,13 +8,24 @@
 
 @section('naslov')
     <h1 class="page-header"><img class="slicica_animirana" alt="Скенирана документација"
-                 src="{{url('/images/sud.jpg')}}" style="height:64px;">
+                 src="{{url('/images/slike.png')}}" style="height:64px;">
             &emsp;Скенирана документација
         </h1>
 @endsection
 
 @section('sadrzaj')
-  Слике
+{{$slike->count()}}
+{{-- 
+@if($slike->count()>0) --}}
+@foreach($slike as $s)
+{{$s->src}}
+<div class="col-md-3">
+    <img src="{{url($s->src)}}" class="img-responsive">
+</div>
+@endforeach
+{{-- @else --}}
+<h3 class="text-danger">За овај предмет нема скенираних докумената</h3>
+{{-- @endif --}}
 
         {{-- Modal za dijalog brisanje--}}
     <div class="modal fade" id="brisanjeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

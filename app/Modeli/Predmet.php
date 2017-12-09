@@ -50,7 +50,7 @@ class Predmet extends Model
 	}
 
 	// hasMany
-	    public function slike()
+	public function slike()
     {
         return $this->hasMany('App\Modeli\PredmetSlika', 'predmet_id', 'id');
     }

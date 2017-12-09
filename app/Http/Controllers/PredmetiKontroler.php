@@ -353,4 +353,12 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
+    public function getPredmetiSlike($id)
+    {
+        $predmet = Predmet::findOrFail($id);
+        $slike =  $predmet->slike;
+
+        return view('predmet_slike')->with(compact('slike', 'predmet'));
+    }
+
 }
