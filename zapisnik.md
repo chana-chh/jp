@@ -23,3 +23,13 @@ MySQLDump (backup)
 - https://davidwalsh.name/backup-mysql-database-php
 
 dodavanje rokova i rocista u dane vikenda
+
+phpWord izmene za php7
+
+U fajlu:
+PHPOffice\PHPWord\Writer\Word2007\Part\Settings.php
+u private function getSettings() izmeniti liniju:
+'w:compat' => '',
+u:
+'w:compat' => array('@attributes' => array('w:val' => '')),
+

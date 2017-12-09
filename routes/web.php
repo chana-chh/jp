@@ -112,6 +112,5 @@ Route::get('o_programu', function () {
 })->name('o_programu');
 
 //Izvestaji
-Route::get('izvestaji', function () {
-    return view('izvestaji');
-})->name('izvestaji');
+Route::get('izvestaji', 'IzvestajiKontroler@getIzvestaji')->name('izvestaji');
+Route::post('izvestaji', 'IzvestajiKontroler@postIzvestaji')->name('izvestaji.post');
