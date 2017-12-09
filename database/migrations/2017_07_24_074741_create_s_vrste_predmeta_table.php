@@ -6,12 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSVrstePredmetaTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_vrste_predmeta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('naziv', 190)->unique();
-            $table->string('napomena', 190)->nullable();
+            $table->string('napomena')->nullable();
         });
     }
 
@@ -19,4 +20,5 @@ class CreateSVrstePredmetaTable extends Migration
     {
         Schema::dropIfExists('s_vrste_predmeta');
     }
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSVrsteUpisnikaTable extends Migration
 {
+
     public function up()
     {
         Schema::create('s_vrste_upisnika', function (Blueprint $table) {
@@ -21,4 +22,5 @@ class CreateSVrsteUpisnikaTable extends Migration
     {
         Schema::dropIfExists('s_vrste_upisnika');
     }
+
 }

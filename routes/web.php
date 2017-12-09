@@ -109,3 +109,8 @@ Route::get('tok/tekuca_godina', 'TokoviNovcaKontroler@getTekucaGodina')->name('t
 Route::get('o_programu', function () {
     return view('o_programu');
 })->name('o_programu');
+
+//Izvestaji
+Route::get('izvestaji', function () {
+    return view('izvestaji');
+})->name('izvestaji');

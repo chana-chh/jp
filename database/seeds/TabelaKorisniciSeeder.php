@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaKorisniciSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('korisnici')->insert([
@@ -17,4 +18,5 @@ class TabelaKorisniciSeeder extends Seeder
             'password' => bcrypt('усер'),
             'level' => 10]);
     }
+
 }

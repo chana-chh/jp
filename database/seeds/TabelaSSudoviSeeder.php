@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaSSudoviSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('s_sudovi')->insert(['naziv' => 'Апелациони суд у Крагујевцу',]);
@@ -16,4 +17,5 @@ class TabelaSSudoviSeeder extends Seeder
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Новом Саду',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Крагујевцу',]);
     }
+
 }

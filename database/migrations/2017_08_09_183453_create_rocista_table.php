@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRocistaTable extends Migration
 {
+
     public function up()
     {
         Schema::create('rocista', function (Blueprint $table) {
@@ -13,7 +14,7 @@ class CreateRocistaTable extends Migration
             $table->integer('predmet_id')->unsigned();
             $table->integer('tip_id')->unsigned();
             $table->date('datum');
-            $table->time('vreme');
+            $table->time('vreme')->nullable();
             $table->string('opis')->nullable();
 
             // indeksi
@@ -28,4 +29,5 @@ class CreateRocistaTable extends Migration
         Schema::dropForeign(['tip_id']);
         Schema::dropIfExists('rocista');
     }
+
 }

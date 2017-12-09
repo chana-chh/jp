@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaSStatusiSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('s_statusi')->insert(['naziv' => 'Парнични',]);
@@ -15,4 +16,5 @@ class TabelaSStatusiSeeder extends Seeder
         DB::table('s_statusi')->insert(['naziv' => 'Ванпарнични',]);
         DB::table('s_statusi')->insert(['naziv' => 'а/а',]);
     }
+
 }

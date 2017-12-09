@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class TabelaPredmetiUpraveSeeder extends Seeder
 {
+
     public function run()
     {
         DB::table('predmeti_uprave')->insert([
@@ -11,6 +12,7 @@ class TabelaPredmetiUpraveSeeder extends Seeder
             'uprava_id' => 1,
             'datum_knjizenja' => '2017-12-31',
             'napomena' => 'Описни',
-            ]);
+        ]);
     }
+
 }

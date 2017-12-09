@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     public function run()
     {
         $this->call(TabelaKorisniciSeeder::class);
@@ -19,4 +20,5 @@ class DatabaseSeeder extends Seeder
         $this->call(TabelaTokoviSeeder::class);
         $this->call(TabelaPredmetiUpraveSeeder::class);
     }
+
 }

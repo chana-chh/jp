@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePredmetiUpraveTable extends Migration
 {
+
     public function up()
     {
         Schema::create('predmeti_uprave', function (Blueprint $table) {
@@ -27,4 +28,5 @@ class CreatePredmetiUpraveTable extends Migration
         Schema::dropForeign(['uprava_id']);
         Schema::dropIfExists('predmeti_uprave');
     }
+
 }

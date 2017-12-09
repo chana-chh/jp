@@ -22,3 +22,4 @@ MySQLDump (backup)
 - https://github.com/ifsnop/mysqldump-php
 - https://davidwalsh.name/backup-mysql-database-php
 
+dodavanje rokova i rocista u dane vikenda
