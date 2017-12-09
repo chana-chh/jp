@@ -38,7 +38,7 @@
                     </ul>
                 </li>
                 @endif
-                <li>
+                <li style="margin-left: 40px; opacity: 0.7;">
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">

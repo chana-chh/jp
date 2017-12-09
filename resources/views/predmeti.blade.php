@@ -277,26 +277,6 @@
             $('#pretraga_div').toggle();
         });
 
-        // $('#dugme_pretrazi').click(function() {
-            
-        //    var sviInputi = $( '#pretraga input, .select_vp, .select_vu' );
-        //    var prazni = 0;
-           
-        //    $(sviInputi).each(function(){
-        //    if($(this).val() === "") prazni+=1;
-        //     });
-
-        //    console.log("Svi inputi: " + sviInputi.length + " Prazni:" + prazni);
-
-        //    if((sviInputi.length -1) -  prazni > 0){
-        //     $('#pretraga').submit();
-        //     }
-        //     else {
-        //     alert("Није одабран ниједан критеријум за претрагу!");
-        //     }
-            
-        // });
-
         $('#tabelaPredmeti').DataTable({
             dom: 'Bflrtip',
         buttons: [

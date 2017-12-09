@@ -22,16 +22,15 @@ class RocistaKontroler extends Kontroler
     public function postDodavanje(Request $req)
     {
         $this->validate($req, [
-                'datum' => 'required|date',
-                'vreme' => 'required',
-                'tip_id' => 'required|integer',
+                'rok_dodavanje_datum' => 'required|date',
+                'rok_dodavanje_tip_id' => 'required|integer',
             ]);
 
         $rociste = new Rociste();
-        $rociste->datum = $req->datum;
-        $rociste->vreme = $req->vreme;
-        $rociste->tip_id = $req->tip_id;
-        $rociste->opis = $req->opis;
+        $rociste->datum = $req->rok_dodavanje_datum;
+        $rociste->vreme = $req->rok_dodavanje_vreme;
+        $rociste->tip_id = $req->rok_dodavanje_tip_id;
+        $rociste->opis = $req->rok_dodavanje_opis;
         $rociste->predmet_id = $req->predmet_id;
         $rociste->save();
 
