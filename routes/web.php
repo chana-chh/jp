@@ -73,6 +73,7 @@ Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predm
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
 Route::post('predmeti/arhiviranje', 'PredmetiKontroler@postArhiviranje')->name('predmeti.arhiviranje');
 Route::get('predmeti/obrisani', 'PredmetiKontroler@getPredmetiObrisani')->name('predmeti.obrisani');
+Route::get('predmeti/slike/{id}', 'PredmetiKontroler@getPredmetiSlike')->name('predmeti.slike');
 Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
 
 //Rocista
