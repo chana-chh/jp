@@ -38,15 +38,15 @@ class PredmetiKontroler extends Kontroler
 		If($req->isMethod('get'))
 		{
 			$predmeti = Predmet::all();
-		}
+	    }
 
 		If($req->isMethod('post'))
 		{
 			$predmeti = $this->naprednaPretraga($req->all());
 		}
-
 		return view('predmeti')->with(compact ('vrste', 'upisnici', 'sudovi', 'referenti','predmeti'));
 	}
+		
 
 	private function naprednaPretraga($params)
 	{
@@ -72,8 +72,8 @@ class PredmetiKontroler extends Kontroler
 		if($params['sud_id']) {
 			$where[] = ['sud_id', '=', $params['sud_id']];
 		}
-		if($params['vrsta_predemta_id']) {
-			$where[] = ['vrsta_predemta_id', '=', $params['vrsta_predemta_id']];
+		if($params['vrsta_predmeta_id']) {
+			$where[] = ['vrsta_predmeta_id', '=', $params['vrsta_predmeta_id']];
 		}
 		if($params['referent_id']) {
 			$where[] = ['referent_id', '=', $params['referent_id']];
