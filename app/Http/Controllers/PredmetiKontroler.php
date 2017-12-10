@@ -389,10 +389,8 @@ class PredmetiKontroler extends Kontroler
         $slika->predmet_id = $id;
         $slika->src = $ime_slike;
         $slika->save();
-
-        $slike = $predmet->slike;
         Session::flash('uspeh', 'Скенирани документ је успешно додат!');
-        return view('predmet_slike')->with(compact('slike', 'predmet'));
+        return redirect()->route('predmeti.slike', $id);
     }
 
         public function postSlikeBrisanje(Request $req)
