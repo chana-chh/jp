@@ -32,22 +32,31 @@ class PredmetiKontroler extends Kontroler
         ]);
     }
 
-    public function getLista(Request $req)
+    public function getLista()
     {
-        $predmeti = null;
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-
-        If ($req->isMethod('get')) {
-            $predmeti = Predmet::all();
-        }
-
-        If ($req->isMethod('post')) {
-            $predmeti = $this->naprednaPretraga($req->all());
-        }
+        $predmeti = Predmet::all();
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
+    }
+
+    public function getListaFilter(Request $req)
+    {
+        $upisnici = VrstaUpisnika::all();
+        $sudovi = Sud::all();
+        $vrste = VrstaPredmeta::all();
+        $referenti = Referent::all();
+        $parametri = $req->session()->pull('parametri_za_filter', null);
+        $predmeti = $this->naprednaPretraga($parametri);
+        return view('predmeti_filter')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
+    }
+
+    public function postListaFilter(Request $req)
+    {
+        $req->session()->put('parametri_za_filter', $req->all());
+        return redirect()->route('predmeti.filter');
     }
 
     private function naprednaPretraga($params)
@@ -164,7 +173,6 @@ class PredmetiKontroler extends Kontroler
                         $params['datum_1'],
                         $params['datum_2']])->get();
         }
-        // dd($where);
         return $predmeti;
     }
 
@@ -356,7 +364,7 @@ class PredmetiKontroler extends Kontroler
     public function getPredmetiSlike($id)
     {
         $predmet = Predmet::findOrFail($id);
-        $slike =  $predmet->slike;
+        $slike = $predmet->slike;
 
         return view('predmet_slike')->with(compact('slike', 'predmet'));
     }

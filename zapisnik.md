@@ -33,3 +33,29 @@ u private function getSettings() izmeniti liniju:
 u:
 'w:compat' => array('@attributes' => array('w:val' => '')),
 
+Original pretraga:
+
+    public function getLista(Request $req)
+    {
+        $predmeti = null;
+        $upisnici = VrstaUpisnika::all();
+        $sudovi = Sud::all();
+        $vrste = VrstaPredmeta::all();
+        $referenti = Referent::all();
+        If ($req->isMethod('get')) {
+            $predmeti = Predmet::all();
+        }
+        If ($req->isMethod('post')) {
+            $predmeti = $this->naprednaPretraga($req->all());
+        }
+        return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
+    }
+
+Rute:
+Route::get('predmeti', 'PredmetiKontroler@getLista')->name('predmeti');
+Route::post('predmeti', 'PredmetiKontroler@getLista')->name('predmeti.pretraga');
+
+Izbrisati: `predmeti_filter.blade.php`
+
+Ovo sranje je nemoguce resiti kako treba. U ovom obliku na F5 gubi filter i prikazuje sve predmete.
+Mislim da je ipak bolja prva varijanta.

@@ -64,7 +64,8 @@ Route::get('sifarnici/korisnici/pregled/{id}', 'KorisniciKontroler@getPregled')-
 
 //Predmeti
 Route::get('predmeti', 'PredmetiKontroler@getLista')->name('predmeti');
-Route::post('predmeti', 'PredmetiKontroler@getLista')->name('predmeti.pretraga');
+Route::get('predmeti/filter', 'PredmetiKontroler@getListaFilter')->name('predmeti.filter');
+Route::post('predmeti/filter', 'PredmetiKontroler@postListaFilter')->name('predmeti.pretraga');
 Route::get('predmeti/dodavanje/forma', 'PredmetiKontroler@getDodavanje')->name('predmeti.dodavanje.get');
 Route::post('predmeti/dodavanje', 'PredmetiKontroler@postDodavanje')->name('predmeti.dodavanje.post');
 Route::post('predmeti/brisanje', 'PredmetiKontroler@postBrisanje')->name('predmeti.brisanje');
