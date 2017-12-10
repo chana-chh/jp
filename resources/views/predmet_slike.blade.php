@@ -66,7 +66,7 @@
 <h3 >Додавање новог скенираног документа</h3>
 {{--  POCETAK SLIKA  --}}
 <div class="row" style="margin-bottom: 2rem;">
-                <div class="col-md-12 text-right">
+                <div class="col-md-12">
                     <form action="{{route('predmeti.slike.post', $predmet->id)}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
                     <div class="input-group image-preview">
@@ -148,19 +148,18 @@ $(function() {
         $('.image-preview-filename').val("");
         $('.image-preview-clear').hide();
         $('.image-preview-input input:file').val("");
-        $(".image-preview-input-title").text("Одабери скенирани документ"); 
+        $(".image-preview-input-title").text("Одабери"); 
     }); 
 
     $(".image-preview-input input:file").change(function (){     
         var img = $('<img/>', {
             id: 'dynamic',
-            width:180,
             height:200
         });      
         var file = this.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
-            $(".image-preview-input-title").text("Izmeni");
+            $(".image-preview-input-title").text("Измени");
             $(".image-preview-clear").show();
             $(".image-preview-filename").val(file.name);            
             img.attr('src', e.target.result);
@@ -180,7 +179,7 @@ $(function() {
     $(document).on('click', '.otvori-brisanje', function () {
              var id_brisanje = $(this).val();
              console.log(id_brisanje);
-             var ruta = "{{ route('predmeti.slike.brisanje') }}";
+             var ruta = "{{ route('slike.brisanje') }}";
              console.log(ruta);
              $('#brisanjeModal').modal('show');
              $('#btn-brisanje-obrisi').click(function () {
@@ -190,9 +189,6 @@ $(function() {
                      data: {
                          "id": id_brisanje,
                          "_token": "{!! csrf_token() !!}"
-                     },
-                     success: function () {
-                         location.reload();
                      }
                  });
                  $('#brisanjeModal').modal('hide');
