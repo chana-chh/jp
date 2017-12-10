@@ -369,4 +369,45 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_slike')->with(compact('slike', 'predmet'));
     }
 
+    public function postPredmetiSlike(Request $req, $id)
+    {
+        $predmet = Predmet::findOrFail($id);
+
+        $this->validate($req, [
+            'slika' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $img = $req->slika;
+        $ime_slike = $predmet->broj_predmeta . time() . '.' . $req->slika->getClientOriginalExtension();
+        $lokacija = public_path('images/skenirano/' . $ime_slike);
+        $resize_img = Image::make($img)->heighten(800, function ($constraint) {
+            $constraint->upsize();
+        })->encode('jpg', 75);
+        $resize_img->save($lokacija);
+
+        $slika = new PredmetSlika;
+        $slika->predmet_id = $id;
+        $slika->src = $ime_slike;
+        $slika->save();
+
+        $slike = $predmet->slike;
+        Session::flash('uspeh', 'Скенирани документ је успешно додат!');
+        return view('predmet_slike')->with(compact('slike', 'predmet'));
+    }
+
+        public function postSlikeBrisanje(Request $req)
+    {   
+        dd($req->id_brisanje);
+        $slika = PredmetSlika::find($req->id_brisanje);
+        $putanja = public_path('images/skenirano/') . $slika->src;
+        $odgovor = $slika->delete();
+        if ($odgovor) {
+            unlink($putanja);
+            Session::flash('uspeh', 'Скенирани документ је успешно обрисан!');
+        } else {
+            Session::flash('greska', 'Дошло је до грешке приликом брисања предмета. Покушајте поново, касније!');
+        }
+        return Redirect::back();
+    }
+
 }
