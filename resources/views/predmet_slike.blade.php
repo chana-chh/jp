@@ -25,7 +25,7 @@
              style="height: 200px; margin: 10px auto;">
         <button class="btn btn-danger btn-xs btn-block otvori-brisanje"
                 style="width: 80%; margin: 5px auto;"
-                {{-- data-toggle="modal" data-target="#brisanjeModal" --}}
+                data-toggle="modal" data-target="#brisanjeModal"
                 value="{{$s->id}}">
             <i class="fa fa-trash"></i>
         </button>
@@ -47,12 +47,16 @@
             <div class = "modal-body">
                 <h3>Да ли желите трајно да обришете скенирани докуменат? *</h3>
                 <p class = "text-danger">* Ова акција је неповратна!</p>
+                <form id="brisanje-forma" action="" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" id="idBrisanje" name="idBrisanje">
+                    <button id = "btn-brisanje-obrisi" class = "btn btn-danger">
+                        <i class = "fa fa-trash"></i> Обриши
+                    </button>
+                </form>
             </div>
             <div class = "modal-footer">
-                <button id="btn-brisanje-obrisi" class="btn btn-warning">
-                    <i class="fa fa-trash"></i> Обриши
-                </button>
-                <button id="btn-brisanje-otkazi" class="btn btn-danger">
+                <button class = "btn btn-primary" data-dismiss="modal">
                     <i class = "fa fa-ban"></i> Откажи
                 </button>
             </div>
@@ -177,26 +181,11 @@ $(function() {
     });
 
     $(document).on('click', '.otvori-brisanje', function () {
-             var id_brisanje = $(this).val();
-             console.log(id_brisanje);
-             var ruta = "{{ route('slike.brisanje') }}";
-             console.log(ruta);
-             $('#brisanjeModal').modal('show');
-             $('#btn-brisanje-obrisi').click(function () {
-                 $.ajax({
-                     url: ruta,
-                     type: "POST",
-                     data: {
-                         "id": id_brisanje,
-                         "_token": "{!! csrf_token() !!}"
-                     }
-                 });
-                 $('#brisanjeModal').modal('hide');
-             });
-             $('#btn-brisanje-otkazi').click(function () {
-                 $('#brisanjeModal').modal('hide');
-             });
-        });
+        var id = $(this).val();
+        $('#idBrisanje').val(id);
+        var ruta = "{{ route('slike.brisanje') }}";
+        $('#brisanje-forma').attr('action', ruta);
+    });
 });
 </script>
 @endsection

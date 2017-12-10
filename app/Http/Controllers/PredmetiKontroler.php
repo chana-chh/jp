@@ -397,8 +397,8 @@ class PredmetiKontroler extends Kontroler
 
         public function postSlikeBrisanje(Request $req)
     {   
-        dd($req->id_brisanje);
-        $slika = PredmetSlika::find($req->id_brisanje);
+
+        $slika = PredmetSlika::find($req->idBrisanje);
         $putanja = public_path('images/skenirano/') . $slika->src;
         $odgovor = $slika->delete();
         if ($odgovor) {
