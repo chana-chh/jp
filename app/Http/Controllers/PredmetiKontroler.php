@@ -8,6 +8,8 @@ use Redirect;
 use Gate;
 use Auth;
 use Image;
+use DB;
+use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
@@ -328,6 +330,13 @@ class PredmetiKontroler extends Kontroler
     public function postBrisanje(Request $req)
     {
         $predmet = Predmet::findOrFail($req->id);
+        $vreme = Carbon::now();
+
+            DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
+            DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
+            DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
+            DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
+
         $odgovor = $predmet->delete();
 
         if ($odgovor) {
@@ -354,6 +363,10 @@ class PredmetiKontroler extends Kontroler
             $predmet = Predmet::onlyTrashed()->find($req->id);
             if ($predmet !== null) {
                 $predmet->restore();
+                DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
+                DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
+                DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
+                DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
                 Session::flash('uspeh', 'Предмет је успешно активиран!');
             } else {
                 Session::flash('greska', 'Дошло је до грешке приликом активирања предмета!');

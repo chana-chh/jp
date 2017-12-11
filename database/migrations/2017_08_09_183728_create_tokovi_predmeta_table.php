@@ -20,6 +20,7 @@ class CreateTokoviPredmetaTable extends Migration
             $table->decimal('iznos_troskova_potrazuje', 15, 2)->default(0);
             $table->decimal('iznos_troskova_duguje', 15, 2)->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             // indeksi
             $table->foreign('predmet_id')->references('id')->on('predmeti')->onDelete('restrict');

@@ -16,6 +16,7 @@ class CreateRocistaTable extends Migration
             $table->date('datum');
             $table->time('vreme')->nullable();
             $table->string('opis')->nullable();
+            $table->softDeletes();
 
             // indeksi
             $table->foreign('predmet_id')->references('id')->on('predmeti')->onDelete('restrict');

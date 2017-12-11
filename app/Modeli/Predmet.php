@@ -69,4 +69,5 @@ class Predmet extends Model
 	{
 		return $this->hasMany('App\Modeli\PredmetUprava', 'predmet_id', 'id');
 	}
+
 }

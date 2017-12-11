@@ -15,6 +15,7 @@ class CreatePredmetiUpraveTable extends Migration
             $table->integer('uprava_id')->unsigned();
             $table->date('datum_knjizenja');
             $table->text('napomena')->nullable();
+            $table->softDeletes();
 
             // indeksi
             $table->foreign('predmet_id')->references('id')->on('predmeti')->onDelete('restrict');

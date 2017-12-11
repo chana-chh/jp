@@ -12,6 +12,7 @@ class CreatePredmetiSlikeTable extends Migration
             $table->increments('id');
             $table->integer('predmet_id')->unsigned();
             $table->string('src');
+            $table->softDeletes();
 
             $table->foreign('predmet_id')->references('id')->on('predmeti')->onUpdate('cascade')->onDelete('restrict');
         });
