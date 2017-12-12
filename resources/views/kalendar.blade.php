@@ -11,29 +11,25 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header">
-    <span><img alt="рочиште" src="{{url('/images/kalendar.png')}}" style="height:64px"></span>&emsp;
+<div class="row">
+    <div class="col-md-8">
+        <h1>
+            <img class="slicica_animirana" alt="календар рочишта" src="{{url('/images/kalendar.png')}}" style="height:64px">&emsp;
     Календарски преглед рочишта</h1>
+        </h1>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a class="btn btn-primary btn-block ono" href="{{ route('rocista.dodavanje.get') }}"><i class="fa fa-plus-circle fa-fw"></i>&emsp;Додај рочиште
+        </a>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a class="btn btn-success btn-block ono" href="{{ route('rocista') }}"><i class="fa fa-table fa-fw"></i>&emsp;Табеларни приказ рочишта</a>
+    </div>
+</div>
+<hr>
     <div class="row boxic">
     <div class="col-md-12 ceo" id='calendar'></div>
     </div>
-{{-- Sekcija sa dugicima - POCETAK --}}
-<div class="row dugmici">
-<div class="col-md-10 col-md-offset-1">
-
-<div class="row log">
-<div class="col-md-6 snimi">
-<a class="btn btn-primary btn-block" href="{{ route('rocista.dodavanje.get') }}"><i class="fa fa-plus-circle fa-fw"></i>&emsp;Додај рочиште
-</a>
-</div>
-<div class="col-md-6">
-<a class="btn btn-primary btn-block" href="{{ route('rocista') }}"><i class="fa fa-table fa-fw"></i>&emsp;Табеларни приказ рочишта</a>
-</div>
-</div>
-
-</div>
-</div>
-{{-- Sekcija sa dugmicima - KRAJ --}}
 @endsection
 
 @section('skripte')

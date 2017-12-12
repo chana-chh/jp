@@ -7,18 +7,23 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header">
-        <span><img alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px"></span>
-        Табеларни преглед свих рочишта
-    </h1>
-    <div class="row">
-        <div class="col-md-3 col-md-offset-9">
-            <a class="btn btn-primary" href="{{ route('rocista.dodavanje.get') }}" style="float: right;">
+<div class="row">
+    <div class="col-md-8">
+        <h1>
+            <img class="slicica_animirana" alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px">
+            &emsp;Табеларни преглед свих рочишта
+        </h1>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a class="btn btn-primary btn-block ono" href="{{ route('rocista.dodavanje.get') }}">
                 <i class="fa fa-plus-circle fa-fw"></i> Додај рочиште
             </a>
-        </div>
     </div>
-    <hr style="border-top: 2px solid #18BC9C">
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a class="btn btn-success btn-block ono" href="{{ route('rocista.kalendar') }}" ><i class="fa fa-arrow-circle-left"></i> Назад на календарски приказ</a>
+    </div>
+</div>
+    <hr style="border-top: 1px solid #18BC9C">
 
     @if($rocista->isEmpty())
             <h3 class="text-danger">Нема записа у бази података</h3>
@@ -63,11 +68,6 @@
                 </tbody>
             </table>
         @endif
-        <div class="row">
-    <div class="col-md-12" style="margin-top: 20px">
-    <a href="{{ route('rocista.kalendar') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на календарски приказ</a>
-    </div>
-    </div>
 
     {{--  pocetak modal_rocista_izmena  --}}
     <div class="modal fade" id="izmeniRocisteModal">

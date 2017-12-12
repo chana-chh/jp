@@ -4,3 +4,4 @@
 <link href="{{ asset('/css/datatables.min.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/chosen.css') }}" rel="stylesheet">
 <link href="{{ asset('/css/chh.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/igra.css') }}" rel="stylesheet">
