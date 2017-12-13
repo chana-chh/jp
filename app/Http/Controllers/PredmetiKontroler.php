@@ -245,7 +245,7 @@ class PredmetiKontroler extends Kontroler
         $upisnik->save();
 
         Session::flash('uspeh', 'Предмет је успешно додат!');
-        return redirect()->route('predmeti');
+        return redirect()->route('predmeti.pregled', $predmet->id);
     }
 
     public function getIzmena($id)

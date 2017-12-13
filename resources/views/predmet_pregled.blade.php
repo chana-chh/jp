@@ -99,7 +99,7 @@
 </div>
 {{--  kraj modal_arhiviranje  --}}
 
-<table class="table table-striped" style="table-layout: fixed;">
+<table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr>
             <th style="width: 20%;">Датум</th>
@@ -161,8 +161,8 @@
 <div class="well" style="overflow: auto;">
     <h3 style="margin-bottom: 20px">Токови</h3>
     <hr style="border-top: 1px solid #18BC9C">
-    <table class="table table-striped table-responsive">
-        <thead>
+    <table class="table table-striped table-condensed table-responsive">
+        <thead style="font-size: 0.9375em;">
             <tr>
                 <th>Датум</th>
                 <th>Статус</th>
