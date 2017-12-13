@@ -50,14 +50,14 @@ class PredmetiKontroler extends Kontroler
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-        $parametri = $req->session()->pull('parametri_za_filter', null);
+        $parametri = $req->session()->get('parametri_za_filter_predmeta', null);
         $predmeti = $this->naprednaPretraga($parametri);
         return view('predmeti_filter')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
     public function postListaFilter(Request $req)
     {
-        $req->session()->put('parametri_za_filter', $req->all());
+        $req->session()->put('parametri_za_filter_predmeta', $req->all());
         return redirect()->route('predmeti.filter');
     }
 
@@ -332,10 +332,10 @@ class PredmetiKontroler extends Kontroler
         $predmet = Predmet::findOrFail($req->id);
         $vreme = Carbon::now();
 
-            DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
-            DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
-            DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
-            DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw("'".$vreme."'")]);
+        DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
 
         $odgovor = $predmet->delete();
 
@@ -363,10 +363,10 @@ class PredmetiKontroler extends Kontroler
             $predmet = Predmet::onlyTrashed()->find($req->id);
             if ($predmet !== null) {
                 $predmet->restore();
-                DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
-                DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
-                DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
-                DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' =>DB::raw('null')]);
+                DB::table('predmeti_slike')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw('null')]);
+                DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw('null')]);
+                DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw('null')]);
+                DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw('null')]);
                 Session::flash('uspeh', 'Предмет је успешно активиран!');
             } else {
                 Session::flash('greska', 'Дошло је до грешке приликом активирања предмета!');
@@ -394,8 +394,8 @@ class PredmetiKontroler extends Kontroler
         $ime_slike = $predmet->broj_predmeta . time() . '.' . $req->slika->getClientOriginalExtension();
         $lokacija = public_path('images/skenirano/' . $ime_slike);
         $resize_img = Image::make($img)->heighten(800, function ($constraint) {
-            $constraint->upsize();
-        })->encode('jpg', 75);
+                    $constraint->upsize();
+                })->encode('jpg', 75);
         $resize_img->save($lokacija);
 
         $slika = new PredmetSlika;
@@ -406,8 +406,8 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.slike', $id);
     }
 
-        public function postSlikeBrisanje(Request $req)
-    {   
+    public function postSlikeBrisanje(Request $req)
+    {
 
         $slika = PredmetSlika::find($req->idBrisanje);
         $putanja = public_path('images/skenirano/') . $slika->src;
