@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-10">
        <h1>
-        <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
+        <span><img class="slicica_animirana" alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
         Ток новца
     </h1>
     </div>
