@@ -6,25 +6,25 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
-
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
 
 class RocistaKontroler extends Kontroler
 {
+
     public function getLista()
     {
-    	$rocista = Rociste::all();
-    	return view('rocista')->with(compact ('rocista'));
+        $rocista = Rociste::all();
+        return view('rocista')->with(compact('rocista'));
     }
 
     public function postDodavanje(Request $req)
     {
         $this->validate($req, [
-                'rok_dodavanje_datum' => 'required|date',
-                'rok_dodavanje_tip_id' => 'required|integer',
-            ]);
+            'rok_dodavanje_datum' => 'required|date',
+            'rok_dodavanje_tip_id' => 'required|integer',
+        ]);
 
         $rociste = new Rociste();
         $rociste->datum = $req->rok_dodavanje_datum;
@@ -34,7 +34,7 @@ class RocistaKontroler extends Kontroler
         $rociste->predmet_id = $req->predmet_id;
         $rociste->save();
 
-        Session::flash('uspeh','Рок/рочиште је успешно додато!');
+        Session::flash('uspeh', 'Рок/рочиште је успешно додато!');
         return redirect()->route('predmeti.pregled', $req->predmet_id);
     }
 
@@ -42,13 +42,12 @@ class RocistaKontroler extends Kontroler
     {
         $predmeti = Predmet::all();
         $tipovi_rocista = TipRocista::all();
-        return view('rocista_dodavanje')->with(compact ('predmeti', 'tipovi_rocista'));
+        return view('rocista_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
     }
 
     public function getDetalj(Request $req)
     {
-        if($req->ajax())
-        {
+        if ($req->ajax()) {
             $id = $req->id;
             $rociste = Rociste::find($id);
             $tipovi_rocista = TipRocista::all();
@@ -71,9 +70,9 @@ class RocistaKontroler extends Kontroler
         $rociste->vreme = $req->rok_izmena_vreme;
         $rociste->opis = $req->rok_izmena_opis;
         $rociste->tip_id = $req->rok_izmena_tip_id;
-        $rociste -> save();
+        $rociste->save();
 
-        Session::flash('uspeh','Рок/рочиште је успешно измењено!');
+        Session::flash('uspeh', 'Рок/рочиште је успешно измењено!');
         return Redirect::back();
     }
 
@@ -84,36 +83,34 @@ class RocistaKontroler extends Kontroler
         $rociste = Rociste::find($id);
         $odgovor = $rociste->delete();
 
-        if ($odgovor)
-        {
-            Session::flash('uspeh','Рок/рочиште је успешно обрисано!');
-        }
-        else
-        {
-            Session::flash('greska','Дошло је до грешке приликом брисања рока/рочишта. Покушајте поново, касније!');
+        if ($odgovor) {
+            Session::flash('uspeh', 'Рок/рочиште је успешно обрисано!');
+        } else {
+            Session::flash('greska', 'Дошло је до грешке приликом брисања рока/рочишта. Покушајте поново, касније!');
         }
     }
 
     public function getKalendar()
     {
-        $rocista =  Rociste::all();
-        
+        $rocista = Rociste::all();
+
         $naslovi = array();
-        $datumi  = array();
-        $detalji  = array();
+        $datumi = array();
+        $detalji = array();
         foreach ($rocista as $rociste) {
             $datumi [] = $rociste->datum;
             $naslovi [] = [
-                date('H:i', strtotime($rociste->vreme)) . ' - ' . $rociste->predmet->broj(),
+                ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis. ' - <a href="'. route('predmeti.pregled', $rociste->predmet->id) .'" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji [] = $rociste->opis . ' - <a href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);
         $datumie = json_encode($datumi);
         $detaljie = json_encode($detalji);
 
-        return view('kalendar')->with(compact ('naslovie', 'datumie', 'detaljie'));
+        return view('kalendar')->with(compact('naslovie', 'datumie', 'detaljie'));
     }
+
 }

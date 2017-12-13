@@ -483,8 +483,8 @@
 @section('traka')
 <div class="row">
     <div class="col-md-12 text-center">
-       <a href="{{ route('predmeti.slike', $predmet->id) }}"><img alt="skenirano ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
-       <h4>Преглед скениране документације</h4>
+        <a href="{{ route('predmeti.slike', $predmet->id) }}"><img alt="skenirano ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
+        <h4>Преглед скениране документације</h4>
     </div>
 </div>
 <hr>
@@ -499,7 +499,11 @@
             <tr>
                 <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                 <td style="width: 18%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
-                <td style="width: 13%;"><strong>{{ date('H:i', strtotime($rociste->vreme)) }}</strong></td>
+                <td style="width: 13%;">
+                    <strong>
+                        {{ $rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '' }}
+                    </strong>
+                </td>
                 <td style="width: 37%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>
                 <td style="width: 17%; text-align: right;">
                     <button
