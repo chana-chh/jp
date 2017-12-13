@@ -24,7 +24,7 @@ dodavanje rokova i rocista u dane vikenda
 
 phpWord izmene za php7
 
-U fajlu:
+U fajlu: FALI TI src u PUTANJI posle PHPWord\src ... !!!
 PHPOffice\PHPWord\Writer\Word2007\Part\Settings.php
 u private function getSettings() izmeniti liniju:
 'w:compat' => '',

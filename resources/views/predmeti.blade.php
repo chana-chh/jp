@@ -278,6 +278,7 @@ $(document).ready(function () {
     });
 
     $('#tabelaPredmeti').DataTable({
+        stateSave: true,
         dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
