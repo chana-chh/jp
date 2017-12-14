@@ -32,6 +32,26 @@
 <div id="pretraga_div" class="well" style="display: none;">
     <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">
         {{ csrf_field() }}
+                <div class="row">
+            <div class="form-group col-md-3">
+                <label for="opis">Датум 1</label>
+                <input type="date"
+                       name="datum_1" id="datum_1"
+                       class="form-control">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="opis">Датум 2</label>
+                <input type="date"
+                       name="datum_2" id="datum_2"
+                       class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="text-warning">Напомена</label>
+                <p class="text-warning">
+                    Ако се унесе само први датум претрага ће се вршити за предмете са тим датумом. Ако се унесу оба датума претрага ће се вршити за предмете између та два датума.
+                </p>
+            </div>
+        </div>
         <div class="row">
             <div class="form-group col-md-3">
                 <label for="tip_id">Тип рочишта</label>
@@ -45,6 +65,27 @@
                     </option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="referent_id">Референт</label>
+                <select
+                    name="referent_id" id="referent_id"
+                    class="chosen-select form-control" data-placeholder="Референт">
+                    <option value=""></option>
+                    @foreach($referenti as $referent)
+                    <option value="{{ $referent->id }}">
+                        {{ $referent->imePrezime() }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-6 text-right ceo_dva">
+                <div class="col-md-6 snimi">
+                    <button type="submit" id="dugme_pretrazi" class="btn btn-success btn-block"><i class="fa fa-search"></i>&emsp;Претражи</button>
+                </div>
+                                <div class="col-md-6">
+                    <a class="btn btn-info btn-block" href="{{ route('rocista') }}"><i class="fa fa-ban"></i>&emsp;Откажи</a>
+                </div>
             </div>
         </div>
     </form>
@@ -260,6 +301,28 @@ $(document).ready(function () {
     $.fn.dataTable.moment('DD.MM.YYYY');
 
     $('#tabelaRocista').DataTable({
+        dom: 'Bflrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                }
+            }
+
+        ],
         order: [
             [
                 2,

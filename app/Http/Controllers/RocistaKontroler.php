@@ -9,6 +9,7 @@ use Gate;
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
+use App\Modeli\Referent;
 
 class RocistaKontroler extends Kontroler
 {
@@ -17,7 +18,9 @@ class RocistaKontroler extends Kontroler
     {
         $rocista = Rociste::all();
         $tipovi = TipRocista::all();
-        return view('rocista')->with(compact('rocista', 'tipovi'));
+        $referenti = Referent::all();
+
+        return view('rocista')->with(compact('rocista', 'tipovi', 'referenti'));
     }
 
     public function postDodavanje(Request $req)

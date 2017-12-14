@@ -54,13 +54,13 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="stranka_1">Странка 1</label>
+                                <label for="stranka_1">Тужилац</label>
                                 <input type="text" maxlen="255"
                                     name="stranka_1" id="stranka_1"
                                     class="form-control">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="stranka_2">Странка 2</label>
+                                <label for="stranka_2">Тужени</label>
                                 <input type="text" maxlen="255"
                                     name="stranka_2" id="stranka_2"
                                     class="form-control">
