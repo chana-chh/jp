@@ -8,11 +8,16 @@
 
 @section('naslov')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h1>
             <img class="slicica_animirana" alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px">
             &emsp;Табеларни преглед свих рочишта
         </h1>
+    </div>
+        <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <button id="pretragaDugme" class="btn btn-default btn-block ono">
+            <i class="fa fa-search fa-fw"></i> Напредна претрага
+        </button>
     </div>
     <div class="col-md-2 text-right" style="padding-top: 50px;">
         <a class="btn btn-primary btn-block ono" href="{{ route('rocista.dodavanje.get') }}">
@@ -24,6 +29,26 @@
     </div>
 </div>
 <hr style="border-top: 1px solid #18BC9C">
+<div id="pretraga_div" class="well" style="display: none;">
+    <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">
+        {{ csrf_field() }}
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="tip_id">Тип рочишта</label>
+                <select
+                    name="tip_id" id="tip_id"
+                    class="chosen-select form-control" data-placeholder="Тип рочишта">
+                    <option value=""></option>
+                    @foreach($tipovi as $tip)
+                    <option value="{{ $tip->id }}">
+                    <strong>{{ $tip->naziv }}</strong>
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
 
 @if($rocista->isEmpty())
 <h3 class="text-danger">Нема записа у бази података</h3>
@@ -31,26 +56,28 @@
 <table class="table table-striped tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th style="width: 15%;">Број предмета</th>
-            <th style="width: 15%;">Тип рочишта</th>
-            <th style="width: 15%;">Датум</th>
-            <th style="width: 10%;">Време</th>
-            <th style="width: 35%;">Опис</th>
+            <th style="width: 15%; text-align:right; padding-right: 25px">Број предмета</th>
+            <th style="width: 15%; text-align:right; padding-right: 25px">Тип рочишта</th>
+            <th style="width: 15%; text-align:right; padding-right: 25px">Датум</th>
+            <th style="width: 10%; text-align:right; padding-right: 25px">Време</th>
+            <th style="width: 23%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 12%; text-align:right; padding-right: 25px">Референт</th>
             <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
     <tbody id="rocista_lista" name="rocista_lista">
         @foreach ($rocista as $rociste)
         <tr>
-            <td><strong>
+            <td style="text-align:right"><strong>
                     <a href="{{ route('predmeti.pregled', $rociste->predmet_id) }}">
                         {{ $rociste->predmet->broj() }}
                     </a>
                 </strong></td>
-            <td>{{$rociste->tipRocista->naziv}}</td>
-            <td><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
-            <td>{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
-            <td><em>{{$rociste->opis}}</em></td>
+            <td style="text-align:right">{{$rociste->tipRocista->naziv}}</td>
+            <td style="text-align:right"><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
+            <td style="text-align:right">{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
+            <td style="text-align:right"><em>{{$rociste->opis}}</em></td>
+            <td style="text-align:right">{{$rociste->predmet->referent->imePrezime()}}</td>
             <td class="text-center">
                 <button
                     class="btn btn-success btn-sm" id="dugmeRocisteIzmena"
@@ -159,6 +186,15 @@
 <script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
 $(document).ready(function () {
+    
+    $('#pretragaDugme').click(function () {
+        $('#pretraga_div').toggle();
+    });
+
+    $('#dugme_pretrazi').click(function () {
+        $('#pretraga').submit();
+    });
+
     var rok_detalj_ruta = "{{ route('rocista.detalj') }}";
     var rok_brisanje_ruta = "{{ route('rocista.brisanje') }}";
 

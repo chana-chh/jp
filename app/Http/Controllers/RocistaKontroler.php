@@ -16,7 +16,8 @@ class RocistaKontroler extends Kontroler
     public function getLista()
     {
         $rocista = Rociste::all();
-        return view('rocista')->with(compact('rocista'));
+        $tipovi = TipRocista::all();
+        return view('rocista')->with(compact('rocista', 'tipovi'));
     }
 
     public function postDodavanje(Request $req)
@@ -103,7 +104,7 @@ class RocistaKontroler extends Kontroler
                 ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis . ' - <a href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);

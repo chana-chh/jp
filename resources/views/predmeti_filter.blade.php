@@ -33,15 +33,15 @@
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
-            <th style="width: 4%;">а/а</th>
-            <th style="width: 6%;">Број</th>
-            <th style="width: 11%;">Суд <span class="text-success">/ </span> број</th>
-            <th style="width: 9%;">Врста предмета</th>
-            <th style="width: 19%;">Опис</th>
-            <th style="width: 14%;">Странка 1</th>
-            <th style="width: 14%;">Странка 2</th>
-            <th style="width: 9%;">Датум</th>
-            <th style="width: 9%;">Референт</th>
+            <th style="width: 4%; text-align:right; padding-right: 25px">а/а</th>
+            <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
+            <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број</th>
+            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
+            <th style="width: 18%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужени</th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Датум</th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Референт</th>
             <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
@@ -59,24 +59,24 @@
                 </strong>
             </td>
             <td>
-                <ul style="list-style-type: none; padding-left:1px;">
+                <ul style="list-style-type: none; padding-left:1px; text-align:right">
                     <li>{{$predmet->sud->naziv}}</li>
                     <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
                 </ul>
 
             </td>
-            <td>{{$predmet->vrstaPredmeta->naziv}}</td>
-            <td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px;">
                     <li>{{$predmet->opis_kp}}</li>
                     <li><span class="text-success">{{$predmet->opis_adresa}}&emsp;</span></li>
                     <li>{{$predmet->opis}}</li>
                 </ul>
             </td>
-            <td><em>{{$predmet->stranka_1}}</em></td>
-            <td><em>{{$predmet->stranka_2}}</em></td>
-            <td>{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td>{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_1}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_2}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
             <td class="text-right">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"

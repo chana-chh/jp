@@ -1,6 +1,6 @@
 @extends('sabloni.app')
 
-@section('naziv', 'Календар')
+@section('naziv', 'Календар рочишта/рокова')
 
 @section('meni')
 @include('sabloni.inc.meni')
@@ -11,7 +11,7 @@
 @endsection
 
 @section('naslov')
-<div class="row">
+<div class="row ne_stampaj">
     <div class="col-md-8">
         <h1>
             <img class="slicica_animirana" alt="календар рочишта" src="{{url('/images/kalendar.png')}}" style="height:64px">
@@ -27,8 +27,8 @@
     </div>
 </div>
 <hr>
-<div class="row boxic">
-    <div class="col-md-12 ceo" id='calendar'></div>
+<div class="row">
+    <div class="col-md-12" id='calendar'></div>
 </div>
 @endsection
 

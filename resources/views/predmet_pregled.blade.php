@@ -22,23 +22,23 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono">
+                <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono" style="margin-top: 5px">
                     <i class="fa fa-arrow-circle-left"></i> Назад на предмете
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success btn-block ono">
+                <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success btn-block ono" style="margin-top: 5px">
                     <i class="fa fa-pencil"></i> Измени
                 </a>
             </div>
             <div class="col-md-3">
-                <button class="btn btn-warning btn-block ono" id="dugmeArhiviranje">
+                <button class="btn btn-warning btn-block ono" id="dugmeArhiviranje" style="margin-top: 5px">
                     <i class="fa fa-archive"></i> Архивирање/активирање
                 </button>
             </div>
             @if (Gate::allows('admin'))
             <div class="col-md-3">
-                <button class="btn btn-danger btn-block ono" id="dugmeBrisanjePredmeta">
+                <button class="btn btn-danger btn-block ono" id="dugmeBrisanjePredmeta" style="margin-top: 5px">
                     <i class="fa fa-trash"></i> Брисање
                 </button>
             </div>
@@ -126,11 +126,11 @@
             <td style="width: 80%;">{{ $predmet->opis }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Странка 1</th>
+            <th style="width: 20%;">Тужилац</th>
             <td style="width: 80%;">{{ $predmet->stranka_1 }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Странка 2</th>
+            <th style="width: 20%;">Тужени</th>
             <td style="width: 80%;">{{ $predmet->stranka_2 }}</td>
         </tr>
         <tr>
@@ -159,7 +159,19 @@
 {{--  POCETAK TOK_PREDMETA  --}}
 
 <div class="well" style="overflow: auto;">
-    <h3 style="margin-bottom: 20px">Токови</h3>
+    <div class="row" style="margin-top: -20px">
+    <div class="col-md-10">
+        <h3 style="margin-bottom: 10px">Токови</h3>
+    </div>
+    <div class="col-md-2">
+         <button style="margin-top: 20px"
+        class="btn btn-success btn-sm" id="dugmeDodajStatus"
+        data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
+        <i class="fa fa-plus-circle"></i> Додај статус/ток
+    </button>
+    </div>
+</div>
+    
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-condensed table-responsive">
         <thead style="font-size: 0.9375em;">
@@ -167,10 +179,10 @@
                 <th>Датум</th>
                 <th>Статус</th>
                 <th>Опис</th>
-                <th>Спор дугује</th>
-                <th>Спор потражује</th>
-                <th>Трошкови дугује</th>
-                <th>Трошкови потражује</th>
+                <th style="text-align:right;">Спор дугује</th>
+                <th style="text-align:right;">Спор потражује</th>
+                <th style="text-align:right;" > Трошкови дугује</th>
+                <th style="font-size: 0.813em; text-align:right;" >Трошкови потражује</th>
                 <th class="text-center"><i class="fa fa-cogs"></i></th>
             </tr>
         </thead>
@@ -242,12 +254,6 @@
             </tr>
         </tfoot>
     </table>
-    <hr style="border-top: 1px solid #18BC9C">
-    <button
-        class="btn btn-success btn-sm" id="dugmeDodajStatus"
-        data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај статус/ток
-    </button>
 </div>
 
 {{--  pocetak modal_status_dodavanje  --}}
@@ -348,7 +354,7 @@
                     <div class="col-md-12">
                         <div class="form-group{{ $errors->has('status_dodavanje_opis') ? ' has-error' : '' }}">
                             <label for="status_dodavanje_opis">Опис</label>
-                            <textarea name="status_dodavanje_opis" id="status_dodavanje_opis" class="form-control" required>{{ old('status_dodavanje_opis') }}</textarea>
+                            <textarea name="status_dodavanje_opis" id="status_dodavanje_opis" class="form-control">{{ old('status_dodavanje_opis') }}</textarea>
                             @if ($errors->has('status_dodavanje_opis'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('status_dodavanje_opis') }}</strong>
@@ -430,7 +436,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="status_izmena_opis">Опис</label>
-                                <textarea class="form-control" id="status_izmena_opis" name="status_izmena_opis" required></textarea>
+                                <textarea class="form-control" id="status_izmena_opis" name="status_izmena_opis"></textarea>
                             </div>
                         </div>
                     </div>
@@ -491,7 +497,18 @@
 {{--  POCETAK ROCISTA  --}}
 
 <div class="well" style="overflow: auto;">
-    <h3 style="margin-bottom: 20px">Рочишта</h3>
+    <div class="row" style="margin-top: -20px">
+    <div class="col-md-8">
+        <h3 style="margin-bottom: 10px">Рочишта</h3>
+    </div>
+    <div class="col-md-4">
+         <button style="margin-top: 20px"
+        class="btn btn-success btn-block btn-sm" id="dugmeDodajRociste"
+        data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
+        <i class="fa fa-plus-circle"></i> Додај рочиште
+    </button>
+    </div>
+</div>
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
@@ -521,12 +538,6 @@
             @endforeach
         </tbody>
     </table>
-    <hr style="border-top: 1px solid #18BC9C">
-    <button
-        class="btn btn-success btn-sm" id="dugmeDodajRociste"
-        data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај рочиште
-    </button>
 </div>
 
 <!--pocetak modal_rocista_dodavanje-->
@@ -707,9 +718,20 @@
 {{--  POCETAK UPRAVA  --}}
 
 <div class="well" style="overflow: auto;">
-    <h3>Управе</h3>
-    <hr style="border-top: 1px solid #18BC9C">
-    <table class="table table-striped table-responsive" style="font-size: 85%;">
+<div class="row" style="margin-top: -20px">
+    <div class="col-md-8">
+        <h3 style="margin-bottom: 10px">Управе</h3>
+    </div>
+    <div class="col-md-4">
+         <button style="margin-top: 20px"
+        class="btn btn-success btn-block btn-sm" id="dugmeDodajUpravu"
+        data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
+        <i class="fa fa-plus-circle"></i> Додај управу
+    </button>
+    </div>
+</div>
+    <hr style="border-top: 1px solid #18BC9C;">
+    <table class="table table-responsive" style="font-size: 85%;">
         <tbody>
             @foreach ($predmet->knjizenja as $knjizenje)
             <tr>
@@ -722,10 +744,10 @@
                 <td style="width: 1%;"></td>
                 <td style="width: 79%;" title="{{$knjizenje->napomena}}"><em>{{ str_limit($knjizenje->napomena, 60)}}</em></td>
             </tr>
-            <tr>
+            <tr class="warning">
                 <td style="width: 20%;"></td>
                 <td style="width: 1%;"></td>
-                <td style="width: 79%; text-align: right;"">
+                <td style="width: 79%; text-align: right;">
                     <button
                         class="btn btn-success btn-xs" id="dugmeUpravaIzmena"
                         data-toggle="modal" data-target="#izmeniUpravuModal" value="{{$knjizenje->id}}">
@@ -741,12 +763,6 @@
             @endforeach
         </tbody>
     </table>
-    <hr style="border-top: 1px solid #18BC9C">
-    <button
-        class="btn btn-success btn-sm" id="dugmeDodajUpravu"
-        data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај управу
-    </button>
 </div>
 
 {{--  pocetak modal_uprava_dodavanje  --}}
@@ -906,9 +922,9 @@
 @if (Gate::allows('admin'))
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h4>Мета информације о предмету</h4>
+        <h5>Мета информације о предмету</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="font-size: 0.938em">
         <p>
             Последњу измену је извршио
             <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
