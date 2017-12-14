@@ -8,6 +8,7 @@
 
 @section('stilovi')
 <link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/fullcalendar.print.min.css') }}" rel="stylesheet" media="print">
 @endsection
 
 @section('naslov')
