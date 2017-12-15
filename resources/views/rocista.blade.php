@@ -166,7 +166,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="rok_izmena_vreme">Време</label>
-                                <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme" required>
+                                <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme">
                             </div>
                         </div>
                     </div>

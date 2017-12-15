@@ -8,7 +8,6 @@
 
 @section('stilovi')
 <link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
-<link href="{{ asset('/css/fullcalendar.print.min.css') }}" rel="stylesheet" media="print">
 @endsection
 
 @section('naslov')
@@ -58,8 +57,16 @@ dogadjaji.push(dodajDogadjaj);
 }
 
 $('#calendar').fullCalendar({
+    customButtons: {
+        myCustomButton: {
+            text: 'Штампај',
+            click: function() {
+                window.print();
+            }
+        }
+    },
 header: {
-left: 'prev,next today',
+left: 'prev,next today myCustomButton',
         center: 'title',
         right: 'month,basicWeek,basicDay'
 },
