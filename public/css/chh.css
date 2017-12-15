@@ -388,7 +388,8 @@ th{
 }
 
 @media print {
-    .ne_stampaj {
+
+    .ne_stampaj, .btn {
         display: none !important;
     }
 }

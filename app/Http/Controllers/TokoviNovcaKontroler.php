@@ -71,8 +71,6 @@ class TokoviNovcaKontroler extends Kontroler
             $kobaja[] = ['tokovi_predmeta.datum', '<=', $req['datum_2']];
         }
 
-        // dd($kobaja);
-
         $tokovi = DB::table('tokovi_predmeta')
         ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')
         ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')

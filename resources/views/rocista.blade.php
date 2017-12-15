@@ -30,7 +30,7 @@
 </div>
 <hr style="border-top: 1px solid #18BC9C">
 <div id="pretraga_div" class="well" style="display: none;">
-    <form id="pretraga" action="{{ route('predmeti.pretraga') }}" method="POST">
+    <form id="pretraga" action="{{ route('rocista.pretraga') }}" method="POST">
         {{ csrf_field() }}
                 <div class="row">
             <div class="form-group col-md-3">

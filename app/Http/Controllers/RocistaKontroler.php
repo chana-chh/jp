@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
+Use DB;
+use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
@@ -21,6 +23,46 @@ class RocistaKontroler extends Kontroler
         $referenti = Referent::all();
 
         return view('rocista')->with(compact('rocista', 'tipovi', 'referenti'));
+    }
+
+    public function postPretraga(Request $req){
+
+        $kobaja = [];
+
+        if($req['tip_id']) {
+            $kobaja[] = ['s_tipovi_rocista.id', '=', $req['tip_id']];
+        }
+        if($req['referent_id']) {
+            $kobaja[] = ['s_referenti.id', '=', $req['referent_id']];
+        }
+        if($req['datum_1'] && !$req['datum_2']) {
+            $kobaja[] = ['rocista.datum', '=', $req['datum_1']];
+        }
+        if($req['datum_1'] && $req['datum_2']) {
+            $kobaja[] = ['rocista.datum', '>=', $req['datum_1']];
+            $kobaja[] = ['rocista.datum', '<=', $req['datum_2']];
+        }
+
+
+        $rocista = DB::table('rocista')
+        ->join('predmeti','rocista.predmet_id', '=', 'predmeti.id')
+        ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+        ->join('s_referenti','predmeti.referent_id', '=', 's_referenti.id')
+        ->join('s_tipovi_rocista','rocista.tip_id', '=', 's_tipovi_rocista.id')
+        ->select(DB::raw('  rocista.datum as datum,
+                            rocista.vreme as vreme,
+                            rocista.opis as opis,
+                            s_tipovi_rocista.naziv as tip, 
+                            s_referenti.ime as ime_referenta,
+                            s_referenti.prezime as prezime_referenta,
+                            predmeti.broj_predmeta as broj,
+                            predmeti.godina_predmeta as godina,
+                            s_vrste_upisnika.slovo as slovo,
+                            predmeti.id as id'))
+        ->where($kobaja)
+        ->get();
+
+    return view('rocista_pretraga')->with(compact('rocista'));
     }
 
     public function postDodavanje(Request $req)
