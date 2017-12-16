@@ -389,7 +389,7 @@ th{
 
 @media print {
 
-    .ne_stampaj, .btn {
+    .ne_stampaj, .btn, .fc-button-group, .fc-left {
         display: none !important;
     }
 }
