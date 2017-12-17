@@ -43,7 +43,7 @@
                 <label for="opis">Датум 2</label>
                 <input type="date"
                        name="datum_2" id="datum_2"
-                       class="form-control">
+                       class="form-control" readonly>
             </div>
             <div class="col-md-6">
                 <label class="text-warning">Напомена</label>
@@ -227,9 +227,31 @@
 <script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
 $(document).ready(function () {
+
+    jQuery(window).on('resize', resizeChosen);
+
+        $('.chosen-select').chosen({
+            allow_single_deselect: true,
+            search_contains: true
+        });
+
+        function resizeChosen() {
+            $(".chosen-container").each(function () {
+                $(this).attr('style', 'width: 100%');
+            });
+        }
+
+    $('#datum_1').on('change', function () {
+            if (this.value !== '') {
+                $('#datum_2').prop('readonly', false);
+            } else {
+                $('#datum_2').prop('readonly', true).val('');
+            }
+        });
     
     $('#pretragaDugme').click(function () {
         $('#pretraga_div').toggle();
+        resizeChosen();
     });
 
     $('#dugme_pretrazi').click(function () {

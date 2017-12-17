@@ -36,17 +36,17 @@ class PredmetiKontroler extends Kontroler
 
     public function getLista()
     {
-        $upisnici = VrstaUpisnika::all();
-        $sudovi = Sud::all();
-        $vrste = VrstaPredmeta::all();
-        $referenti = Referent::all();
+        $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
+        $sudovi = Sud::orderBy('naziv', 'ASC')->get();
+        $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
+        $referenti = Referent::orderBy('ime', 'ASC')->get();
         $predmeti = Predmet::all();
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
     public function getListaFilter(Request $req)
     {
-        $upisnici = VrstaUpisnika::all();
+        $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
