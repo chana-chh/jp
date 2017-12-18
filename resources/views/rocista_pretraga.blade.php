@@ -67,6 +67,7 @@
 @section('skripte')
 <script src="{{ asset('/js/moment.min.js') }}"></script>
 <script src="{{ asset('/js/datetime-moment.js') }}"></script>
+<script src="{{ asset('/js/buttons.print.min.js') }}"></script>
 <script>
 $(document).ready(function () {
 
@@ -78,6 +79,7 @@ $(document).ready(function () {
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
+            'print',
             {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
