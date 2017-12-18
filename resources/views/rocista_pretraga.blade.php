@@ -84,6 +84,17 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
                 pageSize: 'A4',
+                customize : function(doc){
+            var colCount = new Array();
+           $('#tabelaRocista').find('tbody tr:first-child td').each(function(){
+                if($(this).attr('colspan')){
+                    for(var i=1;i<=$(this).attr('colspan');$i++){
+                        colCount.push('*');
+                    }
+                }else{ colCount.push('*'); }
+            });
+            doc.content[1].table.widths = colCount;
+        },
                 exportOptions: {
                     columns: [
                         0,

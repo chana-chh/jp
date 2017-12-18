@@ -309,6 +309,7 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
                 pageSize: 'A4',
+                pageMargins: [ 40, 60, 40, 60 ],
                 exportOptions: {
                     columns: [
                         1,
