@@ -155,6 +155,7 @@
         </tr>
     </tbody>
 </table>
+<hr style="border-top: 1px dashed">
 
 {{--  POCETAK TOK_PREDMETA  --}}
 
