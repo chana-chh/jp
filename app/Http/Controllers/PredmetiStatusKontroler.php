@@ -23,7 +23,6 @@ class PredmetiStatusKontroler extends Kontroler
                 'status_dodavanje_vsp' => 'required|numeric',
                 'status_dodavanje_itd' => 'required|numeric',
                 'status_dodavanje_itp' => 'required|numeric',
-                'status_dodavanje_opis' => 'required',
             ]);
 
 		$predmet_id = $req->predmet_id;
@@ -52,7 +51,6 @@ class PredmetiStatusKontroler extends Kontroler
 			'status_izmena_vsp' => 'required|numeric',
 			'status_izmena_itd' => 'required|numeric',
 			'status_izmena_itp' => 'required|numeric',
-			'status_izmena_opis' => 'required',
         ]);
 
         $tok = Tok::findOrFail($req->tok_id);

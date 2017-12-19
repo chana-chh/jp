@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Gate;
-//use Carbon\Carbon;
-//use App\Modeli\Predmet;
-//use App\Modeli\Rociste;
-//use App\Modeli\Tok;
 use Session;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
@@ -42,7 +37,8 @@ class IzvestajiKontroler extends Kontroler
         $resenje->addText($request->ime);
 
         $objWriter = IOFactory::createWriter($komplet, 'Word2007');
-        $objWriter->save('D:\\dokumenti\\test.docx');
+        $naziv = time();
+        $objWriter->save('p:\\dokumenta\\' . $naziv . '.docx');
         Session::flash('uspeh', 'Документ је успешно креиран.');
         return redirect()->route('izvestaji');
     }

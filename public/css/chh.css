@@ -388,8 +388,9 @@ th{
 }
 
 @media print {
-    .btn {
-        display: none;
+
+    .ne_stampaj, .btn, .fc-button-group, .fc-left {
+        display: none !important;
     }
 }
 

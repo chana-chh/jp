@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-10">
        <h1>
-        <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
+        <span><img class="slicica_animirana" alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
         Ток новца
     </h1>
     </div>
@@ -29,7 +29,7 @@
                                 <label for="vrsta_predemta_id">Врста предмета</label>
                                 <select
                                     name="vrsta_predemta_id" id="vrsta_predemta_id"
-                                    class="form-control select_vp" data-placeholder="Врста предмета">
+                                    class="form-control select_vp chosen-select" data-placeholder="Врста предмета">
                                         <option value=""></option>
                                         @foreach($vrste as $vrsta)
                                         <option value="{{ $vrsta->id }}">
@@ -42,7 +42,7 @@
                                 <label for="vrsta_upisnika_id">Врста уписника</label>
                                 <select
                                     name="vrsta_upisnika_id" id="vrsta_upisnika_id"
-                                    class="form-control select_vu" data-placeholder="Врста уписника">
+                                    class="form-control select_vu chosen-select" data-placeholder="Врста уписника">
                                     <option value=""></option>
                                     @foreach($upisnici as $upisnik)
                                     <option value="{{ $upisnik->id }}">
@@ -54,13 +54,13 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="stranka_1">Странка 1</label>
+                                <label for="stranka_1">Тужилац</label>
                                 <input type="text" maxlen="255"
                                     name="stranka_1" id="stranka_1"
                                     class="form-control">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="stranka_2">Странка 2</label>
+                                <label for="stranka_2">Тужени</label>
                                 <input type="text" maxlen="255"
                                     name="stranka_2" id="stranka_2"
                                     class="form-control">
@@ -158,7 +158,7 @@
                                 <label for="opis">Датум 2</label>
                                 <input type="date"
                                     name="datum_2" id="datum_2"
-                                    class="form-control">
+                                    class="form-control" readonly>
                             </div>
                             <div class="col-md-6">
                                 <label class="text-warning">Напомена</label>
@@ -287,8 +287,31 @@
 <script>
     $( document ).ready(function() {
 
+        jQuery(window).on('resize', resizeChosen);
+
+        $('.chosen-select').chosen({
+            allow_single_deselect: true,
+            search_contains: true
+        });
+
+        function resizeChosen() {
+            $(".chosen-container").each(function () {
+                $(this).attr('style', 'width: 100%');
+            });
+        }
+
+    $('#datum_1').on('change', function () {
+            if (this.value !== '') {
+                $('#datum_2').prop('readonly', false);
+            } else {
+                $('#datum_2').prop('readonly', true).val('');
+            }
+        });
+
+
         $('#pretragaDugme').click(function () {
             $('#pretraga_div').toggle();
+            resizeChosen();
         });
 
         $('#dugme_pretrazi').click(function() {

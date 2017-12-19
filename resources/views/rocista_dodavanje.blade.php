@@ -103,16 +103,22 @@
         </div>
         </div>
 
-
-        <div class="row" style="margin-top: 45px">
-        <div class="col-md-10 col-md-offset-1">
-        <div class="form-group text-right" style="margin-top: 20px">
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
-            <a class="btn btn-danger" href="{{route('rocista')}}"><i class="fa fa-ban"></i> Откажи</a>
+        <div class="row dugmici">
+            <div class="col-md-4 col-md-offset-7" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('rocista')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-        </div>
-
             </form>
 @endsection
 

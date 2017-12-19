@@ -7,10 +7,25 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header"><img class="slicica_animirana" alt="Скенирана документација"
+<div class="row">
+    <div class="col-md-10">
+       <h1><img class="slicica_animirana" alt="Скенирана документација"
                  src="{{url('/images/slike.png')}}" style="height:64px;">
-            &emsp;Скенирана документација
-        </h1>
+            &emsp;Скенирана документација</h1>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a href="{{ route('predmeti.pregled', $predmet->id) }}" class="btn btn-primary btn-block ono">
+                    <i class="fa fa-arrow-circle-left"></i> Назад на предмет
+                </a>
+    </div>
+ 
+</div>
+<div class="row">
+    <div class="col-md-12">
+   <hr>
+</div>
+</div>
+
 @endsection
 
 @section('sadrzaj')

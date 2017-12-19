@@ -35,4 +35,7 @@
     </div>
     <input type="submit" name="submit" id="submit" value="Изради документ" class="btn btn-primary">
 </form>
+<p class="text-info" style="margin-top: 3rem;">
+    * Документа се снимају на заједничком диску (P disk) у директоријуму dokumenta.
+</p>
 @endsection

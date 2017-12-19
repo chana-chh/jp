@@ -122,13 +122,13 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <label for="stranka_1">Старнка 1</label>
+                <label for="stranka_1">Тужилац</label>
                 <input type="text" maxlen="255"
                        name="stranka_1" id="stranka_1"
                        class="form-control">
             </div>
             <div class="form-group col-md-6">
-                <label for="stranka_2">Старнка 2</label>
+                <label for="stranka_2">Тужени</label>
                 <input type="text" maxlen="255"
                        name="stranka_2" id="stranka_2"
                        class="form-control">
@@ -167,7 +167,7 @@
                 <label for="opis">Датум 2</label>
                 <input type="date"
                        name="datum_2" id="datum_2"
-                       class="form-control">
+                       class="form-control" readonly>
             </div>
             <div class="col-md-6">
                 <label class="text-warning">Напомена</label>
@@ -206,15 +206,15 @@
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
-            <th style="width: 4%;">а/а</th>
-            <th style="width: 6%;">Број</th>
-            <th style="width: 11%;">Суд <span class="text-success">/ </span> број</th>
-            <th style="width: 9%;">Врста предмета</th>
-            <th style="width: 19%;">Опис</th>
-            <th style="width: 14%;">Странка 1</th>
-            <th style="width: 14%;">Странка 2</th>
-            <th style="width: 9%;">Датум</th>
-            <th style="width: 9%;">Референт</th>
+            <th style="width: 4%; text-align:right; padding-right: 25px">а/а </th>
+            <th style="width: 6%; text-align:right; padding-right: 25px">Број </th>
+            <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број </th>
+            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета </th>
+            <th style="width: 18%; text-align:right; padding-right: 25px">Опис </th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац </th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужени </th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Датум </th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Референт </th>
             <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
@@ -231,25 +231,24 @@
                     </a>
                 </strong>
             </td>
-            <td style="vertical-align: middle; line-height: normal;">
+            <td style="vertical-align: middle; line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px;">
                     <li>{{$predmet->sud->naziv}}</li>
                     <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
                 </ul>
-
             </td>
-            <td style="vertical-align: middle; line-height: normal;">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
             <td>
-                <ul style="list-style-type: none; padding-left:1px;">
+                <ul style="list-style-type: none; padding-left:1px; text-align:right">
                     <li>{{$predmet->opis_kp}}</li>
                     <li><span class="text-success">{{$predmet->opis_adresa}}&emsp;</span></li>
                     <li>{{$predmet->opis}}</li>
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal;"><em>{{$predmet->stranka_1}}</em></td>
-            <td style="vertical-align: middle; line-height: normal;"><em>{{$predmet->stranka_2}}</em></td>
-            <td style="vertical-align: middle; line-height: normal;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="vertical-align: middle; line-height: normal;">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_1}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_2}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
             <td style="text-align:center">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"
@@ -271,13 +270,36 @@
 
 $(document).ready(function () {
 
+    jQuery(window).on('resize', resizeChosen);
+
+        $('.chosen-select').chosen({
+            allow_single_deselect: true,
+            search_contains: true
+        });
+
+        function resizeChosen() {
+            $(".chosen-container").each(function () {
+                $(this).attr('style', 'width: 100%');
+            });
+        }
+
+    $('#datum_1').on('change', function () {
+            if (this.value !== '') {
+                $('#datum_2').prop('readonly', false);
+            } else {
+                $('#datum_2').prop('readonly', true).val('');
+            }
+        });
+
     $.fn.dataTable.moment('DD.MM.YYYY');
 
     $('#pretragaDugme').click(function () {
         $('#pretraga_div').toggle();
+        resizeChosen();
     });
 
     $('#tabelaPredmeti').DataTable({
+        stateSave: true,
         dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
@@ -287,6 +309,7 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
                 pageSize: 'A4',
+                pageMargins: [ 40, 60, 40, 60 ],
                 exportOptions: {
                     columns: [
                         1,

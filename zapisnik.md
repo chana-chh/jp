@@ -2,11 +2,8 @@
 
 ## Novo
 
-- Razraditi i uskladiti validaciju na pogledima u bazi i u kontrolerima ???
-
 - Kron job backupovanje (ipak mora da se strtuje neki cron job na serveru koji pokrece laravel-ov scheduler) ++
 - https://laravel.com/docs/5.4/scheduling
-
 - https://code.tutsplus.com/tutorials/managing-cron-jobs-with-php--net-19428 (procitati komentare)
 
 
@@ -22,11 +19,12 @@ MySQLDump (backup)
 - https://github.com/ifsnop/mysqldump-php
 - https://davidwalsh.name/backup-mysql-database-php
 
+
 dodavanje rokova i rocista u dane vikenda
 
 phpWord izmene za php7
 
-U fajlu:
+U fajlu: FALI TI src u PUTANJI posle PHPWord\src ... !!!
 PHPOffice\PHPWord\Writer\Word2007\Part\Settings.php
 u private function getSettings() izmeniti liniju:
 'w:compat' => '',
