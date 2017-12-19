@@ -12,11 +12,11 @@ class CreatePredmetiTable extends Migration
         Schema::create('predmeti', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('arhiviran')->default(false);
-            $table->integer('sud_id')->unsigned();
             $table->integer('vrsta_upisnika_id')->unsigned();
             $table->integer('broj_predmeta')->unsigned();
-            $table->string('broj_predmeta_sud', 50)->nullable();
             $table->integer('godina_predmeta')->unsigned();
+            $table->integer('sud_id')->unsigned();
+			$table->string('broj_predmeta_sud', 50)->nullable();
             $table->integer('vrsta_predmeta_id')->unsigned();
             $table->text('opis')->nullable();
             $table->string('opis_kp')->nullable();

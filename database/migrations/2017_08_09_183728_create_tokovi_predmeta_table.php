@@ -15,10 +15,10 @@ class CreateTokoviPredmetaTable extends Migration
             $table->integer('status_id')->unsigned();
             $table->date('datum');
             $table->string('opis');
+			$table->decimal('vrednost_spora_duguje', 15, 2)->default(0);
             $table->decimal('vrednost_spora_potrazuje', 15, 2)->default(0);
-            $table->decimal('vrednost_spora_duguje', 15, 2)->default(0);
+			$table->decimal('iznos_troskova_duguje', 15, 2)->default(0);
             $table->decimal('iznos_troskova_potrazuje', 15, 2)->default(0);
-            $table->decimal('iznos_troskova_duguje', 15, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
 
