@@ -139,6 +139,8 @@ class RocistaKontroler extends Kontroler
     public function getKalendar()
     {
         $rocista = Rociste::all();
+        $tipovi = TipRocista::all();
+        $referenti = Referent::all();
 
         $naslovi = array();
         $datumi = array();
@@ -156,7 +158,71 @@ class RocistaKontroler extends Kontroler
         $datumie = json_encode($datumi);
         $detaljie = json_encode($detalji);
 
-        return view('kalendar')->with(compact('naslovie', 'datumie', 'detaljie'));
+        return view('kalendar')->with(compact('referenti','tipovi','naslovie', 'datumie', 'detaljie'));
+    }
+
+    public function getKalendarFilter(Request $request)
+    {
+        $parametri = $request->session()->get('parametri_za_filter_kalendara', null);
+        $rocista = $this->naprednaPretraga($parametri);
+
+        $naslovi = array();
+        $datumi = array();
+        $detalji = array();
+        foreach ($rocista as $rociste) {
+            $datumi [] = $rociste->datum;
+            $naslovi [] = [
+                ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
+                ' (' . $rociste->predmet->referent->imePrezime() . ')',
+            ];
+            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+        }
+
+        $naslovie = json_encode($naslovi);
+        $datumie = json_encode($datumi);
+        $detaljie = json_encode($detalji);
+
+        return view('kalendar_filter')->with(compact('naslovie', 'datumie', 'detaljie'));
+    }
+
+    public function postKalendarFilter(Request $request)
+    {
+        $request->session()->put('parametri_za_filter_kalendara', $request->all());
+        return redirect()->route('rocista.kalendar.filter');
+    }
+
+    private function naprednaPretraga($params)
+    {
+        $rocista = null;
+        $where = [];
+        $whereref = [];
+        if ($params['tip_id'] && !$params['referent_id']) {
+            $where[] = [
+                'tip_id',
+                '=',
+                $params['tip_id']
+            ];
+
+            $rocista = Rociste::where($where)->get();
+        }
+        if ($params['tip_id'] && $params['referent_id']) {
+            $where[] = [
+                'tip_id',
+                '=',
+                $params['tip_id']
+            ];
+            $whereref[] = [
+                'referent_id',
+                '=',
+                $params['referent_id']
+            ];
+
+            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
+            $query->where($whereref);
+        })->where($where)->get();
+        }
+
+        return $rocista;
     }
 
 }

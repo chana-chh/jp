@@ -89,6 +89,8 @@ Route::get('rocista/pregled/{id}', 'RocistaKontroler@getPregled')->name('rocista
 Route::get('rocista/detalj', 'RocistaKontroler@getDetalj')->name('rocista.detalj');
 Route::post('rocista/pretraga', 'RocistaKontroler@postPretraga')->name('rocista.pretraga');
 Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
+Route::get('rocista/kalendar/filter', 'RocistaKontroler@getKalendarFilter')->name('rocista.kalendar.filter');
+Route::post('rocista/kalendar/filter', 'RocistaKontroler@postKalendarFilter')->name('rocista.kalendar.filter.post');
 
 //Knjizenja
 Route::post('uprave/dodavanje', 'PredmetiUpraveKontroler@postDodavanje')->name('uprave_predmeti.dodavanje.post');
