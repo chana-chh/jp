@@ -202,7 +202,6 @@ class RocistaKontroler extends Kontroler
                 '=',
                 $params['tip_id']
             ];
-
             $rocista = Rociste::where($where)->get();
         }
         if ($params['tip_id'] && $params['referent_id']) {
@@ -216,10 +215,19 @@ class RocistaKontroler extends Kontroler
                 '=',
                 $params['referent_id']
             ];
-
             $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
             $query->where($whereref);
         })->where($where)->get();
+        }
+        if (!$params['tip_id'] && $params['referent_id']) {
+            $whereref[] = [
+                'referent_id',
+                '=',
+                $params['referent_id']
+            ];
+            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
+            $query->where($whereref);
+        })->get();
         }
 
         return $rocista;

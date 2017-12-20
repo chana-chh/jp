@@ -15,7 +15,7 @@
     <div class="col-md-10">
         <h1>
             <img class="slicica_animirana" alt="календар рочишта" src="{{url('/images/kalendar.png')}}" style="height:64px">
-             Календарски преглед рочишта/рокова <small class="text-danger"><em>(филтриран)</em></small>
+             Календарски преглед <small class="text-danger"><em>(филтриран)</em></small>
         </h1>
     </div>
     <div class="col-md-2 text-right" style="padding-top: 50px;">
