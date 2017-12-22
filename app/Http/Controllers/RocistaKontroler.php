@@ -166,6 +166,21 @@ class RocistaKontroler extends Kontroler
         $parametri = $request->session()->get('parametri_za_filter_kalendara', null);
         $rocista = $this->naprednaPretraga($parametri);
 
+        $tip_naziv = " ";
+        $referent_ime = " ";
+
+        if ($parametri['tip_id']){
+            $tip = TipRocista::find($parametri['tip_id']);
+            $tip_naziv = $tip->naziv;
+        }
+        if ($parametri['referent_id']){
+            $referent = Referent::find($parametri['referent_id']);
+            $referent_ime = $referent->imePrezime();
+        }
+        
+        
+        
+
         $naslovi = array();
         $datumi = array();
         $detalji = array();
@@ -182,7 +197,7 @@ class RocistaKontroler extends Kontroler
         $datumie = json_encode($datumi);
         $detaljie = json_encode($detalji);
 
-        return view('kalendar_filter')->with(compact('naslovie', 'datumie', 'detaljie'));
+        return view('kalendar_filter')->with(compact('naslovie', 'datumie', 'detaljie', 'referent_ime', 'tip_naziv'));
     }
 
     public function postKalendarFilter(Request $request)
