@@ -55,6 +55,11 @@ class Predmet extends Model
         return $this->hasMany('App\Modeli\PredmetSlika', 'predmet_id', 'id');
     }
 
+    public function veze()
+    {
+        return $this->hasMany('App\Modeli\PredmetVeza', 'predmet_id', 'id');
+    }
+
 	public function rocista()
 	{
 		return $this->hasMany('App\Modeli\Rociste', 'predmet_id', 'id');
