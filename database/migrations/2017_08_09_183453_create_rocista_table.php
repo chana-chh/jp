@@ -13,7 +13,7 @@ class CreateRocistaTable extends Migration
             $table->increments('id');
             $table->integer('predmet_id')->unsigned();
             $table->integer('tip_id')->unsigned();
-            $table->date('datum');
+            $table->date('datum')->index();
             $table->time('vreme')->nullable();
             $table->string('opis')->nullable();
             $table->softDeletes();

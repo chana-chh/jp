@@ -15,8 +15,9 @@ class CreatePredmetiTable extends Migration
             $table->integer('vrsta_upisnika_id')->unsigned();
             $table->integer('broj_predmeta')->unsigned();
             $table->integer('godina_predmeta')->unsigned();
+            $table->string('stari_broj_predmeta', 50)->nullable();
             $table->integer('sud_id')->unsigned();
-			$table->string('broj_predmeta_sud', 50)->nullable();
+            $table->string('broj_predmeta_sud', 50)->nullable();
             $table->integer('vrsta_predmeta_id')->unsigned();
             $table->text('opis')->nullable();
             $table->string('opis_kp')->nullable();
@@ -36,6 +37,10 @@ class CreatePredmetiTable extends Migration
             $table->unique(['vrsta_upisnika_id', 'broj_predmeta', 'godina_predmeta']);
 
             // indeksi
+            $table->index('stari_broj_predmeta');
+            $table->index('broj_predmeta_sud');
+
+            // strani kljucevi
             $table->foreign('sud_id')->references('id')->on('s_sudovi')->onDelete('restrict');
             $table->foreign('vrsta_predmeta_id')->references('id')->on('s_vrste_predmeta')->onDelete('restrict');
             $table->foreign('referent_id')->references('id')->on('s_referenti')->onDelete('restrict');

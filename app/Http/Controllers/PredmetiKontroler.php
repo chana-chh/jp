@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use Redirect;
-use Gate;
+// use Gate;
 use Auth;
 use Image;
 use DB;
@@ -16,7 +16,7 @@ use App\Modeli\VrstaPredmeta;
 use App\Modeli\Sud;
 use App\Modeli\Referent;
 use App\Modeli\TipRocista;
-use App\Modeli\Korisnik;
+// use App\Modeli\Korisnik;
 use App\Modeli\Uprava;
 use App\Modeli\Status;
 use App\Modeli\Tok;
@@ -91,6 +91,12 @@ class PredmetiKontroler extends Kontroler
                 'broj_predmeta_sud',
                 'like',
                 '%' . $params['broj_predmeta_sud'] . '%'];
+        }
+        if ($params['stari_broj_predmeta']) {
+            $where[] = [
+                'stari_broj_predmeta',
+                'like',
+                '%' . $params['stari_broj_predmeta'] . '%'];
         }
         if ($params['godina_predmeta']) {
             $where[] = [
@@ -210,6 +216,7 @@ class PredmetiKontroler extends Kontroler
             'vrsta_upisnika_id' => 'required|integer',
             'broj_predmeta' => 'required|integer',
             'broj_predmeta_sud' => 'max:50',
+            'stari_broj_predmeta' => 'max:50',
             'godina_predmeta' => 'required|integer',
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
@@ -223,6 +230,7 @@ class PredmetiKontroler extends Kontroler
         $predmet->vrsta_upisnika_id = $req->vrsta_upisnika_id;
         $predmet->broj_predmeta = $req->broj_predmeta;
         $predmet->broj_predmeta_sud = $req->broj_predmeta_sud;
+        $predmet->stari_broj_predmeta = $req->stari_broj_predmeta;
         $predmet->godina_predmeta = $req->godina_predmeta;
         $predmet->sud_id = $req->sud_id;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
@@ -265,6 +273,7 @@ class PredmetiKontroler extends Kontroler
         $this->validate($req, [
             'sud_id' => 'required|integer',
             'broj_predmeta_sud' => 'max:50',
+            'stari_broj_predmeta' => 'max:50',
             'vrsta_predmeta_id' => 'required|integer',
             'datum_tuzbe' => 'required|date',
             'stranka_1' => 'required',
@@ -275,6 +284,7 @@ class PredmetiKontroler extends Kontroler
         $predmet = Predmet::find($id);
         $predmet->sud_id = $req->sud_id;
         $predmet->broj_predmeta_sud = $req->broj_predmeta_sud;
+        $predmet->stari_broj_predmeta = $req->stari_broj_predmeta;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->stranka_1 = $req->stranka_1;

@@ -157,19 +157,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
+                <label for="stari_broj_predmeta">Стари број предмета:</label>
+                <input type="text" maxlen="50"
+                       name="stari_broj_predmeta" id="stari_broj_predmeta"
+                       class="form-control">
+            </div>
+            <div class="form-group col-md-2">
                 <label for="opis">Датум 1</label>
                 <input type="date"
                        name="datum_1" id="datum_1"
                        class="form-control">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="opis">Датум 2</label>
                 <input type="date"
                        name="datum_2" id="datum_2"
                        class="form-control" readonly>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="text-warning">Напомена</label>
                 <p class="text-warning">
                     Ако се унесе само први датум претрага ће се вршити за предмете са тим датумом. Ако се унесу оба датума претрага ће се вршити за предмете између та два датума.
@@ -185,7 +191,6 @@
             </div>
         </div>
     </form>
-    <hr>
     <div class="row dugmici">
         <div class="col-md-6 col-md-offset-6">
             <div class="form-group text-right ceo_dva">
@@ -272,24 +277,24 @@ $(document).ready(function () {
 
     jQuery(window).on('resize', resizeChosen);
 
-        $('.chosen-select').chosen({
-            allow_single_deselect: true,
-            search_contains: true
-        });
+    $('.chosen-select').chosen({
+        allow_single_deselect: true,
+        search_contains: true
+    });
 
-        function resizeChosen() {
-            $(".chosen-container").each(function () {
-                $(this).attr('style', 'width: 100%');
-            });
-        }
+    function resizeChosen() {
+        $(".chosen-container").each(function () {
+            $(this).attr('style', 'width: 100%');
+        });
+    }
 
     $('#datum_1').on('change', function () {
-            if (this.value !== '') {
-                $('#datum_2').prop('readonly', false);
-            } else {
-                $('#datum_2').prop('readonly', true).val('');
-            }
-        });
+        if (this.value !== '') {
+            $('#datum_2').prop('readonly', false);
+        } else {
+            $('#datum_2').prop('readonly', true).val('');
+        }
+    });
 
     $.fn.dataTable.moment('DD.MM.YYYY');
 
@@ -309,7 +314,12 @@ $(document).ready(function () {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
                 pageSize: 'A4',
-                pageMargins: [ 40, 60, 40, 60 ],
+                pageMargins: [
+                    40,
+                    60,
+                    40,
+                    60
+                ],
                 exportOptions: {
                     columns: [
                         1,

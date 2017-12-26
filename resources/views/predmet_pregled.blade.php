@@ -102,6 +102,10 @@
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr>
+            <th style="width: 20%;">Стари број предмета</th>
+            <td style="width: 80%;">{{ $predmet->stari_broj_predmeta }}</td>
+        </tr>
+        <tr>
             <th style="width: 20%;">Датум</th>
             <td style="width: 80%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
         </tr>
@@ -161,18 +165,18 @@
 
 <div class="well" style="overflow: auto;">
     <div class="row" style="margin-top: -20px">
-    <div class="col-md-10">
-        <h3 style="margin-bottom: 10px">Токови</h3>
+        <div class="col-md-10">
+            <h3 style="margin-bottom: 10px">Токови</h3>
+        </div>
+        <div class="col-md-2">
+            <button style="margin-top: 20px"
+                    class="btn btn-success btn-sm" id="dugmeDodajStatus"
+                    data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај статус/ток
+            </button>
+        </div>
     </div>
-    <div class="col-md-2">
-         <button style="margin-top: 20px"
-        class="btn btn-success btn-sm" id="dugmeDodajStatus"
-        data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај статус/ток
-    </button>
-    </div>
-</div>
-    
+
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-condensed table-responsive">
         <thead style="font-size: 0.9375em;">
@@ -499,17 +503,17 @@
 
 <div class="well" style="overflow: auto;">
     <div class="row" style="margin-top: -20px">
-    <div class="col-md-8">
-        <h3 style="margin-bottom: 10px">Рочишта</h3>
+        <div class="col-md-8">
+            <h3 style="margin-bottom: 10px">Рочишта</h3>
+        </div>
+        <div class="col-md-4">
+            <button style="margin-top: 20px"
+                    class="btn btn-success btn-block btn-sm" id="dugmeDodajRociste"
+                    data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај рочиште
+            </button>
+        </div>
     </div>
-    <div class="col-md-4">
-         <button style="margin-top: 20px"
-        class="btn btn-success btn-block btn-sm" id="dugmeDodajRociste"
-        data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај рочиште
-    </button>
-    </div>
-</div>
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
@@ -719,18 +723,18 @@
 {{--  POCETAK UPRAVA  --}}
 
 <div class="well" style="overflow: auto;">
-<div class="row" style="margin-top: -20px">
-    <div class="col-md-8">
-        <h3 style="margin-bottom: 10px">Управе</h3>
+    <div class="row" style="margin-top: -20px">
+        <div class="col-md-8">
+            <h3 style="margin-bottom: 10px">Управе</h3>
+        </div>
+        <div class="col-md-4">
+            <button style="margin-top: 20px"
+                    class="btn btn-success btn-block btn-sm" id="dugmeDodajUpravu"
+                    data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај управу
+            </button>
+        </div>
     </div>
-    <div class="col-md-4">
-         <button style="margin-top: 20px"
-        class="btn btn-success btn-block btn-sm" id="dugmeDodajUpravu"
-        data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
-        <i class="fa fa-plus-circle"></i> Додај управу
-    </button>
-    </div>
-</div>
     <hr style="border-top: 1px solid #18BC9C;">
     <table class="table table-responsive" style="font-size: 85%;">
         <tbody>

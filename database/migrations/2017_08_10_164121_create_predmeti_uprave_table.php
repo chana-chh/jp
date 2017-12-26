@@ -13,7 +13,7 @@ class CreatePredmetiUpraveTable extends Migration
             $table->increments('id');
             $table->integer('predmet_id')->unsigned();
             $table->integer('uprava_id')->unsigned();
-            $table->date('datum_knjizenja');
+            $table->date('datum_knjizenja')->index();
             $table->text('napomena')->nullable();
             $table->softDeletes();
 
