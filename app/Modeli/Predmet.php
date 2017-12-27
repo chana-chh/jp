@@ -55,11 +55,6 @@ class Predmet extends Model
         return $this->hasMany('App\Modeli\PredmetSlika', 'predmet_id', 'id');
     }
 
-    public function veze()
-    {
-        return $this->hasMany('App\Modeli\PredmetVeza', 'predmet_id', 'id');
-    }
-
 	public function rocista()
 	{
 		return $this->hasMany('App\Modeli\Rociste', 'predmet_id', 'id');
@@ -74,5 +69,15 @@ class Predmet extends Model
 	{
 		return $this->hasMany('App\Modeli\PredmetUprava', 'predmet_id', 'id');
 	}
+
+	//ManyToMany
+
+	public function vezanZa() {
+    return $this->belongsToMany('App\Modeli\Predmet', 'predmeti_veze',   'veza_id', 'predmet_id');
+  }
+
+  public function vezani() {
+    return $this->belongsToMany('App\Modeli\Predmet', 'predmeti_veze', 'predmet_id', 'veza_id');
+  }
 
 }

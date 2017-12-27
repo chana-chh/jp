@@ -153,6 +153,17 @@
                 @endif
             </td>
         </tr>
+         <tr>
+            <th style="width: 20%;">Повезани предмети</th>
+            <td style="width: 80%;">
+                @if($predmet->vezani->count() > 0)
+                @foreach($predmet->vezani as $povezani)
+                    <a href="{{ route('predmeti.pregled', $povezani->id) }}">
+                        {{ $povezani->broj() }} &emsp;
+                    </a>
+                @endforeach
+                @endif
+        </tr>
         <tr>
             <th style="width: 20%;">Напомена</th>
             <td style="width: 80%;">{{ $predmet->napomena }}</td>
