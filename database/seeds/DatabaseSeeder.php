@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TabelaRocistaSeeder::class);
         $this->call(TabelaTokoviSeeder::class);
         $this->call(TabelaPredmetiUpraveSeeder::class);
+        $this->call(TabelaSKomintentiSeeder::class);
     }
 
 }

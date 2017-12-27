@@ -24,7 +24,7 @@ class CreatePredmetiVezeTable extends Migration
     public function down()
     {
         Schema::dropForeign(['predmet_id', 'veza_id']);
-        Schema::dropIfExists('predmeti_slike');
+        Schema::dropIfExists('predmeti_veze');
     }
 
 }

@@ -21,6 +21,7 @@ use App\Modeli\Uprava;
 use App\Modeli\Status;
 use App\Modeli\Tok;
 use App\Modeli\PredmetSlika;
+use App\Modeli\Komintent;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -207,7 +208,8 @@ class PredmetiKontroler extends Kontroler
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
         $predmeti = Predmet::all();
-        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
+        $komintenti = Komintent::all();
+        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
     }
 
     public function postDodavanje(Request $req)
