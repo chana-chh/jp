@@ -13,8 +13,4 @@ class PredmetVeza extends Model
     protected $table = 'predmeti_veze';
     public $timestamps = false;
 
-    public function predmet()
-    {
-        return $this->belongsTo('App\Modeli\Predmet', 'predmet_id', 'id');
-    }
 }
