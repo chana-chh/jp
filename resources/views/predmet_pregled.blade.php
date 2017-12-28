@@ -7,7 +7,9 @@
 @endsection
 
 @section('naslov')
-<h1 class="page-header">
+<div class="row">
+    <div class="col-md-12">
+<h1>
     <img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:50px;">
     Преглед предмета број
     <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
@@ -15,6 +17,14 @@
         {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }}
     </span>
 </h1>
+</div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <p class="text-success" style="font-size: 2rem; margin-left: 16px;">{{ $predmet->status() }}</p>
+    </div>
+</div>
 @endsection
 
 @section('sadrzaj')
@@ -102,51 +112,51 @@
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr>
-            <th style="width: 20%;">Стари број предмета</th>
+            <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
             <td style="width: 80%;">{{ $predmet->stari_broj_predmeta }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Датум</th>
+            <th style="width: 20%;"><strong>Датум пријема:</strong></th>
             <td style="width: 80%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Суд</th>
-            <td style="width: 80%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success">{{ $predmet->broj_predmeta_sud }}</span></td>
+            <th style="width: 20%;"><strong>Суд:</strong></th>
+            <td style="width: 80%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>{{ $predmet->broj_predmeta_sud }}</strong></span></td>
         </tr>
         <tr>
-            <th style="width: 20%;">Врста предмета</th>
+            <th style="width: 20%;"><strong>Врста предмета:</strong></th>
             <td style="width: 80%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Катастарска парцела</th>
+            <th style="width: 20%;"><strong>Катастарска парцела:</strong></th>
             <td style="width: 80%;">{{ $predmet->opis_kp }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Адреса</th>
+            <th style="width: 20%;"><strong>Адреса:</strong></th>
             <td style="width: 80%;">{{ $predmet->opis_adresa }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Опис предмета</th>
+            <th style="width: 20%;"><strong>Опис предмета:</strong></th>
             <td style="width: 80%;">{{ $predmet->opis }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Тужилац</th>
+            <th style="width: 20%;"><strong>Тужилац:</strong></th>
             <td style="width: 80%;">{{ $predmet->stranka_1 }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Тужени</th>
+            <th style="width: 20%;"><strong>Тужени:</strong></th>
             <td style="width: 80%;">{{ $predmet->stranka_2 }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Вредност тужбе</th>
+            <th style="width: 20%;"><strong>Вредност тужбе:</strong></th>
             <td style="width: 80%;">{{ number_format($predmet->vrednost_tuzbe, 2, ',', '.') }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Референт</th>
+            <th style="width: 20%;"><strong>Референт:</strong></th>
             <td style="width: 80%;">{{ $predmet->referent->imePrezime() }}</td>
         </tr>
         <tr>
-            <th style="width: 20%;">Предмет родитељ</th>
+            <th style="width: 20%;"><strong>Предмет родитељ:</strong></th>
             <td style="width: 80%;">
                 @if($predmet->roditelj)
                 {{ $predmet->roditelj->broj() }}
@@ -154,7 +164,7 @@
             </td>
         </tr>
          <tr>
-            <th style="width: 20%;">Повезани предмети</th>
+            <th style="width: 20%;"><strong>Повезани предмети:</strong></th>
             <td style="width: 80%;">
                 @if($predmet->vezani->count() > 0)
                 @foreach($predmet->vezani as $povezani)
@@ -165,7 +175,7 @@
                 @endif
         </tr>
         <tr>
-            <th style="width: 20%;">Напомена</th>
+            <th style="width: 20%;"><strong>Напомена:</strong></th>
             <td style="width: 80%;">{{ $predmet->napomena }}</td>
         </tr>
     </tbody>

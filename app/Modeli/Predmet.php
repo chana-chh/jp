@@ -80,4 +80,13 @@ class Predmet extends Model
     return $this->belongsToMany('App\Modeli\Predmet', 'predmeti_veze', 'predmet_id', 'veza_id');
   }
 
+  public function status(){
+
+  		if($this->tokovi()->count()>0){
+  		$tok = $this->tokovi()->latest()->first();
+  		return "Последњи статус: ".$tok->status->naziv.", ".$tok->opis;}
+  		else{
+  			return " ";
+  		}
+	}
 }
