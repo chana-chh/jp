@@ -79,6 +79,9 @@ Route::post('predmeti/slike/{id}', 'PredmetiKontroler@postPredmetiSlike')->name(
 Route::post('predmeti/skenirane/brisanje', 'PredmetiKontroler@postSlikeBrisanje')->name('slike.brisanje');
 Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
 
+//Predmeti podnesci
+Route::get('predmeti/podnesci/{id}', 'PredmetiPodnesci@getPredmetiPodnesci')->name('predmeti.podnesci');
+
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
 Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
