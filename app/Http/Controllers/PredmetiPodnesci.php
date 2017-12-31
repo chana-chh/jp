@@ -21,16 +21,17 @@ class PredmetiPodnesci extends Kontroler
         return view('predmet_podnesci')->with(compact('podnesci', 'predmet'));
     }
 
-    public function postPredmetiPodnesci(Request $req, $id)
+    public function postPredmetiPodnesci(Request $req)
     {
-        $predmet = Predmet::findOrFail($id);
 
-        // $this->validate($req, [
-        //     VIDECEMO
-        // ]);
+        $this->validate($req, [
+                'datum_podnosenja' => 'required|date',
+                'podnosioc' => 'required',
+                'podnosioc_tip' => 'required|integer'
+            ]);
 
         $podnesak = new Podnesak;
-        $podnesak->predmet_id = $id;
+        $podnesak->predmet_id = $req->predmet_id;
         $podnesak->datum_podnosenja = $req->datum_podnosenja;
         $podnesak->podnosioc = $req->podnosioc;
         $podnesak->podnosioc_tip = $req->podnosioc_tip;
@@ -38,10 +39,10 @@ class PredmetiPodnesci extends Kontroler
         $podnesak->save();
 
         Session::flash('uspeh', 'Поднесак је успешно додат!');
-        return redirect()->route('predmeti.podnesci', $id);
+        return redirect()->route('predmeti.podnesci', $req->predmet_id);
     }
 
-    public function postSlikeBrisanje(Request $req)
+    public function postPredmetiPodnesciBrisanje(Request $req)
     {
 
         $podnesak = Podnesak::find($req->idBrisanje);

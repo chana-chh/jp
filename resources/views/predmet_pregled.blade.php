@@ -14,17 +14,13 @@
     Преглед предмета број
     <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
         {{ $predmet->broj() }}
-        {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }}
+        &emsp;<span style="font-size: 2.5rem;">{{ $predmet->status() }} {{ $predmet->opis() }}</span>
+        {{-- {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }} --}}
     </span>
 </h1>
 </div>
 </div>
 <hr>
-<div class="row">
-    <div class="col-md-12">
-        <p class="text-success" style="font-size: 2rem; margin-left: 16px;">{{ $predmet->status() }}</p>
-    </div>
-</div>
 @endsection
 
 @section('sadrzaj')
@@ -113,70 +109,99 @@
     <tbody>
         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
-            <td style="width: 80%;">{{ $predmet->stari_broj_predmeta }}</td>
+            <td style="width: 70%;">{{ $predmet->stari_broj_predmeta }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Датум пријема:</strong></th>
-            <td style="width: 80%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
+            <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Суд:</strong></th>
-            <td style="width: 80%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>{{ $predmet->broj_predmeta_sud }}</strong></span></td>
+            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>{{ $predmet->broj_predmeta_sud }}</strong></span></td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Врста предмета:</strong></th>
-            <td style="width: 80%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
+            <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Катастарска парцела:</strong></th>
-            <td style="width: 80%;">{{ $predmet->opis_kp }}</td>
+            <td style="width: 70%;">{{ $predmet->opis_kp }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Адреса:</strong></th>
-            <td style="width: 80%;">{{ $predmet->opis_adresa }}</td>
+            <td style="width: 70%;">{{ $predmet->opis_adresa }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Опис предмета:</strong></th>
-            <td style="width: 80%;">{{ $predmet->opis }}</td>
+            <td style="width: 70%;">{{ $predmet->opis }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Тужилац:</strong></th>
-            <td style="width: 80%;">{{ $predmet->stranka_1 }}</td>
+            <td style="width: 70%;">{{ $predmet->stranka_1 }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Тужени:</strong></th>
-            <td style="width: 80%;">{{ $predmet->stranka_2 }}</td>
+            <td style="width: 70%;">{{ $predmet->stranka_2 }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Вредност тужбе:</strong></th>
-            <td style="width: 80%;">{{ number_format($predmet->vrednost_tuzbe, 2, ',', '.') }}</td>
+            <td style="width: 70%;">{{ number_format($predmet->vrednost_tuzbe, 2, ',', '.') }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Референт:</strong></th>
-            <td style="width: 80%;">{{ $predmet->referent->imePrezime() }}</td>
+            <td style="width: 70%;">{{ $predmet->referent->imePrezime() }}</td>
+            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Предмет родитељ:</strong></th>
-            <td style="width: 80%;">
+            <td style="width: 70%;">
                 @if($predmet->roditelj)
                 {{ $predmet->roditelj->broj() }}
                 @endif
             </td>
+            <td style="width: 10%;"></td>
         </tr>
          <tr>
             <th style="width: 20%;"><strong>Повезани предмети:</strong></th>
-            <td style="width: 80%;">
+            <td style="width: 70%;">
                 @if($predmet->vezani->count() > 0)
+                <span><i class="fa fa-arrow-circle-o-right" title="ПОВЕЗАН СА"></i></span>
                 @foreach($predmet->vezani as $povezani)
                     <a href="{{ route('predmeti.pregled', $povezani->id) }}">
                         {{ $povezani->broj() }} &emsp;
                     </a>
                 @endforeach
                 @endif
+                &emsp;
+                @if($predmet->vezanZa->count() > 0)
+                <span><i class="fa fa-arrow-circle-o-up" title="ВЕЗАН ЗА"></i></span>
+                @foreach($predmet->vezanZa as $vezan)
+                    <a href="{{ route('predmeti.pregled', $vezan->id) }}">
+                        {{ $vezan->broj() }} &emsp;
+                    </a>
+                @endforeach
+                @endif
+            </td>
+            <td style="width: 10%; text-align:right;">
+                <a class="btn btn-warning btn-xs" id="dugmePregledVeza" href="{{ route('predmeti.podnesci', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>
-            <td style="width: 80%;">{{ $predmet->napomena }}</td>
+            <td style="width: 70%;">{{ $predmet->napomena }}</td>
+            <td style="width: 10%;"></td>
         </tr>
     </tbody>
 </table>

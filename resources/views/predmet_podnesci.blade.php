@@ -31,14 +31,15 @@
 @section('sadrzaj')
 @if($podnesci->count()>0)
 <div class="row" style="margin-top: 5rem;">
-    <div class="col-md-12">
-<table class="table table-striped table-condensed table-responsive">
+    <div class="col-md-12 table-responsive">
+<table class="table table-striped">
         <thead>
             <tr>
                 <th style="width: 15%;">Датум подошења</th>
-                <th style="width: 25%;">Подносиоц</th>
-                <th style="width: 40%;">Опис</th>
-                <th style="width: 15%;">Не знам</th>
+                <th style="width: 30%;">Подносиоц</th>
+                <th style="width: 35%;">Опис</th>
+                <th style="width: 15%;">Подносиоци (тип)</th>
+                <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
             </tr>
         </thead>
         <tbody>
@@ -48,6 +49,13 @@
                 <td>{{ $p->podnosioc }}</td>
                 <td>{{ $p->opis }}</td>
                 <td>{{ $p->podnosioc_tip }}</td>
+                <td style="text-align:center">
+                    <button
+                        class="btn btn-danger btn-sm otvori-brisanje" id="idBrisanje"
+                        value="{{$p->id}}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+            </td>
             </tr>
             @endforeach
         </tbody>
@@ -64,8 +72,19 @@
 <h3 >Додавање новог поднеска</h3>
 <hr>
 <div class="well">
-    <form action=" " method="POST" data-parsley-validate>
+    <form action="{{ route('predmeti.podnesci.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
+
+            <div class="form-group{{ $errors->has('datum_podnosenja') ? ' has-error' : '' }}">
+        <label for="datum_podnosenja">Датум подошења:</label>
+        <input type="date" name="datum_podnosenja" id="datum_podnosenja" class="form-control"
+               value="{{ old('datum_podnosenja') ? old('datum_podnosenja') : date('Y-m-d', time()) }}" required>
+        @if ($errors->has('datum_podnosenja'))
+        <span class="help-block">
+            <strong>{{ $errors->first('datum_podnosenja') }}</strong>
+        </span>
+        @endif
+    </div>
 
         <div class="form-group{{ $errors->has('podnosioc') ? ' has-error' : '' }}">
             <label for="podnosioc">Подносиоци: </label>
@@ -77,6 +96,21 @@
             @endif
         </div>
 
+                        <div class="form-group{{ $errors->has('podnosioc_tip') ? ' has-error' : '' }}">
+                    <label for="podnosioc_tip">Подносиоци (тип):</label>
+                    <select name="podnosioc_tip" id="podnosioc_tip" class="chosen-select form-control" data-placeholder="подносиоци су ..." required>
+                        <option value=""></option>
+                        <option value="1">Тужилац</option>
+                        <option value="2">Тужени</option>
+                        <option value="3">Треће лице</option>
+                    </select>
+                    @if ($errors->has('podnosioc_tip'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('podnosioc_tip') }}</strong>
+                    </span>
+                    @endif
+                </div>
+
         <div class="form-group{{ $errors->has('opis') ? ' has-error' : '' }}">
             <label for="opis">Опис: </label>
             <textarea name="opis" id="opis" maxlength="255" class="form-control">{{ old('opis') }}</textarea>
@@ -87,6 +121,8 @@
             @endif
         </div>
 
+        <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+
         <div class="row dugmici">
             <div class="col-md-12" style="margin-top: 20px;">
                 <div class="form-group">
@@ -96,7 +132,7 @@
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <a class="btn btn-danger btn-block ono" href=" ">
+                        <a class="btn btn-warning btn-block ono" href=" ">
                             <i class="fa fa-ban"></i>&emsp;Откажи
                         </a>
                     </div>

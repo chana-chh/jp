@@ -81,6 +81,7 @@ Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisan
 
 //Predmeti podnesci
 Route::get('predmeti/podnesci/{id}', 'PredmetiPodnesci@getPredmetiPodnesci')->name('predmeti.podnesci');
+Route::post('predmeti/podnesci/dodavanje', 'PredmetiPodnesci@postPredmetiPodnesci')->name('predmeti.podnesci.dodavanje');
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');

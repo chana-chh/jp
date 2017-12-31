@@ -211,11 +211,11 @@
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
-            <th style="width: 4%; text-align:right; padding-right: 25px">а/а </th>
+            <th style="width: 8%; text-align:right; padding-right: 25px">Статус </th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Број </th>
             <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број </th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета </th>
-            <th style="width: 18%; text-align:right; padding-right: 25px">Опис </th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Опис </th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац </th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужени </th>
             <th style="width: 9%; text-align:right; padding-right: 25px">Датум </th>
@@ -226,10 +226,13 @@
     <tbody id="predmeti_lista" name="predmeti_lista">
         @foreach ($predmeti as $predmet)
         <tr>
-            <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" class="text-danger">
-                {{ $predmet->arhiviran == 0 ? '' : 'а/а' }}
+            <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" 
+            class="status {{ $predmet->arhiviran == 0 ? 'text-primary' : 'text-danger' }}"
+            data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis() }}" >
+                {{-- {{ $predmet->arhiviran == 0 ? '' : 'а/а' }} --}}
+                {{ $predmet->status() }}
             </td>
-            <td style="vertical-align: middle; line-height: normal;">
+            <td style="text-align:center; vertical-align: middle; line-height: normal;">
                 <strong>
                     <a href="{{ route('predmeti.pregled', $predmet->id) }}">
                         {{ $predmet->broj() }}
@@ -274,6 +277,10 @@
 <script>
 
 $(document).ready(function () {
+
+    $('.status').popover({
+        trigger: 'hover'
+    });
 
     jQuery(window).on('resize', resizeChosen);
 

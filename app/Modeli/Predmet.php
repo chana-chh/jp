@@ -87,9 +87,21 @@ class Predmet extends Model
 
   public function status(){
 
+  		
   		if($this->tokovi()->count()>0){
   		$tok = $this->tokovi()->latest()->first();
-  		return "Последњи статус: ".$tok->status->naziv.", ".$tok->opis;}
+  		return $tok->status->naziv;
+  	}
+  		else{
+  			return " ";
+  		}
+	}
+	  public function opis(){
+	  	
+  		if($this->tokovi()->count()>0){
+  		$tok = $this->tokovi()->latest()->first();
+  		return $tok->opis;
+  	}
   		else{
   			return " ";
   		}
