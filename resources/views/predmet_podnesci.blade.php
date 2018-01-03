@@ -132,7 +132,7 @@
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <a class="btn btn-warning btn-block ono" href=" ">
+                        <a class="btn btn-primary btn-block ono" href=" ">
                             <i class="fa fa-ban"></i>&emsp;Откажи
                         </a>
                     </div>

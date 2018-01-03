@@ -193,7 +193,7 @@
                 @endif
             </td>
             <td style="width: 10%; text-align:right;">
-                <a class="btn btn-warning btn-xs" id="dugmePregledVeza" href="{{ route('predmeti.podnesci', $predmet->id) }}">
+                <a class="btn btn-success btn-xs" id="dugmePregledVeza" href="{{ route('predmeti.veze', $predmet->id) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
             </td>
