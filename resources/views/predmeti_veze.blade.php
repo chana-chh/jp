@@ -53,7 +53,9 @@
                                 <td>{{$v->referent->ime}} {{$v->referent->prezime}}</td>
 
                                  <td style="text-align:center">
-                    <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$v->id}}"><i class="fa fa-trash"></i></button>
+                    <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori-brisanje"  
+                    data-toggle="modal" data-target="#brisanjeModal"
+                    value="{{$v->id}}"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                 @endforeach
@@ -64,24 +66,42 @@
         @endif
 
         {{-- Modal za dijalog brisanje--}}
-    <div class="modal fade" id="brisanjeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-           <div class="modal-content">
-             <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="brisanjeModalLabel">Упозорење!</h4>
+<div id = "brisanjeModal" class = "modal fade">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <button class = "close" data-dismiss = "modal">&times;</button>
+                <h1 class = "modal-title text-danger">Упозорење!</h1>
             </div>
-            <div class="modal-body">
-                <h4 class="text-primary">Да ли желите трајно да обришете ставку</strong></h4>
-                <p ><strong>Ова акција је неповратна!</strong></p>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="btn-obrisi">Обриши</button>
-            <button type="button" class="btn btn-danger" id="btn-otkazi">Откажи</button>
+            <div class = "modal-body">
+                <h3>Да ли желите трајно да уклоните везу? *</h3>
+                <p class = "text-danger">* Ова акција је неповратна!</p>
+                <form id="brisanje-forma" action="" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" id="idBrisanje" name="idBrisanje">
+                    <hr style="margin-top: 30px;">
+
+            <div class="row dugmici" style="margin-top: 30px;">
+            <div class="col-md-12" >
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button id = "btn-brisanje-obrisi" type="submit" class="btn btn-danger btn-block ono">
+                            <i class="fa fa-recycle"></i>&emsp;Уклони
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-primary btn-block ono" data-dismiss="modal">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
-  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     {{-- Kraj Modala za dijalog brisanje--}}
 @endsection
 
@@ -172,31 +192,15 @@ $( document ).ready(function() {
     },
     });
 
-    $(document).on('click','.otvori_modal',function(){
-
-        var id = $(this).val();
-        
-        var ruta = "{{ route('sudovi.brisanje') }}";
-
-
-        $('#brisanjeModal').modal('show');
-
-        $('#btn-obrisi').click(function(){
-            $.ajax({
-            url: ruta,
-            type:"POST", 
-            data: {"id":id, _token: "{!! csrf_token() !!}"}, 
-            success: function(){
-            location.reload(); 
-          }
+        $(document).on('click', '.otvori-brisanje', function () {
+            var id = $(this).val();
+            $('#idBrisanje').val(id);
+            var ruta = "{{ route('predmeti.veze.brisanje', "pid") }}";
+            ruta = ruta.replace('pid', {!!$predmet->id!!});
+            console.log(ruta);
+            console.log(id);
+            $('#brisanje-forma').attr('action', ruta);
         });
-
-        $('#brisanjeModal').modal('hide');
-        });
-        $('#btn-otkazi').click(function(){
-            $('#brisanjeModal').modal('hide');
-        });
-    });
 });
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>

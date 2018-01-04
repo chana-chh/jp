@@ -38,10 +38,14 @@ class PredmetiVezeKontroler extends Kontroler
         return redirect()->route('predmeti.veze', $id);
     }
 
-    public function postBrisanje(Request $req)
+    public function postBrisanje(Request $req, $id)
     {
-        $veza = PredmetVeza::find($req->id);
-        $odgovor = $veza->delete();
+        $veza = PredmetVeza::where([
+            ['predmet_id', '=', $id],
+            ['veza_id', '=', $req->idBrisanje]
+        ])->first();
+
+        $odgovor = $veza->forceDelete();
 
         if ($odgovor) {
             Session::flash('uspeh', 'Веза са предметом је успешно обрисана!');

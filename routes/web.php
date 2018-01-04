@@ -86,6 +86,7 @@ Route::post('predmeti/podnesci/dodavanje', 'PredmetiPodnesci@postPredmetiPodnesc
 //Predmeti veze
 Route::get('predmeti/veze/{id}', 'PredmetiVezeKontroler@getLista')->name('predmeti.veze');
 Route::post('predmeti/veze/dodavanje/{id}', 'PredmetiVezeKontroler@postDodavanje')->name('predmeti.veze.dodavanje');
+Route::post('predmeti/veze/brisanje/{id}', 'PredmetiVezeKontroler@postBrisanje')->name('predmeti.veze.brisanje');
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
