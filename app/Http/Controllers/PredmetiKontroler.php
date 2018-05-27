@@ -433,4 +433,88 @@ class PredmetiKontroler extends Kontroler
         return Redirect::back();
     }
 
+    public function proveraTuzilac(Request $req){
+        
+        if ($req->ajax()) {
+            $rezultat = "";
+            if ($req->proveraTuzilac) {
+
+                $predmeti = DB::table('predmeti')
+            ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+            ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta, 
+                            s_vrste_upisnika.naziv as vrsta_upisnika,
+                            predmeti.broj_predmeta as broj,
+                            predmeti.stranka_1 as stranka_1,
+                            predmeti.opis_kp as opis_kp,
+                            predmeti.godina_predmeta as godina,
+                            predmeti.id as id,
+                            s_vrste_upisnika.slovo as slovo'))
+            ->where('stranka_1', 'LIKE', '%'.$req->proveraTuzilac.'%')->limit(20)
+            ->get();
+            if ($predmeti) {
+                foreach ($predmeti as $key => $predmet) {
+                    $rezultat .= '<tr>'.
+                                    '<td>
+                                    <strong>
+                                    <a class="popTuzilac" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="'.$predmet->vrsta_upisnika.'" 
+                                    href="' .route('predmeti.pregled', $predmet->id). '">'
+                                    .$predmet->slovo.'-'.$predmet->broj.'/'.$predmet->godina.'
+                                    </a>
+                                    </strong></td>'.
+                                    '<td>'.$predmet->stranka_1.'</td>'.
+                                    '<td>'.$predmet->vrsta_upisnika.'</td>'.
+                                    '<td>'.$predmet->opis_kp.'</td>'.
+                                    '</tr>';
+                }
+               
+            }
+                
+            }
+            
+            return Response($rezultat);
+        }
+    }
+
+    public function proveraKp(Request $req){
+        
+        if ($req->ajax()) {
+            $rezultat = "";
+            if ($req->proveraKp) {
+
+            $predmeti = DB::table('predmeti')
+            ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+            ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta, 
+                            s_vrste_upisnika.naziv as vrsta_upisnika,
+                            predmeti.broj_predmeta as broj,
+                            predmeti.stranka_1 as stranka_1,
+                            predmeti.opis_kp as opis_kp,
+                            predmeti.godina_predmeta as godina,
+                            predmeti.id as id,
+                            s_vrste_upisnika.slovo as slovo'))
+            ->where('opis_kp', 'LIKE', '%'.$req->proveraKp.'%')->limit(20)
+            ->get();
+            if ($predmeti) {
+                foreach ($predmeti as $key => $predmet) {
+                    $rezultat .= '<tr>'.
+                                    '<td>
+                                    <strong>
+                                    <a class="popKp" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="пера" 
+                                    href="' .route('predmeti.pregled', $predmet->id). '">'
+                                    .$predmet->slovo.'-'.$predmet->broj.'/'.$predmet->godina.'
+                                    </a>
+                                    </strong></td>'.
+                                    '<td>'.$predmet->stranka_1.'</td>'.
+                                    '<td>'.$predmet->vrsta_upisnika.'</td>'.
+                                    '<td>'.$predmet->opis_kp.'</td>'.
+                                    '</tr>';
+                }
+               
+            }
+        }
+            return Response($rezultat);
+        }
+    }
+
 }

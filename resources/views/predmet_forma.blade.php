@@ -11,7 +11,8 @@
     <span><img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px"></span>
     Додавање новог предмета
 </h1>
-
+@endsection
+@section('sadrzaj')
 <form action="{{ route('predmeti.dodavanje.post') }}" method="POST" data-parsley-validate>
     {{ csrf_field() }}
     <fieldset>
@@ -77,7 +78,7 @@
     <hr>
     {{-- Red sa sudom --}}
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
                 <label for="sud_id">Надлежни суд:</label>
                 <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни суд" required>
@@ -95,7 +96,7 @@
             @endif
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('broj_predmeta_sud') ? ' has-error' : '' }}">
             <label for="broj_predmeta_sud">Број предмета у суду:</label>
             <input type="text" name="broj_predmeta_sud" id="broj_predmeta_sud" class="form-control"
@@ -107,7 +108,9 @@
             @endif
         </div>
     </div>
-    <div class="col-md-4">
+    </div>
+    <div class="row">
+    <div class="col-md-6">
         <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
             <label for="vrsta_predmeta_id">Врста предмета:</label>
             <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
@@ -125,7 +128,7 @@
         @endif
     </div>
 </div>
-<div class="col-md-2">
+<div class="col-md-6">
     <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
         <label for="datum_tuzbe">Датум предмета (тужбе):</label>
         <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
@@ -144,7 +147,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('stranka_1') ? ' has-error' : '' }}">
-                <label for="stranka_1">Прва странка:</label>
+                <label for="stranka_1">Прва странка (тужилац):</label>
                 <input type="text" name="stranka_1" id="stranka_1" class="form-control"
                        value="{{ old('stranka_1') }}" maxlength="255" required>
                 @if ($errors->has('stranka_1'))
@@ -156,7 +159,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('stranka_2') ? ' has-error' : '' }}">
-                <label for="stranka_2">Друга странка:</label>
+                <label for="stranka_2">Друга странка (тужени):</label>
                 <input type="text" name="stranka_2" id="stranka_2" class="form-control"
                        value="{{ old('stranka_2') }}" maxlength="255" required>
                 @if ($errors->has('stranka_2'))
@@ -318,6 +321,47 @@
 
 @endsection
 
+@section('traka')
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Провера тужилац</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped" style="font-size: 0.75em;">
+            <thead>
+                <tr>
+                    <th style="width: 15%">Број </th>
+                    <th style="width: 25%">Тужилац </th>
+                    <th style="width: 25%">Врста </th>
+                    <th style="width: 35%">Опис </th>
+                </tr>
+            </thead>
+            <tbody id="tuzilac_body">
+            </tbody>
+          </table>
+    </div>
+  </div>
+<hr>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Провера катастарска парцела</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped" style="font-size: 0.75em;">
+            <thead>
+                <tr>
+                    <th style="width: 15%">Број </th>
+                    <th style="width: 25%">Тужилац </th>
+                    <th style="width: 25%">Врста </th>
+                    <th style="width: 35%">Опис </th>
+                </tr>
+            </thead>
+            <tbody id="kp_body">
+            </tbody>
+          </table>
+    </div>
+  </div>
+@endsection
 @section('skripte')
 <script src="{{ asset('/js/parsley.js') }}"></script>
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
@@ -325,6 +369,39 @@
 <script>
 
 $(document).ready(function () {
+
+    $('#stranka_1').on('keyup', function () {
+        $vrednost = $(this).val();
+        $.ajax({
+            type : 'get',
+            url : '{{URL::to('proveraTuzilac')}}',
+            data : {'proveraTuzilac':$vrednost},
+            success:function(data){
+                $('#tuzilac_body').html(data);
+
+                $('.popTuzilac').popover({
+        trigger: 'hover'
+    });
+            }
+        });
+    });
+
+        $('#opis_kp').on('keyup', function () {
+        $vrednost = $(this).val();
+        $.ajax({
+            type : 'get',
+            url : '{{URL::to('proveraKp')}}',
+            data : {'proveraKp':$vrednost},
+            success:function(data){
+                $('#kp_body').html(data);
+
+                $('.popKp').popover({
+        trigger: 'hover'
+    });
+            }
+        });
+    });
+
     jQuery(window).on('resize', resizeChosen);
 
     $('.chosen-select').chosen({
