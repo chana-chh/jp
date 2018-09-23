@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use Redirect;
-// use Gate;
 use Auth;
 use Image;
 use DB;
@@ -15,11 +14,10 @@ use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
 use App\Modeli\Sud;
 use App\Modeli\Referent;
-use App\Modeli\TipRocista;
-// use App\Modeli\Korisnik;
 use App\Modeli\Uprava;
 use App\Modeli\Status;
 use App\Modeli\Tok;
+use App\Modeli\TipRocista;
 use App\Modeli\PredmetSlika;
 use App\Modeli\Komintent;
 
@@ -41,7 +39,34 @@ class PredmetiKontroler extends Kontroler
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
-        $predmeti = Predmet::all();
+        // $predmeti = Predmet::all();
+        $query = "SELECT	`predmeti`.`id`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`broj_predmeta_sud`, `predmeti`.`opis`,
+		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`stranka_1`, `predmeti`.`stranka_2`, `predmeti`.`datum_tuzbe`,
+		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
+		`s_vrste_predmeta`.`naziv` as vp_naziv,
+		`s_referenti`.`ime`, `s_referenti`.`prezime`,
+                `s_sudovi`.`naziv` as sud_naziv,
+		`poslednji`.`opis`,
+		`poslednji`.`datum`,
+		`poslednji`.`st_naziv`
+FROM	`predmeti`
+JOIN	`s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
+JOIN	`s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
+JOIN	`s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
+JOIN	`s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
+LEFT JOIN (
+			select tokovi_predmeta.*, s_statusi.naziv as st_naziv
+			from tokovi_predmeta
+			inner join
+			(
+				select predmet_id, max(datum) as ts
+				from tokovi_predmeta
+				group by predmet_id
+			) t1
+			on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
+			join s_statusi on tokovi_predmeta.status_id = s_statusi.id
+		   ) `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`;";
+        $predmeti = \Illuminate\Support\Facades\DB::select($query);
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
@@ -433,16 +458,17 @@ class PredmetiKontroler extends Kontroler
         return Redirect::back();
     }
 
-    public function proveraTuzilac(Request $req){
-        
+    public function proveraTuzilac(Request $req)
+    {
+
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraTuzilac) {
 
                 $predmeti = DB::table('predmeti')
-            ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-            ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-            ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta, 
+                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                        ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
                             predmeti.stranka_1 as stranka_1,
@@ -450,42 +476,41 @@ class PredmetiKontroler extends Kontroler
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
                             s_vrste_upisnika.slovo as slovo'))
-            ->where('stranka_1', 'LIKE', '%'.$req->proveraTuzilac.'%')->limit(20)
-            ->get();
-            if ($predmeti) {
-                foreach ($predmeti as $key => $predmet) {
-                    $rezultat .= '<tr>'.
-                                    '<td>
+                        ->where('stranka_1', 'LIKE', '%' . $req->proveraTuzilac . '%')->limit(20)
+                        ->get();
+                if ($predmeti) {
+                    foreach ($predmeti as $key => $predmet) {
+                        $rezultat .= '<tr>' .
+                                '<td>
                                     <strong>
-                                    <a class="popTuzilac" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="'.$predmet->vrsta_upisnika.'" 
-                                    href="' .route('predmeti.pregled', $predmet->id). '">'
-                                    .$predmet->slovo.'-'.$predmet->broj.'/'.$predmet->godina.'
+                                    <a class="popTuzilac" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="' . $predmet->vrsta_upisnika . '"
+                                    href="' . route('predmeti.pregled', $predmet->id) . '">'
+                                . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
-                                    </strong></td>'.
-                                    '<td>'.$predmet->stranka_1.'</td>'.
-                                    '<td>'.$predmet->vrsta_upisnika.'</td>'.
-                                    '<td>'.$predmet->opis_kp.'</td>'.
-                                    '</tr>';
+                                    </strong></td>' .
+                                '<td>' . $predmet->stranka_1 . '</td>' .
+                                '<td>' . $predmet->vrsta_predmeta . '</td>' .
+                                '<td>' . $predmet->opis_kp . '</td>' .
+                                '</tr>';
+                    }
                 }
-               
             }
-                
-            }
-            
+
             return Response($rezultat);
         }
     }
 
-    public function proveraKp(Request $req){
-        
+    public function proveraKp(Request $req)
+    {
+
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraKp) {
 
-            $predmeti = DB::table('predmeti')
-            ->join('s_vrste_predmeta','predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-            ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-            ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta, 
+                $predmeti = DB::table('predmeti')
+                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                        ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
                             predmeti.stranka_1 as stranka_1,
@@ -493,26 +518,25 @@ class PredmetiKontroler extends Kontroler
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
                             s_vrste_upisnika.slovo as slovo'))
-            ->where('opis_kp', 'LIKE', '%'.$req->proveraKp.'%')->limit(20)
-            ->get();
-            if ($predmeti) {
-                foreach ($predmeti as $key => $predmet) {
-                    $rezultat .= '<tr>'.
-                                    '<td>
+                        ->where('opis_kp', 'LIKE', '%' . $req->proveraKp . '%')->limit(20)
+                        ->get();
+                if ($predmeti) {
+                    foreach ($predmeti as $key => $predmet) {
+                        $rezultat .= '<tr>' .
+                                '<td>
                                     <strong>
-                                    <a class="popKp" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="пера" 
-                                    href="' .route('predmeti.pregled', $predmet->id). '">'
-                                    .$predmet->slovo.'-'.$predmet->broj.'/'.$predmet->godina.'
+                                    <a class="popKp" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="пера"
+                                    href="' . route('predmeti.pregled', $predmet->id) . '">'
+                                . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
-                                    </strong></td>'.
-                                    '<td>'.$predmet->stranka_1.'</td>'.
-                                    '<td>'.$predmet->vrsta_upisnika.'</td>'.
-                                    '<td>'.$predmet->opis_kp.'</td>'.
-                                    '</tr>';
+                                    </strong></td>' .
+                                '<td>' . $predmet->stranka_1 . '</td>' .
+                                '<td>' . $predmet->vrsta_predmeta . '</td>' .
+                                '<td>' . $predmet->opis_kp . '</td>' .
+                                '</tr>';
+                    }
                 }
-               
             }
-        }
             return Response($rezultat);
         }
     }

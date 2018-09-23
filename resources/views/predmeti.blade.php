@@ -205,9 +205,7 @@
     </div>
 </div>
 
-@if($predmeti->isEmpty())
-<h3 class="text-danger">Нема записа у бази података</h3>
-@else
+
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
@@ -226,26 +224,25 @@
     <tbody id="predmeti_lista" name="predmeti_lista">
         @foreach ($predmeti as $predmet)
         <tr>
-            <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" 
-            class="status {{ $predmet->arhiviran == 0 ? 'text-primary' : 'text-danger' }}"
-            data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis() }}" >
-                {{-- {{ $predmet->arhiviran == 0 ? '' : 'а/а' }} --}}
-                {{ $predmet->status() }}
+            <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;"
+                class="status text-danger"
+                data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis }}" >
+                {{ $predmet->st_naziv }}
             </td>
             <td style="text-align:center; vertical-align: middle; line-height: normal;">
                 <strong>
                     <a href="{{ route('predmeti.pregled', $predmet->id) }}">
-                        {{ $predmet->broj() }}
+                        {{ $predmet->slovo }}-{{ $predmet->broj_predmeta }}/{{ $predmet->godina_predmeta }}
                     </a>
                 </strong>
             </td>
             <td style="vertical-align: middle; line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px;">
-                    <li>{{$predmet->sud->naziv}}</li>
+                    <li>{{$predmet->sud_naziv}}</li>
                     <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vp_naziv}}</td>
             <td>
                 <ul style="list-style-type: none; padding-left:1px; text-align:right">
                     <li>{{$predmet->opis_kp}}</li>
@@ -256,7 +253,7 @@
             <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_1}}</em></td>
             <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_2}}</em></td>
             <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->ime}} {{$predmet->prezime}}</td>
             <td style="text-align:center">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"
@@ -268,7 +265,6 @@
         @endforeach
     </tbody>
 </table>
-@endif
 @endsection
 
 @section('skripte')

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Gate;
 use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\Rociste;
@@ -12,6 +9,7 @@ use App\Modeli\Tok;
 
 class PocetnaKontroler extends Kontroler
 {
+
     public function pocetna()
     {
         $broj_predmeta = Predmet::count();
@@ -33,6 +31,7 @@ class PocetnaKontroler extends Kontroler
         $iznos_troskova = $iznos_troskova_potrazuje_suma - $iznos_troskova_duguje_suma;
 
 
-        return view('pocetna')->with(compact ('broj_predmeta', 'rocista', 'vrednost_spora', 'iznos_troskova'));
+        return view('pocetna')->with(compact('broj_predmeta', 'rocista', 'vrednost_spora', 'iznos_troskova'));
     }
+
 }

@@ -108,8 +108,8 @@
             @endif
         </div>
     </div>
-    </div>
-    <div class="row">
+</div>
+<div class="row">
     <div class="col-md-6">
         <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
             <label for="vrsta_predmeta_id">Врста предмета:</label>
@@ -171,10 +171,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="form-group">
                 <select name="komintenti_1[]" id="komintenti_1" class="chosen-select form-control"
-                        data-placeholder="Прва странка" required multiple>
+                        data-placeholder="Прва странка" multiple>
                     @foreach($komintenti as $kom1)
                     <option value="{{ $kom1->id }}"{{ old('komintenti_1') == $kom1->id ? ' selected' : '' }}>
                             {{ $kom1->naziv }}</option>
@@ -187,10 +187,13 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-1">
+            <button class="btn btn-warning" id="dugmeDodajStranku1">Додај</button>
+        </div>
+        <div class="col-md-5">
             <div class="form-group">
                 <select name="komintenti_2[]" id="komintenti_2" class="chosen-select form-control"
-                        data-placeholder="Прва странка" required multiple>
+                        data-placeholder="Прва странка" multiple>
                     @foreach($komintenti as $kom2)
                     <option value="{{ $kom2->id }}"{{ old('komintenti_2') == $kom2->id ? ' selected' : '' }}>
                             {{ $kom2->naziv }}</option>
@@ -202,6 +205,9 @@
                 </span>
                 @endif
             </div>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-warning" id="dugmeDodajStranku2">Додај</button>
         </div>
     </div>
 </fieldset>
@@ -324,7 +330,7 @@
 @section('traka')
 <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Провера тужилац</h3>
+        <h3 class="panel-title">Провера тужилац</h3>
     </div>
     <div class="panel-body">
         <table class="table table-striped" style="font-size: 0.75em;">
@@ -338,13 +344,13 @@
             </thead>
             <tbody id="tuzilac_body">
             </tbody>
-          </table>
+        </table>
     </div>
-  </div>
+</div>
 <hr>
-  <div class="panel panel-default">
+<div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Провера катастарска парцела</h3>
+        <h3 class="panel-title">Провера катастарска парцела</h3>
     </div>
     <div class="panel-body">
         <table class="table table-striped" style="font-size: 0.75em;">
@@ -358,9 +364,9 @@
             </thead>
             <tbody id="kp_body">
             </tbody>
-          </table>
+        </table>
     </div>
-  </div>
+</div>
 @endsection
 @section('skripte')
 <script src="{{ asset('/js/parsley.js') }}"></script>
@@ -370,54 +376,64 @@
 
 $(document).ready(function () {
 
-    $('#stranka_1').on('keyup', function () {
-        $vrednost = $(this).val();
-        $.ajax({
-            type : 'get',
-            url : '{{URL::to('proveraTuzilac')}}',
-            data : {'proveraTuzilac':$vrednost},
-            success:function(data){
-                $('#tuzilac_body').html(data);
-
-                $('.popTuzilac').popover({
+$('#dugmeDodajStranku1').on('click', function () {
+var tekst = '';
+$('#komintenti_1 :selected').each(function (id, selected){
+tekst = tekst + selected.innerHTML.trim() + ', '
+});
+$('#stranka_1').val(tekst.slice(0, - 2));
+return false;
+});
+$('#dugmeDodajStranku2').on('click', function () {
+var tekst = '';
+$('#komintenti_2 :selected').each(function (id, selected){
+tekst = tekst + selected.innerHTML.trim() + ', '
+});
+$('#stranka_2').val(tekst.slice(0, - 2));
+return false;
+});
+$('#stranka_1').on('keyup', function () {
+$vrednost = $(this).val();
+$.ajax({
+type : 'get',
+        url : '{{URL::to('proveraTuzilac')}}',
+        data : {'proveraTuzilac':$vrednost},
+        success:function(data){
+        $('#tuzilac_body').html(data);
+        $('.popTuzilac').popover({
         trigger: 'hover'
-    });
-            }
         });
-    });
-
-        $('#opis_kp').on('keyup', function () {
-        $vrednost = $(this).val();
-        $.ajax({
-            type : 'get',
-            url : '{{URL::to('proveraKp')}}',
-            data : {'proveraKp':$vrednost},
-            success:function(data){
-                $('#kp_body').html(data);
-
-                $('.popKp').popover({
+        }
+});
+});
+$('#opis_kp').on('keyup', function () {
+$vrednost = $(this).val();
+$.ajax({
+type : 'get',
+        url : '{{URL::to('proveraKp')}}',
+        data : {'proveraKp':$vrednost},
+        success:function(data){
+        $('#kp_body').html(data);
+        $('.popKp').popover({
         trigger: 'hover'
-    });
-            }
         });
-    });
+        }
+});
+});
+jQuery(window).on('resize', resizeChosen);
+$('.chosen-select').chosen({
+allow_single_deselect: true
+});
+function resizeChosen() {
+$(".chosen-container").each(function () {
+$(this).attr('style', 'width: 100%');
+});
+}
 
-    jQuery(window).on('resize', resizeChosen);
-
-    $('.chosen-select').chosen({
-        allow_single_deselect: true
-    });
-
-    function resizeChosen() {
-        $(".chosen-container").each(function () {
-            $(this).attr('style', 'width: 100%');
-        });
-    }
-
-    $("#vrsta_upisnika_id").on('change', function () {
-        var br = $(this).find(":selected").data("br");
-        $("#broj_predmeta").val(br);
-    });
+$("#vrsta_upisnika_id").on('change', function () {
+var br = $(this).find(":selected").data("br");
+$("#broj_predmeta").val(br);
+});
 });
 </script>
 @endsection
