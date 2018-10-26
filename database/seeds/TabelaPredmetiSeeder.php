@@ -2,11 +2,11 @@
 
 use Illuminate\Database\Seeder;
 
-class TabelaPredmetiSeeder extends Seeder
-{
+class TabelaPredmetiSeeder extends Seeder {
 
-    public function run()
-    {
+    public function run() {
+        DB::beginTransaction();
+
         DB::table('predmeti')->insert([
             'id' => 1,
             'sud_id' => 1,
@@ -26,6 +26,8 @@ class TabelaPredmetiSeeder extends Seeder
             'korisnik_id' => 2,
             'broj_predmeta_sud' => 'П-1234/2015',
         ]);
+
+        DB::commit();
     }
 
 }
