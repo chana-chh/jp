@@ -21,11 +21,9 @@ use App\Modeli\TipRocista;
 use App\Modeli\PredmetSlika;
 use App\Modeli\Komintent;
 
-class PredmetiKontroler extends Kontroler
-{
+class PredmetiKontroler extends Kontroler {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->middleware('admin')->only([
             'getPredmetiObrisani',
@@ -33,19 +31,19 @@ class PredmetiKontroler extends Kontroler
         ]);
     }
 
-    public function getLista()
-    {
+    public function getLista() {
         $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
         // $predmeti = Predmet::all();
-        $query = "SELECT `predmeti`.`id`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`broj_predmeta_sud`, `predmeti`.`opis`,
+
+        $query = "SELECT	`predmeti`.`id`, `predmeti`.`arhiviran`,`predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`broj_predmeta_sud`, `predmeti`.`opis`,
 		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`stranka_1`, `predmeti`.`stranka_2`, `predmeti`.`datum_tuzbe`,
 		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
 		`s_vrste_predmeta`.`naziv` as vp_naziv,
 		`s_referenti`.`ime`, `s_referenti`.`prezime`,
-        `s_sudovi`.`naziv` as sud_naziv,
+                `s_sudovi`.`naziv` as sud_naziv,
 		`poslednji`.`opis`,
 		`poslednji`.`datum`,
 		`poslednji`.`st_naziv`
@@ -70,8 +68,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function getListaFilter(Request $req)
-    {
+    public function getListaFilter(Request $req) {
         $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
@@ -81,14 +78,12 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti_filter')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function postListaFilter(Request $req)
-    {
+    public function postListaFilter(Request $req) {
         $req->session()->put('parametri_za_filter_predmeta', $req->all());
         return redirect()->route('predmeti.filter');
     }
 
-    private function naprednaPretraga($params)
-    {
+    private function naprednaPretraga($params) {
         $predmeti = null;
         $where = [];
         // arhiva
@@ -210,8 +205,7 @@ class PredmetiKontroler extends Kontroler
         return $predmeti;
     }
 
-    public function getPregled($id)
-    {
+    public function getPregled($id) {
         $predmet = Predmet::find($id);
         $tipovi_rocista = TipRocista::all();
         $spisak_uprava = Uprava::all();
@@ -226,8 +220,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
     }
 
-    public function getDodavanje()
-    {
+    public function getDodavanje() {
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
@@ -237,8 +230,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
     }
 
-    public function postDodavanje(Request $req)
-    {
+    public function postDodavanje(Request $req) {
         $this->validate($req, [
             'vrsta_upisnika_id' => 'required|integer',
             'broj_predmeta' => 'required|integer',
@@ -283,8 +275,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.pregled', $predmet->id);
     }
 
-    public function getIzmena($id)
-    {
+    public function getIzmena($id) {
         $predmet = Predmet::find($id);
         $predmeti = Predmet::all();
         $sudovi = Sud::all();
@@ -295,8 +286,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
     }
 
-    public function postIzmena(Request $req, $id)
-    {
+    public function postIzmena(Request $req, $id) {
         $this->validate($req, [
             'sud_id' => 'required|integer',
             'broj_predmeta_sud' => 'max:50',
@@ -331,8 +321,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.pregled', $id);
     }
 
-    public function postArhiviranje(Request $req)
-    {
+    public function postArhiviranje(Request $req) {
         if ($req->ajax()) {
             $id = $req->id;
 
@@ -364,8 +353,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function postBrisanje(Request $req)
-    {
+    public function postBrisanje(Request $req) {
         $predmet = Predmet::findOrFail($req->id);
         $vreme = Carbon::now();
 
@@ -383,8 +371,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function getPredmetiObrisani()
-    {
+    public function getPredmetiObrisani() {
         $predmeti = Predmet::onlyTrashed()->get();
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
@@ -394,8 +381,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti_obrisani')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function postVracanjeObrisanogPredmeta(Request $req)
-    {
+    public function postVracanjeObrisanogPredmeta(Request $req) {
         if ($req->ajax()) {
             $predmet = Predmet::onlyTrashed()->find($req->id);
             if ($predmet !== null) {
@@ -411,16 +397,14 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function getPredmetiSlike($id)
-    {
+    public function getPredmetiSlike($id) {
         $predmet = Predmet::findOrFail($id);
         $slike = $predmet->slike;
 
         return view('predmet_slike')->with(compact('slike', 'predmet'));
     }
 
-    public function postPredmetiSlike(Request $req, $id)
-    {
+    public function postPredmetiSlike(Request $req, $id) {
         $predmet = Predmet::findOrFail($id);
 
         $this->validate($req, [
@@ -443,8 +427,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.slike', $id);
     }
 
-    public function postSlikeBrisanje(Request $req)
-    {
+    public function postSlikeBrisanje(Request $req) {
 
         $slika = PredmetSlika::find($req->idBrisanje);
         $putanja = public_path('images/skenirano/') . $slika->src;
@@ -458,8 +441,7 @@ class PredmetiKontroler extends Kontroler
         return Redirect::back();
     }
 
-    public function proveraTuzilac(Request $req)
-    {
+    public function proveraTuzilac(Request $req) {
 
         if ($req->ajax()) {
             $rezultat = "";
@@ -500,8 +482,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function proveraKp(Request $req)
-    {
+    public function proveraKp(Request $req) {
 
         if ($req->ajax()) {
             $rezultat = "";

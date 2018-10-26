@@ -93,12 +93,12 @@ class TokoviNovcaKontroler extends Kontroler
     }
 
     public function getGrupaPredmet(){
-        $predmeti = Predmet::all();
+        $predmeti = Predmet::with('tokovi')->get();
         return view('tokovi_novca_grupa_predmet')->with(compact('predmeti'));
     }
 
     public function getGrupaVrstaPredmeta(){
-        //Tokovi grupisano po predmetu
+        //Tokovi grupisano po vrsti predmeta
         $vrste = DB::table('tokovi_predmeta')
         ->join('predmeti','tokovi_predmeta.predmet_id', '=', 'predmeti.id')
         ->select(DB::raw('SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))

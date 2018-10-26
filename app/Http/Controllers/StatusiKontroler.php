@@ -19,7 +19,7 @@ class StatusiKontroler extends Kontroler
 
     public function getLista()
     {
-    	   $statusi = Status::all();
+    	$statusi = Status::all();
     	return view('statusi')->with(compact ('statusi'));
     }
 
@@ -43,10 +43,9 @@ class StatusiKontroler extends Kontroler
 
     public function getPregled($id)
         {
-
-                $status = Status::find($id);
-                return view('statusi_pregled')->with(compact ('status'));
-            }
+            $status = Status::find($id);
+            return view('statusi_pregled')->with(compact ('status'));
+        }
     public function postIzmena(Request $r, $id)
         {
             $this->validate($r, [
