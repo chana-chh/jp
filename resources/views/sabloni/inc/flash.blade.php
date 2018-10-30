@@ -26,6 +26,13 @@
 </div>
 @endif
 
+@if(Session::has('podsetnik'))
+<div class="alert alert-danger fade in text-center" id="podsetnik" role="alert">
+ 	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  	{{ Session::get('podsetnik') }}
+</div>
+@endif
+
 @if(count($errors) > 0)
 <div class="alert alert-danger fade in text-center" role="alert">
  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

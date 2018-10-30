@@ -217,6 +217,7 @@ class PredmetiKontroler extends Kontroler {
         $it_potrazuje = $predmet->tokovi->sum('iznos_troskova_potrazuje');
         $it = $it_potrazuje - $it_duguje;
 
+        Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
         return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
     }
 
@@ -272,7 +273,8 @@ class PredmetiKontroler extends Kontroler {
         $upisnik->save();
 
         Session::flash('uspeh', 'Предмет је успешно додат!');
-        return redirect()->route('predmeti.pregled', $predmet->id);
+        Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управау ако је потребно!');
+        return redirect()->route('stampa', $predmet->id);
     }
 
     public function getIzmena($id) {
@@ -284,6 +286,11 @@ class PredmetiKontroler extends Kontroler {
         $predmeti = Predmet::all();
 
         return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
+    }
+
+    public function getStampa($id) {
+        $predmet = Predmet::find($id);
+        return view('stampa_upisnik')->with(compact('predmet'));
     }
 
     public function postIzmena(Request $req, $id) {

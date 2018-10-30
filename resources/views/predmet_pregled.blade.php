@@ -553,14 +553,14 @@
 
 <div class="well" style="overflow: auto;">
     <div class="row" style="margin-top: -20px">
-        <div class="col-md-8">
-            <h3 style="margin-bottom: 10px">Рочишта</h3>
+        <div class="col-md-7">
+            <h3 style="margin-bottom: 10px">Рокови/рочишта</h3>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <button style="margin-top: 20px"
                     class="btn btn-success btn-block btn-sm" id="dugmeDodajRociste"
                     data-toggle="modal" data-target="#dodajRocisteModal" value="{{ $predmet->id }}">
-                <i class="fa fa-plus-circle"></i> Додај рочиште
+                <i class="fa fa-plus-circle"></i> Додај рок/рочиште
             </button>
         </div>
     </div>
@@ -609,7 +609,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group{{ $errors->has('rok_dodavanje_tip_id') ? ' has-error' : '' }}">
-                                <label for="rok_dodavanje_tip_id">Тип рочишта</label>
+                                <label for="rok_dodavanje_tip_id">Избор рок/рочишта</label>
                                 <select name="rok_dodavanje_tip_id" id="rok_dodavanje_tip_id" class="chosen-select form-control"
                                         data-placeholder="Тип рочишта" required>
                                     <option value=""></option>
@@ -774,10 +774,10 @@
 
 <div class="well" style="overflow: auto;">
     <div class="row" style="margin-top: -20px">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <h3 style="margin-bottom: 10px">Управе</h3>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <button style="margin-top: 20px"
                     class="btn btn-success btn-block btn-sm" id="dugmeDodajUpravu"
                     data-toggle="modal" data-target="#dodajUpravuModal" value="{{ $predmet->id }}">
@@ -1221,6 +1221,7 @@
             });
         });
     });
+
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
