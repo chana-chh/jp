@@ -86,7 +86,8 @@ class RocistaKontroler extends Kontroler
 
     public function getDodavanje()
     {
-        $predmeti = Predmet::all();
+        //$predmeti = Predmet::all();
+        $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $tipovi_rocista = TipRocista::all();
         return view('rocista_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
     }
@@ -178,12 +179,10 @@ class RocistaKontroler extends Kontroler
             $referent_ime = $referent->imePrezime();
         }
         
-        
-        
-
         $naslovi = array();
         $datumi = array();
         $detalji = array();
+
         foreach ($rocista as $rociste) {
             $datumi [] = $rociste->datum;
             $naslovi [] = [

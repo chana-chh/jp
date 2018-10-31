@@ -205,7 +205,9 @@
     </div>
 </div>
 
-
+@if(count($predmeti) == 0)
+    <h3 class="text-danger">Нема записа у бази података</h3>
+@else
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
@@ -225,7 +227,7 @@
         @foreach ($predmeti as $predmet)
         <tr>
             <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;"
-                class="status text-danger"
+                class="status {{$predmet->arhiviran == 0 ? 'text-primary' : 'text-danger'}}"
                 data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis }}" >
                 {{ $predmet->st_naziv }}
             </td>
@@ -265,6 +267,7 @@
         @endforeach
     </tbody>
 </table>
+@endif
 @endsection
 
 @section('skripte')

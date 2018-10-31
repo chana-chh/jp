@@ -15,7 +15,7 @@
     </span>
 </h1>
 
-<form action="{{ route('predmeti.izmena.post', $predmet->id) }}" method="POST" data-parsley-validate>
+<form id="forma" action="{{ route('predmeti.izmena.post', $predmet->id) }}" method="POST" data-parsley-validate>
     {{ csrf_field() }}
     <div class="row">
         <div class="col-md-2">
@@ -238,10 +238,36 @@
         </div>
     </div>
     <div class="form-group text-right">
-        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Сними</button>
+        <button type="button" id="submitModal" data-toggle="modal" data-target="#izmenaPredmetaModal" class="btn btn-success"><i class="fa fa-floppy-o"></i> Сними</button>
         <a class="btn btn-danger" href="{{route('predmeti.pregled', $predmet->id)}}"><i class="fa fa-ban"></i> Откажи</a>
     </div>
 </form>
+
+<!--pocetak modal_konfirmacija-->
+<div class="modal fade" id="izmenaPredmetaModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title text-danger">Измена предмета</h3>
+            </div>
+            <div class="modal-body">
+                <h3>Да ли желите да сачувате измене?</h3>
+<div class="izmene"></div>
+                <p class="text-danger">Ова акција је неповратна!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="dugmeModalIzmeni">
+                    <i class="fa fa-floppy-o"></i> Сними
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" id="dugmeModalOtkazi">
+                    <i class="fa fa-ban"></i> Откажи
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--kraj modal_konfirmacija-->
 
 @endsection
 
@@ -250,6 +276,45 @@
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
 
 <script>
+
+var osnovnaVrednoststranka_1 = $("#stranka_1").val();
+var osnovnaVrednoststranka_2 = $("#stranka_2").val();
+
+var stranka_1Izmenjena = false;
+var stranka_2Izmenjena = false;
+
+$("#stranka_1").on('input',function(){
+    var izmenjenaVrednoststranka_1 = $(this).val();
+    if(izmenjenaVrednoststranka_1 != osnovnaVrednoststranka_1) {
+         stranka_1Izmenjena = true;
+    }
+});
+
+        $("#stranka_2").on('input',function(){
+    var izmenjenaVrednoststranka_2 = $(this).val();
+    if(izmenjenaVrednoststranka_2 != osnovnaVrednoststranka_2) {
+        stranka_2Izmenjena = true;     
+    }
+});
+
+
+    $('#submitModal').click(function() {
+        if (stranka_1Izmenjena) {
+            $("#izmenaPredmetaModal").find(".izmene").append('<p>'+ $('#stranka_1').val()+ '</p>');
+        } 
+        if (stranka_2Izmenjena){
+            $("#izmenaPredmetaModal").find(".izmene").append('<p>'+ $('#stranka_2').val() + '</p>');
+        }
+    });
+
+    $('#dugmeModalIzmeni').click(function(){
+        $('#forma').submit();
+    });
+
+    $('#dugmeModalOtkazi').click(function(){
+        $('.izmene').empty();
+    });
+
 $("#vrsta_upisnika_id").on('change', function () {
     var br = $(this).find(":selected").data("br");
     $("#broj_predmeta").val(br);

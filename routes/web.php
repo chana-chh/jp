@@ -64,6 +64,7 @@ Route::get('sifarnici/korisnici/pregled/{id}', 'KorisniciKontroler@getPregled')-
 
 //Predmeti
 Route::get('predmeti', 'PredmetiKontroler@getLista')->name('predmeti');
+Route::get('predmeti/stampa/{id}', 'PredmetiKontroler@getStampa')->name('stampa');
 Route::get('proveraTuzilac', 'PredmetiKontroler@proveraTuzilac')->name('predmeti.proveraTuzilac');
 Route::get('proveraKp', 'PredmetiKontroler@proveraKp')->name('predmeti.proveraKp');
 Route::get('predmeti/filter', 'PredmetiKontroler@getListaFilter')->name('predmeti.filter');
