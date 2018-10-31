@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
         $this->call(TabelaSStatusiSeeder::class);
         $this->call(TabelaSUpraveSeeder::class);
         $this->call(TabelaSSudoviSeeder::class);
-        $this->call(TabelaPredmetiSeeder::class);
-        $this->call(TabelaRocistaSeeder::class);
-        $this->call(TabelaTokoviSeeder::class);
-        $this->call(TabelaPredmetiUpraveSeeder::class);
+        // $this->call(TabelaPredmetiSeeder::class);
+        // $this->call(TabelaRocistaSeeder::class);
+        // $this->call(TabelaTokoviSeeder::class);
+        // $this->call(TabelaPredmetiUpraveSeeder::class);
         $this->call(TabelaSKomintentiSeeder::class);
     }
 

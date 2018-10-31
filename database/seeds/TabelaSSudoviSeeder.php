@@ -15,6 +15,8 @@ class TabelaSSudoviSeeder extends Seeder
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Београду',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Крагујевцу',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Новом Саду',]);
+        DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Сомбору',]);
+        DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Београду',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Крагујевцу',]);
     }
 

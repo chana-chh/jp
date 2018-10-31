@@ -7,6 +7,7 @@ class TabelaSVrstePredmetaSeeder extends Seeder
 
     public function run()
     {
+        DB::beginTransaction();
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Експропријација',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Ујед пса - Нематеријална штета',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Пад на улици - Нематеријална штета',]);
@@ -38,6 +39,7 @@ class TabelaSVrstePredmetaSeeder extends Seeder
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Уговор о делу',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Физичка деоба',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Стицање својства закупца на неодређено време',]);
+        DB::commit();
     }
 
 }

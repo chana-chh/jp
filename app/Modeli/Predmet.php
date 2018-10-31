@@ -86,6 +86,30 @@ class Predmet extends Model
         return $this->belongsToMany('App\Modeli\Predmet', 'predmeti_veze', 'predmet_id', 'veza_id');
     }
 
+    /* NOVO START */
+
+    public function tuzioci()
+    {
+        return $this->belongsToMany('App\Modeli\Komintent', 'tuzioci', 'komintent_id', 'predmet_id');
+    }
+
+    public function tuzeni()
+    {
+        return $this->belongsToMany('App\Modeli\Komintent', 'tuzeni', 'komintent_id', 'predmet_id');
+    }
+
+    public function st1()
+    {
+        return $this->tuzioci()->first();
+    }
+
+    public function st2()
+    {
+        return $this->tuzeni()->first();
+    }
+
+    /* NOVO END */
+
     public function status()
     {
         if ($this->tokovi()->count() > 0) {

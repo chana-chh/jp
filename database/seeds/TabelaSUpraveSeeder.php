@@ -15,16 +15,16 @@ class TabelaSUpraveSeeder extends Seeder
         DB::table('s_uprave')->insert(['id' => '38', 'sifra' => '94666', 'naziv' => 'ГУ за привреду']);
         DB::table('s_uprave')->insert(['id' => '42', 'sifra' => '91700', 'naziv' => 'ГРАДСКА ПОРЕСКА УПРАВА']);
         DB::table('s_uprave')->insert(['id' => '43', 'sifra' => '91699', 'naziv' => 'ГРАДСКО ВЕЋЕ']);
-        DB::table('s_uprave')->insert(['id' => '44', 'sifra' => '94670', 'naziv' => 'ГУ за послове градоначелника и градског већа']);
-        DB::table('s_uprave')->insert(['id' => '46', 'sifra' => '94667', 'naziv' => 'ГУ за ванпривредне делатности']);
-        DB::table('s_uprave')->insert(['id' => '47', 'sifra' => '94661', 'naziv' => 'ГУ за инвестиције']);
-        DB::table('s_uprave')->insert(['id' => '48', 'sifra' => '94662', 'naziv' => 'ГУ за имовину']);
-        DB::table('s_uprave')->insert(['id' => '49', 'sifra' => '94668', 'naziv' => 'ГУ за здравствену и социјалну заштиту']);
-        DB::table('s_uprave')->insert(['id' => '50', 'sifra' => '94669', 'naziv' => 'ГУ за комуналне и инспекцијске послове']);
-        DB::table('s_uprave')->insert(['id' => '51', 'sifra' => '94664', 'naziv' => 'ГУ за управљање пројектима, одрживи и равномерни развој']);
-        DB::table('s_uprave')->insert(['id' => '52', 'sifra' => '94671', 'naziv' => 'ГУ за јавне набавке']);
-        DB::table('s_uprave')->insert(['id' => '53', 'sifra' => '94665', 'naziv' => 'ГУ за опште и заједничке послове']);
-        DB::table('s_uprave')->insert(['id' => '54', 'sifra' => '94663', 'naziv' => 'ГУ за просторно планирање, урбанизам, изградњу и заштиту животне средине']);
+        DB::table('s_uprave')->insert(['id' => '44', 'sifra' => '94670', 'naziv' => 'ГУ ЗА ПОСЛОВЕ ГРАДОНАЧЕЛНИКА И ГРАДСКОГ ВЕЋА']);
+        DB::table('s_uprave')->insert(['id' => '46', 'sifra' => '94667', 'naziv' => 'ГУ ЗА ВАНПРИВРЕДНЕ ДЕЛАТНОСТИ']);
+        DB::table('s_uprave')->insert(['id' => '47', 'sifra' => '94661', 'naziv' => 'ГУ ЗА ИНВЕСТИЦИЈЕ']);
+        DB::table('s_uprave')->insert(['id' => '48', 'sifra' => '94662', 'naziv' => 'ГУ ЗА ИМОВИНУ']);
+        DB::table('s_uprave')->insert(['id' => '49', 'sifra' => '94668', 'naziv' => 'ГУ ЗА ЗДРАВСТВЕНУ И СОЦИЈАЛНУ ЗАШТИТУ']);
+        DB::table('s_uprave')->insert(['id' => '50', 'sifra' => '94669', 'naziv' => 'ГУ ЗА КОМУНАЛНЕ И ИНСПЕКЦИЈСКЕ ПОСЛОВЕ']);
+        DB::table('s_uprave')->insert(['id' => '51', 'sifra' => '94664', 'naziv' => 'ГУ ЗА УПРАВЉАЊЕ ПРОЈЕКТИМА, ОДРЖИВИ И РАВНОМЕРНИ РАЗВОЈ']);
+        DB::table('s_uprave')->insert(['id' => '52', 'sifra' => '94671', 'naziv' => 'ГУ ЗА ЈАВНЕ НАБАВКЕ']);
+        DB::table('s_uprave')->insert(['id' => '53', 'sifra' => '94665', 'naziv' => 'ГУ ЗА ОПШТЕ И ЗАЈЕДНИЧКЕ ПОСЛОВЕ']);
+        DB::table('s_uprave')->insert(['id' => '54', 'sifra' => '94663', 'naziv' => 'ГУ ЗА ПРОСТОРНО ПЛАНИРАЊЕ, УРБАНИЗАМ, ИЗГРАДЊУ И ЗАШТИТУ ЖИВОТНЕ СРЕДИНЕ']);
     }
 
 }

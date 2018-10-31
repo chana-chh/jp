@@ -40,8 +40,8 @@ class PredmetiKontroler extends Kontroler
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
         // $predmeti = Predmet::all();
-        $query = "SELECT	`predmeti`.`id`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`broj_predmeta_sud`, `predmeti`.`opis`,
-		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`stranka_1`, `predmeti`.`stranka_2`, `predmeti`.`datum_tuzbe`,
+        $query = "SELECT	`predmeti`.`id`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
+		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
 		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
 		`s_vrste_predmeta`.`naziv` as vp_naziv,
 		`s_referenti`.`ime`, `s_referenti`.`prezime`,

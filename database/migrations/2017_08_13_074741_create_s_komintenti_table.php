@@ -11,7 +11,7 @@ class CreateSKomintentiTable extends Migration
     {
         Schema::create('s_komintenti', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('naziv', 190)->unique();
+            $table->string('naziv', 190);
             $table->string('napomena')->nullable();
         });
     }

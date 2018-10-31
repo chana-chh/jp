@@ -15,6 +15,7 @@ class TabelaSStatusiSeeder extends Seeder
         DB::table('s_statusi')->insert(['naziv' => 'Кривица',]);
         DB::table('s_statusi')->insert(['naziv' => 'Ванпарнични',]);
         DB::table('s_statusi')->insert(['naziv' => 'а/а',]);
+        DB::table('s_statusi')->insert(['naziv' => 'Стечај',]);
     }
 
 }

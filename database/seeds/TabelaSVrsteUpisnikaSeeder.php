@@ -10,7 +10,7 @@ class TabelaSVrsteUpisnikaSeeder extends Seeder
         DB::table('s_vrste_upisnika')->insert([
             'naziv' => 'Парница',
             'slovo' => 'П',
-            'sledeci_broj' => 2
+            'sledeci_broj' => 1
         ]);
         DB::table('s_vrste_upisnika')->insert([
             'naziv' => 'Ванпарница',
@@ -35,6 +35,21 @@ class TabelaSVrsteUpisnikaSeeder extends Seeder
         DB::table('s_vrste_upisnika')->insert([
             'naziv' => 'Јавно правобранилаштво',
             'slovo' => 'Јп',
+            'sledeci_broj' => 1
+        ]);
+        DB::table('s_vrste_upisnika')->insert([
+            'naziv' => 'Одлуке Градског већа',
+            'slovo' => 'ОГВ',
+            'sledeci_broj' => 1
+        ]);
+        DB::table('s_vrste_upisnika')->insert([
+            'naziv' => 'РГЗ - Управа',
+            'slovo' => 'РГЗ',
+            'sledeci_broj' => 1
+        ]);
+        DB::table('s_vrste_upisnika')->insert([
+            'naziv' => 'Пр уједи паса',
+            'slovo' => 'УП',
             'sledeci_broj' => 1
         ]);
     }

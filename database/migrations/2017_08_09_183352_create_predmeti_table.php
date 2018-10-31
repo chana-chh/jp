@@ -15,15 +15,11 @@ class CreatePredmetiTable extends Migration
             $table->integer('vrsta_upisnika_id')->unsigned();
             $table->integer('broj_predmeta')->unsigned();
             $table->integer('godina_predmeta')->unsigned();
-            $table->string('stari_broj_predmeta', 50)->nullable();
             $table->integer('sud_id')->unsigned();
-            $table->string('broj_predmeta_sud', 50)->nullable();
             $table->integer('vrsta_predmeta_id')->unsigned();
             $table->text('opis')->nullable();
             $table->string('opis_kp')->nullable();
             $table->string('opis_adresa')->nullable();
-            $table->string('stranka_1');
-            $table->string('stranka_2');
             $table->decimal('vrednost_tuzbe', 15, 2)->default(0);
             $table->date('datum_tuzbe');
             $table->integer('referent_id')->unsigned();
@@ -35,10 +31,6 @@ class CreatePredmetiTable extends Migration
 
             // Jedinstven indeks za broj
             $table->unique(['vrsta_upisnika_id', 'broj_predmeta', 'godina_predmeta']);
-
-            // indeksi
-            $table->index('stari_broj_predmeta');
-            $table->index('broj_predmeta_sud');
 
             // strani kljucevi
             $table->foreign('sud_id')->references('id')->on('s_sudovi')->onDelete('restrict');

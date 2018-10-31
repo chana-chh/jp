@@ -239,7 +239,7 @@
             <td style="vertical-align: middle; line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px;">
                     <li>{{$predmet->sud_naziv}}</li>
-                    <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
+                    <li><span class="text-success">бр.: </span>broj_predmeta_sud{!$predmet->broj_predmeta_sud!}</li>
                 </ul>
             </td>
             <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vp_naziv}}</td>
@@ -250,8 +250,8 @@
                     <li>{{$predmet->opis}}</li>
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_1}}</em></td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_2}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->st1}}</em></td>
+            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->st2}}</em></td>
             <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
             <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->ime}} {{$predmet->prezime}}</td>
             <td style="text-align:center">
