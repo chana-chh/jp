@@ -9,16 +9,16 @@
 @section('naslov')
 <div class="row">
     <div class="col-md-12">
-<h1>
-    <img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:50px;">
-    Преглед предмета број
-    <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
-        {{ $predmet->broj() }}
-        &emsp;<span style="font-size: 2.5rem;">{{ $predmet->status() }} {{ $predmet->opis() }}</span>
-        {{-- {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }} --}}
-    </span>
-</h1>
-</div>
+        <h1>
+            <img alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:50px;">
+            Преглед предмета број
+            <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
+                {{ $predmet->broj() }}
+                &emsp;<span style="font-size: 2.5rem;">{{ $predmet->status() }} {{ $predmet->opis() }}</span>
+                {{-- {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }} --}}
+            </span>
+        </h1>
+    </div>
 </div>
 <hr>
 @endsection
@@ -144,12 +144,25 @@
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Тужилац:</strong></th>
-            <td style="width: 70%;">{{ $predmet->stranka_1 }}</td>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzioci as $s1)
+                    <li>{{ $s1->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+
             <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Тужени:</strong></th>
-            <td style="width: 70%;">{{ $predmet->stranka_2 }}</td>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzeni as $s2)
+                    <li>{{ $s2->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
@@ -171,24 +184,24 @@
             </td>
             <td style="width: 10%;"></td>
         </tr>
-         <tr>
+        <tr>
             <th style="width: 20%;"><strong>Повезани предмети:</strong></th>
             <td style="width: 70%;">
                 @if($predmet->vezani->count() > 0)
                 <span><i class="fa fa-arrow-circle-o-right" title="ПОВЕЗАН СА"></i></span>
                 @foreach($predmet->vezani as $povezani)
-                    <a href="{{ route('predmeti.pregled', $povezani->id) }}">
-                        {{ $povezani->broj() }} &emsp;
-                    </a>
+                <a href="{{ route('predmeti.pregled', $povezani->id) }}">
+                    {{ $povezani->broj() }} &emsp;
+                </a>
                 @endforeach
                 @endif
                 &emsp;
                 @if($predmet->vezanZa->count() > 0)
                 <span><i class="fa fa-arrow-circle-o-up" title="ВЕЗАН ЗА"></i></span>
                 @foreach($predmet->vezanZa as $vezan)
-                    <a href="{{ route('predmeti.pregled', $vezan->id) }}">
-                        {{ $vezan->broj() }} &emsp;
-                    </a>
+                <a href="{{ route('predmeti.pregled', $vezan->id) }}">
+                    {{ $vezan->broj() }} &emsp;
+                </a>
                 @endforeach
                 @endif
             </td>
@@ -543,7 +556,7 @@
         <a href="{{ route('predmeti.slike', $predmet->id) }}"><img alt="скенирано ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
         <h4>Преглед скениране документације</h4>
     </div>
-        <div class="col-md-6 text-center">
+    <div class="col-md-6 text-center">
         <a href="{{ route('predmeti.podnesci', $predmet->id) }}"><img alt="поднесци ..." src="{{url('/images/ugovor.png')}}" style="height: 64px;"></a>
         <h4>Преглед поднесака</h4>
     </div>
