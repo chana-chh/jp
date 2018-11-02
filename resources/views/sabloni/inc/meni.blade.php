@@ -33,6 +33,7 @@
                         <li><a href="{{ route('uprave') }}">Грдаске управе</a></li>
                         <li><a href="{{ route('statusi') }}">Статуси</a></li>
                         <li><a href="{{ route('tipovi_rocista') }}">Типови рочишта</a></li>
+                        <li><a href="{{ route('komintenti') }}">Коминтенти</a></li>
                         <li class="dropdown-header"><i class="fa fa-book"></i> Предмети</li>
                         <li><a href="{{ route('predmeti.obrisani') }}">Обрисани предмети</a></li>
                     </ul>
@@ -41,7 +42,7 @@
                 <li style="margin-left: 40px; opacity: 0.7;">
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                               document.getElementById('logout-form').submit();">
                         <i class="fa fa-sign-out" style="color: #18BC9C"></i> Одјављивање
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

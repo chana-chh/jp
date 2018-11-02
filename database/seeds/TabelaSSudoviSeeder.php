@@ -2,11 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
-class TabelaSSudoviSeeder extends Seeder
-{
+class TabelaSSudoviSeeder extends Seeder {
 
-    public function run()
-    {
+    public function run() {
         DB::table('s_sudovi')->insert(['naziv' => 'Апелациони суд у Крагујевцу',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Виши суд у Крагујевцу',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Виши суд у Чачку',]);
@@ -18,6 +16,7 @@ class TabelaSSudoviSeeder extends Seeder
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Сомбору',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Београду',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Крагујевцу',]);
+        DB::table('s_sudovi')->insert(['naziv' => 'НЕМА СУД',]);
     }
 
 }

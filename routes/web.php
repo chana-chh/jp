@@ -13,6 +13,13 @@ Route::post('sifarnici/vrste_predmeta/brisanje', 'VrstePredmetaKontroler@postBri
 Route::post('sifarnici/vrste_predmeta/izmena/{id}', 'VrstePredmetaKontroler@postIzmena')->name('vrste_predmeta.izmena');
 Route::get('sifarnici/vrste_predmeta/pregled/{id}', 'VrstePredmetaKontroler@getPregled')->name('vrste_predmeta.pregled');
 
+//Vrste predmeta
+Route::get('sifarnici/komintenti', 'KomintentiKontroler@getLista')->name('komintenti');
+Route::post('sifarnici/komintenti/dodavanje', 'KomintentiKontroler@postDodavanje')->name('komintenti.dodavanje');
+Route::post('sifarnici/komintenti/brisanje', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
+Route::post('sifarnici/komintenti/izmena/{id}', 'KomintentiKontroler@postIzmena')->name('komintenti.izmena');
+Route::get('sifarnici/komintenti/pregled/{id}', 'KomintentiKontroler@getPregled')->name('komintenti.pregled');
+
 //Vrste upisnika
 Route::get('sifarnici/vrste_upisnika', 'VrsteUpisnikaKontroler@getLista')->name('vrste_upisnika');
 Route::post('sifarnici/vrste_upisnika/dodavanje', 'VrsteUpisnikaKontroler@postDodavanje')->name('vrste_upisnika.dodavanje');

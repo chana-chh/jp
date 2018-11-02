@@ -2,11 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
-class TabelaSReferentiSeeder extends Seeder
-{
+class TabelaSReferentiSeeder extends Seeder {
 
-    public function run()
-    {
+    public function run() {
         DB::table('s_referenti')->insert([
             'ime' => 'Анђелка',
             'prezime' => 'Ђурђевић'
@@ -38,6 +36,10 @@ class TabelaSReferentiSeeder extends Seeder
         DB::table('s_referenti')->insert([
             'ime' => 'Гордана',
             'prezime' => 'Филиповић'
+        ]);
+        DB::table('s_referenti')->insert([
+            'ime' => 'девети',
+            'prezime' => 'референт'
         ]);
     }
 

@@ -4,16 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePredmetiUpraveTable extends Migration
-{
+class CreatePredmetiUpraveTable extends Migration {
 
-    public function up()
-    {
+    public function up() {
         Schema::create('predmeti_uprave', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('predmet_id')->unsigned();
             $table->integer('uprava_id')->unsigned();
-            $table->date('datum_knjizenja')->index();
+            $table->date('datum_knjizenja')->nullable()->index();
             $table->text('napomena')->nullable();
             $table->softDeletes();
 
@@ -23,8 +21,7 @@ class CreatePredmetiUpraveTable extends Migration
         });
     }
 
-    public function down()
-    {
+    public function down() {
         Schema::dropForeign(['predmet_id']);
         Schema::dropForeign(['uprava_id']);
         Schema::dropIfExists('predmeti_uprave');

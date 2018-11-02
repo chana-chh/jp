@@ -4,16 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTokoviPredmetaTable extends Migration
-{
+class CreateTokoviPredmetaTable extends Migration {
 
-    public function up()
-    {
+    public function up() {
         Schema::create('tokovi_predmeta', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('predmet_id')->unsigned();
             $table->integer('status_id')->unsigned();
-            $table->date('datum')->index();
+            $table->date('datum')->nullable()->index();
             $table->string('opis')->nullable();
             $table->decimal('vrednost_spora_duguje', 15, 2)->default(0);
             $table->decimal('vrednost_spora_potrazuje', 15, 2)->default(0);
@@ -28,8 +26,7 @@ class CreateTokoviPredmetaTable extends Migration
         });
     }
 
-    public function down()
-    {
+    public function down() {
         Schema::dropForeign(['predmet_id']);
         Schema::dropForeign(['status_id']);
         Schema::dropIfExists('tokovi_predmeta');

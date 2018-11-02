@@ -2,11 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
-class TabelaSStatusiSeeder extends Seeder
-{
+class TabelaSStatusiSeeder extends Seeder {
 
-    public function run()
-    {
+    public function run() {
         DB::table('s_statusi')->insert(['naziv' => 'Парнични',]);
         DB::table('s_statusi')->insert(['naziv' => 'Пресуда',]);
         DB::table('s_statusi')->insert(['naziv' => 'Жалба',]);
@@ -16,6 +14,7 @@ class TabelaSStatusiSeeder extends Seeder
         DB::table('s_statusi')->insert(['naziv' => 'Ванпарнични',]);
         DB::table('s_statusi')->insert(['naziv' => 'а/а',]);
         DB::table('s_statusi')->insert(['naziv' => 'Стечај',]);
+        DB::table('s_statusi')->insert(['naziv' => 'НЕМА СТАТУС',]);
     }
 
 }

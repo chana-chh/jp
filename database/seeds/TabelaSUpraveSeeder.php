@@ -2,11 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
-class TabelaSUpraveSeeder extends Seeder
-{
+class TabelaSUpraveSeeder extends Seeder {
 
-    public function run()
-    {
+    public function run() {
         DB::table('s_uprave')->insert(['id' => '1', 'sifra' => '09706', 'naziv' => 'СКУПШТИНА ГРАДА']);
         DB::table('s_uprave')->insert(['id' => '2', 'sifra' => '09707', 'naziv' => 'ГРАДОНАЧЕЛНИК И ПОМОЋНИЦИ ГРАДОНАЧЕЛНИКА']);
         DB::table('s_uprave')->insert(['id' => '3', 'sifra' => '80952', 'naziv' => 'ЗАШТИТНИК ГРАЂАНА']);
@@ -25,6 +23,7 @@ class TabelaSUpraveSeeder extends Seeder
         DB::table('s_uprave')->insert(['id' => '52', 'sifra' => '94671', 'naziv' => 'ГУ ЗА ЈАВНЕ НАБАВКЕ']);
         DB::table('s_uprave')->insert(['id' => '53', 'sifra' => '94665', 'naziv' => 'ГУ ЗА ОПШТЕ И ЗАЈЕДНИЧКЕ ПОСЛОВЕ']);
         DB::table('s_uprave')->insert(['id' => '54', 'sifra' => '94663', 'naziv' => 'ГУ ЗА ПРОСТОРНО ПЛАНИРАЊЕ, УРБАНИЗАМ, ИЗГРАДЊУ И ЗАШТИТУ ЖИВОТНЕ СРЕДИНЕ']);
+        DB::table('s_uprave')->insert(['id' => '1000', 'sifra' => '1000', 'naziv' => 'НЕМА УПРАВУ']);
     }
 
 }
