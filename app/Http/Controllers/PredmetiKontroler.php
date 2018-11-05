@@ -36,8 +36,8 @@ class PredmetiKontroler extends Kontroler {
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
-//        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
-        $predmeti = Predmet::limit(10)->get();
+        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->limit(100)->get();
+//        $predmeti = Predmet::all();
 //        $query = "SELECT	`predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
 //		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
 //		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,

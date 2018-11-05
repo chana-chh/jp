@@ -13,13 +13,6 @@ Route::post('sifarnici/vrste_predmeta/brisanje', 'VrstePredmetaKontroler@postBri
 Route::post('sifarnici/vrste_predmeta/izmena/{id}', 'VrstePredmetaKontroler@postIzmena')->name('vrste_predmeta.izmena');
 Route::get('sifarnici/vrste_predmeta/pregled/{id}', 'VrstePredmetaKontroler@getPregled')->name('vrste_predmeta.pregled');
 
-//Vrste predmeta
-Route::get('sifarnici/komintenti', 'KomintentiKontroler@getLista')->name('komintenti');
-Route::post('sifarnici/komintenti/dodavanje', 'KomintentiKontroler@postDodavanje')->name('komintenti.dodavanje');
-Route::post('sifarnici/komintenti/brisanje', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
-Route::post('sifarnici/komintenti/izmena/{id}', 'KomintentiKontroler@postIzmena')->name('komintenti.izmena');
-Route::get('sifarnici/komintenti/pregled/{id}', 'KomintentiKontroler@getPregled')->name('komintenti.pregled');
-
 //Vrste upisnika
 Route::get('sifarnici/vrste_upisnika', 'VrsteUpisnikaKontroler@getLista')->name('vrste_upisnika');
 Route::post('sifarnici/vrste_upisnika/dodavanje', 'VrsteUpisnikaKontroler@postDodavanje')->name('vrste_upisnika.dodavanje');
@@ -97,6 +90,11 @@ Route::post('predmeti/podnesci/dodavanje', 'PredmetiPodnesci@postPredmetiPodnesc
 Route::get('predmeti/veze/{id}', 'PredmetiVezeKontroler@getLista')->name('predmeti.veze');
 Route::post('predmeti/veze/dodavanje/{id}', 'PredmetiVezeKontroler@postDodavanje')->name('predmeti.veze.dodavanje');
 Route::post('predmeti/veze/brisanje/{id}', 'PredmetiVezeKontroler@postBrisanje')->name('predmeti.veze.brisanje');
+
+//Komintenti
+Route::get('predmeti/komintenti/{id}', 'KomintentiKontroler@getLista')->name('komintenti');
+Route::post('predmeti/komintenti/dodavanje/{id}', 'KomintentiKontroler@postDodavanje')->name('komintenti.dodavanje');
+Route::post('predmeti/komintenti/brisanje/{id}', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');

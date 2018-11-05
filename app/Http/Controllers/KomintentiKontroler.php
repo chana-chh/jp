@@ -13,57 +13,40 @@ class KomintentiKontroler extends Kontroler {
         $this->middleware('admin');
     }
 
-    public function getLista() {
-        $komintenti = Komintent::all();
-        return view('komintenti')->with(compact('komintenti'));
+    public function getLista($id) {
+
+        $predmet = Predmet::find($id);
+        $tuzioci = $predmet->tuzioci;
+        $tuzeni = $predmet->tuzeni;
+        return view('komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet'));
     }
 
-    public function postDodavanje(Request $r) {
-
-//        $this->validate($r, [
-//            'naziv' => ['required', 'max:190'],
-//        ]);
 //
-//        $vrsta_predmeta = new Vrstapredmeta();
-//        $vrsta_predmeta->naziv = $r->naziv;
-//        $vrsta_predmeta->napomena = $r->napomena;
+//    public function postDodavanje(Request $req, $id) {
 //
-//        $vrsta_predmeta->save();
+//        $veza = new PredmetVeza();
+//        $veza->veza_id = $req->veza_id;
+//        $veza->predmet_id = $id;
+//        $veza->napomena = $req->veza_napomena;
+//        $veza->save();
 //
-//        Session::flash('uspeh', 'Ставка је успешно додата!');
-//        return redirect()->route('vrste_predmeta');
-    }
-
-    public function getPregled($id) {
-
-//        $vrsta_predmeta = Vrstapredmeta::find($id);
-//        return view('vrste_predmeta_pregled')->with(compact('vrsta_predmeta'));
-    }
-
-    public function postIzmena(Request $r, $id) {
-//        $this->validate($r, [
-//            'naziv' => ['required', 'max:190'],
-//        ]);
+//        Session::flash('uspeh', 'Веза са предметом је успешно додата!');
+//        return redirect()->route('predmeti.veze', $id);
+//    }
 //
-//        $vrsta_predmeta = Vrstapredmeta::find($id);
-//        $vrsta_predmeta->naziv = $r->naziv;
-//        $vrsta_predmeta->napomena = $r->napomena;
+//    public function postBrisanje(Request $req, $id) {
+//        $veza = PredmetVeza::where([
+//                    ['predmet_id', '=', $id],
+//                    ['veza_id', '=', $req->idBrisanje]
+//                ])->first();
 //
-//        $vrsta_predmeta->save();
+//        $odgovor = $veza->forceDelete();
 //
-//        Session::flash('uspeh', 'Ставка је успешно измењена!');
-//        return redirect()->route('vrste_predmeta');
-    }
-
-    public function postBrisanje(Request $r) {
-//        $id = $r->id;
-//        $vrsta_predmeta = Vrstapredmeta::find($id);
-//        $odgovor = $vrsta_predmeta->delete();
 //        if ($odgovor) {
-//            Session::flash('uspeh', 'Ставка је успешно обрисана!');
+//            Session::flash('uspeh', 'Веза са предметом је успешно обрисана!');
 //        } else {
-//            Session::flash('greska', 'Дошло је до грешке приликом брисања ставке. Покушајте поново, касније!');
+//            Session::flash('greska', 'Дошло је до грешке приликом брисања веза са предметом. Покушајте поново, касније!');
 //        }
-    }
-
+//        return Redirect::back();
+//    }
 }

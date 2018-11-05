@@ -152,7 +152,10 @@
                 </ul>
             </td>
 
-            <td style="width: 10%;"></td>
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Тужени:</strong></th>
@@ -163,7 +166,10 @@
                     @endforeach
                 </ul>
             </td>
-            <td style="width: 10%;"></td>
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Вредност тужбе:</strong></th>

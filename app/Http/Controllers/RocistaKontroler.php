@@ -13,11 +13,9 @@ use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
 use App\Modeli\Referent;
 
-class RocistaKontroler extends Kontroler
-{
+class RocistaKontroler extends Kontroler {
 
-    public function getLista()
-    {
+    public function getLista() {
         $rocista = Rociste::all();
         $tipovi = TipRocista::all();
         $referenti = Referent::all();
@@ -25,48 +23,47 @@ class RocistaKontroler extends Kontroler
         return view('rocista')->with(compact('rocista', 'tipovi', 'referenti'));
     }
 
-    public function postPretraga(Request $req){
+    public function postPretraga(Request $req) {
 
         $kobaja = [];
 
-        if($req['tip_id']) {
+        if ($req['tip_id']) {
             $kobaja[] = ['s_tipovi_rocista.id', '=', $req['tip_id']];
         }
-        if($req['referent_id']) {
+        if ($req['referent_id']) {
             $kobaja[] = ['s_referenti.id', '=', $req['referent_id']];
         }
-        if($req['datum_1'] && !$req['datum_2']) {
+        if ($req['datum_1'] && !$req['datum_2']) {
             $kobaja[] = ['rocista.datum', '=', $req['datum_1']];
         }
-        if($req['datum_1'] && $req['datum_2']) {
+        if ($req['datum_1'] && $req['datum_2']) {
             $kobaja[] = ['rocista.datum', '>=', $req['datum_1']];
             $kobaja[] = ['rocista.datum', '<=', $req['datum_2']];
         }
 
 
         $rocista = DB::table('rocista')
-        ->join('predmeti','rocista.predmet_id', '=', 'predmeti.id')
-        ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-        ->join('s_referenti','predmeti.referent_id', '=', 's_referenti.id')
-        ->join('s_tipovi_rocista','rocista.tip_id', '=', 's_tipovi_rocista.id')
-        ->select(DB::raw('  rocista.datum as datum,
+                ->join('predmeti', 'rocista.predmet_id', '=', 'predmeti.id')
+                ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                ->join('s_referenti', 'predmeti.referent_id', '=', 's_referenti.id')
+                ->join('s_tipovi_rocista', 'rocista.tip_id', '=', 's_tipovi_rocista.id')
+                ->select(DB::raw('  rocista.datum as datum,
                             rocista.vreme as vreme,
                             rocista.opis as opis,
-                            s_tipovi_rocista.naziv as tip, 
+                            s_tipovi_rocista.naziv as tip,
                             s_referenti.ime as ime_referenta,
                             s_referenti.prezime as prezime_referenta,
                             predmeti.broj_predmeta as broj,
                             predmeti.godina_predmeta as godina,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
-        ->where($kobaja)
-        ->get();
+                ->where($kobaja)
+                ->get();
 
-    return view('rocista_pretraga')->with(compact('rocista'));
+        return view('rocista_pretraga')->with(compact('rocista'));
     }
 
-    public function postDodavanje(Request $req)
-    {
+    public function postDodavanje(Request $req) {
         $this->validate($req, [
             'rok_dodavanje_datum' => 'required|date',
             'rok_dodavanje_tip_id' => 'required|integer',
@@ -84,16 +81,14 @@ class RocistaKontroler extends Kontroler
         return redirect()->route('predmeti.pregled', $req->predmet_id);
     }
 
-    public function getDodavanje()
-    {
+    public function getDodavanje() {
         //$predmeti = Predmet::all();
         $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $tipovi_rocista = TipRocista::all();
         return view('rocista_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
     }
 
-    public function getDetalj(Request $req)
-    {
+    public function getDetalj(Request $req) {
         if ($req->ajax()) {
             $id = $req->id;
             $rociste = Rociste::find($id);
@@ -102,8 +97,7 @@ class RocistaKontroler extends Kontroler
         }
     }
 
-    public function postIzmena(Request $req)
-    {
+    public function postIzmena(Request $req) {
         $this->validate($req, [
             'rok_izmena_datum' => 'required|date',
             'rok_izmena_vreme' => 'required',
@@ -123,8 +117,7 @@ class RocistaKontroler extends Kontroler
         return Redirect::back();
     }
 
-    public function postBrisanje(Request $req)
-    {
+    public function postBrisanje(Request $req) {
         $id = $req->id;
 
         $rociste = Rociste::find($id);
@@ -137,8 +130,7 @@ class RocistaKontroler extends Kontroler
         }
     }
 
-    public function getKalendar()
-    {
+    public function getKalendar() {
         $rocista = Rociste::all();
         $tipovi = TipRocista::all();
         $referenti = Referent::all();
@@ -152,33 +144,32 @@ class RocistaKontroler extends Kontroler
                 ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet_id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);
         $datumie = json_encode($datumi);
         $detaljie = json_encode($detalji);
 
-        return view('kalendar')->with(compact('referenti','tipovi','naslovie', 'datumie', 'detaljie'));
+        return view('kalendar')->with(compact('referenti', 'tipovi', 'naslovie', 'datumie', 'detaljie'));
     }
 
-    public function getKalendarFilter(Request $request)
-    {
+    public function getKalendarFilter(Request $request) {
         $parametri = $request->session()->get('parametri_za_filter_kalendara', null);
         $rocista = $this->naprednaPretraga($parametri);
 
         $tip_naziv = " ";
         $referent_ime = " ";
 
-        if ($parametri['tip_id']){
+        if ($parametri['tip_id']) {
             $tip = TipRocista::find($parametri['tip_id']);
             $tip_naziv = $tip->naziv;
         }
-        if ($parametri['referent_id']){
+        if ($parametri['referent_id']) {
             $referent = Referent::find($parametri['referent_id']);
             $referent_ime = $referent->imePrezime();
         }
-        
+
         $naslovi = array();
         $datumi = array();
         $detalji = array();
@@ -199,14 +190,12 @@ class RocistaKontroler extends Kontroler
         return view('kalendar_filter')->with(compact('naslovie', 'datumie', 'detaljie', 'referent_ime', 'tip_naziv'));
     }
 
-    public function postKalendarFilter(Request $request)
-    {
+    public function postKalendarFilter(Request $request) {
         $request->session()->put('parametri_za_filter_kalendara', $request->all());
         return redirect()->route('rocista.kalendar.filter');
     }
 
-    private function naprednaPretraga($params)
-    {
+    private function naprednaPretraga($params) {
         $rocista = null;
         $where = [];
         $whereref = [];
@@ -229,9 +218,9 @@ class RocistaKontroler extends Kontroler
                 '=',
                 $params['referent_id']
             ];
-            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
-            $query->where($whereref);
-        })->where($where)->get();
+            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref) {
+                        $query->where($whereref);
+                    })->where($where)->get();
         }
         if (!$params['tip_id'] && $params['referent_id']) {
             $whereref[] = [
@@ -239,9 +228,9 @@ class RocistaKontroler extends Kontroler
                 '=',
                 $params['referent_id']
             ];
-            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
-            $query->where($whereref);
-        })->get();
+            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref) {
+                        $query->where($whereref);
+                    })->get();
         }
 
         return $rocista;
