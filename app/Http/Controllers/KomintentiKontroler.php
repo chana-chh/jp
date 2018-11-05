@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use App\Modeli\Komintent;
+use App\Modeli\Predmet;
 
 class KomintentiKontroler extends Kontroler {
 
@@ -18,7 +19,8 @@ class KomintentiKontroler extends Kontroler {
         $predmet = Predmet::find($id);
         $tuzioci = $predmet->tuzioci;
         $tuzeni = $predmet->tuzeni;
-        return view('komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet'));
+        $svi_komintenti = Komintent::all();
+        return view('komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet', 'svi_komintenti'));
     }
 
 //
