@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder {
         $this->call(TabelaSKomintentiSeeder::class);
         $this->call(TabelaTuziociSeeder::class);
         $this->call(TabelaTuzeniSeeder::class);
-        $this->call(TabelaStariBrojeviSeeder::class);
-        $this->call(TabelaBrojeviSudSeeder::class);
+//        $this->call(TabelaStariBrojeviSeeder::class);
+//        $this->call(TabelaBrojeviSudSeeder::class);
     }
 
 }

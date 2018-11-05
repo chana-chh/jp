@@ -226,41 +226,45 @@
     <tbody id="predmeti_lista" name="predmeti_lista">
         @foreach ($predmeti as $predmet)
         <tr>
-            <td style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;"
+            <td style="text-align:center; font-weight: bold; line-height: normal;"
                 class="status {{ $predmet->arhiviran == 0 ? 'text-primary' : 'text-danger' }}"
                 data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis() }}" >
                 {{-- {{ $predmet->arhiviran == 0 ? '' : 'а/а' }} --}}
                 {{ $predmet->status() }}
             </td>
-            <td style="text-align:center; vertical-align: middle; line-height: normal;">
+            <td style="text-align:center; line-height: normal;">
                 <strong>
                     <a href="{{ route('predmeti.pregled', $predmet->id) }}">
                         {{ $predmet->broj() }}
                     </a>
                 </strong>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">
+            <td style="line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px;">
                     <li>{{$predmet->sud->naziv}}</li>
                     <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
             <td>
                 <ul style="list-style-type: none; padding-left:1px; text-align:right">
-                    <li>{{$predmet->opis_kp}}</li>
-                    <li><span class="text-success">{{$predmet->opis_adresa}}&emsp;</span></li>
                     <li>{{$predmet->opis}}</li>
+                    @if($predmet->opis_kp)
+                    <li><span class="text-success">{{ $predmet->opis_kp }}</span></li>
+                    @endif
+                    @if($predmet->opis_adresa)
+                    <li><span class="text-success">{{ $predmet->opis_adresa }}</span></li>
+                    @endif
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">
+            <td style="line-height: normal; text-align:right">
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzioci as $s1)
                     <li>{{ $s1->naziv }}</li>
                     @endforeach
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">
+            <td style="line-height: normal; text-align:right">
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzeni as $s2)
                     <li>{{ $s2->naziv }}</li>
@@ -268,8 +272,8 @@
                 </ul>
             </td>
 
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
+            <td style="line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
             <td style="text-align:center">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"

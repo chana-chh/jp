@@ -65,18 +65,34 @@
                 </ul>
 
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">
-                <ul style="list-style-type: none; padding-left:1px;">
-                    <li>{{$predmet->opis_kp}}</li>
-                    <li><span class="text-success">{{$predmet->opis_adresa}}&emsp;</span></li>
+            <td style="line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="line-height: normal; text-align:right">
+                <ul style="list-style-type: none; padding-left:1px; text-align:right">
                     <li>{{$predmet->opis}}</li>
+                    @if($predmet->opis_kp)
+                    <li><span class="text-success">{{ $predmet->opis_kp }}</span></li>
+                    @endif
+                    @if($predmet->opis_adresa)
+                    <li><span class="text-success">{{ $predmet->opis_adresa }}</span></li>
+                    @endif
                 </ul>
             </td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_1}}</em></td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right"><em>{{$predmet->stranka_2}}</em></td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="vertical-align: middle; line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="line-height: normal; text-align:right">
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzioci as $s1)
+                    <li>{{ $s1->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td style="line-height: normal; text-align:right">
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzeni as $s2)
+                    <li>{{ $s2->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td style="line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
+            <td style="line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
             <td class="text-right">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"

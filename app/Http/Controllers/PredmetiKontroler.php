@@ -36,7 +36,8 @@ class PredmetiKontroler extends Kontroler {
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
-        $predmeti = Predmet::all();
+//        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
+        $predmeti = Predmet::limit(10)->get();
 //        $query = "SELECT	`predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
 //		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
 //		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
@@ -75,7 +76,7 @@ class PredmetiKontroler extends Kontroler {
 //                    JOIN s_komintenti ON tuzeni.komintent_id = s_komintenti.id
 //                    LIMIT 1
 //                ) st2_naziv ON st2_naziv.predmet_id = predmeti.id;";
-        // $predmeti = \Illuminate\Support\Facades\DB::select($query);
+//        $predmeti = \Illuminate\Support\Facades\DB::select($query);
         // dd($predmeti);
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
@@ -119,18 +120,18 @@ class PredmetiKontroler extends Kontroler {
                 '=',
                 $params['broj_predmeta']];
         }
-        if ($params['broj_predmeta_sud']) {
-            $where[] = [
-                'broj_predmeta_sud',
-                'like',
-                '%' . $params['broj_predmeta_sud'] . '%'];
-        }
-        if ($params['stari_broj_predmeta']) {
-            $where[] = [
-                'stari_broj_predmeta',
-                'like',
-                '%' . $params['stari_broj_predmeta'] . '%'];
-        }
+//        if ($params['broj_predmeta_sud']) {
+//            $where[] = [
+//                'broj_predmeta_sud',
+//                'like',
+//                '%' . $params['broj_predmeta_sud'] . '%'];
+//        }
+//        if ($params['stari_broj_predmeta']) {
+//            $where[] = [
+//                'stari_broj_predmeta',
+//                'like',
+//                '%' . $params['stari_broj_predmeta'] . '%'];
+//        }
         if ($params['godina_predmeta']) {
             $where[] = [
                 'godina_predmeta',
@@ -162,18 +163,18 @@ class PredmetiKontroler extends Kontroler {
                 $params['vrednost_tuzbe']];
         }
         // tekst
-        if ($params['stranka_1']) {
-            $where[] = [
-                'tuzeni',
-                'like',
-                '%' . $params['stranka_1'] . '%'];
-        }
-        if ($params['stranka_2']) {
-            $where[] = [
-                'tuzeni.komintent_id',
-                'like',
-                '%' . $params['stranka_2'] . '%'];
-        }
+//        if ($params['stranka_1']) {
+//            $where[] = [
+//                'tuzeni',
+//                'like',
+//                '%' . $params['stranka_1'] . '%'];
+//        }
+//        if ($params['stranka_2']) {
+//            $where[] = [
+//                'tuzeni.komintent_id',
+//                'like',
+//                '%' . $params['stranka_2'] . '%'];
+//        }
         if ($params['opis_kp']) {
             $where[] = [
                 'opis_kp',
@@ -199,21 +200,29 @@ class PredmetiKontroler extends Kontroler {
                 '%' . $params['napomena'] . '%'];
         }
         // datumi
-        if (!$params['datum_1'] && !$params['datum_2']) {
-            $predmeti = Predmet::where($where)->get();
-        }
-        if ($params['datum_1'] && !$params['datum_2']) {
-            $where[] = [
-                'datum_tuzbe',
-                '=',
-                $params['datum_1']];
-            $predmeti = Predmet::where($where)->get();
-        }
-        if ($params['datum_1'] && $params['datum_2']) {
-            $predmeti = Predmet::with('tuzioci', 'tuzeni')->where($where)->whereBetween('datum_tuzbe', [
-                        $params['datum_1'],
-                        $params['datum_2']])->get();
-        }
+//        if (!$params['datum_1'] && !$params['datum_2']) {
+//            $predmeti = Predmet::where($where)->get();
+//        }
+//        if ($params['datum_1'] && !$params['datum_2']) {
+//            $where[] = [
+//                'datum_tuzbe',
+//                '=',
+//                $params['datum_1']];
+//            $predmeti = Predmet::where($where)->get();
+//        }
+//        if ($params['datum_1'] && $params['datum_2']) {
+//            $predmeti = Predmet::where($where)->whereBetween('datum_tuzbe', [
+//                        $params['datum_1'],
+//                        $params['datum_2']])->get();
+//        }
+        $predmeti = Predmet::where($where)
+                ->whereHas('tuzioci', function ($query) use ($params) {
+                    $query->where('naziv', 'like', '%' . $params['stranka_1'] . '%');
+                })
+                ->whereHas('tuzeni', function ($query) use ($params) {
+                    $query->where('naziv', 'like', '%' . $params['stranka_2'] . '%');
+                })
+                ->get();
         return $predmeti;
     }
 
