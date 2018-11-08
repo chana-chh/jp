@@ -33,6 +33,7 @@
                         <li><a href="{{ route('uprave') }}">Грдаске управе</a></li>
                         <li><a href="{{ route('statusi') }}">Статуси</a></li>
                         <li><a href="{{ route('tipovi_rocista') }}">Типови рочишта</a></li>
+                        <li><a href="{{ route('komintenti') }}">Коминтенти</a></li>
                         <li class="dropdown-header"><i class="fa fa-book"></i> Предмети</li>
                         <li><a href="{{ route('predmeti.obrisani') }}">Обрисани предмети</a></li>
                     </ul>
