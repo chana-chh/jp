@@ -11,26 +11,31 @@
 @endsection
 
 @section('sadrzaj')
-@if($statusi->isEmpty())
+@if($komintenti->isEmpty())
 <h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
 @else
 <table class="table table-striped tabelaKomintenti" name="tabelaKomintenti" id="tabelaKomintenti">
     <thead>
-    <th style="width: 10%;">#</th>
-    <th style="width: 30%;">Назив</th>
-    <th style="width: 50%;">Напомена</th>
+    <th style="width: 5%;">#</th>
+    <th style="width: 23%;">Назив</th>
+    <th style="width: 12%;">Матични број</th>
+    <th style="width: 15%;">Место</th>
+    <th style="width: 25%;">Адреса</th>
+    <th style="width: 10%;">Телефон</th>
     <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
 </thead>
-<tbody id="statusi_lista" name="statusi_lista">
-    @foreach ($statusi as $status)
+<tbody id="komintenti_lista" name="komintenti_lista">
+    @foreach ($komintenti as $kom)
     <tr>
-        <td>{{$status->id}}</td>
-        <td><strong>{{$status->naziv}}</strong></td>
-        <td>{{$status->napomena}}</td>
-
+        <td>{{ $kom->id }}</td>
+        <td><strong>{{ $kom->naziv }}</strong></td>
+        <td>{{ $kom->id_broj }}</td>
+        <td>{{ $kom->mesto }}</td>
+        <td>{{ $kom->adresa }}</td>
+        <td>{{ $kom->telefon }}</td>
         <td style="text-align:center">
-            <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('statusi.pregled', $status->id) }}"><i class="fa fa-pencil"></i></a>
-            <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$status->id}}"><i class="fa fa-trash"></i></button>
+            <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('komintenti.pregled', $kom->id) }}"><i class="fa fa-pencil"></i></a>
+            <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{ $kom->id }}"><i class="fa fa-trash"></i></button>
         </td>
     </tr>
     @endforeach
@@ -61,22 +66,57 @@
 @endsection
 
 @section('traka')
-<h3 >Додавање новог статуса</h3>
+<h3 >Додавање новог коминтента</h3>
 <hr>
 <div class="well">
-    <form action="{{ route('statusi.dodavanje') }}" method="POST" data-parsley-validate>
+    <form action="{{ route('komintenti.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
-            <label for="naziv">Назив статуса: </label>
-            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" required>
+            <label for="naziv">Назив коминтента:</label>
+            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" maxlength="190" required>
             @if ($errors->has('naziv'))
             <span class="help-block">
                 <strong>{{ $errors->first('naziv') }}</strong>
             </span>
             @endif
         </div>
-
+        <div class="form-group{{ $errors->has('id_broj') ? ' has-error' : '' }}">
+            <label for="id_broj">Матични број:</label>
+            <input type="text" name="id_broj" id="id_broj" class="form-control" value="{{ old('id_broj') }}" maxlength="20" required>
+            @if ($errors->has('id_broj'))
+            <span class="help-block">
+                <strong>{{ $errors->first('id_broj') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('mesto') ? ' has-error' : '' }}">
+            <label for="mesto">Место:</label>
+            <input type="text" name="mesto" id="mesto" class="form-control" value="{{ old('mesto') }}" maxlength="255">
+            @if ($errors->has('mesto'))
+            <span class="help-block">
+                <strong>{{ $errors->first('mesto') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('adresa') ? ' has-error' : '' }}">
+            <label for="adresa">Адреса:</label>
+            <input type="text" name="adresa" id="adresa" class="form-control" value="{{ old('adresa') }}" maxlength="255">
+            @if ($errors->has('adresa'))
+            <span class="help-block">
+                <strong>{{ $errors->first('adresa') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('telefon') ? ' has-error' : '' }}">
+            <label for="telefon">Телефон:</label>
+            <input type="text" name="telefon" id="telefon" class="form-control" value="{{ old('telefon') }}" maxlength="255">
+            @if ($errors->has('telefon'))
+            <span class="help-block">
+                <strong>{{ $errors->first('telefon') }}</strong>
+            </span>
+            @endif
+        </div>
         <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
             <label for="napomena">Напомена: </label>
             <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
@@ -133,19 +173,14 @@
                 lengthMenu: "Прикажи _MENU_ елемената",
                 zeroRecords: "Није пронађен ниједан запис за задати критеријум",
                 info: "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-                infoFiltered: "(филтрирано од _MAX_ елемената)",
-            },
+                infoFiltered: "(филтрирано од _MAX_ елемената)"
+            }
         });
 
         $(document).on('click', '.otvori_modal', function () {
-
             var id = $(this).val();
-
-            var ruta = "{{ route('statusi.brisanje') }}";
-
-
+            var ruta = "{{ route('komintenti.brisanje') }}";
             $('#brisanjeModal').modal('show');
-
             $('#btn-obrisi').click(function () {
                 $.ajax({
                     url: ruta,
