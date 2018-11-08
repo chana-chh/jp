@@ -14,13 +14,10 @@ class KomintentiKontroler extends Kontroler {
         $this->middleware('admin');
     }
 
-    public function getLista($id) {
+    public function getLista() {
 
-        $predmet = Predmet::find($id);
-        $tuzioci = $predmet->tuzioci;
-        $tuzeni = $predmet->tuzeni;
-        $svi_komintenti = Komintent::all();
-        return view('komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet', 'svi_komintenti'));
+        $komintenti = Komintent::all();
+        return view('komintenti')->with(compact('komintenti'));
     }
 
 //
