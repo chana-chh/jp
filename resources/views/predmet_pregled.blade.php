@@ -153,7 +153,7 @@
             </td>
 
             <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('komintenti', $predmet->id) }}">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
                     <i class="fa fa-pencil"></i>
             </td>
         </tr>
@@ -167,7 +167,7 @@
                 </ul>
             </td>
             <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('komintenti', $predmet->id) }}">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
                     <i class="fa fa-pencil"></i>
             </td>
         </tr>

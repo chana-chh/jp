@@ -97,9 +97,10 @@ Route::post('sifarnici/komintenti/dodavanje', 'KomintentiKontroler@postDodavanje
 Route::post('sifarnici/komintenti/brisanje', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
 Route::post('sifarnici/komintenti/izmena/{id}', 'KomintentiKontroler@postIzmena')->name('komintenti.izmena');
 Route::get('sifarnici/komintenti/pregled/{id}', 'KomintentiKontroler@getPregled')->name('komintenti.pregled');
-// Route::get('predmeti/komintenti/{id}', 'KomintentiKontroler@getLista')->name('predmet_komintenti');
-// Route::post('predmeti/komintenti/dodavanje/{id}', 'KomintentiKontroler@postDodavanje')->name('komintenti.dodavanje');
-// Route::post('predmeti/komintenti/brisanje/{id}', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
+Route::get('predmeti/komintenti/{id}', 'KomintentiKontroler@getPredmetListaKomintenata')->name('predmet.komintenti');
+Route::post('predmeti/komintenti/dodavanje/{id}', 'KomintentiKontroler@postPredmetKomintentDodavanje')->name('predmet.komintenti.dodavanje');
+Route::post('predmeti/komintenti/brisanje/{id}', 'KomintentiKontroler@postPredmetKomintentBrisanje')->name('predmet.komintenti.brisanje');
+
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
 Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');

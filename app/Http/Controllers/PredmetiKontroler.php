@@ -36,7 +36,7 @@ class PredmetiKontroler extends Kontroler {
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
-        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->limit(100)->get();
+        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
 //        $predmeti = Predmet::all();
 //        $query = "SELECT	`predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
 //		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
@@ -389,6 +389,9 @@ class PredmetiKontroler extends Kontroler {
         DB::table('predmeti_uprave')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
         DB::table('rocista')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
         DB::table('tokovi_predmeta')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('predmeti_veze')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('tuzioci')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
+        DB::table('tuzeni')->where('predmet_id', $predmet->id)->update(['deleted_at' => DB::raw("'" . $vreme . "'")]);
 
         $odgovor = $predmet->delete();
 

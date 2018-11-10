@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Redirect;
 use App\Modeli\Komintent;
 use App\Modeli\Predmet;
+use App\Modeli\PredmetTuzeni;
+use App\Modeli\PredmetTuzilac;
 
 class KomintentiKontroler extends Kontroler {
 
     public function __construct() {
         parent::__construct();
-        $this->middleware('admin');
+        $this->middleware('admin', ['except' => []]);
     }
 
     public function getLista() {
@@ -83,32 +86,61 @@ class KomintentiKontroler extends Kontroler {
         }
     }
 
-//
-//    public function postDodavanje(Request $req, $id) {
-//
-//        $veza = new PredmetVeza();
-//        $veza->veza_id = $req->veza_id;
-//        $veza->predmet_id = $id;
-//        $veza->napomena = $req->veza_napomena;
-//        $veza->save();
-//
-//        Session::flash('uspeh', 'Веза са предметом је успешно додата!');
-//        return redirect()->route('predmeti.veze', $id);
-//    }
-//
-//    public function postBrisanje(Request $req, $id) {
-//        $veza = PredmetVeza::where([
-//                    ['predmet_id', '=', $id],
-//                    ['veza_id', '=', $req->idBrisanje]
-//                ])->first();
-//
-//        $odgovor = $veza->forceDelete();
-//
-//        if ($odgovor) {
-//            Session::flash('uspeh', 'Веза са предметом је успешно обрисана!');
-//        } else {
-//            Session::flash('greska', 'Дошло је до грешке приликом брисања веза са предметом. Покушајте поново, касније!');
-//        }
-//        return Redirect::back();
-//    }
+    public function getPredmetListaKomintenata($id) {
+        $predmet = Predmet::find($id);
+        $svi_komintenti = Komintent::all();
+        $tuzioci = $predmet->tuzioci;
+        $tuzeni = $predmet->tuzeni;
+
+        return view('predmeti_komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet', 'svi_komintenti'));
+    }
+
+    public function postPredmetKomintentDodavanje(Request $req, $id) {
+
+        if ($req->tuzilac_id !== null) {
+            $this->validate($req, [
+                'tuzilac_id' => ['required', 'max:190'],
+            ]);
+            $novi = new PredmetTuzilac();
+            $novi->komintent_id = $req->tuzilac_id;
+        } else {
+            $this->validate($req, [
+                'tuzeni_id' => ['required', 'max:190'],
+            ]);
+            $novi = new PredmetTuzeni();
+            $novi->komintent_id = $req->tuzeni_id;
+        }
+        $novi->predmet_id = $id;
+        $novi->save();
+
+        Session::flash('uspeh', 'Коминтент је успешно додат!');
+        return redirect()->route('predmet.komintenti', $id);
+    }
+
+    public function postPredmetKomintentBrisanje(Request $req, $id) {
+
+        $tip = (int) $req->tipBrisanje;
+
+        if ($tip === 1) {
+            $komintent = PredmetTuzilac::where([
+                        ['predmet_id', '=', $id],
+                        ['komintent_id', '=', $req->idBrisanje]
+                    ])->first();
+        } else {
+            $komintent = PredmetTuzeni::where([
+                        ['predmet_id', '=', $id],
+                        ['komintent_id', '=', $req->idBrisanje]
+                    ])->first();
+        }
+
+        $odgovor = $komintent->forceDelete();
+
+        if ($odgovor) {
+            Session::flash('uspeh', 'Коминтент је успешно обрисан!');
+        } else {
+            Session::flash('greska', 'Дошло је до грешке приликом брисања коминтента. Покушајте поново, касније!');
+        }
+        return Redirect::back();
+    }
+
 }
