@@ -46,11 +46,7 @@ class PredmetiKontroler extends Kontroler {
                 `s_sudovi`.`naziv` AS `sud_naziv`,
 		`poslednji`.`opis`,
 		`poslednji`.`datum`,
-		`poslednji`.`st_naziv`,
-                GROUP_CONCAT(DISTINCT `st1_naziv`.`stt1` SEPARATOR ', ') AS `stranka_1`,
-                GROUP_CONCAT(DISTINCT `st2_naziv`.`stt2` SEPARATOR ', ') AS `stranka_2`,
-                GROUP_CONCAT(DISTINCT `brojevi_predmeta_sud`.`broj` SEPARATOR ', ') AS `sud_brojevi`,
-                GROUP_CONCAT(DISTINCT `stari_brojevi_predmeta`.`broj` SEPARATOR ', ') AS `stari_brojevi`
+		`poslednji`.`st_naziv`
                 FROM `predmeti`
                 LEFT JOIN `s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
                 LEFT JOIN `s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
@@ -80,8 +76,8 @@ class PredmetiKontroler extends Kontroler {
                 ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`;";
 
         $start = microtime(true);
-        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
-        // $predmeti = DB::select($query);
+//        $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
+        $predmeti = DB::select($query);
         $stop = microtime(true);
         $dif = $stop - $start;
         echo $dif . ' sec';
