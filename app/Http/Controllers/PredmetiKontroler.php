@@ -36,48 +36,56 @@ class PredmetiKontroler extends Kontroler {
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
         $referenti = Referent::orderBy('ime', 'ASC')->get();
+
+        $query = "SELECT
+                `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
+		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
+		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
+		`s_vrste_predmeta`.`naziv` AS `vp_naziv`,
+		`s_referenti`.`ime`, `s_referenti`.`prezime`,
+                `s_sudovi`.`naziv` AS `sud_naziv`,
+		`poslednji`.`opis`,
+		`poslednji`.`datum`,
+		`poslednji`.`st_naziv`,
+                GROUP_CONCAT(DISTINCT `st1_naziv`.`stt1` SEPARATOR ', ') AS `stranka_1`,
+                GROUP_CONCAT(DISTINCT `st2_naziv`.`stt2` SEPARATOR ', ') AS `stranka_2`,
+                GROUP_CONCAT(DISTINCT `brojevi_predmeta_sud`.`broj` SEPARATOR ', ') AS `sud_brojevi`,
+                GROUP_CONCAT(DISTINCT `stari_brojevi_predmeta`.`broj` SEPARATOR ', ') AS `stari_brojevi`
+                FROM `predmeti`
+                LEFT JOIN `s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
+                LEFT JOIN `s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
+                LEFT JOIN `s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
+                LEFT JOIN `s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
+                LEFT JOIN `brojevi_predmeta_sud` ON `predmeti`.`id` = `brojevi_predmeta_sud`.`predmet_id`
+                LEFT JOIN `stari_brojevi_predmeta` ON `predmeti`.`id` = `stari_brojevi_predmeta`.`predmet_id`
+                LEFT JOIN (
+                    SELECT `tokovi_predmeta`.*, `s_statusi`.`naziv` AS st_naziv
+                    FROM `tokovi_predmeta`
+                    INNER JOIN
+                    (
+                        SELECT `predmet_id`, max(`datum`) AS ts
+                        FROM `tokovi_predmeta`
+                        GROUP BY `predmet_id`
+                    ) AS t1
+                    ON (`tokovi_predmeta`.`predmet_id` = `t1`.`predmet_id` AND `tokovi_predmeta`.`datum` = `t1`.`ts`)
+                    JOIN `s_statusi` ON `tokovi_predmeta`.`status_id` = `s_statusi`.`id`
+                ) AS `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`
+                LEFT JOIN (
+                    SELECT `tuzioci`.`predmet_id`, `s_komintenti`.`naziv` AS `stt1` FROM `tuzioci`
+                    JOIN `s_komintenti` ON `tuzioci`.`komintent_id` = `s_komintenti`.`id`
+                ) AS `st1_naziv` ON `st1_naziv`.`predmet_id` = `predmeti`.`id`
+                LEFT JOIN (
+                    SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
+                    JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
+                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`;";
+
+        $start = microtime(true);
         $predmeti = Predmet::with('referent', 'vrstaPredmeta', 'vrstaUpisnika', 'sud', 'tokovi', 'tuzioci', 'tuzeni')->get();
-//        $predmeti = Predmet::all();
-//        $query = "SELECT	`predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis`,
-//		`predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
-//		`s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
-//		`s_vrste_predmeta`.`naziv` as vp_naziv,
-//		`s_referenti`.`ime`, `s_referenti`.`prezime`,
-//                `s_sudovi`.`naziv` as sud_naziv,
-//		`poslednji`.`opis`,
-//		`poslednji`.`datum`,
-//		`poslednji`.`st_naziv`,
-//                `st1_naziv`.`stranka_1`,
-//		`st2_naziv`.`stranka_2`
-//        FROM	`predmeti`
-//        JOIN	`s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
-//        JOIN	`s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
-//        JOIN	`s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
-//        JOIN	`s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
-//        LEFT JOIN (
-//                    select tokovi_predmeta.*, s_statusi.naziv as st_naziv
-//                    from tokovi_predmeta
-//                    inner join
-//                    (
-//                        select predmet_id, max(datum) as ts
-//                        from tokovi_predmeta
-//                        group by predmet_id
-//                    ) t1
-//                    on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
-//                    join s_statusi on tokovi_predmeta.status_id = s_statusi.id
-//                ) `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`
-//                LEFT JOIN (
-//                    SELECT tuzioci.predmet_id, s_komintenti.naziv AS stranka_1 FROM tuzioci
-//                    JOIN s_komintenti ON tuzioci.komintent_id = s_komintenti.id
-//                    LIMIT 1
-//                ) st1_naziv ON st1_naziv.predmet_id = predmeti.id
-//                LEFT JOIN (
-//                    SELECT tuzeni.predmet_id, s_komintenti.naziv AS stranka_2 FROM tuzeni
-//                    JOIN s_komintenti ON tuzeni.komintent_id = s_komintenti.id
-//                    LIMIT 1
-//                ) st2_naziv ON st2_naziv.predmet_id = predmeti.id;";
-//        $predmeti = \Illuminate\Support\Facades\DB::select($query);
-        // dd($predmeti);
+        // $predmeti = DB::select($query);
+        $stop = microtime(true);
+        $dif = $stop - $start;
+        echo $dif . ' sec';
+        die;
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
