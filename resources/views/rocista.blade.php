@@ -53,20 +53,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-3">
-                <label for="tip_id">Тип рочишта</label>
-                <select
-                    name="tip_id" id="tip_id"
-                    class="chosen-select form-control" data-placeholder="Тип рочишта">
-                    <option value=""></option>
-                    @foreach($tipovi as $tip)
-                    <option value="{{ $tip->id }}">
-                    <strong>{{ $tip->naziv }}</strong>
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-6">
                 <label for="referent_id">Референт</label>
                 <select
                     name="referent_id" id="referent_id"
@@ -91,34 +78,33 @@
     </form>
 </div>
 
-@if($rocista->isEmpty())
+{{-- @if($rocista->isEmpty())
 <h3 class="text-danger">Нема записа у бази података</h3>
-@else
+@else --}}
 <table class="table table-striped tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed;">
     <thead>
         <tr>
             <th style="width: 15%; text-align:right; padding-right: 25px">Број предмета</th>
-            <th style="width: 15%; text-align:right; padding-right: 25px">Тип рочишта</th>
             <th style="width: 15%; text-align:right; padding-right: 25px">Датум</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Време</th>
-            <th style="width: 23%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 12%; text-align:right; padding-right: 25px">Референт</th>
+            <th style="width: 33%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 17%; text-align:right; padding-right: 25px">Референт</th>
             <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
-    <tbody id="rocista_lista" name="rocista_lista">
+    {{-- <tbody id="rocista_lista" name="rocista_lista">
         @foreach ($rocista as $rociste)
         <tr>
             <td style="text-align:right"><strong>
-                    <a href="{{ route('predmeti.pregled', $rociste->predmet_id) }}">
-                        {{ $rociste->predmet->broj() }}
+                    <a href="{{ route('predmeti.pregled', $rociste->id_predmeta) }}">
+                        {{ $rociste->broj }}
                     </a>
                 </strong></td>
-            <td style="text-align:right">{{$rociste->tipRocista->naziv}}</td>
+            <td style="text-align:right">{{$rociste->tip}}</td>
             <td style="text-align:right"><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
             <td style="text-align:right">{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
             <td style="text-align:right"><em>{{$rociste->opis}}</em></td>
-            <td style="text-align:right">{{$rociste->predmet->referent->imePrezime()}}</td>
+            <td style="text-align:right">{{$rociste->ime_referenta}}</td>
             <td class="text-center">
                 <button
                     class="btn btn-success btn-sm" id="dugmeRocisteIzmena"
@@ -133,9 +119,9 @@
             </td>
         </tr>
         @endforeach
-    </tbody>
+    </tbody> --}}
 </table>
-@endif
+{{-- @endif --}}
 
 {{--  pocetak modal_rocista_izmena  --}}
 <div class="modal fade" id="izmeniRocisteModal">
@@ -179,7 +165,6 @@
                         </div>
                     </div>
                     <input type="hidden" id="rok_izmena_id" name="rok_izmena_id">
-                    <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $rociste->predmet_id }}">
                 </form>
             </div>
             <div class="modal-footer">
@@ -323,6 +308,41 @@ $(document).ready(function () {
     $.fn.dataTable.moment('DD.MM.YYYY');
 
     $('#tabelaRocista').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('rocista.ajax') !!}',
+        columns: [
+        {data: null,
+        className:'align-middle text-center',
+        render: function(data, type, row){
+                var rutap = "{{ route('predmeti.pregled', 'predmet_id') }}";
+                var rutap_id = rutap.replace('predmet_id', data.id_predmeta);
+            
+            return '<strong><a href="'+rutap_id+'">'+data.slovo+'-'+data.broj+'/'+data.godina+'</a></strong>';
+        },
+        name: 'broj'},
+        {data: 'datum', 
+        render: function(data, type, row){
+            return moment(data).format('DD.MM.YYYY');
+        },
+        name: 'datum'},
+        {data: 'vreme', name: 'vreme'},
+        {data: 'opis', name: 'opis'},
+        {data: null, 
+        render: function(data, type, row){
+            return data.ime_referenta+' '+data.prezime_referenta;
+        },
+        name: 'ime'},
+        {data: null,
+            className:'align-middle text-center',
+            orderable:false,
+            searchable:false,
+            render: function(data, type, row){
+                
+                return '<button class="btn btn-success btn-sm" id="dugmeRocisteIzmena" data-toggle="modal" data-target="#izmeniRocisteModal" value="' + data.rid + '"> <i class="fa fa-pencil"></i> </button> <button class="btn btn-danger btn-sm" id="dugmeRocisteBrisanje" value="' + data.rid + '"> <i class="fa fa-trash"></i> </button>';
+        },
+            name: 'akcije'}
+        ],
         dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
@@ -350,8 +370,7 @@ $(document).ready(function () {
                         1,
                         2,
                         3,
-                        4,
-                        5
+                        4
                     ]
                 }
             }
@@ -359,16 +378,9 @@ $(document).ready(function () {
         ],
         order: [
             [
-                2,
+                1,
                 "desc"
             ]
-        ],
-        columnDefs: [
-            {
-                orderable: false,
-                searchable: false,
-                "targets": -1
-            }
         ],
         responsive: true,
         language: {

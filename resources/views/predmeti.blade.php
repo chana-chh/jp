@@ -205,87 +205,23 @@
     </div>
 </div>
 
-@if(count($predmeti) == 0)
-<h3 class="text-danger">Нема записа у бази података</h3>
-@else
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
-            <th style="width: 8%; text-align:right; padding-right: 25px">Статус </th>
-            <th style="width: 6%; text-align:right; padding-right: 25px">Број </th>
-            <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број </th>
-            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета </th>
-            <th style="width: 14%; text-align:right; padding-right: 25px">Опис </th>
-            <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац </th>
-            <th style="width: 14%; text-align:right; padding-right: 25px">Тужени </th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Датум </th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Референт </th>
-            <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
+            <th style="width: 6%; text-align:right; padding-right: 25px">Статус</th>
+            <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
+            <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број</th>
+            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
+            <th style="width: 17%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Тужени</th>
+            <th style="width: 8%; text-align:right; padding-right: 25px">Датум</th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Референт</th>
+            <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
-    <tbody id="predmeti_lista" name="predmeti_lista">
-        @foreach ($predmeti as $predmet)
-        <tr>
-            <td style="text-align:center; font-weight: bold; line-height: normal;"
-                class="status {{ $predmet->arhiviran == 0 ? 'text-primary' : 'text-danger' }}"
-                data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="{{ $predmet->opis() }}" >
-                {{-- {{ $predmet->arhiviran == 0 ? '' : 'а/а' }} --}}
-                {{ $predmet->status() }}
-            </td>
-            <td style="text-align:center; line-height: normal;">
-                <strong>
-                    <a href="{{ route('predmeti.pregled', $predmet->id) }}">
-                        {{ $predmet->broj() }}
-                    </a>
-                </strong>
-            </td>
-            <td style="line-height: normal; text-align:right">
-                <ul style="list-style-type: none; padding-left:1px;">
-                    <li>{{$predmet->sud->naziv}}</li>
-                    <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
-            <td>
-                <ul style="list-style-type: none; padding-left:1px; text-align:right">
-                    <li>{{$predmet->opis}}</li>
-                    @if($predmet->opis_kp)
-                    <li><span class="text-success">{{ $predmet->opis_kp }}</span></li>
-                    @endif
-                    @if($predmet->opis_adresa)
-                    <li><span class="text-success">{{ $predmet->opis_adresa }}</span></li>
-                    @endif
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
 
-            <td style="line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
-            <td style="text-align:center">
-                <a  class="btn btn-success btn-sm otvori_izmenu"
-                    id="dugmeIzmena"
-                    href="{{ route('predmeti.pregled', $predmet->id) }}">
-                    <i class="fa fa-eye"></i>
-                </a>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
 </table>
-@endif
 @endsection
 
 @section('skripte')
@@ -294,10 +230,6 @@
 <script>
 
 $(document).ready(function () {
-
-    $('.status').popover({
-        trigger: 'hover'
-    });
 
     jQuery(window).on('resize', resizeChosen);
 
@@ -327,8 +259,130 @@ $(document).ready(function () {
         resizeChosen();
     });
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $('#tabelaPredmeti').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{!! route('predmeti.ajax') !!}',
+            type: "POST"
+        },
+        columns: [
+            {
+                defaultContent: '',
+                data: null,
+                render: function (data, type, row) {
+                    if (data.st_naziv) {
+                        if (data.arhiviran == 0) {
+                            return '<span class="status text-primary" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="' + data.opis + '">' + data.st_naziv + '</span>';
+                        } else {
+                            return '<span class="status text-danger" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="' + data.opis + '">' + data.st_naziv + '</span>';
+                        }
+                    } else {
+                        return " ";
+                    }
+
+                },
+                name: 'st_naziv'
+            },
+            {
+                data: null,
+                className: 'align-middle text-center',
+                render: function (data, type, row) {
+                    var rutap = "{{ route('predmeti.pregled', 'predmet_id') }}";
+                    var rutap_id = rutap.replace('predmet_id', data.id);
+
+                    return '<strong><a href="' + rutap_id + '">' + data.ceo_broj_predmeta + '</a></strong>';
+                    // return '<strong><a href="'+rutap_id+'">'+data.slovo+'-'+data.broj_predmeta+'/'+data.godina_predmeta+'</a></strong>';
+                },
+                name: 'ceo_broj_predmeta'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.sudbroj) {
+                        return data.sud_naziv + ' са бројем: ' + data.sudbroj;
+                    } else {
+                        return data.sud_naziv
+                    }
+
+                },
+                name: 'sud'
+            },
+            {
+                data: 'vp_naziv',
+                name: 'vp_naziv'
+            },
+            {
+                data: 'opis_predmeta',
+                name: 'opis_predmeta'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.stranka_1) {
+                        return '<small><em>' + data.stranka_1 + '</em></small>'
+                    } else {
+                        return " "
+                    }
+
+                },
+                name: 'stranka_1'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.stranka_2) {
+                        return '<small><em>' + data.stranka_2 + '</em></small>'
+                    } else {
+                        return " "
+                    }
+
+                },
+                name: 'stranka_2'
+            },
+            {
+                data: 'datum_tuzbe',
+                render: function (data, type, row) {
+                    return moment(data).format('DD.MM.YYYY');
+                },
+                name: 'datum_tuzbe'
+            },
+            {
+                data: 'puno_ime',
+                name: 'puno_ime'
+            },
+            // {data: null,
+            // render: function(data, type, row){
+            //     return data.ime+' '+data.prezime;
+            // },
+            // name: 'ime'},
+            {
+                data: null,
+                className: 'align-middle text-center',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    var ruta = "{{ route('predmeti.pregled', 'data_id') }}";
+                    var ruta_id = ruta.replace('data_id', data.id);
+                    return '<a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena" href="' + ruta_id + '"><i class="fa fa-eye"></i></a>';
+                },
+                name: 'akcije'
+            }
+        ],
+        deferRender: true,
         stateSave: true,
+        stateSaveCallback: function (settings, data) {
+            localStorage.setItem('DataTables_example_state', JSON.stringify(data))
+        },
+        stateLoadCallback: function (settings) {
+            return JSON.parse(localStorage.getItem('DataTables_example_state'))
+        },
         dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
@@ -358,13 +412,7 @@ $(document).ready(function () {
             }
 
         ],
-        columnDefs: [
-            {
-                orderable: false,
-                searchable: false,
-                "targets": -1
-            }
-        ],
+
         language: {
             search: "Пронађи у табели",
             paginate: {
@@ -377,9 +425,16 @@ $(document).ready(function () {
             lengthMenu: "Прикажи _MENU_ елемената",
             zeroRecords: "Није пронађен ниједан запис",
             info: "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-            infoFiltered: "(filtrirano од укупно _MAX_ елемената)"
+            infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
+        },
+
+        fnInitComplete: function (oSettings, json) {
+            $('.status').popover({
+                trigger: 'hover'
+            });
         }
     });
+
 
     $('#dugme_pretrazi').click(function () {
         $('#pretraga').submit();

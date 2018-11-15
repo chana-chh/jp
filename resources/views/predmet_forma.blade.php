@@ -18,7 +18,7 @@
     <fieldset>
         <legend>Број предмета</legend>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group{{ $errors->has('vrsta_upisnika_id') ? ' has-error' : '' }}">
                     <label for="vrsta_upisnika_id">Врста уписника:</label>
                     <select name="vrsta_upisnika_id" id="vrsta_upisnika_id" class="chosen-select form-control" data-placeholder="Врста уписника" required>
@@ -36,7 +36,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group{{ $errors->has('broj_predmeta') ? ' has-error' : '' }}">
                     <label for="broj_predmeta">Број предмета: </label>
                     <input type="number" name="broj_predmeta" id="broj_predmeta" class="form-control"
@@ -48,7 +48,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group{{ $errors->has('godina_predmeta') ? ' has-error' : '' }}">
                     <label for="godina_predmeta">Година: </label>
                     <input type="number" name="godina_predmeta" id="godina_predmeta" class="form-control"
@@ -61,18 +61,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group{{ $errors->has('stari_broj_predmeta') ? ' has-error' : '' }}">
-                    <label for="stari_broj_predmeta">Стари број предмета:</label>
-                    <input type="text" name="stari_broj_predmeta" id="stari_broj_predmeta" class="form-control"
-                           value="{{ old('stari_broj_predmeta') }}" maxlength="50">
-                    @if ($errors->has('stari_broj_predmeta'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('stari_broj_predmeta') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
+
         </div>
     </fieldset>
     <hr>
@@ -97,20 +86,20 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="form-group{{ $errors->has('broj_predmeta_sud') ? ' has-error' : '' }}">
-            <label for="broj_predmeta_sud">Број предмета у суду:</label>
-            <input type="text" name="broj_predmeta_sud" id="broj_predmeta_sud" class="form-control"
-                   value="{{ old('broj_predmeta_sud') }}" maxlength="50">
-            @if ($errors->has('broj_predmeta_sud'))
+        <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
+            <label for="datum_tuzbe">Датум предмета (тужбе):</label>
+            <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
+                   value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
+            @if ($errors->has('datum_tuzbe'))
             <span class="help-block">
-                <strong>{{ $errors->first('broj_predmeta_sud') }}</strong>
+                <strong>{{ $errors->first('datum_tuzbe') }}</strong>
             </span>
             @endif
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
             <label for="vrsta_predmeta_id">Врста предмета:</label>
             <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
@@ -128,18 +117,7 @@
         @endif
     </div>
 </div>
-<div class="col-md-6">
-    <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
-        <label for="datum_tuzbe">Датум предмета (тужбе):</label>
-        <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
-               value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
-        @if ($errors->has('datum_tuzbe'))
-        <span class="help-block">
-            <strong>{{ $errors->first('datum_tuzbe') }}</strong>
-        </span>
-        @endif
-    </div>
-</div>
+
 </div>
 
 <fieldset>
@@ -380,7 +358,7 @@ $('#dugmeDodajStranku1').on('click', function () {
 var tekst = '';
 $('#komintenti_1 :selected').each(function (id, selected){
 tekst = tekst + selected.innerHTML.trim() + ', '
-});
+        });
 $('#stranka_1').val(tekst.slice(0, - 2));
 return false;
 });
@@ -388,7 +366,7 @@ $('#dugmeDodajStranku2').on('click', function () {
 var tekst = '';
 $('#komintenti_2 :selected').each(function (id, selected){
 tekst = tekst + selected.innerHTML.trim() + ', '
-});
+        });
 $('#stranka_2').val(tekst.slice(0, - 2));
 return false;
 });
@@ -423,7 +401,7 @@ type : 'get',
 jQuery(window).on('resize', resizeChosen);
 $('.chosen-select').chosen({
 allow_single_deselect: true
-});
+        });
 function resizeChosen() {
 $(".chosen-container").each(function () {
 $(this).attr('style', 'width: 100%');

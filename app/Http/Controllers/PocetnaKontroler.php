@@ -18,7 +18,7 @@ class PocetnaKontroler extends Kontroler
         $petak = Carbon::now();
         $ponedeljak->startOfWeek();
         $petak->startOfWeek()->addDay(4);
-        $rocista = Rociste::whereBetween('datum', [$ponedeljak, $petak])->count();
+        $rocista = Rociste::whereBetween('datum', [$ponedeljak, $petak])->where('tip_id', 2)->count();
 
         $tokovi = Tok::all();
         // Ukupno
@@ -32,6 +32,11 @@ class PocetnaKontroler extends Kontroler
 
 
         return view('pocetna')->with(compact('broj_predmeta', 'rocista', 'vrednost_spora', 'iznos_troskova'));
+    }
+
+    public function getIzbor()
+    {
+        return view('izbor');
     }
 
 }

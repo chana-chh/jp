@@ -91,6 +91,7 @@
         </div>
 
          <div class="col-md-3">
+
 <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">

@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', 'PocetnaKontroler@pocetna')->name('pocetna');
+Route::get('izbor', 'PocetnaKontroler@getIzbor')->name('izbor');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -81,6 +82,7 @@ Route::get('predmeti/slike/{id}', 'PredmetiKontroler@getPredmetiSlike')->name('p
 Route::post('predmeti/slike/{id}', 'PredmetiKontroler@postPredmetiSlike')->name('predmeti.slike.post');
 Route::post('predmeti/skenirane/brisanje', 'PredmetiKontroler@postSlikeBrisanje')->name('slike.brisanje');
 Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
+Route::post('predmeti/ajax', 'PredmetiKontroler@postAjax')->name('predmeti.ajax');
 
 //Predmeti podnesci
 Route::get('predmeti/podnesci/{id}', 'PredmetiPodnesci@getPredmetiPodnesci')->name('predmeti.podnesci');
@@ -101,6 +103,16 @@ Route::get('predmeti/komintenti/{id}', 'KomintentiKontroler@getPredmetListaKomin
 Route::post('predmeti/komintenti/dodavanje/{id}', 'KomintentiKontroler@postPredmetKomintentDodavanje')->name('predmet.komintenti.dodavanje');
 Route::post('predmeti/komintenti/brisanje/{id}', 'KomintentiKontroler@postPredmetKomintentBrisanje')->name('predmet.komintenti.brisanje');
 
+//Predmeti stari brojevi
+Route::get('predmeti/stari_broj/{id}', 'PredmetiStariBrojKontroler@getLista')->name('predmeti.stari_broj');
+Route::post('predmeti/stari_broj/dodavanje/{id}', 'PredmetiStariBrojKontroler@postDodavanje')->name('predmeti.stari_broj.dodavanje');
+Route::post('predmeti/stari_broj/brisanje', 'PredmetiStariBrojKontroler@postBrisanje')->name('predmeti.stari_broj.brisanje');
+
+//Predmeti sud broj
+Route::get('predmeti/sud_broj/{id}', 'PredmetiSudBrojKontroler@getLista')->name('predmeti.sud_broj');
+Route::post('predmeti/sud_broj/dodavanje/{id}', 'PredmetiSudBrojKontroler@postDodavanje')->name('predmeti.sud_broj.dodavanje');
+Route::post('predmeti/sud_broj/brisanje', 'PredmetiSudBrojKontroler@postBrisanje')->name('predmeti.sud_broj.brisanje');
+
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');
 Route::get('rocista/dodavanje', 'RocistaKontroler@getDodavanje')->name('rocista.dodavanje.get');
@@ -113,6 +125,21 @@ Route::post('rocista/pretraga', 'RocistaKontroler@postPretraga')->name('rocista.
 Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
 Route::get('rocista/kalendar/filter', 'RocistaKontroler@getKalendarFilter')->name('rocista.kalendar.filter');
 Route::post('rocista/kalendar/filter', 'RocistaKontroler@postKalendarFilter')->name('rocista.kalendar.filter.post');
+Route::get('rocista/ajax', 'RocistaKontroler@getAjax')->name('rocista.ajax');
+
+//Rokovi
+Route::get('rokovi', 'RokoviKontroler@getLista')->name('rokovi');
+Route::get('rokovi/dodavanje', 'RokoviKontroler@getDodavanje')->name('rokovi.dodavanje.get');
+Route::post('rokovi/dodavanje', 'RokoviKontroler@postDodavanje')->name('rokovi.dodavanje.post');
+Route::post('rokovi/brisanje', 'RokoviKontroler@postBrisanje')->name('rokovi.brisanje');
+Route::post('rokovi/izmena', 'RokoviKontroler@postIzmena')->name('rokovi.izmena');
+Route::get('rokovi/pregled/{id}', 'RokoviKontroler@getPregled')->name('rokovi.pregled');
+Route::get('rokovi/detalj', 'RokoviKontroler@getDetalj')->name('rokovi.detalj');
+Route::post('rokovi/pretraga', 'RokoviKontroler@postPretraga')->name('rokovi.pretraga');
+Route::get('rokovi/kalendar', 'RokoviKontroler@getKalendar')->name('rokovi.kalendar');
+Route::get('rokovi/kalendar/filter', 'RokoviKontroler@getKalendarFilter')->name('rokovi.kalendar.filter');
+Route::post('rokovi/kalendar/filter', 'RokoviKontroler@postKalendarFilter')->name('rokovi.kalendar.filter.post');
+Route::get('rokovi/ajax', 'RokoviKontroler@getAjax')->name('rokovi.ajax');
 
 //Knjizenja
 Route::post('uprave/dodavanje', 'PredmetiUpraveKontroler@postDodavanje')->name('uprave_predmeti.dodavanje.post');
@@ -133,6 +160,7 @@ Route::get('tok/grupa/predmet', 'TokoviNovcaKontroler@getGrupaPredmet')->name('t
 Route::get('tok/grupa/vrste_predmeta', 'TokoviNovcaKontroler@getGrupaVrstaPredmeta')->name('tok.grupa_vrste_predmeta');
 Route::get('tok/tekuci_mesec', 'TokoviNovcaKontroler@getTekuciMesec')->name('tok.tekuci_mesec');
 Route::get('tok/tekuca_godina', 'TokoviNovcaKontroler@getTekucaGodina')->name('tok.tekuca_godina');
+Route::post('tok/ajax', 'TokoviNovcaKontroler@postAjaxGrupaPredmet')->name('tok.ajax');
 
 //O programu
 Route::get('o_programu', function () {

@@ -17,27 +17,22 @@
         @else
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
-                      <th>Врста предмета</th>
-                      <th>Вредност спора потражује</th>
-                      <th>Вредност спора дугује</th>
-                      <th>Износ трошкова потражује</th>
-                      <th>Износ трошкова дугује</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                    <th>Врста предмета</th>
+                    <th>Вредност спора потражује</th>
+                    <th>Вредност спора дугује</th>
+                    <th>Износ трошкова потражује</th>
+                    <th>Износ трошкова дугује</th>
                 </thead>
                 <tbody id="tokovi_predmeti_lista" name="tokovi_predmeti_lista">
-                @foreach ($vrste as $vrsta)
-                        <tr>
-                                <td>{{$vrste_predmeta[($vrsta->vrsta)-1]}} i id {{$vrsta->vrsta}}</td>
-                                <td><strong>{{number_format($vrsta->vsp, 2)}}</strong></td>
-                                <td><strong>{{number_format($vrsta->vsd, 2)}}</strong></td>
-                                <td><strong>{{number_format($vrsta->itp, 2)}}</strong></td>
-                                <td><strong>{{number_format($vrsta->itd, 2)}}</strong></td>
-
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="#"><i class="fa fa-eye"></i></a>
-                            </td>
-                        </tr>
-                @endforeach
+                    @foreach ($vrste as $vrsta)
+                    <tr>
+                        <td class="text-primary"><h4>{{$vrste_predmeta[($vrsta->vrsta)-1]}}</h4></td>
+                        <td><strong>{{number_format($vrsta->vsp, 2)}}</strong></td>
+                        <td><strong>{{number_format($vrsta->vsd, 2)}}</strong></td>
+                        <td><strong>{{number_format($vrsta->itp, 2)}}</strong></td>
+                        <td><strong>{{number_format($vrsta->itd, 2)}}</strong></td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         @endif
@@ -54,7 +49,6 @@
 <script>
 $( document ).ready(function() {
     $('table.tabelaTokPredmet').DataTable({
-        columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         responsive: true,
         language: {
             search: "Пронађи у табели",

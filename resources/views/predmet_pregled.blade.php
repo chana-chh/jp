@@ -107,10 +107,25 @@
 
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
+        <tr style="font-size: 1.25em">
+            <th style="width: 20%;"><strong>Референт:</strong></th>
+            <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
-            <td style="width: 70%;">{{ $predmet->stari_broj_predmeta }}</td>
-            <td style="width: 10%;"></td>
+            <td style="width: 70%;">
+                @foreach ($predmet->stariBrojevi as $broj)
+                {{$broj->broj}} <br>
+                @endforeach
+            </td>
+            <td style="width: 10%; text-align:right;">
+                @if (Gate::allows('admin'))
+                <a class="btn btn-success btn-xs" id="dugmePregledStari" href="{{ route('predmeti.stari_broj', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                @endif
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Датум пријема:</strong></th>
@@ -119,8 +134,18 @@
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Суд:</strong></th>
-            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>{{ $predmet->broj_predmeta_sud }}</strong></span></td>
-            <td style="width: 10%;"></td>
+            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>@foreach ($predmet->sudBrojevi as $broj)
+
+                        {{$broj->broj}} &emsp;
+
+                        @endforeach </strong></span></td>
+            <td style="width: 10%; text-align:right;">
+                @if (Gate::allows('admin'))
+                <a class="btn btn-success btn-xs" id="dugmePregledSud" href="{{ route('predmeti.sud_broj', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                @endif
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Врста предмета:</strong></th>
@@ -176,11 +201,7 @@
             <td style="width: 70%;">{{ number_format($predmet->vrednost_tuzbe, 2, ',', '.') }}</td>
             <td style="width: 10%;"></td>
         </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Референт:</strong></th>
-            <td style="width: 70%;">{{ $predmet->referent->imePrezime() }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
+
         <tr>
             <th style="width: 20%;"><strong>Предмет родитељ:</strong></th>
             <td style="width: 70%;">
@@ -728,7 +749,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="rok_izmena_vreme">Време</label>
-                                <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme" required>
+                                <input type="time" class="form-control" id="rok_izmena_vreme" name="rok_izmena_vreme">
                             </div>
                         </div>
                     </div>
