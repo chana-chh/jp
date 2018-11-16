@@ -11,9 +11,7 @@
 @endsection
 
 @section('sadrzaj')
-@if($komintenti->isEmpty())
-<h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
-@else
+
 <table class="table table-striped tabelaKomintenti" name="tabelaKomintenti" id="tabelaKomintenti">
     <thead>
     <th style="width: 5%;">#</th>
@@ -24,24 +22,10 @@
     <th style="width: 10%;">Телефон</th>
     <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
 </thead>
-<tbody id="komintenti_lista" name="komintenti_lista">
-    @foreach ($komintenti as $kom)
-    <tr>
-        <td>{{ $kom->id }}</td>
-        <td><strong>{{ $kom->naziv }}</strong></td>
-        <td>{{ $kom->id_broj }}</td>
-        <td>{{ $kom->mesto }}</td>
-        <td>{{ $kom->adresa }}</td>
-        <td>{{ $kom->telefon }}</td>
-        <td style="text-align:center">
-            <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('komintenti.pregled', $kom->id) }}"><i class="fa fa-pencil"></i></a>
-            <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{ $kom->id }}"><i class="fa fa-trash"></i></button>
-        </td>
-    </tr>
-    @endforeach
-</tbody>
 </table>
-@endif
+<h5>Иди на страницу</h5>
+<button id="dugmeSkok" class="btn btn-warning btn-sm"><i class="fa fa-rocket"></i></button>
+<input type="number" name="skok" id="skok">
 
 {{-- Modal za dijalog brisanje--}}
 <div class="modal fade" id="brisanjeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -158,9 +142,40 @@
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        $('#tabelaKomintenti').DataTable({
 
-            columnDefs: [{orderable: false, searchable: false, "targets": -1}],
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+
+        var tabela = $('#tabelaKomintenti').DataTable({
+
+            processing: true,
+            serverSide: true,
+            ajax: {
+            url: '{!! route('komintenti.ajax') !!}',
+            type: "POST"
+            },
+            columns: [
+            {data:'id', name:'id'},
+            {data:'naziv', name:'naziv'},
+            {data:'id_broj', name:'id_broj'},
+            {data:'mesto', name:'mesto'},
+            {data:'adresa', name:'adresa'},
+            {data:'telefon', name:'telefon'},
+            {data: null,
+                className: 'align-middle text-center',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    var ruta = "{{ route('komintenti.pregled', 'data_id') }}";
+                    var ruta_id = ruta.replace('data_id', data.id);
+                    return '<a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="' + ruta_id + '"><i class="fa fa-pencil"></i></a> <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="'+data.id+'"><i class="fa fa-trash"></i></button>';
+                },
+                name: 'akcije'},
+            ],
             language: {
                 search: "Пронађи у табели",
                 paginate: {
@@ -176,6 +191,17 @@
                 infoFiltered: "(филтрирано од _MAX_ елемената)"
             }
         });
+
+        $( "#skok" ).focus(function() {
+        var info = tabela.page.info();
+        var poslednja = info.pages;
+        $("#skok").prop('max',poslednja);
+        });
+
+        $('#dugmeSkok').on( 'click', function () {
+            var broj = parseInt($("#skok").val());
+            tabela.page(broj).draw( 'page' );
+        } );
 
         $(document).on('click', '.otvori_modal', function () {
             var id = $(this).val();
