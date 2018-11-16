@@ -22,11 +22,9 @@ use App\Modeli\PredmetSlika;
 use App\Modeli\Komintent;
 use Yajra\DataTables\DataTables;
 
-class PredmetiKontroler extends Kontroler
-{
+class PredmetiKontroler extends Kontroler {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->middleware('admin')->only([
             'getPredmetiObrisani',
@@ -34,8 +32,7 @@ class PredmetiKontroler extends Kontroler
         ]);
     }
 
-    public function getLista()
-    {
+    public function getLista() {
         $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
@@ -44,59 +41,53 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti'));
     }
 
-    public function postAjax(Request $request)
-    {
+    public function postAjax(Request $request) {
         // $predmeti = Predmet::with('vrstaPredmeta', 'referent', 'sud', 'vrstaUpisnika')->get();
 
-        $query = "SELECT    `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`, `predmeti`.`opis` as opis_predmeta,
-
-     `predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
-     `s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
-     `s_vrste_predmeta`.`naziv` as vp_naziv,
-     CONCAT(`s_vrste_upisnika`.`slovo`, '-', `predmeti`.`broj_predmeta`, '/',`predmeti`.`godina_predmeta`) as ceo_broj_predmeta,
-     CONCAT(`s_referenti`.`ime`, ' ', `s_referenti`.`prezime`) as puno_ime,
-     `s_referenti`.`ime`, `s_referenti`.`prezime`,
-               `s_sudovi`.`naziv` as sud_naziv,
-               GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') as sudbroj,
-               GROUP_CONCAT(DISTINCT `st1_naziv`.`stt1` SEPARATOR ', ') AS `stranka_1`,
-               GROUP_CONCAT(DISTINCT `st2_naziv`.`stt2` SEPARATOR ', ') AS `stranka_2`,
-     `poslednji`.`opis`,
-     `poslednji`.`datum`,
-     `poslednji`.`st_naziv`
-       FROM  `predmeti`
-       JOIN  `s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
-       JOIN  `s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
-       JOIN  `s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
-       JOIN  `s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
-       LEFT JOIN `brojevi_predmeta_sud` ON `predmeti`.`id` = `brojevi_predmeta_sud`.`predmet_id`
-
-       LEFT JOIN (
+        $query = "SELECT `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`,
+                `predmeti`.`opis` as opis_predmeta, `predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
+                `s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
+                `s_vrste_predmeta`.`naziv` as vp_naziv,
+                CONCAT(`s_vrste_upisnika`.`slovo`, '-', `predmeti`.`broj_predmeta`, '/',`predmeti`.`godina_predmeta`) as ceo_broj_predmeta,
+                CONCAT(`s_referenti`.`ime`, ' ', `s_referenti`.`prezime`) as puno_ime,
+                `s_referenti`.`ime`, `s_referenti`.`prezime`,
+                `s_sudovi`.`naziv` as sud_naziv,
+                GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') as sudbroj,
+                GROUP_CONCAT(DISTINCT `st1_naziv`.`stt1` SEPARATOR ', ') AS `stranka_1`,
+                GROUP_CONCAT(DISTINCT `st2_naziv`.`stt2` SEPARATOR ', ') AS `stranka_2`,
+                `poslednji`.`opis`,
+                `poslednji`.`datum`,
+                `poslednji`.`st_naziv`
+                FROM  `predmeti`
+                JOIN  `s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
+                JOIN  `s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
+                JOIN  `s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
+                JOIN  `s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
+                LEFT JOIN `brojevi_predmeta_sud` ON `predmeti`.`id` = `brojevi_predmeta_sud`.`predmet_id`
+                LEFT JOIN (
                    select tokovi_predmeta.*, s_statusi.naziv as st_naziv
                    from tokovi_predmeta
-                   inner join
-                   (
-                       select predmet_id, max(datum) as ts
-                       from tokovi_predmeta
-                       group by predmet_id
-                   ) t1
-                   on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
-                   join s_statusi on tokovi_predmeta.status_id = s_statusi.id
-               ) `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`
+                   inner join (
+                        select predmet_id, max(datum) as ts
+                        from tokovi_predmeta
+                        group by predmet_id
+                        ) t1 on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
+                        join s_statusi on tokovi_predmeta.status_id = s_statusi.id
+                ) `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`
+                LEFT JOIN (
+                    SELECT `tuzioci`.`predmet_id`, `s_komintenti`.`naziv` AS `stt1` FROM `tuzioci`
+                    JOIN `s_komintenti` ON `tuzioci`.`komintent_id` = `s_komintenti`.`id`
+                ) AS `st1_naziv` ON `st1_naziv`.`predmet_id` = `predmeti`.`id`
                LEFT JOIN (
-            SELECT `tuzioci`.`predmet_id`, `s_komintenti`.`naziv` AS `stt1` FROM `tuzioci`
-            JOIN `s_komintenti` ON `tuzioci`.`komintent_id` = `s_komintenti`.`id`
-            ) AS `st1_naziv` ON `st1_naziv`.`predmet_id` = `predmeti`.`id`
-               LEFT JOIN (
-    SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
-    JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
-) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`";
+                    SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
+                    JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
+                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`";
         $predmeti = \Illuminate\Support\Facades\DB::select($query);
 
         return DataTables::of($predmeti)->make(true);
     }
 
-    public function getListaFilter(Request $req)
-    {
+    public function getListaFilter(Request $req) {
         $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
@@ -106,14 +97,12 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti_filter')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function postListaFilter(Request $req)
-    {
+    public function postListaFilter(Request $req) {
         $req->session()->put('parametri_za_filter_predmeta', $req->all());
         return redirect()->route('predmeti.filter');
     }
 
-    private function naprednaPretraga($params)
-    {
+    private function naprednaPretraga($params) {
         $predmeti = null;
         $where = [];
         // arhiva
@@ -220,8 +209,7 @@ class PredmetiKontroler extends Kontroler
         return $predmeti;
     }
 
-    public function getPregled($id)
-    {
+    public function getPregled($id) {
         $predmet = Predmet::find($id);
         $tipovi_rocista = TipRocista::all();
         $spisak_uprava = Uprava::all();
@@ -237,8 +225,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
     }
 
-    public function getDodavanje()
-    {
+    public function getDodavanje() {
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
@@ -248,8 +235,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
     }
 
-    public function postDodavanje(Request $req)
-    {
+    public function postDodavanje(Request $req) {
         $this->validate($req, [
             'vrsta_upisnika_id' => 'required|integer',
             'broj_predmeta' => 'required|integer',
@@ -291,8 +277,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('stampa', $predmet->id);
     }
 
-    public function getIzmena($id)
-    {
+    public function getIzmena($id) {
         $predmet = Predmet::find($id);
         $predmeti = Predmet::all();
         $sudovi = Sud::all();
@@ -303,15 +288,13 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
     }
 
-    public function getStampa($id)
-    {
+    public function getStampa($id) {
         $predmet = Predmet::find($id);
         Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
         return view('stampa_upisnik')->with(compact('predmet'));
     }
 
-    public function postIzmena(Request $req, $id)
-    {
+    public function postIzmena(Request $req, $id) {
         $this->validate($req, [
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
@@ -342,8 +325,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.pregled', $id);
     }
 
-    public function postArhiviranje(Request $req)
-    {
+    public function postArhiviranje(Request $req) {
         if ($req->ajax()) {
             $id = $req->id;
 
@@ -375,8 +357,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function postBrisanje(Request $req)
-    {
+    public function postBrisanje(Request $req) {
         $predmet = Predmet::findOrFail($req->id);
         $vreme = Carbon::now();
 
@@ -399,8 +380,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function getPredmetiObrisani()
-    {
+    public function getPredmetiObrisani() {
         $predmeti = Predmet::onlyTrashed()->get();
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
@@ -410,8 +390,7 @@ class PredmetiKontroler extends Kontroler
         return view('predmeti_obrisani')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function postVracanjeObrisanogPredmeta(Request $req)
-    {
+    public function postVracanjeObrisanogPredmeta(Request $req) {
         if ($req->ajax()) {
             $predmet = Predmet::onlyTrashed()->find($req->id);
             if ($predmet !== null) {
@@ -433,16 +412,14 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function getPredmetiSlike($id)
-    {
+    public function getPredmetiSlike($id) {
         $predmet = Predmet::findOrFail($id);
         $slike = $predmet->slike;
 
         return view('predmet_slike')->with(compact('slike', 'predmet'));
     }
 
-    public function postPredmetiSlike(Request $req, $id)
-    {
+    public function postPredmetiSlike(Request $req, $id) {
         $predmet = Predmet::findOrFail($id);
 
         $this->validate($req, [
@@ -465,8 +442,7 @@ class PredmetiKontroler extends Kontroler
         return redirect()->route('predmeti.slike', $id);
     }
 
-    public function postSlikeBrisanje(Request $req)
-    {
+    public function postSlikeBrisanje(Request $req) {
 
         $slika = PredmetSlika::find($req->idBrisanje);
         $putanja = public_path('images/skenirano/') . $slika->src;
@@ -480,8 +456,7 @@ class PredmetiKontroler extends Kontroler
         return Redirect::back();
     }
 
-    public function proveraTuzilac(Request $req)
-    {
+    public function proveraTuzilac(Request $req) {
 
         if ($req->ajax()) {
             $rezultat = "";
@@ -522,8 +497,7 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function proveraKp(Request $req)
-    {
+    public function proveraKp(Request $req) {
 
         if ($req->ajax()) {
             $rezultat = "";

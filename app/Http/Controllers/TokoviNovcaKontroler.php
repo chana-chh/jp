@@ -13,11 +13,9 @@ use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
 use App\Modeli\Predmet;
 
-class TokoviNovcaKontroler extends Kontroler
-{
+class TokoviNovcaKontroler extends Kontroler {
 
-    public function getPocetna()
-    {
+    public function getPocetna() {
         $tokovi = Tok::all();
         $upisnici = VrstaUpisnika::all();
         $vrste = VrstaPredmeta::all();
@@ -34,36 +32,15 @@ class TokoviNovcaKontroler extends Kontroler
         return view('tokovi_novca')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'it', 'vs', 'upisnici', 'vrste'));
     }
 
-    public function getPretraga(Request $req)
-    {
-
+    public function getPretraga(Request $req) {
 
         $kobaja = [];
 
-        if ($req['vrsta_predemta_id']) {
-            $kobaja[] = ['predmeti.vrsta_predmeta_id', '=', $req['vrsta_predemta_id']];
-        }
-        if ($req['vrsta_upisnika_id']) {
-            $kobaja[] = ['predmeti.vrsta_upisnika_id', '=', $req['vrsta_upisnika_id']];
-        }
-        if ($req['stranka_1']) {
-            $kobaja[] = ['predmeti.stranka_1', 'like', '%' . $req['stranka_1'] . '%'];
-        }
-        if ($req['stranka_2']) {
-            $kobaja[] = ['predmeti.stranka_2', 'like', '%' . $req['stranka_2'] . '%'];
-        }
-        if ($req['vrednost_vsp']) {
-            $kobaja[] = ['tokovi_predmeta.vrednost_spora_potrazuje', $req->operator_vsp, $req['vrednost_vsp']];
-        }
-        if ($req['vrednost_vsd']) {
-            $kobaja[] = ['tokovi_predmeta.vrednost_spora_duguje', $req->operator_vsd, $req['vrednost_vsd']];
-        }
-        if ($req['vrednost_itp']) {
-            $kobaja[] = ['tokovi_predmeta.iznos_troskova_potrazuje', $req->operator_itp, $req['vrednost_itp']];
-        }
-        if ($req['vrednost_itd']) {
-            $kobaja[] = ['tokovi_predmeta.iznos_troskova_duguje', $req->operator_itd, $req['vrednost_itd']];
-        }
+        $tokovi_having = ' HAVING ';
+        $s1_where = ' WHERE ';
+        $s2_where = ' WHERE ';
+        $predmet_where = ' WHERE ';
+
         if ($req['datum_1'] && !$req['datum_2']) {
             $kobaja[] = ['tokovi_predmeta.datum', '=', $req['datum_1']];
         }
@@ -71,35 +48,69 @@ class TokoviNovcaKontroler extends Kontroler
             $kobaja[] = ['tokovi_predmeta.datum', '>=', $req['datum_1']];
             $kobaja[] = ['tokovi_predmeta.datum', '<=', $req['datum_2']];
         }
+        if ($req['vrsta_predemta_id']) {
+            $predmet_where .= "predmeti.vrsta_predmeta_id = {$req['vrsta_predemta_id']}";
+        }
+        if ($req['vrsta_upisnika_id']) {
+            $predmet_where .= "predmeti.vrsta_upisnika_id = {$req['vrsta_upisnika_id']}";
+        }
+        if ($req['stranka_1']) {
+            $s1_where .= "s_komintenti.naziv LIKE '%{$req['stranka_1']}%'";
+        }
+        if ($req['stranka_2']) {
+            $s2_where .= "s_komintenti.naziv LIKE '%{$req['stranka_2']}%'";
+        }
+        if ($req['vrednost_vsp']) {
+            $tokovi_having .= "vsp {$req->operator_vsp} {$req['vrednost_vsp']}";
+        }
+        if ($req['vrednost_vsd']) {
+            $tokovi_having .= "vsd {$req->operator_vsd} {$req['vrednost_vsd']}";
+        }
+        if ($req['vrednost_itp']) {
+            $tokovi_having .= "itp {$req->operator_itp} {$req['vrednost_itp']}";
+        }
+        if ($req['vrednost_itd']) {
+            $tokovi_having .= "itd {$req->operator_itd} {$req['vrednost_itd']}";
+        }
 
-        $tokovi = DB::table('tokovi_predmeta')
-                ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
-                ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-                ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-                ->select(DB::raw('  tokovi_predmeta.datum as datum,
-                            tokovi_predmeta.vrednost_spora_potrazuje as vsp,
-                            tokovi_predmeta.vrednost_spora_duguje as vsd,
-                            tokovi_predmeta.iznos_troskova_potrazuje as itp,
-                            tokovi_predmeta.iznos_troskova_duguje as itd,
-                            s_vrste_predmeta.naziv as vrsta_predmeta,
-                            s_vrste_upisnika.naziv as vrsta_upisnika,
-                            predmeti.broj_predmeta as broj,
-                            predmeti.godina_predmeta as godina,
-                            predmeti.id as id,
-                            s_vrste_upisnika.slovo as slovo'))
-                ->where($kobaja)
-                ->get();
+        $tokovi_having = ($tokovi_having !== ' HAVING ') ? $tokovi_having : '';
 
+        $query = "SELECT predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
+                s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
+                tokovi.vsd, tokovi.vsp, tokovi.itd, tokovi.itp
+                FROM predmeti
+                LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+                LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+                JOIN (
+                    SELECT
+                    tokovi_predmeta.predmet_id,
+                    SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+                    SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+                    SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+                    SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
+                    FROM tokovi_predmeta GROUP BY tokovi_predmeta.predmet_id{$tokovi_having}
+                ) AS tokovi ON predmeti.id = tokovi.predmet_id
+                JOIN (
+                    SELECT tuzioci.predmet_id, s_komintenti.naziv
+                    FROM tuzioci
+                    JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id{$s1_where}
+                ) AS stranka1 ON stranka1.predmet_id = predmeti.id
+                JOIN (
+                    SELECT tuzeni.predmet_id, s_komintenti.naziv
+                    FROM tuzeni
+                    JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id{$s2_where}
+                ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$predmet_where}";
+
+        dd($query);
+        $tokovi = \Illuminate\Support\Facades\DB::select($query);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
 
-    public function getGrupaPredmet()
-    {
+    public function getGrupaPredmet() {
         return view('tokovi_novca_grupa_predmet');
     }
 
-    public function postAjaxGrupaPredmet(Request $request)
-    {
+    public function postAjaxGrupaPredmet(Request $request) {
         return datatables(DB::table('predmeti')
                                 ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
                                 ->leftjoin('tokovi_predmeta', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
@@ -116,8 +127,7 @@ class TokoviNovcaKontroler extends Kontroler
                                 ->get())->toJson();
     }
 
-    public function getGrupaVrstaPredmeta()
-    {
+    public function getGrupaVrstaPredmeta() {
         //Tokovi grupisano po vrsti predmeta
         $vrste = DB::table('tokovi_predmeta')
                 ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
@@ -129,8 +139,7 @@ class TokoviNovcaKontroler extends Kontroler
         return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta'));
     }
 
-    public function getTekuciMesec()
-    {
+    public function getTekuciMesec() {
         $tokovi_ovaj_mesec = Tok::whereDate('datum', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))->get();
         $vrednost_spora_potrazuje_mesec = $tokovi_ovaj_mesec->pluck('vrednost_spora_potrazuje')->sum();
         $vrednost_spora_duguje_mesec = $tokovi_ovaj_mesec->pluck('vrednost_spora_duguje')->sum();
@@ -140,8 +149,7 @@ class TokoviNovcaKontroler extends Kontroler
         return view('tokovi_novca_tekuci_mesec')->with(compact('vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec'));
     }
 
-    public function getTekucaGodina()
-    {
+    public function getTekucaGodina() {
 
         $broj_meseci = Carbon::now()->month;
 
