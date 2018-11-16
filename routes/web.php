@@ -102,6 +102,7 @@ Route::get('sifarnici/komintenti/pregled/{id}', 'KomintentiKontroler@getPregled'
 Route::get('predmeti/komintenti/{id}', 'KomintentiKontroler@getPredmetListaKomintenata')->name('predmet.komintenti');
 Route::post('predmeti/komintenti/dodavanje/{id}', 'KomintentiKontroler@postPredmetKomintentDodavanje')->name('predmet.komintenti.dodavanje');
 Route::post('predmeti/komintenti/brisanje/{id}', 'KomintentiKontroler@postPredmetKomintentBrisanje')->name('predmet.komintenti.brisanje');
+Route::post('sifarnici/komintenti/ajax', 'KomintentiKontroler@postAjax')->name('komintenti.ajax');
 
 //Predmeti stari brojevi
 Route::get('predmeti/stari_broj/{id}', 'PredmetiStariBrojKontroler@getLista')->name('predmeti.stari_broj');
