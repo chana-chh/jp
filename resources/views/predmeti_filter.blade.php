@@ -27,7 +27,7 @@
     </div>
 </div>
 <hr>
-@if($predmeti->isEmpty())
+@if(count($predmeti) === 0)
 <h3 class="text-danger">Нема предмета за тражени филтер</h3>
 @else
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
@@ -54,18 +54,18 @@
             <td class="text-center">
                 <strong>
                     <a href="{{ route('predmeti.pregled', $predmet->id) }}">
-                        {{ $predmet->broj() }}
+                        {{ $predmet->ceo_broj_predmeta }}
                     </a>
                 </strong>
             </td>
             <td>
                 <ul style="list-style-type: none; padding-left:1px; text-align:right">
-                    <li>{{$predmet->sud->naziv}}</li>
-                    <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
+                    <li>{{$predmet->sud_naziv}}</li>
+                    <li><span class="text-success">бр.: </span>{{$predmet->sudbroj}}</li>
                 </ul>
 
             </td>
-            <td style="line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
+            <td style="line-height: normal; text-align:right">{{$predmet->vrsta_predmeta}}</td>
             <td style="line-height: normal; text-align:right">
                 <ul style="list-style-type: none; padding-left:1px; text-align:right">
                     <li>{{$predmet->opis}}</li>
@@ -78,21 +78,13 @@
                 </ul>
             </td>
             <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
-                    @endforeach
-                </ul>
+                {{ $predmet->stranka_1 }}
             </td>
             <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
-                    @endforeach
-                </ul>
+                {{ $predmet->stranka_1 }}
             </td>
             <td style="line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
+            <td style="line-height: normal; text-align:right">{{$predmet->referent}}</td>
             <td class="text-right">
                 <a  class="btn btn-success btn-sm otvori_izmenu"
                     id="dugmeIzmena"

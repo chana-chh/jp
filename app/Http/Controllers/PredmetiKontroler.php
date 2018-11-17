@@ -42,7 +42,6 @@ class PredmetiKontroler extends Kontroler {
     }
 
     public function postAjax(Request $request) {
-        // $predmeti = Predmet::with('vrstaPredmeta', 'referent', 'sud', 'vrstaUpisnika')->get();
 
         $query = "SELECT `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`,
                 `predmeti`.`opis` as opis_predmeta, `predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
@@ -103,109 +102,150 @@ class PredmetiKontroler extends Kontroler {
     }
 
     private function naprednaPretraga($params) {
-        $predmeti = null;
-        $where = [];
-        // arhiva
-        if ($params['arhiviran'] !== null) {
-            $where[] = [
-                'arhiviran',
-                '=',
-                $params['arhiviran']
-            ];
-        }
-        // sifarnici
-        if ($params['vrsta_upisnika_id']) {
-            $where[] = [
-                'vrsta_upisnika_id',
-                '=',
-                $params['vrsta_upisnika_id']];
-        }
-        if ($params['broj_predmeta']) {
-            $where[] = [
-                'broj_predmeta',
-                '=',
-                $params['broj_predmeta']];
-        }
 
-        if ($params['godina_predmeta']) {
-            $where[] = [
-                'godina_predmeta',
-                '=',
-                $params['godina_predmeta']];
+        $predmeti = null;
+
+        $s1_where = ' WHERE ';
+        $s2_where = ' WHERE ';
+        $predmet_where = ' WHERE ';
+
+        if ($params['stranka_1']) {
+            $s1_where .= "s_komintenti.naziv LIKE '%{$params['stranka_1']}%'";
         }
-        if ($params['sud_id']) {
-            $where[] = [
-                'sud_id',
-                '=',
-                $params['sud_id']];
+        if ($params['stranka_2']) {
+            $s2_where .= "s_komintenti.naziv LIKE '%{$params['stranka_2']}%'";
+        }
+        if ($params['arhiviran'] !== null) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.arhiviran = {$params['arhiviran']}";
+        }
+        if ($params['vrsta_upisnika_id']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.vrsta_upisnika_id = {$params['vrsta_upisnika_id']}";
         }
         if ($params['vrsta_predmeta_id']) {
-            $where[] = [
-                'vrsta_predmeta_id',
-                '=',
-                $params['vrsta_predmeta_id']];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.vrsta_predmeta_id = {$params['vrsta_predmeta_id']}";
+        }
+        if ($params['broj_predmeta']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.broj_predmeta = {$params['broj_predmeta']}";
+        }
+        if ($params['godina_predmeta']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.godina_predmeta = {$params['godina_predmeta']}";
+        }
+        if ($params['sud_id']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.sud_id = {$params['sud_id']}";
         }
         if ($params['referent_id']) {
-            $where[] = [
-                'referent_id',
-                '=',
-                $params['referent_id']];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.referent_id = {$params['referent_id']}";
         }
         if ($params['vrednost_tuzbe']) {
-            $where[] = [
-                'vrednost_tuzbe',
-                '=',
-                $params['vrednost_tuzbe']];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.vrednost_tuzbe = {$params['vrednost_tuzbe']}";
         }
-
         if ($params['opis_kp']) {
-            $where[] = [
-                'opis_kp',
-                'like',
-                '%' . $params['opis_kp'] . '%'];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.opis_kp LIKE '%{$params['opis_kp']}%'";
         }
         if ($params['opis_adresa']) {
-            $where[] = [
-                'opis_adresa',
-                'like',
-                '%' . $params['opis_adresa'] . '%'];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.opis_adresa LIKE '%{$params['opis_adresa']}%'";
         }
         if ($params['opis']) {
-            $where[] = [
-                'opis',
-                'like',
-                '%' . $params['opis'] . '%'];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.opis LIKE '%{$params['opis']}%'";
         }
         if ($params['napomena']) {
-            $where[] = [
-                'napomena',
-                'like',
-                '%' . $params['napomena'] . '%'];
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.napomena LIKE '%{$params['napomena']}%'";
         }
-        // datumi
-//        if (!$params['datum_1'] && !$params['datum_2']) {
-//            $predmeti = Predmet::where($where)->get();
-//        }
-//        if ($params['datum_1'] && !$params['datum_2']) {
-//            $where[] = [
-//                'datum_tuzbe',
-//                '=',
-//                $params['datum_1']];
-//            $predmeti = Predmet::where($where)->get();
-//        }
-//        if ($params['datum_1'] && $params['datum_2']) {
-//            $predmeti = Predmet::where($where)->whereBetween('datum_tuzbe', [
-//                        $params['datum_1'],
-//                        $params['datum_2']])->get();
-//        }
-        $predmeti = Predmet::where($where)
-                ->whereHas('tuzioci', function ($query) use ($params) {
-                    $query->where('naziv', 'like', '%' . $params['stranka_1'] . '%');
-                })
-                ->whereHas('tuzeni', function ($query) use ($params) {
-                    $query->where('naziv', 'like', '%' . $params['stranka_2'] . '%');
-                })
-                ->get();
+        if ($params['broj_predmeta_sud']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "brojevi_predmeta_sud.broj LIKE '%{$params['broj_predmeta_sud']}%'";
+        }
+        if ($params['stari_broj_predmeta']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "stari_brojevi_predmeta.broj LIKE '%{$params['stari_broj_predmeta']}%'";
+        }
+        if ($params['datum_1'] && !$params['datum_2']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.datum_tuzbe = '{$params['datum_1']}'";
+        }
+        if ($params['datum_1'] && $params['datum_2']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "(datum_tuzbe BETWEEN '{$params['datum_1']}' AND '{$params['datum_2']}')";
+        }
+
+        $s1_where = ($s1_where !== ' WHERE ') ? $s1_where : '';
+        $s2_where = ($s2_where !== ' WHERE ') ? $s2_where : '';
+        $predmet_where = ($predmet_where !== ' WHERE ') ? $predmet_where : '';
+
+        $query = "SELECT `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`,
+                `predmeti`.`opis`, `predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
+                `s_vrste_predmeta`.`naziv` AS vrsta_predmeta,
+                CONCAT(`s_vrste_upisnika`.`slovo`, '-', `predmeti`.`broj_predmeta`, '/',`predmeti`.`godina_predmeta`) AS ceo_broj_predmeta,
+                CONCAT(`s_referenti`.`ime`, ' ', `s_referenti`.`prezime`) AS referent,
+                `s_sudovi`.`naziv` AS sud_naziv,
+                GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj,
+                GROUP_CONCAT(DISTINCT stari_brojevi_predmeta.broj SEPARATOR ', ') AS staribroj,
+                GROUP_CONCAT(DISTINCT `stranka1`.`naziv` SEPARATOR ', ') AS `stranka_1`,
+                GROUP_CONCAT(DISTINCT `stranka2`.`naziv` SEPARATOR ', ') AS `stranka_2`
+                FROM  `predmeti`
+                LEFT JOIN `s_vrste_upisnika` ON `predmeti`.`vrsta_upisnika_id` = `s_vrste_upisnika`.`id`
+                LEFT JOIN `s_vrste_predmeta` ON `predmeti`.`vrsta_predmeta_id` = `s_vrste_predmeta`.`id`
+                LEFT JOIN `s_sudovi` ON `predmeti`.`sud_id` = `s_sudovi`.`id`
+                LEFT JOIN `s_referenti` ON `predmeti`.`referent_id` = `s_referenti`.`id`
+                LEFT JOIN `brojevi_predmeta_sud` ON `predmeti`.`id` = `brojevi_predmeta_sud`.`predmet_id`
+                LEFT JOIN `stari_brojevi_predmeta` ON `predmeti`.`id` = `stari_brojevi_predmeta`.`predmet_id`
+                LEFT JOIN (
+                    SELECT tuzioci.predmet_id, s_komintenti.naziv
+                    FROM tuzioci
+                    JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id{$s1_where}
+                ) AS stranka1 ON stranka1.predmet_id = predmeti.id
+                LEFT JOIN (
+                    SELECT tuzeni.predmet_id, s_komintenti.naziv
+                    FROM tuzeni
+                    JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id{$s2_where}
+                ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$predmet_where} GROUP BY `predmeti`.`id`;";
+
+        $predmeti = \Illuminate\Support\Facades\DB::select($query);
+
         return $predmeti;
     }
 

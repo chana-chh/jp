@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Session;
-use Redirect;
-use Gate;
 Use DB;
 use Carbon\Carbon;
 use App\Modeli\Tok;
 use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
-use App\Modeli\Predmet;
 
 class TokoviNovcaKontroler extends Kontroler {
 
@@ -126,7 +122,6 @@ class TokoviNovcaKontroler extends Kontroler {
                     JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id{$s2_where}
                 ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$predmet_where};";
 
-        dump($query);
         $tokovi = \Illuminate\Support\Facades\DB::select($query);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
