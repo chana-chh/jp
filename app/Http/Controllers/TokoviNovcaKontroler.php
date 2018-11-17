@@ -34,25 +34,34 @@ class TokoviNovcaKontroler extends Kontroler {
 
     public function getPretraga(Request $req) {
 
-        $kobaja = [];
-
         $tokovi_having = ' HAVING ';
         $s1_where = ' WHERE ';
         $s2_where = ' WHERE ';
         $predmet_where = ' WHERE ';
 
-        if ($req['datum_1'] && !$req['datum_2']) {
-            $kobaja[] = ['tokovi_predmeta.datum', '=', $req['datum_1']];
-        }
-        if ($req['datum_1'] && $req['datum_2']) {
-            $kobaja[] = ['tokovi_predmeta.datum', '>=', $req['datum_1']];
-            $kobaja[] = ['tokovi_predmeta.datum', '<=', $req['datum_2']];
-        }
         if ($req['vrsta_predemta_id']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
             $predmet_where .= "predmeti.vrsta_predmeta_id = {$req['vrsta_predemta_id']}";
         }
         if ($req['vrsta_upisnika_id']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
             $predmet_where .= "predmeti.vrsta_upisnika_id = {$req['vrsta_upisnika_id']}";
+        }
+        if ($req['datum_1'] && !$req['datum_2']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "predmeti.datum_tuzbe = '{$req['datum_1']}'";
+        }
+        if ($req['datum_1'] && $req['datum_2']) {
+            if ($predmet_where !== ' WHERE ') {
+                $predmet_where .= ' AND ';
+            }
+            $predmet_where .= "(datum_tuzbe BETWEEN '{$req['datum_1']}' AND '{$req['datum_2']}')";
         }
         if ($req['stranka_1']) {
             $s1_where .= "s_komintenti.naziv LIKE '%{$req['stranka_1']}%'";
@@ -61,21 +70,37 @@ class TokoviNovcaKontroler extends Kontroler {
             $s2_where .= "s_komintenti.naziv LIKE '%{$req['stranka_2']}%'";
         }
         if ($req['vrednost_vsp']) {
+            if ($tokovi_having !== ' HAVING ') {
+                $tokovi_having .= ' AND ';
+            }
             $tokovi_having .= "vsp {$req->operator_vsp} {$req['vrednost_vsp']}";
         }
         if ($req['vrednost_vsd']) {
+            if ($tokovi_having !== ' HAVING ') {
+                $tokovi_having .= ' AND ';
+            }
             $tokovi_having .= "vsd {$req->operator_vsd} {$req['vrednost_vsd']}";
         }
         if ($req['vrednost_itp']) {
+            if ($tokovi_having !== ' HAVING ') {
+                $tokovi_having .= ' AND ';
+            }
             $tokovi_having .= "itp {$req->operator_itp} {$req['vrednost_itp']}";
         }
         if ($req['vrednost_itd']) {
+            if ($tokovi_having !== ' HAVING ') {
+                $tokovi_having .= ' AND ';
+            }
             $tokovi_having .= "itd {$req->operator_itd} {$req['vrednost_itd']}";
         }
 
         $tokovi_having = ($tokovi_having !== ' HAVING ') ? $tokovi_having : '';
+        $s1_where = ($s1_where !== ' WHERE ') ? $s1_where : '';
+        $s2_where = ($s2_where !== ' WHERE ') ? $s2_where : '';
+        $predmet_where = ($predmet_where !== ' WHERE ') ? $predmet_where : '';
 
         $query = "SELECT predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
+                predmeti.datum_tuzbe,
                 s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
                 tokovi.vsd, tokovi.vsp, tokovi.itd, tokovi.itp
                 FROM predmeti
@@ -99,9 +124,9 @@ class TokoviNovcaKontroler extends Kontroler {
                     SELECT tuzeni.predmet_id, s_komintenti.naziv
                     FROM tuzeni
                     JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id{$s2_where}
-                ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$predmet_where}";
+                ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$predmet_where};";
 
-        dd($query);
+        dump($query);
         $tokovi = \Illuminate\Support\Facades\DB::select($query);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
