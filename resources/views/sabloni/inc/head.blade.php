@@ -4,7 +4,7 @@
 
 <meta name="csrf-token" content="{!! csrf_token() !!}">
 
-<title>Јавно правобранилаштво | @yield('naziv')</title>
+<title>Градско правобранилаштво | @yield('naziv')</title>
 
 
 <link href="{{ url('/favicon.ico') }}" rel="icon">

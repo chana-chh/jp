@@ -19,6 +19,7 @@ class PocetnaKontroler extends Kontroler
         $ponedeljak->startOfWeek();
         $petak->startOfWeek()->addDay(4);
         $rocista = Rociste::whereBetween('datum', [$ponedeljak, $petak])->where('tip_id', 2)->count();
+        $rokovi = Rociste::whereBetween('datum', [$ponedeljak, $petak])->where('tip_id', 1)->count();
 
         $tokovi = Tok::all();
         // Ukupno
@@ -31,7 +32,7 @@ class PocetnaKontroler extends Kontroler
         $iznos_troskova = $iznos_troskova_potrazuje_suma - $iznos_troskova_duguje_suma;
 
 
-        return view('pocetna')->with(compact('broj_predmeta', 'rocista', 'vrednost_spora', 'iznos_troskova'));
+        return view('pocetna')->with(compact('broj_predmeta', 'rocista', 'vrednost_spora', 'iznos_troskova', 'rokovi'));
     }
 
     public function getIzbor()

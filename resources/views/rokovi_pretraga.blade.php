@@ -1,6 +1,6 @@
 @extends('sabloni.app')
 
-@section('naziv', 'Рочишта')
+@section('naziv', 'Рокови')
 
 @section('meni')
 @include('sabloni.inc.meni')
@@ -11,17 +11,17 @@
     <div class="col-md-8">
         <h1>
             <img class="slicica_animirana" alt="рочиште" src="{{url('/images/rokovi.png')}}" style="height:64px">
-            &emsp;Табеларни преглед рочишта <small class="text-danger"><em>(филтрирани)</em></small>
+            &emsp;Табеларни преглед рокова <small class="text-danger"><em>(филтрирани)</em></small>
         </h1>
     </div>
 
     <div class="col-md-2 text-right" style="padding-top: 50px;">
-        <a class="btn btn-primary btn-block ono" href="{{ route('rocista') }}">
+        <a class="btn btn-primary btn-block ono" href="{{ route('rokovi') }}">
             <i class="fa fa-minus-circle fa-fw"></i> Уклони филтер
         </a>
     </div>
     <div class="col-md-2 text-right" style="padding-top: 50px;">
-        <a class="btn btn-success btn-block ono" href="{{ route('rocista.kalendar') }}" ><i class="fa fa-arrow-circle-left"></i> Назад на календарски приказ</a>
+        <a class="btn btn-success btn-block ono" href="{{ route('rokovi.kalendar') }}" ><i class="fa fa-arrow-circle-left"></i> Назад на календарски приказ</a>
     </div>
 </div>
 <hr style="border-top: 1px solid #18BC9C">
@@ -34,9 +34,8 @@
         <tr>
             <th style="width: 12%; text-align:right; padding-right: 25px">Број предмета</th>
             <th style="width: 16%; text-align:right; padding-right: 25px">Датум</th>
-            <th style="width: 11%; text-align:right; padding-right: 25px">Време</th>
-            <th style="width: 25%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 13%; text-align:right; padding-right: 25px">Референт</th>
+            <th style="width: 30%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 16%; text-align:right; padding-right: 25px">Референт</th>
             <th style="width: 23%; text-align:right; padding-right: 25px">Белешке</th>
         </tr>
     </thead>
@@ -49,7 +48,6 @@
                     </a>
                 </strong></td>
             <td style="text-align:right"><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
-            <td style="text-align:right">{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
             <td style="text-align:right"><em>{{$rociste->opis}}</em></td>
             <td style="text-align:right">{{$rociste->prezime_referenta}} {{$rociste->ime_referenta}}</td>
             <td >
@@ -99,8 +97,7 @@ $(document).ready(function () {
                         1,
                         2,
                         3,
-                        4,
-                        5
+                        4
                     ]
                 }
             }

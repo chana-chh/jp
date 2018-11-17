@@ -60,7 +60,6 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>
                 </tr>
             </tfoot>
         </table>
@@ -95,16 +94,16 @@ $(document).ready(function () {
             };
 
 
-            suma_vsp = api.column(4).data().reduce(function (a, b) {
+            suma_vsp = api.column(3).data().reduce(function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
-            suma_vsd = api.column(5).data().reduce(function (a, b) {
+            suma_vsd = api.column(4).data().reduce(function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
-            suma_itp = api.column(6).data().reduce(function (a, b) {
+            suma_itp = api.column(5).data().reduce(function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
-            suma_itd = api.column(7).data().reduce(function (a, b) {
+            suma_itd = api.column(6).data().reduce(function (a, b) {
                 return intVal(a) + intVal(b);
             }, 0);
 
@@ -113,10 +112,10 @@ $(document).ready(function () {
             var suma_prikaz_itp = (suma_itp == 0) ? "0.00" : (suma_itp / 100).format(2, 3, ',', '.');
             var suma_prikaz_itd = (suma_itd == 0) ? "0.00" : (suma_itd / 100).format(2, 3, ',', '.');
 
-            $(api.column(4).footer()).html('Сума: ' + suma_prikaz_vsp);
-            $(api.column(5).footer()).html('Сума: ' + suma_prikaz_vsd);
-            $(api.column(6).footer()).html('Сума: ' + suma_prikaz_itp);
-            $(api.column(7).footer()).html('Сума: ' + suma_prikaz_itd);
+            $(api.column(3).footer()).html('Сума: ' + suma_prikaz_vsp);
+            $(api.column(4).footer()).html('Сума: ' + suma_prikaz_vsd);
+            $(api.column(5).footer()).html('Сума: ' + suma_prikaz_itp);
+            $(api.column(6).footer()).html('Сума: ' + suma_prikaz_itd);
         },
         dom: 'Bflrtip',
         buttons: [
@@ -129,7 +128,7 @@ $(document).ready(function () {
                 orientation: 'landscape',
                 pageSize: 'A4',
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5, 6, 7]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             }
 

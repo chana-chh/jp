@@ -81,9 +81,8 @@
 <table class="table table-striped tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th style="width: 15%; text-align:right; padding-right: 25px">Број предмета</th>
-            <th style="width: 15%; text-align:right; padding-right: 25px">Датум</th>
-            <th style="width: 10%; text-align:right; padding-right: 25px">Време</th>
+            <th style="width: 20%; text-align:right; padding-right: 25px">Број предмета</th>
+            <th style="width: 20%; text-align:right; padding-right: 25px">Датум</th>
             <th style="width: 33%; text-align:right; padding-right: 25px">Опис</th>
             <th style="width: 17%; text-align:right; padding-right: 25px">Референт</th>
             <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
@@ -307,7 +306,7 @@ $(document).ready(function () {
     $('#tabelaRocista').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('rocista.ajax') !!}',
+        ajax: '{!! route('rokovi.ajax') !!}',
         columns: [
         {data: null,
         className:'align-middle text-center',
@@ -318,14 +317,15 @@ $(document).ready(function () {
             return '<strong><a href="'+rutap_id+'">'+data.slovo+'-'+data.broj+'/'+data.godina+'</a></strong>';
         },
         name: 'broj'},
-        {data: 'datum', 
+        {data: 'datum',
+        className:'align-middle text-center',
         render: function(data, type, row){
             return moment(data).format('DD.MM.YYYY');
         },
         name: 'datum'},
-        {data: 'vreme', name: 'vreme'},
         {data: 'opis', name: 'opis'},
-        {data: null, 
+        {data: null,
+        className:'align-middle text-right',
         render: function(data, type, row){
             return data.ime_referenta+' '+data.prezime_referenta;
         },
