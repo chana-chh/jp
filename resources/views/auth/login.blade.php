@@ -3,7 +3,7 @@
 @section('naziv', 'Пријава')
 
 @section('naslov')
-<h1 class="page-header text-center">Јавно правобранилаштво Крагујевац</h1>
+<h1 class="page-header text-center">Градско правобранилаштво Крагујевац</h1>
 <div class="container">
 
     <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">

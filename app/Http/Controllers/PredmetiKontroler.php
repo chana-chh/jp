@@ -87,18 +87,16 @@ class PredmetiKontroler extends Kontroler {
     }
 
     public function getListaFilter(Request $req) {
-        $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
-        $sudovi = Sud::all();
-        $vrste = VrstaPredmeta::all();
-        $referenti = Referent::all();
         $parametri = $req->session()->get('parametri_za_filter_predmeta', null);
         $predmeti = $this->naprednaPretraga($parametri);
-        return view('predmeti_filter')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
+        return DataTables::of($predmeti)->make(true);
+        // return view('predmeti_filter')->with(compact('predmeti'));
     }
 
     public function postListaFilter(Request $req) {
         $req->session()->put('parametri_za_filter_predmeta', $req->all());
-        return redirect()->route('predmeti.filter');
+        return view('predmeti_filter');
+        // return redirect()->route('predmeti.filter');
     }
 
     private function naprednaPretraga($params) {
@@ -242,8 +240,7 @@ class PredmetiKontroler extends Kontroler {
                     GROUP BY id;";
 
         $predmeti = \Illuminate\Support\Facades\DB::select($query);
-        dump($query);
-        dd($predmeti);
+
         return $predmeti;
     }
 
