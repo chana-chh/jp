@@ -78,9 +78,7 @@
     </form>
 </div>
 
-{{-- @if($rocista->isEmpty())
-<h3 class="text-danger">Нема записа у бази података</h3>
-@else --}}
+
 <table class="table table-striped tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed;">
     <thead>
         <tr>
@@ -92,36 +90,8 @@
             <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
-    {{-- <tbody id="rocista_lista" name="rocista_lista">
-        @foreach ($rocista as $rociste)
-        <tr>
-            <td style="text-align:right"><strong>
-                    <a href="{{ route('predmeti.pregled', $rociste->id_predmeta) }}">
-                        {{ $rociste->broj }}
-                    </a>
-                </strong></td>
-            <td style="text-align:right">{{$rociste->tip}}</td>
-            <td style="text-align:right"><strong style="color: #18BC9C;">{{ Carbon\Carbon::parse($rociste->datum)->format('d.m.Y') }}</strong></td>
-            <td style="text-align:right">{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
-            <td style="text-align:right"><em>{{$rociste->opis}}</em></td>
-            <td style="text-align:right">{{$rociste->ime_referenta}}</td>
-            <td class="text-center">
-                <button
-                    class="btn btn-success btn-sm" id="dugmeRocisteIzmena"
-                    data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$rociste->id}}">
-                    <i class="fa fa-pencil"></i>
-                </button>
-                <button
-                    class="btn btn-danger btn-sm" id="dugmeRocisteBrisanje"
-                    value="{{$rociste->id}}">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-        @endforeach
-    </tbody> --}}
 </table>
-{{-- @endif --}}
+
 
 {{--  pocetak modal_rocista_izmena  --}}
 <div class="modal fade" id="izmeniRocisteModal">

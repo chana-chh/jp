@@ -6,12 +6,20 @@
     @include('sabloni.inc.meni')
 @endsection
 @section('naslov')
-    <h1 class="page-header">
+<div class="row">
+    <div class="col-md-10">
+    <h1>
         <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
         Ток новца груписани по предмету
     </h1>
+        </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a href="{{ route('tok') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
+         </div>
+     </div>
+         <hr>
     <div class="row" style="margin-top: 50px">
-<div class="col-md-10 col-md-offset-1">
+<div class="col-md-12">
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
                       <th>Број предмета</th>
@@ -22,29 +30,7 @@
                       <th>Вредност тужбе</th>
                       <th style="text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
-{{--                 <tbody id="tokovi_predmeti_lista" name="tokovi_predmeti_lista">
-                @foreach ($predmeti as $predmet)
-                        <tr>
-                                <td>{{$predmet->slovo}}-{{$predmet->broj}}/{{$predmet->godina}}</td>
-                                <td><strong>{{number_format($predmet->vsp, 2)}}</strong></td>
-                                <td><strong>{{number_format($predmet->vsd, 2)}}</strong></td>
-                                <td><strong>{{number_format($predmet->itp, 2)}}</strong></td>
-                                <td><strong>{{number_format($predmet->itd, 2)}}</strong></td>
-                                <td>{{number_format(($predmet->vrednost_tuzbe), 2)}}</td>
-
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu"  href="{{ route('predmeti.pregled', $predmet->id) }}"><i class="fa fa-eye"></i></a>
-                            </td>
-                        </tr>
-                @endforeach
-                </tbody> --}}
             </table>
-
-        <div class="row">
-    <div class="col-md-12" style="margin-top: 20px">
-    <a href="{{ route('tok') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
-    </div>
-    </div>
         </div>
         </div>
 @endsection

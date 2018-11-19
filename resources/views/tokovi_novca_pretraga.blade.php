@@ -6,16 +6,19 @@
 @include('sabloni.inc.meni')
 @endsection
 @section('naslov')
-<h1 class="page-header">
+<div class="row">
+    <div class="col-md-10">
+<h1>
     <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
     Резултат претраге
 </h1>
-<div class="row">
-    <div class="col-md-12" style="margin-top: 20px">
-        <a href="{{ route('tok') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
+</div>
+    <div class="col-md-2 text-right" style="margin-top: 50px">
+        <a href="{{ route('tok') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
     </div>
 </div>
-<div class="row" style="margin-top: 50px">
+<hr>
+<div class="row" style="margin-top: 20px">
     <div class="col-md-12">
         @if(count($tokovi) === 0)
         <h3 class="text-danger">За овакав упит нема резултата претраге</h3>
@@ -152,22 +155,6 @@ $(document).ready(function () {
 
         }
     });
-//     var column = tabela.column( 5 );
-
-//     var intVal = function ( i ) {
-
-//                 return typeof i === 'string' ?
-//                     i.replace(/[\.,]/g, '')*1 :
-//                     typeof i === 'number' ?
-//                         i : 0;
-
-//             };
-
-// $( column.footer() ).html(
-//     column.data().reduce( function (a,b) {
-//         return intVal(a)+intVal(b);
-//     } )
-// );
 });
 </script>
 @endsection

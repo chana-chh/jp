@@ -33,6 +33,7 @@ class RokoviKontroler extends Kontroler
         ->select(DB::raw('  rocista.datum as datum,
                             rocista.vreme as vreme,
                             rocista.opis as opis,
+                            rocista.id as rid,
                             s_tipovi_rocista.naziv as tip, 
                             s_referenti.ime as ime_referenta,
                             s_referenti.prezime as prezime_referenta,
@@ -120,51 +121,6 @@ class RokoviKontroler extends Kontroler
         $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $tipovi_rocista = TipRocista::all();
         return view('rokovi_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
-    }
-
-    public function getDetalj(Request $req)
-    {
-        if ($req->ajax()) {
-            $id = $req->id;
-            $rociste = Rociste::find($id);
-            $tipovi_rocista = TipRocista::all();
-            return response()->json(['rociste' => $rociste, 'tipovi_rocista' => $tipovi_rocista]);
-        }
-    }
-
-    public function postIzmena(Request $req)
-    {
-        $this->validate($req, [
-            'rok_izmena_datum' => 'required|date',
-            'rok_izmena_vreme' => 'required',
-            'rok_izmena_tip_id' => 'required|integer',
-        ]);
-
-        $id = $req->rok_izmena_id;
-
-        $rociste = Rociste::find($id);
-        $rociste->datum = $req->rok_izmena_datum;
-        $rociste->vreme = $req->rok_izmena_vreme;
-        $rociste->opis = $req->rok_izmena_opis;
-        $rociste->tip_id = $req->rok_izmena_tip_id;
-        $rociste->save();
-
-        Session::flash('uspeh', 'Рок/рочиште је успешно измењено!');
-        return Redirect::back();
-    }
-
-    public function postBrisanje(Request $req)
-    {
-        $id = $req->id;
-
-        $rociste = Rociste::find($id);
-        $odgovor = $rociste->delete();
-
-        if ($odgovor) {
-            Session::flash('uspeh', 'Рок/рочиште је успешно обрисано!');
-        } else {
-            Session::flash('greska', 'Дошло је до грешке приликом брисања рока/рочишта. Покушајте поново, касније!');
-        }
     }
 
     public function getKalendar()

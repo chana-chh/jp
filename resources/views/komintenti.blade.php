@@ -200,7 +200,7 @@
 
         $('#dugmeSkok').on( 'click', function () {
             var broj = parseInt($("#skok").val());
-            tabela.page(broj).draw( 'page' );
+            tabela.page(broj-1).draw( 'page' );
         } );
 
         $(document).on('click', '.otvori_modal', function () {

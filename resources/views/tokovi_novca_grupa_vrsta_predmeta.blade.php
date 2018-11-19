@@ -6,22 +6,29 @@
     @include('sabloni.inc.meni')
 @endsection
 @section('naslov')
-    <h1 class="page-header">
+<div class="row">
+    <div class="col-md-10">
+    <h1>
         <span><img alt="рочиште" src="{{url('/images/novac.png')}}" style="height:64px"></span>&emsp;
         Ток новца груписани по врсти предмета
     </h1>
-    <div class="row" style="margin-top: 50px">
-<div class="col-md-10 col-md-offset-1">
+        </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a href="{{ route('tok') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
+    </div>
+</div>
+    <div class="row" style="margin-top: 20px">
+<div class="col-md-12">
 @if($vrste->isEmpty())
             <h3 class="text-danger">Тренутно нема предмета у бази података</h3>
         @else
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
-                    <th>Врста предмета</th>
-                    <th>Вредност спора потражује</th>
-                    <th>Вредност спора дугује</th>
-                    <th>Износ трошкова потражује</th>
-                    <th>Износ трошкова дугује</th>
+                    <th style="width: 28%">Врста предмета</th>
+                    <th style="width: 17%">Вредност спора потражује</th>
+                    <th style="width: 17%">Вредност спора дугује</th>
+                    <th style="width: 17%">Износ трошкова потражује</th>
+                    <th style="width: 17%">Износ трошкова дугује</th>
                 </thead>
                 <tbody id="tokovi_predmeti_lista" name="tokovi_predmeti_lista">
                     @foreach ($vrste as $vrsta)
@@ -37,9 +44,6 @@
             </table>
         @endif
         <div class="row">
-    <div class="col-md-12" style="margin-top: 20px">
-    <a href="{{ route('tok') }}" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-left"></i> Назад на ток предмета</a>
-    </div>
     </div>
         </div>
         </div>
