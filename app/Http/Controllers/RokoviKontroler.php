@@ -41,6 +41,7 @@ class RokoviKontroler extends Kontroler
                             predmeti.godina_predmeta as godina,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
+        ->where('tip_id', 1)
         ->get())->toJson();
     }
 
@@ -80,25 +81,36 @@ class RokoviKontroler extends Kontroler
         ->where($kobaja)
         ->get();
 
-    return view('rocista_pretraga')->with(compact('rocista'));
+    return view('rokovi_pretraga')->with(compact('rocista'));
     }
 
     public function postDodavanje(Request $req)
     {
         $this->validate($req, [
             'rok_dodavanje_datum' => 'required|date',
-            'rok_dodavanje_tip_id' => 'required|integer',
         ]);
+
+        $ses = false;
 
         $rociste = new Rociste();
         $rociste->datum = $req->rok_dodavanje_datum;
         $rociste->vreme = $req->rok_dodavanje_vreme;
-        $rociste->tip_id = $req->rok_dodavanje_tip_id;
+        if ($req->rok_dodavanje_tip_id) {
+
+            $rociste->tip_id = $req->rok_dodavanje_tip_id;
+            $ses = true;
+        } else {
+            $rociste->tip_id = 1;
+        }
         $rociste->opis = $req->rok_dodavanje_opis;
         $rociste->predmet_id = $req->predmet_id;
         $rociste->save();
 
-        Session::flash('uspeh', 'Рок/рочиште је успешно додато!');
+        if ($ses) {
+            Session::flash('uspeh', 'Рок/рочиште је успешно додато!');
+        } else {
+            Session::flash('uspeh', 'Рок је успешно додат!');
+        }
         return redirect()->route('predmeti.pregled', $req->predmet_id);
     }
 
@@ -107,7 +119,7 @@ class RokoviKontroler extends Kontroler
 
         $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $tipovi_rocista = TipRocista::all();
-        return view('rocista_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
+        return view('rokovi_dodavanje')->with(compact('predmeti', 'tipovi_rocista'));
     }
 
     public function getDetalj(Request $req)

@@ -38,21 +38,27 @@
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
-                        <a href="{{ route('rocista.kalendar') }}" style="text-decoration: none; color: #2c3e50">Календар рочишта</a>
+                        <a href="{{ route('izbor') }}" style="text-decoration: none; color: #2c3e50">Календар</a>
                     </h2>
                 </div>
                 <div class="panel-body">
-                    <a href="{{ route('rocista.kalendar') }}">
+                    <a href="{{ route('izbor') }}">
                         <img class="grow center-block" alt="kalendar" src="{{url('/images/kalendar.png')}}" style="height:128px;">
                     </a>
                 </div>
                 <div class="panel-footer text-center">
-                    <h3>
+                    <h4>
                         Рочишта ове недеље:
                         <a href="{{ route('rocista.kalendar') }}"  style="text-decoration: none;">
                             <strong>{{ $rocista }}</strong>
                         </a>
-                    </h3>
+                    </h4>
+                    <h4>
+                        Рокови ове недеље:
+                        <a href="{{ route('rokovi.kalendar') }}"  style="text-decoration: none;">
+                            <strong>{{ $rokovi }}</strong>
+                        </a>
+                    </h4>
                 </div>
             </div>
         </div>

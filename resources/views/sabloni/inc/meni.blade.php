@@ -8,13 +8,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ route('pocetna') }}">
-                <span><img alt="Правобранилаштво" src="{{url('/images/cekic.png')}}" style="height:32px;  width:32px"></span> Јавно правобранилаштво Крагујевац</a>
+                <span><img alt="Правобранилаштво" src="{{url('/images/cekic.png')}}" style="height:32px;  width:32px"></span> Градско правобранилаштво Крагујевац</a>
         </div>
 
         <div class="collapse navbar-collapse" id="kolaps">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ route('predmeti') }}"> <i class="fa fa-archive fa-fw" style="color: #18BC9C"></i> Предмети</a></li>
-                <li><a href="{{ route('rocista.kalendar') }}"> <i class="fa fa-calendar-o fa-fw" style="color: #18BC9C"></i> Календар рочишта/рокова</a></li>
+                <li><a href="{{ route('izbor') }}"> <i class="fa fa-calendar-o fa-fw" style="color: #18BC9C"></i> Календар</a></li>
                 <li><a href="{{ route('tok') }}"> <i class="fa fa-money fa-fw" style="color: #18BC9C"></i> Ток новца</a></li>
                 <li><a href="{{ route('izvestaji') }}"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li>
                 <li><a href="{{ route('o_programu') }}"> <i class="fa fa-info-circle fa-fw" style="color: #18BC9C"></i> О програму</a></li>

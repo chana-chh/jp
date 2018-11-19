@@ -208,11 +208,12 @@
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
+            <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Статус</th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
             <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
-            <th style="width: 17%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 12%; text-align:right; padding-right: 25px">Опис</th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац</th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужени</th>
             <th style="width: 8%; text-align:right; padding-right: 25px">Датум</th>
@@ -266,6 +267,7 @@ $(document).ready(function () {
     });
 
     $('#tabelaPredmeti').DataTable({
+        order: [[ 0, 'desc' ]],
         processing: true,
         serverSide: true,
         ajax: {
@@ -273,6 +275,14 @@ $(document).ready(function () {
             type: "POST"
         },
         columns: [
+            {
+                data: null,
+                render: function (data, type, row) {
+
+                        return '<small>' + data.id + '</small>'
+                },
+                name: 'id'
+            },
             {
                 defaultContent: '',
                 data: null,
@@ -357,11 +367,6 @@ $(document).ready(function () {
                 data: 'puno_ime',
                 name: 'puno_ime'
             },
-            // {data: null,
-            // render: function(data, type, row){
-            //     return data.ime+' '+data.prezime;
-            // },
-            // name: 'ime'},
             {
                 data: null,
                 className: 'align-middle text-center',
@@ -412,7 +417,6 @@ $(document).ready(function () {
             }
 
         ],
-
         language: {
             search: "Пронађи у табели",
             paginate: {

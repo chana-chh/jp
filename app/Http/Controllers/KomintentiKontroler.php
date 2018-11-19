@@ -9,6 +9,7 @@ use App\Modeli\Komintent;
 use App\Modeli\Predmet;
 use App\Modeli\PredmetTuzeni;
 use App\Modeli\PredmetTuzilac;
+use Yajra\DataTables\DataTables;
 
 class KomintentiKontroler extends Kontroler {
 
@@ -18,9 +19,13 @@ class KomintentiKontroler extends Kontroler {
     }
 
     public function getLista() {
-
         $komintenti = Komintent::all();
-        return view('komintenti')->with(compact('komintenti'));
+        return view('komintenti');
+    }
+
+    public function postAjax(Request $req) {
+        $komintenti = Komintent::all();
+        return Datatables::of($komintenti)->make(true);
     }
 
     public function getPregled($id) {

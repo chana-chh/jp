@@ -15,11 +15,7 @@
             &emsp;Предмети <small class="text-danger"><em>(филтрирани)</em></small>
         </h1>
     </div>
-    <!--    <div class="col-md-2 text-right" style="padding-top: 50px;">
-            <button id="pretragaDugme" class="btn btn-success btn-block ono">
-                <i class="fa fa-search fa-fw"></i> Напредна претрага
-            </button>
-        </div>-->
+
     <div class="col-md-2 text-right" style="padding-top: 50px;">
         <a class="btn btn-primary btn-block ono" href="{{ route('predmeti') }}">
             <i class="fa fa-minus-circle fa-fw"></i> Уклони филтер
@@ -27,17 +23,16 @@
     </div>
 </div>
 <hr>
-@if($predmeti->isEmpty())
-<h3 class="text-danger">Нема предмета за тражени филтер</h3>
-@else
+
 <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
+            <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
             <th style="width: 4%; text-align:right; padding-right: 25px">а/а</th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
             <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
-            <th style="width: 18%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 13%; text-align:right; padding-right: 25px">Опис</th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац</th>
             <th style="width: 14%; text-align:right; padding-right: 25px">Тужени</th>
             <th style="width: 9%; text-align:right; padding-right: 25px">Датум</th>
@@ -45,66 +40,8 @@
             <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
-    <tbody id="predmeti_lista" name="predmeti_lista">
-        @foreach ($predmeti as $predmet)
-        <tr>
-            <td class="text-center text-danger">
-                <strong>{{ $predmet->arhiviran == 0 ? '' : 'а/а' }}</strong>
-            </td>
-            <td class="text-center">
-                <strong>
-                    <a href="{{ route('predmeti.pregled', $predmet->id) }}">
-                        {{ $predmet->broj() }}
-                    </a>
-                </strong>
-            </td>
-            <td>
-                <ul style="list-style-type: none; padding-left:1px; text-align:right">
-                    <li>{{$predmet->sud->naziv}}</li>
-                    <li><span class="text-success">бр.: </span>{{$predmet->broj_predmeta_sud}}</li>
-                </ul>
-
-            </td>
-            <td style="line-height: normal; text-align:right">{{$predmet->vrstaPredmeta->naziv}}</td>
-            <td style="line-height: normal; text-align:right">
-                <ul style="list-style-type: none; padding-left:1px; text-align:right">
-                    <li>{{$predmet->opis}}</li>
-                    @if($predmet->opis_kp)
-                    <li><span class="text-success">{{ $predmet->opis_kp }}</span></li>
-                    @endif
-                    @if($predmet->opis_adresa)
-                    <li><span class="text-success">{{ $predmet->opis_adresa }}</span></li>
-                    @endif
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td style="line-height: normal; text-align:right">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe))}}</td>
-            <td style="line-height: normal; text-align:right">{{$predmet->referent->ime}} {{$predmet->referent->prezime}}</td>
-            <td class="text-right">
-                <a  class="btn btn-success btn-sm otvori_izmenu"
-                    id="dugmeIzmena"
-                    href="{{ route('predmeti.pregled', $predmet->id) }}">
-                    <i class="fa fa-eye"></i>
-                </a>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
 </table>
-@endif
+
 @endsection
 
 @section('skripte')
@@ -121,6 +58,111 @@ $(document).ready(function () {
     });
 
     $('#tabelaPredmeti').DataTable({
+        order: [[ 0, 'desc' ]],
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('predmeti.filter') !!}',
+        columns: [            
+        {
+                data: null,
+                render: function (data, type, row) {
+
+                        return '<small>' + data.id + '</small>'
+                },
+                name: 'id'
+            },
+            {
+                defaultContent: '',
+                data: null,
+                render: function (data, type, row) {
+                        if (data.arhiviran == 0) {
+                            return '<span class="status text-primary" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">Активан</span>';
+                        } else {
+                            return '<span class="status text-danger" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">А/А</span>';
+                        }
+
+                },
+                name: 'arhiviran'
+            },
+            {
+                data: null,
+                className: 'align-middle text-center',
+                render: function (data, type, row) {
+                    var rutap = "{{ route('predmeti.pregled', 'predmet_id') }}";
+                    var rutap_id = rutap.replace('predmet_id', data.id);
+
+                    return '<strong><a href="' + rutap_id + '">' + data.ceo_broj_predmeta + '</a></strong>';
+                },
+                name: 'ceo_broj_predmeta'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.sudbroj) {
+                        return data.sud_naziv + ' са бројем: ' + data.sudbroj;
+                    } else {
+                        return data.sud_naziv
+                    }
+
+                },
+                name: 'sud'
+            },
+            {
+                data: 'vrsta_predmeta',
+                name: 'vrsta_predmeta'
+            },
+            {
+                data: 'opis',
+                name: 'opis'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.s1) {
+                        return '<small><em>' + data.s1 + '</em></small>'
+                    } else {
+                        return " "
+                    }
+
+                },
+                name: 's1'
+            },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    if (data.s2) {
+                        return '<small><em>' + data.s2 + '</em></small>'
+                    } else {
+                        return " "
+                    }
+
+                },
+                name: 's2'
+            },
+            {
+                data: 'datum_tuzbe',
+                render: function (data, type, row) {
+                    return moment(data).format('DD.MM.YYYY');
+                },
+                name: 'datum_tuzbe'
+            },
+            {
+                data: 'referent',
+                name: 'referent'
+            },
+            {
+                data: null,
+                className: 'align-middle text-center',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    var ruta = "{{ route('predmeti.pregled', 'data_id') }}";
+                    var ruta_id = ruta.replace('data_id', data.id);
+                    return '<a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena" href="' + ruta_id + '"><i class="fa fa-eye"></i></a>';
+                },
+                name: 'akcije'
+            }
+        ],
         dom: 'Bflrtip',
         buttons: [
             'copyHtml5',
@@ -132,13 +174,13 @@ $(document).ready(function () {
                 pageSize: 'A4',
                 exportOptions: {
                     columns: [
-                        1,
                         2,
                         3,
                         4,
                         5,
                         6,
-                        7
+                        7,
+                        8
                     ]
                 }
             }
