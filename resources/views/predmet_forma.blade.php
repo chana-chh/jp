@@ -271,8 +271,8 @@
         <select name="roditelj_id" id="roditelj_id" class="chosen-select form-control" data-placeholder="Предмет родитељ">
             <option value=""></option>
             @foreach($predmeti as $predmet)
-            <option value="{{ $predmet->id }}"{{ old('roditelj_id') == $predmet->id ? ' selected' : '' }}>
-                    {{ $predmet->broj() }}
+            <option value="{{ $predmet->idp }}"{{ old('roditelj_id') == $predmet->idp ? ' selected' : '' }}>
+                    {{ $predmet->ceo_broj_predmeta }}
         </option>
         @endforeach
     </select>
@@ -335,9 +335,9 @@
             <thead>
                 <tr>
                     <th style="width: 15%">Број </th>
-                    <th style="width: 25%">Тужилац </th>
-                    <th style="width: 25%">Врста </th>
                     <th style="width: 35%">Опис </th>
+                    <th style="width: 25%">Врста </th>
+                    <th style="width: 25%">КП</th>
                 </tr>
             </thead>
             <tbody id="kp_body">
