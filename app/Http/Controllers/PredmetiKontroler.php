@@ -544,7 +544,6 @@ class PredmetiKontroler extends Kontroler {
                         ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
-                            predmeti.stranka_1 as stranka_1,
                             predmeti.opis_kp as opis_kp,
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
@@ -561,7 +560,7 @@ class PredmetiKontroler extends Kontroler {
                                 . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
                                     </strong></td>' .
-                                '<td>' . $predmet->stranka_1 . '</td>' .
+                                '<td>пера</td>' .
                                 '<td>' . $predmet->vrsta_predmeta . '</td>' .
                                 '<td>' . $predmet->opis_kp . '</td>' .
                                 '</tr>';

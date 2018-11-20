@@ -13,4 +13,10 @@ class VrstaUpisnika extends Model
     {
         return $this->hasMany('App\Modeli\Predmet', 'vrsta_upisnika_id', 'id');
     }
+
+    public function dajBroj($godina) {
+
+    	return $this->predmet()->where('godina_predmeta', $godina)->max('broj_predmeta')+1;
+
+    }
 }

@@ -19,7 +19,7 @@ class VrsteUpisnikaKontroler extends Kontroler
 
     public function getLista()
     {
-    	   $vrste_upisnika = Vrstaupisnika::all();
+    	$vrste_upisnika = Vrstaupisnika::all();
     	return view('vrste_upisnika')->with(compact ('vrste_upisnika'));
     }
 
