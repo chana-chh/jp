@@ -265,8 +265,14 @@ class PredmetiKontroler extends Kontroler {
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-        $predmeti = Predmet::all();
-        $komintenti = Komintent::all();
+        $predmeti = DB::table('predmeti')
+                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                        ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
+                            predmeti.id as idp'))
+                        ->get();
+
+        $komintenti = Komintent::select('id', 'naziv')->get();
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
     }
 
@@ -314,12 +320,10 @@ class PredmetiKontroler extends Kontroler {
 
     public function getIzmena($id) {
         $predmet = Predmet::find($id);
-        $predmeti = Predmet::all();
+        $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-        $predmeti = Predmet::all();
-
         return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
     }
 
@@ -544,12 +548,14 @@ class PredmetiKontroler extends Kontroler {
                         ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
-                            predmeti.stranka_1 as stranka_1,
+                            predmeti.opis as opis,
                             predmeti.opis_kp as opis_kp,
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
                             s_vrste_upisnika.slovo as slovo'))
-                        ->where('opis_kp', 'LIKE', '%' . $req->proveraKp . '%')->limit(20)
+                        ->where('opis_kp', 'LIKE', '%' . $req->proveraKp . '%')
+                        ->orWhere('opis', 'LIKE', '%' . $req->proveraKp . '%')
+                        ->limit(20)
                         ->get();
                 if ($predmeti) {
                     foreach ($predmeti as $key => $predmet) {
@@ -561,7 +567,7 @@ class PredmetiKontroler extends Kontroler {
                                 . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
                                     </strong></td>' .
-                                '<td>' . $predmet->stranka_1 . '</td>' .
+                                '<td>' . $predmet->opis . '</td>' .
                                 '<td>' . $predmet->vrsta_predmeta . '</td>' .
                                 '<td>' . $predmet->opis_kp . '</td>' .
                                 '</tr>';
