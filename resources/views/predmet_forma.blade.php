@@ -122,40 +122,16 @@
 
 <fieldset>
     <legend>Странке</legend>
+
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group{{ $errors->has('stranka_1') ? ' has-error' : '' }}">
-                <label for="stranka_1">Прва странка (тужилац):</label>
-                <input type="text" name="stranka_1" id="stranka_1" class="form-control"
-                       value="{{ old('stranka_1') }}" maxlength="255" required>
-                @if ($errors->has('stranka_1'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('stranka_1') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group{{ $errors->has('stranka_2') ? ' has-error' : '' }}">
-                <label for="stranka_2">Друга странка (тужени):</label>
-                <input type="text" name="stranka_2" id="stranka_2" class="form-control"
-                       value="{{ old('stranka_2') }}" maxlength="255" required>
-                @if ($errors->has('stranka_2'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('stranka_2') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5">
-            <div class="form-group">
+            <div class="form-group{{ $errors->has('komintenti_1') ? ' has-error' : '' }}">
+                <label for="komintenti_1">Прва странка (тужилац):</label>
                 <select name="komintenti_1[]" id="komintenti_1" class="chosen-select form-control"
                         data-placeholder="Прва странка" multiple>
                     @foreach($komintenti as $kom1)
                     <option value="{{ $kom1->id }}"{{ old('komintenti_1') == $kom1->id ? ' selected' : '' }}>
-                            {{ $kom1->naziv }}</option>
+                            {{ $kom1->naziv }} - {{ $kom1->id_broj }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('komintenti_1'))
@@ -165,13 +141,11 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-1">
-            <button class="btn btn-warning" id="dugmeDodajStranku1">Додај</button>
-        </div>
-        <div class="col-md-5">
-            <div class="form-group">
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('komintenti_1') ? ' has-error' : '' }}">
+                <label for="komintenti_2">Друга странка (тужени):</label>
                 <select name="komintenti_2[]" id="komintenti_2" class="chosen-select form-control"
-                        data-placeholder="Прва странка" multiple>
+                        data-placeholder="Друга странка" multiple>
                     @foreach($komintenti as $kom2)
                     <option value="{{ $kom2->id }}"{{ old('komintenti_2') == $kom2->id ? ' selected' : '' }}>
                             {{ $kom2->naziv }}</option>
@@ -183,9 +157,6 @@
                 </span>
                 @endif
             </div>
-        </div>
-        <div class="col-md-1">
-            <button class="btn btn-warning" id="dugmeDodajStranku2">Додај</button>
         </div>
     </div>
 </fieldset>
@@ -354,22 +325,6 @@
 
 $(document).ready(function () {
 
-$('#dugmeDodajStranku1').on('click', function () {
-var tekst = '';
-$('#komintenti_1 :selected').each(function (id, selected){
-tekst = tekst + selected.innerHTML.trim() + ', '
-        });
-$('#stranka_1').val(tekst.slice(0, - 2));
-return false;
-});
-$('#dugmeDodajStranku2').on('click', function () {
-var tekst = '';
-$('#komintenti_2 :selected').each(function (id, selected){
-tekst = tekst + selected.innerHTML.trim() + ', '
-        });
-$('#stranka_2').val(tekst.slice(0, - 2));
-return false;
-});
 $('#stranka_1').on('keyup', function () {
 $vrednost = $(this).val();
 $.ajax({

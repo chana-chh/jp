@@ -95,35 +95,46 @@
             </div>
         </div>
     </div>
-
+    {{-- dd($predmet->tuzioci) --}}
     <fieldset>
         <legend>Странке</legend>
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group{{ $errors->has('stranka_1') ? ' has-error' : '' }}">
-                    <label for="stranka_1">Прва странка:</label>
-                    <input type="text" name="stranka_1" id="stranka_1" class="form-control"
-                           value="{{ old('stranka_1', $predmet->stranka_1) }}" maxlength="255" required>
-                    @if ($errors->has('stranka_1'))
+                <div class="form-group{{ $errors->has('komintenti_1') ? ' has-error' : '' }}">
+                    <label for="komintenti_1">Прва странка (тужилац):</label>
+                    <select name="komintenti_1[]" id="komintenti_1" class="chosen-select form-control"
+                            data-placeholder="Прва странка" multiple>
+                        @foreach($komintenti as $kom1)
+                        <option value="{{ $kom1->id }}"{{ ($predmet->tuzioci->contains($kom1->id)) ? ' selected' : '' }}>
+                            {{ $kom1->naziv }} - {{ $kom1->id_broj }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('komintenti_1'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('stranka_1') }}</strong>
+                        <strong>{{ $errors->first('komintenti_1') }}</strong>
                     </span>
                     @endif
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group{{ $errors->has('stranka_2') ? ' has-error' : '' }}">
-                    <label for="stranka_2">Друга странка:</label>
-                    <input type="text" name="stranka_2" id="stranka_2" class="form-control"
-                           value="{{ old('stranka_2', $predmet->stranka_2) }}" maxlength="255" required>
-                    @if ($errors->has('stranka_2'))
+                <div class="form-group{{ $errors->has('komintenti_1') ? ' has-error' : '' }}">
+                    <label for="komintenti_2">Друга странка (тужени):</label>
+                    <select name="komintenti_2[]" id="komintenti_2" class="chosen-select form-control"
+                            data-placeholder="Друга странка" multiple>
+                        @foreach($komintenti as $kom2)
+                        <option value="{{ $kom2->id }}"{{ ($predmet->tuzeni->contains($kom2->id)) ? ' selected' : '' }}>
+                            {{ $kom2->naziv }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('komintenti_2'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('stranka_2') }}</strong>
+                        <strong>{{ $errors->first('komintenti_2') }}</strong>
                     </span>
                     @endif
                 </div>
             </div>
         </div>
+
     </fieldset>
 
     <fieldset>
@@ -253,7 +264,7 @@
             </div>
             <div class="modal-body">
                 <h3>Да ли желите да сачувате измене?</h3>
-<div class="izmene"></div>
+                <div class="izmene"></div>
                 <p class="text-danger">Ова акција је неповратна!</p>
             </div>
             <div class="modal-footer">
@@ -283,41 +294,51 @@ var osnovnaVrednoststranka_2 = $("#stranka_2").val();
 var stranka_1Izmenjena = false;
 var stranka_2Izmenjena = false;
 
-$("#stranka_1").on('input',function(){
+$("#stranka_1").on('input', function () {
     var izmenjenaVrednoststranka_1 = $(this).val();
-    if(izmenjenaVrednoststranka_1 != osnovnaVrednoststranka_1) {
-         stranka_1Izmenjena = true;
+    if (izmenjenaVrednoststranka_1 != osnovnaVrednoststranka_1) {
+        stranka_1Izmenjena = true;
     }
 });
 
-        $("#stranka_2").on('input',function(){
+$("#stranka_2").on('input', function () {
     var izmenjenaVrednoststranka_2 = $(this).val();
-    if(izmenjenaVrednoststranka_2 != osnovnaVrednoststranka_2) {
-        stranka_2Izmenjena = true;     
+    if (izmenjenaVrednoststranka_2 != osnovnaVrednoststranka_2) {
+        stranka_2Izmenjena = true;
     }
 });
 
 
-    $('#submitModal').click(function() {
-        if (stranka_1Izmenjena) {
-            $("#izmenaPredmetaModal").find(".izmene").append('<p>'+ $('#stranka_1').val()+ '</p>');
-        } 
-        if (stranka_2Izmenjena){
-            $("#izmenaPredmetaModal").find(".izmene").append('<p>'+ $('#stranka_2').val() + '</p>');
-        }
-    });
+$('#submitModal').click(function () {
+    if (stranka_1Izmenjena) {
+        $("#izmenaPredmetaModal").find(".izmene").append('<p>' + $('#stranka_1').val() + '</p>');
+    }
+    if (stranka_2Izmenjena) {
+        $("#izmenaPredmetaModal").find(".izmene").append('<p>' + $('#stranka_2').val() + '</p>');
+    }
+});
 
-    $('#dugmeModalIzmeni').click(function(){
-        $('#forma').submit();
-    });
+$('#dugmeModalIzmeni').click(function () {
+    $('#forma').submit();
+});
 
-    $('#dugmeModalOtkazi').click(function(){
-        $('.izmene').empty();
-    });
+$('#dugmeModalOtkazi').click(function () {
+    $('.izmene').empty();
+});
 
 $("#vrsta_upisnika_id").on('change', function () {
     var br = $(this).find(":selected").data("br");
     $("#broj_predmeta").val(br);
 });
+
+jQuery(window).on('resize', resizeChosen);
+$('.chosen-select').chosen({
+    allow_single_deselect: true
+});
+function resizeChosen() {
+    $(".chosen-container").each(function () {
+        $(this).attr('style', 'width: 100%');
+    });
+}
 </script>
 @endsection

@@ -266,11 +266,11 @@ class PredmetiKontroler extends Kontroler {
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
         $predmeti = DB::table('predmeti')
-                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-                        ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
+                ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
                             predmeti.id as idp'))
-                        ->get();
+                ->get();
 
         $komintenti = Komintent::select('id', 'naziv')->get();
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
@@ -284,8 +284,8 @@ class PredmetiKontroler extends Kontroler {
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
             'datum_tuzbe' => 'required|date',
-            'stranka_1' => 'required',
-            'stranka_2' => 'required',
+            'komintenti_1' => 'required',
+            'komintenti_2' => 'required',
             'referent_id' => 'required|integer',
         ]);
 
@@ -296,8 +296,6 @@ class PredmetiKontroler extends Kontroler {
         $predmet->sud_id = $req->sud_id;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
-        $predmet->stranka_1 = $req->stranka_1;
-        $predmet->stranka_2 = $req->stranka_2;
         $predmet->opis_kp = $req->opis_kp;
         $predmet->opis_adresa = $req->opis_adresa;
         $predmet->opis = $req->opis;
@@ -308,6 +306,8 @@ class PredmetiKontroler extends Kontroler {
         $predmet->napomena = $req->napomena;
         $predmet->korisnik_id = Auth::user()->id;
         $predmet->save();
+        $predmet->tuzioci()->attach($req->komintenti_1);
+        $predmet->tuzeni()->attach($req->komintenti_2);
 
         $upisnik = VrstaUpisnika::findOrFail($req->vrsta_upisnika_id);
         $upisnik->sledeci_broj += 1;
@@ -319,12 +319,13 @@ class PredmetiKontroler extends Kontroler {
     }
 
     public function getIzmena($id) {
-        $predmet = Predmet::find($id);
+        $predmet = Predmet::with('tuzioci', 'tuzeni')->find($id);
         $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-        return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti'));
+        $komintenti = Komintent::all();
+        return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti', 'komintenti'));
     }
 
     public function getStampa($id) {
@@ -338,8 +339,6 @@ class PredmetiKontroler extends Kontroler {
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
             'datum_tuzbe' => 'required|date',
-            'stranka_1' => 'required',
-            'stranka_2' => 'required',
             'referent_id' => 'required|integer',
         ]);
 
@@ -347,8 +346,6 @@ class PredmetiKontroler extends Kontroler {
         $predmet->sud_id = $req->sud_id;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
-        $predmet->stranka_1 = $req->stranka_1;
-        $predmet->stranka_2 = $req->stranka_2;
         $predmet->opis_kp = $req->opis_kp;
         $predmet->opis_adresa = $req->opis_adresa;
         $predmet->opis = $req->opis;
@@ -359,6 +356,9 @@ class PredmetiKontroler extends Kontroler {
         $predmet->napomena = $req->napomena;
         $predmet->korisnik_id = Auth::user()->id;
         $predmet->save();
+
+        $predmet->tuzioci()->sync($req->komintenti_1);
+        $predmet->tuzeni()->sync($req->komintenti_2);
 
         Session::flash('uspeh', 'Предмет је успешно измењен!');
         return redirect()->route('predmeti.pregled', $id);
