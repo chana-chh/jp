@@ -32,7 +32,7 @@
                                 <td>{{$vrsta->id}}</td>
                                 <td><strong>{{$vrsta->naziv}}</strong></td>
                                 <td>{{$vrsta->slovo}}</td>
-                                <td><strong style="color: #18BC9C;">{{$vrsta->dajBroj(2018)}}</strong></td>
+                                <td><strong style="color: #18BC9C;">{{$vrsta->dajBroj()}}</strong></td>
                                 <td>{{$vrsta->napomena}}</td>
 
                                  <td style="text-align:center">
