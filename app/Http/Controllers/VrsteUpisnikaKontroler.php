@@ -78,4 +78,29 @@ class VrsteUpisnikaKontroler extends Kontroler
                 Session::flash('greska','Дошло је до грешке приликом брисања ставке. Покушајте поново, касније!');
                 }
     }
+
+        public function tabelaUpisnici(Request $req) {
+
+        if ($req->ajax()) {
+            $rezultat = "";
+            if ($req->upitTabela) {
+
+                $vrste_upisnika = Vrstaupisnika::all();
+
+                if ($vrste_upisnika) {
+                    foreach ($vrste_upisnika as $key => $upisnik) {
+                        $rezultat .= '<tr>' .
+                                '<td>'. $upisnik->id .'</td>' .
+                                '<td>' . $upisnik->naziv . '</td>' .
+                                '<td>' . $upisnik->slovo . '</td>' .
+                                '<td>' . $upisnik->dajBroj($req->upitTabela) . '</td>' .
+                                '<td>' . $upisnik->napomena . '</td>' .
+                                '<td>dugmici</td>' .
+                                '</tr>';
+                    }
+                }
+            }
+            return Response($rezultat);
+        }
+    }
 }

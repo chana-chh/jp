@@ -7,10 +7,32 @@
 @endsection
 
 @section('naslov')
-    <h1 class="page-header"><img class="slicica_animirana" alt="Врсте уписника"
+    <div class="row">
+    <div class="col-md-10">
+    <h1>
+        <img class="slicica_animirana" alt="Врсте уписника"
                  src="{{url('/images/log.png')}}" style="height:64px;">
             &emsp;Врсте уписника
-        </h1>
+    </h1>
+        </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <form action="{{ route('predmeti.dodavanje.post') }}" method="POST" data-parsley-validate>
+            {{ csrf_field() }}
+            <div class="form-group{{ $errors->has('godina_predmeta') ? ' has-error' : '' }}">
+                    <label for="godina_predmeta">Година: </label>
+                    <input type="number" name="godina_predmeta" id="godina_predmeta" class="form-control"
+                           value="{{ old('godina_predmeta') ? old('godina_predmeta') : (int) date('Y', time()) }}"
+                           min="2016" max="2030" step="1" required>
+                    @if ($errors->has('godina_predmeta'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('godina_predmeta') }}</strong>
+                    </span>
+                    @endif
+                </div>
+        </form>
+         </div>
+     </div>
+         <hr>
 @endsection
 
 @section('sadrzaj')
@@ -27,6 +49,8 @@
                       <th style="width: 10%; text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="vrste_upisnika_lista" name="vrste_upisnika_lista">
+                </tbody>
+{{--                 <tbody id="vrste_upisnika_lista" name="vrste_upisnika_lista">
                 @foreach ($vrste_upisnika as $vrsta)
                         <tr>
                                 <td>{{$vrsta->id}}</td>
@@ -41,7 +65,7 @@
                             </td>
                         </tr>
                 @endforeach
-                </tbody>
+                </tbody> --}}
             </table>
         @endif
 
@@ -135,12 +159,29 @@
 $( document ).ready(function() {
 
 
+        napraviTabelu($("#godina_predmeta").val());
+        
         $('textarea').each(function () {
             this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
             }).on('input', function () {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
+
+        $("#godina_predmeta").on('change', function () {
+            napraviTabelu($(this).val());
+        });
+
+        function napraviTabelu(vrednost){
+            $.ajax({
+                type : 'get',
+                url : '{{URL::to('tabelaUpisnici')}}',
+                data : {'upitTabela':vrednost},
+                success:function(data){
+                $('#vrste_upisnika_lista').html(data);
+                }
+            });
+        };
 
         $('#tabelaVrsteUpisnika').DataTable({
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
