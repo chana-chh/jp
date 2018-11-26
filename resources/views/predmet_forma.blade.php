@@ -13,7 +13,7 @@
 </h1>
 @endsection
 @section('sadrzaj')
-<form action="{{ route('predmeti.dodavanje.post') }}" method="POST" data-parsley-validate>
+<form action="{{ route('predmeti.dodavanje.post') }}" method="POST" id="forma-dodavanje" data-parsley-validate>
     {{ csrf_field() }}
     <fieldset>
         <legend>Број предмета</legend>
@@ -40,7 +40,7 @@
                 <div class="form-group{{ $errors->has('broj_predmeta') ? ' has-error' : '' }}">
                     <label for="broj_predmeta">Број предмета: </label>
                     <input type="number" name="broj_predmeta" id="broj_predmeta" class="form-control"
-                           value="{{ old('broj_predmeta') }}" required readonly>
+                           value="{{ old('broj_predmeta') }}" required>
                     @if ($errors->has('broj_predmeta'))
                     <span class="help-block">
                         <strong>{{ $errors->first('broj_predmeta') }}</strong>
@@ -130,7 +130,7 @@
                 <select name="komintenti_1[]" id="komintenti_1" class="chosen-select form-control"
                         data-placeholder="Прва странка" multiple>
                     @foreach($komintenti as $kom1)
-                    <option value="{{ $kom1->id }}"{{ old('komintenti_1') == $kom1->id ? ' selected' : '' }}>
+                    <option value="{{ $kom1->id }}"{{ collect(old('komintenti_1'))->contains($kom1->id) ? ' selected' : '' }}>
                             {{ $kom1->naziv }} - {{ $kom1->id_broj }}</option>
                     @endforeach
                 </select>
@@ -147,7 +147,7 @@
                 <select name="komintenti_2[]" id="komintenti_2" class="chosen-select form-control"
                         data-placeholder="Друга странка" multiple>
                     @foreach($komintenti as $kom2)
-                    <option value="{{ $kom2->id }}"{{ old('komintenti_2') == $kom2->id ? ' selected' : '' }}>
+                    <option value="{{ $kom2->id }}"{{ collect(old('komintenti_2'))->contains($kom2->id) ? ' selected' : '' }}>
                             {{ $kom2->naziv }}</option>
                     @endforeach
                 </select>
@@ -269,7 +269,7 @@
     </div>
 </div>
 <div class="form-group text-right">
-    <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i> Додај</button>
+    <button type="submit" class="btn btn-success" id="dugmeDodaj"><i class="fa fa-plus-circle"></i> Додај</button>
     <a class="btn btn-danger" href="{{route('predmeti')}}"><i class="fa fa-ban"></i> Откажи</a>
 </div>
 </form>
@@ -324,7 +324,7 @@
 <script>
 
 $(document).ready(function () {
-
+var submit = false;
 $('#stranka_1').on('keyup', function () {
 $vrednost = $(this).val();
 $.ajax({
@@ -356,7 +356,7 @@ type : 'get',
 jQuery(window).on('resize', resizeChosen);
 $('.chosen-select').chosen({
 allow_single_deselect: true
-        });
+});
 function resizeChosen() {
 $(".chosen-container").each(function () {
 $(this).attr('style', 'width: 100%');
@@ -367,12 +367,15 @@ var upisnik = $("#vrsta_upisnika_id").val();
 var godina = $("#godina_predmeta").val();
 var ruta = "{{ route('predmeti.broj') }}";
 $.ajax({
-    type : 'get',
-    url : ruta,
-    data : {"upisnik":upisnik, "godina":godina},
-    success:function(broj){
-    $('#broj_predmeta').val(broj);
-    }
+type : 'get',
+        url : ruta,
+        data : {"upisnik":upisnik, "godina":godina},
+        success:function(broj){
+        $('#broj_predmeta').val(broj);
+        if (submit){
+        $("#forma-dodavanje").submit();
+        }
+        }
 });
 }
 $("#vrsta_upisnika_id").on('change', function () {
@@ -381,9 +384,11 @@ promeniBrojPredmeta();
 $("#godina_predmeta").on('change', function () {
 promeniBrojPredmeta();
 });
+$("#dugmeDodaj").on('click', function (e) {
+e.preventDefault();
+submit = true;
+promeniBrojPredmeta();
 });
-
-
-
+});
 </script>
 @endsection

@@ -284,8 +284,6 @@ class PredmetiKontroler extends Kontroler {
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
             'datum_tuzbe' => 'required|date',
-            'komintenti_1' => 'required',
-            'komintenti_2' => 'required',
             'referent_id' => 'required|integer',
         ]);
 
