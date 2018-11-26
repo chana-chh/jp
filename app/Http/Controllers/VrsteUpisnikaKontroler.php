@@ -19,8 +19,7 @@ class VrsteUpisnikaKontroler extends Kontroler
 
     public function getLista()
     {
-    	$vrste_upisnika = Vrstaupisnika::all();
-    	return view('vrste_upisnika')->with(compact ('vrste_upisnika'));
+    	return view('vrste_upisnika');
     }
 
     public function postDodavanje(Request $r)
@@ -43,11 +42,12 @@ class VrsteUpisnikaKontroler extends Kontroler
         return redirect()->route('vrste_upisnika');
     }
 
-    public function getPregled($id)
+    public function getPregled($id, $godina)
         {
                 $vrsta_upisnika = Vrstaupisnika::find($id);
-                return view('vrste_upisnika_pregled')->with(compact ('vrsta_upisnika'));
+                return view('vrste_upisnika_pregled')->with(compact ('vrsta_upisnika', 'godina'));
             }
+
     public function postIzmena(Request $r, $id)
         {
             $this->validate($r, [
@@ -84,18 +84,19 @@ class VrsteUpisnikaKontroler extends Kontroler
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->upitTabela) {
-
+                $godina = $req->upitTabela;
                 $vrste_upisnika = Vrstaupisnika::all();
 
                 if ($vrste_upisnika) {
                     foreach ($vrste_upisnika as $key => $upisnik) {
                         $rezultat .= '<tr>' .
                                 '<td>'. $upisnik->id .'</td>' .
-                                '<td>' . $upisnik->naziv . '</td>' .
+                                '<td><strong>' . $upisnik->naziv . '</strong></td>' .
                                 '<td>' . $upisnik->slovo . '</td>' .
-                                '<td>' . $upisnik->dajBroj($req->upitTabela) . '</td>' .
+                                '<td><strong style="color: #18BC9C;">' . $upisnik->dajBroj($godina) . '</strong></td>' .
                                 '<td>' . $upisnik->napomena . '</td>' .
-                                '<td>dugmici</td>' .
+                                '<td style="text-align:center"><a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="'. route('vrste_upisnika.pregled', [$upisnik->id, $godina]) .'"><i class="fa fa-pencil"></i></a>
+                    <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="'.$upisnik->id.'"><i class="fa fa-trash"></i></button></td>' .
                                 '</tr>';
                     }
                 }

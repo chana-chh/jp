@@ -36,9 +36,6 @@
 @endsection
 
 @section('sadrzaj')
-  @if($vrste_upisnika->isEmpty())
-            <h3 class="text-danger">Тренутно нема ставки у шифарнику</h3>
-        @else
             <table class="table table-striped tabelaVrsteUpisnika" name="tabelaVrsteUpisnika" id="tabelaVrsteUpisnika">
                 <thead>
                       <th style="width: 7%;">#</th>
@@ -50,24 +47,7 @@
                 </thead>
                 <tbody id="vrste_upisnika_lista" name="vrste_upisnika_lista">
                 </tbody>
-{{--                 <tbody id="vrste_upisnika_lista" name="vrste_upisnika_lista">
-                @foreach ($vrste_upisnika as $vrsta)
-                        <tr>
-                                <td>{{$vrsta->id}}</td>
-                                <td><strong>{{$vrsta->naziv}}</strong></td>
-                                <td>{{$vrsta->slovo}}</td>
-                                <td><strong style="color: #18BC9C;">{{$vrsta->dajBroj()}}</strong></td>
-                                <td>{{$vrsta->napomena}}</td>
-
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('vrste_upisnika.pregled', $vrsta->id) }}"><i class="fa fa-pencil"></i></a>
-                    <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$vrsta->id}}"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                @endforeach
-                </tbody> --}}
             </table>
-        @endif
 
         {{-- Modal za dijalog brisanje--}}
     <div class="modal fade" id="brisanjeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

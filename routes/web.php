@@ -19,7 +19,7 @@ Route::get('sifarnici/vrste_upisnika', 'VrsteUpisnikaKontroler@getLista')->name(
 Route::post('sifarnici/vrste_upisnika/dodavanje', 'VrsteUpisnikaKontroler@postDodavanje')->name('vrste_upisnika.dodavanje');
 Route::post('sifarnici/vrste_upisnika/brisanje', 'VrsteUpisnikaKontroler@postBrisanje')->name('vrste_upisnika.brisanje');
 Route::post('sifarnici/vrste_upisnika/izmena/{id}', 'VrsteUpisnikaKontroler@postIzmena')->name('vrste_upisnika.izmena');
-Route::get('sifarnici/vrste_upisnika/pregled/{id}', 'VrsteUpisnikaKontroler@getPregled')->name('vrste_upisnika.pregled');
+Route::get('sifarnici/vrste_upisnika/pregled/{id}/{godina}', 'VrsteUpisnikaKontroler@getPregled')->name('vrste_upisnika.pregled');
 Route::get('tabelaUpisnici', 'VrsteUpisnikaKontroler@tabelaUpisnici')->name('vrste_upisnika.tabelaUpisnici');
 
 //Uprave

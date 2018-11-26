@@ -85,7 +85,7 @@
         <h5 class="pull-left" style="margin-left: 10px">Следећи број:</h5>
         </div>
         <div class="row">
-        <p class="krug_mali tankoza">{{$vrsta_upisnika->sledeci_broj}}</p>
+        <p class="krug_mali tankoza">{{$vrsta_upisnika->dajBroj($godina)}}</p>
         </div>
         </div>
         <div class="col-md-6">
