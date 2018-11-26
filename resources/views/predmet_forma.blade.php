@@ -362,11 +362,28 @@ $(".chosen-container").each(function () {
 $(this).attr('style', 'width: 100%');
 });
 }
-
+function promeniBrojPredmeta(){
+var upisnik = $("#vrsta_upisnika_id").val();
+var godina = $("#godina_predmeta").val();
+var ruta = "{{ route('predmeti.broj') }}";
+$.ajax({
+    type : 'get',
+    url : ruta,
+    data : {"upisnik":upisnik, "godina":godina},
+    success:function(broj){
+    $('#broj_predmeta').val(broj);
+    }
+});
+}
 $("#vrsta_upisnika_id").on('change', function () {
-var br = $(this).find(":selected").data("br");
-$("#broj_predmeta").val(br);
+promeniBrojPredmeta();
+});
+$("#godina_predmeta").on('change', function () {
+promeniBrojPredmeta();
 });
 });
+
+
+
 </script>
 @endsection

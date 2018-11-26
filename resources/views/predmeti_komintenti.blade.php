@@ -221,6 +221,85 @@
         </div>
     </form>
 </div>
+<h3 >Додавање новог коминтента</h3>
+<hr>
+<div class="well">
+    <form action="{{ route('komintenti.dodavanje1') }}" method="POST" data-parsley-validate>
+        {{ csrf_field() }}
+
+        <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
+            <label for="naziv">Назив коминтента:</label>
+            <input type="text" name="naziv" id="naziv" class="form-control" value="{{ old('naziv') }}" maxlength="190" required>
+            @if ($errors->has('naziv'))
+            <span class="help-block">
+                <strong>{{ $errors->first('naziv') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('id_broj') ? ' has-error' : '' }}">
+            <label for="id_broj">Матични број:</label>
+            <input type="text" name="id_broj" id="id_broj" class="form-control" value="{{ old('id_broj') }}" maxlength="20" required>
+            @if ($errors->has('id_broj'))
+            <span class="help-block">
+                <strong>{{ $errors->first('id_broj') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('mesto') ? ' has-error' : '' }}">
+            <label for="mesto">Место:</label>
+            <input type="text" name="mesto" id="mesto" class="form-control" value="{{ old('mesto') }}" maxlength="255">
+            @if ($errors->has('mesto'))
+            <span class="help-block">
+                <strong>{{ $errors->first('mesto') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('adresa') ? ' has-error' : '' }}">
+            <label for="adresa">Адреса:</label>
+            <input type="text" name="adresa" id="adresa" class="form-control" value="{{ old('adresa') }}" maxlength="255">
+            @if ($errors->has('adresa'))
+            <span class="help-block">
+                <strong>{{ $errors->first('adresa') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('telefon') ? ' has-error' : '' }}">
+            <label for="telefon">Телефон:</label>
+            <input type="text" name="telefon" id="telefon" class="form-control" value="{{ old('telefon') }}" maxlength="255">
+            @if ($errors->has('telefon'))
+            <span class="help-block">
+                <strong>{{ $errors->first('telefon') }}</strong>
+            </span>
+            @endif
+        </div>
+        <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
+            <label for="napomena">Напомена: </label>
+            <textarea name="napomena" id="napomena" maxlength="255" class="form-control">{{ old('napomena') }}</textarea>
+            @if ($errors->has('napomena'))
+            <span class="help-block">
+                <strong>{{ $errors->first('napomena') }}</strong>
+            </span>
+            @endif
+        </div>
+
+        <div class="row dugmici">
+            <div class="col-md-12" style="margin-top: 20px;">
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-plus-circle"></i>&emsp;Додај
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-block ono" href="{{route('statusi')}}">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 @endsection
 
 @section('skripte')

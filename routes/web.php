@@ -84,6 +84,7 @@ Route::post('predmeti/slike/{id}', 'PredmetiKontroler@postPredmetiSlike')->name(
 Route::post('predmeti/skenirane/brisanje', 'PredmetiKontroler@postSlikeBrisanje')->name('slike.brisanje');
 Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
 Route::post('predmeti/ajax', 'PredmetiKontroler@postAjax')->name('predmeti.ajax');
+Route::get('predmeti/broj', 'PredmetiKontroler@getAjaxBrojPoVrsti')->name('predmeti.broj');
 
 //Predmeti podnesci
 Route::get('predmeti/podnesci/{id}', 'PredmetiPodnesci@getPredmetiPodnesci')->name('predmeti.podnesci');
@@ -97,6 +98,7 @@ Route::post('predmeti/veze/brisanje/{id}', 'PredmetiVezeKontroler@postBrisanje')
 //Komintenti
 Route::get('sifarnici/komintenti', 'KomintentiKontroler@getLista')->name('komintenti');
 Route::post('sifarnici/komintenti/dodavanje', 'KomintentiKontroler@postDodavanje')->name('komintenti.dodavanje');
+Route::post('sifarnici/komintenti/dodavanje1', 'KomintentiKontroler@postDodavanje1')->name('komintenti.dodavanje1');
 Route::post('sifarnici/komintenti/brisanje', 'KomintentiKontroler@postBrisanje')->name('komintenti.brisanje');
 Route::post('sifarnici/komintenti/izmena/{id}', 'KomintentiKontroler@postIzmena')->name('komintenti.izmena');
 Route::get('sifarnici/komintenti/pregled/{id}', 'KomintentiKontroler@getPregled')->name('komintenti.pregled');

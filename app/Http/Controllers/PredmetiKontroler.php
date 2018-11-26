@@ -579,4 +579,15 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
+    public function getAjaxBrojPoVrsti(Request $req) {
+        if ($req->ajax()) {
+            if ($req->upisnik && $req->godina) {
+                $upisnik_id = $req->upisnik;
+                $godina = $req->godina;
+                $rezultat = VrstaUpisnika::find($upisnik_id)->dajBroj($godina, $upisnik_id);
+                return Response($rezultat);
+            }
+        }
+    }
+
 }

@@ -57,6 +57,30 @@ class KomintentiKontroler extends Kontroler {
         return redirect()->route('komintenti');
     }
 
+    public function postDodavanje1(Request $req) {
+
+        $this->validate($req, [
+            'naziv' => ['required', 'max:190'],
+            'id_broj' => ['required', 'max:20'],
+            'mesto' => ['max:100'],
+            'adresa' => ['max:255'],
+            'telefon' => ['max:255'],
+        ]);
+
+        $komintent = new Komintent();
+        $komintent->naziv = $req->naziv;
+        $komintent->id_broj = $req->id_broj;
+        $komintent->mesto = $req->mesto;
+        $komintent->adresa = $req->adresa;
+        $komintent->telefon = $req->telefon;
+        $komintent->napomena = $req->napomena;
+
+        $komintent->save();
+
+        Session::flash('uspeh', 'Ставка је успешно додата!');
+        return redirect()->back();
+    }
+
     public function postIzmena(Request $req, $id) {
         $this->validate($req, [
             'naziv' => ['required', 'max:190'],
