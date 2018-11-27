@@ -565,7 +565,6 @@ class PredmetiKontroler extends Kontroler {
                                 . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
                                     </strong></td>' .
-                                '<td>пера</td>' .
                                 '<td>' . $predmet->opis . '</td>' .
                                 '<td>' . $predmet->vrsta_predmeta . '</td>' .
                                 '<td>' . $predmet->opis_kp . '</td>' .

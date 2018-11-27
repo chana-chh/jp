@@ -279,26 +279,6 @@
 @section('traka')
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Провера тужилац</h3>
-    </div>
-    <div class="panel-body">
-        <table class="table table-striped" style="font-size: 0.75em;">
-            <thead>
-                <tr>
-                    <th style="width: 15%">Број </th>
-                    <th style="width: 25%">Тужилац </th>
-                    <th style="width: 25%">Врста </th>
-                    <th style="width: 35%">Опис </th>
-                </tr>
-            </thead>
-            <tbody id="tuzilac_body">
-            </tbody>
-        </table>
-    </div>
-</div>
-<hr>
-<div class="panel panel-default">
-    <div class="panel-heading">
         <h3 class="panel-title">Провера катастарска парцела</h3>
     </div>
     <div class="panel-body">
