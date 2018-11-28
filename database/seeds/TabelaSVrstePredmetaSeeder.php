@@ -85,6 +85,9 @@ class TabelaSVrstePredmetaSeeder extends Seeder {
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Неосновано обогаћење',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'утврђивање ништавности',]);
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'Решење Градског већа',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Стрна жита',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Право коришћења',]);
+        DB::table('s_vrste_predmeta')->insert(['naziv' => 'Уговор о закупу',]);
 
         DB::table('s_vrste_predmeta')->insert(['naziv' => 'НЕМА ВРСТУ',]);
         DB::commit();

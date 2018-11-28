@@ -1,15 +1,15 @@
 @extends('sabloni.app')
 
-@section('naziv', 'Судови')
+@section('naziv', 'Надлежни органи')
 
 @section('meni')
     @include('sabloni.inc.meni')
 @endsection
 
 @section('naslov')
-    <h1 class="page-header"><img class="slicica_animirana" alt="Судови"
+    <h1 class="page-header"><img class="slicica_animirana" alt="Надлежни органи"
                  src="{{url('/images/sud.jpg')}}" style="height:64px;">
-            &emsp;Судови
+            &emsp;Надлежни органи
         </h1>
 @endsection
 
@@ -68,14 +68,14 @@
 @endsection
 
 @section('traka')
-<h3 >Додавање новог суда</h3>
+<h3 >Додавање новог надлежног органа</h3>
 <hr>
 <div class="well">
     <form action="{{ route('sudovi.dodavanje') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
-            <label for="naziv">Назив суда: </label>
+            <label for="naziv">Назив надлежног органа: </label>
             <input type="text" name="naziv" id="naziv" maxlength="190" class="form-control" value="{{ old('naziv') }}" required>
             @if ($errors->has('naziv'))
                 <span class="help-block">

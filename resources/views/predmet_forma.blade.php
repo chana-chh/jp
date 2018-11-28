@@ -40,7 +40,7 @@
                 <div class="form-group{{ $errors->has('broj_predmeta') ? ' has-error' : '' }}">
                     <label for="broj_predmeta">Број предмета: </label>
                     <input type="number" name="broj_predmeta" id="broj_predmeta" class="form-control"
-                           value="{{ old('broj_predmeta') }}" required>
+                           value="{{ old('broj_predmeta') }}" required readonly>
                     @if ($errors->has('broj_predmeta'))
                     <span class="help-block">
                         <strong>{{ $errors->first('broj_predmeta') }}</strong>
@@ -65,62 +65,7 @@
         </div>
     </fieldset>
     <hr>
-    {{-- Red sa sudom --}}
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
-                <label for="sud_id">Надлежни суд:</label>
-                <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни суд" required>
-                    <option value=""></option>
-                    @foreach($sudovi as $sud)
-                    <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
-                            {{ $sud->naziv }}
-                </option>
-                @endforeach
-            </select>
-            @if ($errors->has('sud_id'))
-            <span class="help-block">
-                <strong>{{ $errors->first('sud_id') }}</strong>
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
-            <label for="datum_tuzbe">Датум предмета (тужбе):</label>
-            <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
-                   value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
-            @if ($errors->has('datum_tuzbe'))
-            <span class="help-block">
-                <strong>{{ $errors->first('datum_tuzbe') }}</strong>
-            </span>
-            @endif
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8">
-        <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
-            <label for="vrsta_predmeta_id">Врста предмета:</label>
-            <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
-                <option value=""></option>
-                @foreach($vrste as $vrsta)
-                <option value="{{ $vrsta->id }}"{{ old('vrsta_predmeta_id') == $vrsta->id ? ' selected' : '' }}>
-                        {{ $vrsta->naziv }}
-            </option>
-            @endforeach
-        </select>
-        @if ($errors->has('vrsta_predmeta_id'))
-        <span class="help-block">
-            <strong>{{ $errors->first('vrsta_predmeta_id') }}</strong>
-        </span>
-        @endif
-    </div>
-</div>
-
-</div>
-
-<fieldset>
+    <fieldset>
     <legend>Странке</legend>
 
     <div class="row">
@@ -160,6 +105,84 @@
         </div>
     </div>
 </fieldset>
+    {{-- Red sa sudom --}}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
+                <label for="sud_id">Надлежни орган:</label>
+                <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни орган" required>
+                    <option value=""></option>
+                    @foreach($sudovi as $sud)
+                    <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
+                            {{ $sud->naziv }}
+                </option>
+                @endforeach
+            </select>
+            @if ($errors->has('sud_id'))
+            <span class="help-block">
+                <strong>{{ $errors->first('sud_id') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
+            <label for="datum_tuzbe">Датум предмета (тужбе):</label>
+            <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
+                   value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
+            @if ($errors->has('datum_tuzbe'))
+            <span class="help-block">
+                <strong>{{ $errors->first('datum_tuzbe') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+</div>
+ <div class="row">
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('sudnica') ? ' has-error' : '' }}">
+                <label for="sudnica">Судница:</label>
+                <input type="text" name="sudnica" id="sudnica" class="form-control">{{ old('sudnica') }}</input>
+                @if ($errors->has('sudnica'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sudnica') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+         <div class="col-md-6">
+            <div class="form-group{{ $errors->has('sudija') ? ' has-error' : '' }}">
+                <label for="sudija">Судија:</label>
+                <input type="text" name="sudija" id="sudija" class="form-control">{{ old('sudija') }}</input>
+                @if ($errors->has('sudija'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sudija') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
+            <label for="vrsta_predmeta_id">Врста предмета:</label>
+            <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
+                <option value=""></option>
+                @foreach($vrste as $vrsta)
+                <option value="{{ $vrsta->id }}"{{ old('vrsta_predmeta_id') == $vrsta->id ? ' selected' : '' }}>
+                        {{ $vrsta->naziv }}
+            </option>
+            @endforeach
+        </select>
+        @if ($errors->has('vrsta_predmeta_id'))
+        <span class="help-block">
+            <strong>{{ $errors->first('vrsta_predmeta_id') }}</strong>
+        </span>
+        @endif
+    </div>
+</div>
+
+</div>
 
 <fieldset>
     <legend>Опис предмета</legend>

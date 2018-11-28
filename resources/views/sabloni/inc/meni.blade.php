@@ -27,7 +27,7 @@
                         <li><a href="{{ route('korisnici') }}">Корисници</a></li>
                         <li><a href="{{ route('referenti') }}">Референти</a></li>
                         <li class="dropdown-header"><i class="fa fa-cog"></i> Шифарници</li>
-                        <li><a href="{{ route('sudovi') }}">Судови</a></li>
+                        <li><a href="{{ route('sudovi') }}">Надлежни органи</a></li>
                         <li><a href="{{ route('vrste_predmeta') }}">Врсте предмета</a></li>
                         <li><a href="{{route('vrste_upisnika')}}">Врсте уписника</a></li>
                         <li><a href="{{ route('uprave') }}">Грдаске управе</a></li>

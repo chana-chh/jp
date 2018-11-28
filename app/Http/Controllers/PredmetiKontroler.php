@@ -292,6 +292,8 @@ class PredmetiKontroler extends Kontroler {
         $predmet->broj_predmeta = $req->broj_predmeta;
         $predmet->godina_predmeta = $req->godina_predmeta;
         $predmet->sud_id = $req->sud_id;
+        $predmet->sudnica = $req->sudnica;
+        $predmet->sudija = $req->sudija;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;
@@ -342,6 +344,8 @@ class PredmetiKontroler extends Kontroler {
 
         $predmet = Predmet::find($id);
         $predmet->sud_id = $req->sud_id;
+        $predmet->sudnica = $req->sudnica;
+        $predmet->sudija = $req->sudija;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;

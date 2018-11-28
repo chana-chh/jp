@@ -95,7 +95,30 @@
             </div>
         </div>
     </div>
-    {{-- dd($predmet->tuzioci) --}}
+  <div class="row">
+            <div class="col-md-6">
+                <div class="form-group{{ $errors->has('sudija') ? ' has-error' : '' }}">
+                    <label for="sudija">Судија:</label>
+                    <input type="text" name="sudija" id="sudija" class="form-control">{{ old('sudija', $predmet->sudija) }}</input>
+                    @if ($errors->has('sudija'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('sudija') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group{{ $errors->has('sudnica') ? ' has-error' : '' }}">
+                    <label for="sudnica">Судница:</label>
+                    <input type="text" name="sudnica" id="sudnica" class="form-control">{{ old('sudnica', $predmet->sudnica) }}</input>
+                    @if ($errors->has('sudnica'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('sudnica') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+        </div>
     <fieldset>
         <legend>Странке</legend>
         <div class="row">

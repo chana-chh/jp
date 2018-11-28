@@ -148,6 +148,16 @@
             </td>
         </tr>
         <tr>
+            <th style="width: 20%;"><strong>Судница:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudnica }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+         <tr>
+            <th style="width: 20%;"><strong>Судија:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudija }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
             <th style="width: 20%;"><strong>Врста предмета:</strong></th>
             <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
             <td style="width: 10%;"></td>
