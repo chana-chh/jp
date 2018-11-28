@@ -112,6 +112,35 @@
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
             <td style="width: 10%;"></td>
         </tr>
+        <tr style="font-size: 1.25em">
+            <th style="width: 20%;"><strong>Тужилац:</strong></th>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzioci as $s1)
+                    <li>{{ $s1->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
+        </tr>
+        <tr style="font-size: 1.25em">
+            <th style="width: 20%;"><strong>Тужени:</strong></th>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzeni as $s2)
+                    <li>{{ $s2->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
+        </tr>
         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
             <td style="width: 70%;">
@@ -176,35 +205,6 @@
             <th style="width: 20%;"><strong>Опис предмета:</strong></th>
             <td style="width: 70%;">{{ $predmet->opis }}</td>
             <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Тужилац:</strong></th>
-            <td>
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-
-            <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-            </td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Тужени:</strong></th>
-            <td>
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Вредност тужбе:</strong></th>

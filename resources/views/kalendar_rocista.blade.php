@@ -8,6 +8,7 @@
 
 @section('stilovi')
 <link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/fullcalendar.print.css') }}" rel="stylesheet" media="print">
 @endsection
 
 @section('naslov')
@@ -147,6 +148,9 @@ left: 'prev,next today myCustomButton',
         weekends: false,
         height: 630,
         events: dogadjaji,
+        eventBackgroundColor: "#FFFFFF",
+        eventBorderColor: "#2C3E50",
+        eventTextColor: "#1A242F",
         eventRender: function (event, element, view) {
         $(element).css("margin-top", "5px");
         element.find('.fc-title').append('<hr style="margin: 5px 0;"><span style="font-size: 12px">' + event.description + '</span></div>');
