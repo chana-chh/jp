@@ -288,33 +288,42 @@
 
 <script>
 
-var osnovnaVrednoststranka_1 = $("#stranka_1").val();
-var osnovnaVrednoststranka_2 = $("#stranka_2").val();
+var osnovnaVrednoststranka_1 = $("#komintenti_1").val();
+var osnovnaVrednoststranka_2 = $("#komintenti_2").val();
 
 var stranka_1Izmenjena = false;
 var stranka_2Izmenjena = false;
 
-$("#stranka_1").on('input', function () {
+$("#komintenti_1").on('change', function () {
     var izmenjenaVrednoststranka_1 = $(this).val();
-    if (izmenjenaVrednoststranka_1 != osnovnaVrednoststranka_1) {
+    if (izmenjenaVrednoststranka_1.toString() !== osnovnaVrednoststranka_1.toString()) {
         stranka_1Izmenjena = true;
+    } else {
+        stranka_1Izmenjena = false;
     }
 });
 
-$("#stranka_2").on('input', function () {
+$("#komintenti_2").on('change', function () {
     var izmenjenaVrednoststranka_2 = $(this).val();
-    if (izmenjenaVrednoststranka_2 != osnovnaVrednoststranka_2) {
+    if (izmenjenaVrednoststranka_2.toString() !== osnovnaVrednoststranka_2.toString()) {
         stranka_2Izmenjena = true;
+    } else {
+        stranka_2Izmenjena = false;
     }
 });
-
 
 $('#submitModal').click(function () {
     if (stranka_1Izmenjena) {
-        $("#izmenaPredmetaModal").find(".izmene").append('<p>' + $('#stranka_1').val() + '</p>');
+        $("#izmenaPredmetaModal").find(".izmene").
+                append('<p><strong>Прва странка (тужилац):</strong> ' + $('#komintenti_1').
+                        find('option:selected').
+                        text() + '</p>');
     }
     if (stranka_2Izmenjena) {
-        $("#izmenaPredmetaModal").find(".izmene").append('<p>' + $('#stranka_2').val() + '</p>');
+        $("#izmenaPredmetaModal").find(".izmene").
+                append('<p><strong>Друга странка (тужени):</strong> ' + $('#komintenti_2').
+                        find('option:selected').
+                        text() + '</p>');
     }
 });
 
