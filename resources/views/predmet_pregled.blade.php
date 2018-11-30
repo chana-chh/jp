@@ -141,6 +141,16 @@
                     <i class="fa fa-pencil"></i>
             </td>
         </tr>
+                <tr>
+            <th style="width: 20%;"><strong>Датум пријема:</strong></th>
+            <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
+            <th style="width: 20%;"><strong>Врста предмета:</strong></th>
+            <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
             <td style="width: 70%;">
@@ -157,12 +167,7 @@
             </td>
         </tr>
         <tr>
-            <th style="width: 20%;"><strong>Датум пријема:</strong></th>
-            <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Суд:</strong></th>
+            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
             <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>@foreach ($predmet->sudBrojevi as $broj)
 
                         {{$broj->broj}} &emsp;
@@ -184,11 +189,6 @@
          <tr>
             <th style="width: 20%;"><strong>Судија:</strong></th>
             <td style="width: 70%;">{{ $predmet->sudija }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Врста предмета:</strong></th>
-            <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
