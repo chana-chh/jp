@@ -1,4 +1,4 @@
-@extends('sabloni.app')
+@extends('sabloni.app_predmeti')
 
 @section('naziv', 'Предмети')
 
@@ -58,16 +58,16 @@ $(document).ready(function () {
     });
 
     $('#tabelaPredmeti').DataTable({
-        order: [[ 0, 'desc' ]],
+        order: [[0, 'desc']],
         processing: true,
         serverSide: true,
         ajax: '{!! route('predmeti.filter') !!}',
-        columns: [            
-        {
+        columns: [
+            {
                 data: null,
                 render: function (data, type, row) {
 
-                        return '<small>' + data.id + '</small>'
+                    return '<small>' + data.id + '</small>'
                 },
                 name: 'id'
             },
@@ -75,11 +75,11 @@ $(document).ready(function () {
                 defaultContent: '',
                 data: null,
                 render: function (data, type, row) {
-                        if (data.arhiviran == 0) {
-                            return '<span class="status text-primary" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">Активан</span>';
-                        } else {
-                            return '<span class="status text-danger" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">А/А</span>';
-                        }
+                    if (data.arhiviran == 0) {
+                        return '<span class="status text-primary" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">Активан</span>';
+                    } else {
+                        return '<span class="status text-danger" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;">А/А</span>';
+                    }
 
                 },
                 name: 'arhiviran'

@@ -1,4 +1,4 @@
-@extends('sabloni.app')
+@extends('sabloni.app_predmeti')
 
 @section('naziv', 'Предмети')
 
@@ -267,7 +267,7 @@ $(document).ready(function () {
     });
 
     $('#tabelaPredmeti').DataTable({
-        order: [[ 0, 'desc' ]],
+        order: [[0, 'desc']],
         processing: true,
         serverSide: true,
         ajax: {
@@ -279,7 +279,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
 
-                        return '<small>' + data.id + '</small>'
+                    return '<small>' + data.id + '</small>'
                 },
                 name: 'id'
             },
