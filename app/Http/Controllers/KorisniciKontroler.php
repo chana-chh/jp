@@ -24,25 +24,25 @@ class KorisniciKontroler extends Kontroler
 
     public function postDodavanje(Request $r)
     {
-
         $this->validate($r, [
             'name' => ['required', 'max:255'],
             'username' => ['required', 'max:190'],
             'password' => ['required', 'min:4', 'confirmed'],
+            'level' => ['required'],
         ]);
 
         //Check-box
-        if ($r->admin) {
-            $levelc = 0;
-        } else {
-            $levelc = 10;
-        }
+        // if ($r->admin) {
+        //     $levelc = 0;
+        // } else {
+        //     $levelc = 10;
+        // }
 
         $korisnik = new Korisnik();
         $korisnik->name = $r->name;
         $korisnik->username = $r->username;
         $korisnik->password = bcrypt($r->password);
-        $korisnik->level = $levelc;
+        $korisnik->level = $r->level;
 
         $korisnik->save();
 
@@ -70,27 +70,29 @@ class KorisniciKontroler extends Kontroler
                 'name' => ['required', 'max:255'],
                 'username' => ['required', 'max:190'],
                 'password' => ['required', 'min:4', 'confirmed'],
+                'level' => ['required'],
             ]);
             $pass = bcrypt($r->password);
         } else {
             $this->validate($r, [
                 'name' => ['required', 'max:255'],
                 'username' => ['required', 'max:190'],
+                'level' => ['required'],
             ]);
             $pass = null;
         }
 
         //Check-box
-        if ($r->admin) {
-            $levelc = 0;
-        } else {
-            $levelc = 10;
-        }
+        // if ($r->admin) {
+        //     $levelc = 0;
+        // } else {
+        //     $levelc = 10;
+        // }
 
         $korisnik = Korisnik::find($id);
         $korisnik->name = $r->name;
         $korisnik->username = $r->username;
-        $korisnik->level = $levelc;
+        $korisnik->level = $r->level;
         if ($pass) {
             $korisnik->password = $pass;
         }

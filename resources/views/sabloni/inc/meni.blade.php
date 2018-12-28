@@ -18,14 +18,16 @@
                 <li><a href="{{ route('tok') }}"> <i class="fa fa-money fa-fw" style="color: #18BC9C"></i> Ток новца</a></li>
                 <li><a href="{{ route('izvestaji') }}"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li>
                 <li><a href="{{ route('o_programu') }}"> <i class="fa fa-info-circle fa-fw" style="color: #18BC9C"></i> О програму</a></li>
-                @if (Gate::allows('admin'))
+                @if (Gate::allows('power.user'))
                 <li class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-secret fa-fw" style="color: #18BC9C"></i>  Администрирање<span class="caret">
                     </a>
                     <ul class="dropdown-menu" role="menu">
+                        @if (Gate::allows('admin'))
                         <li class="dropdown-header"><i class="fa fa-user"></i> Корисници</li>
                         <li><a href="{{ route('korisnici') }}">Корисници</a></li>
                         <li><a href="{{ route('referenti') }}">Референти</a></li>
+                        @endif
                         <li class="dropdown-header"><i class="fa fa-cog"></i> Шифарници</li>
                         <li><a href="{{ route('sudovi') }}">Надлежни органи</a></li>
                         <li><a href="{{ route('vrste_predmeta') }}">Врсте предмета</a></li>
@@ -34,8 +36,10 @@
                         <li><a href="{{ route('statusi') }}">Статуси</a></li>
                         <li><a href="{{ route('tipovi_rocista') }}">Типови рочишта</a></li>
                         <li><a href="{{ route('komintenti') }}">Коминтенти</a></li>
+                        @if (Gate::allows('admin'))
                         <li class="dropdown-header"><i class="fa fa-book"></i> Предмети</li>
                         <li><a href="{{ route('predmeti.obrisani') }}">Обрисани предмети</a></li>
+                        @endif
                     </ul>
                 </li>
                 @endif

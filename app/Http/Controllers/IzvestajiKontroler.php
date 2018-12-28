@@ -10,6 +10,11 @@ use PhpOffice\PhpWord\IOFactory;
 class IzvestajiKontroler extends Kontroler
 {
 
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function getIzvestaji()
     {
         return view('izvestaji');

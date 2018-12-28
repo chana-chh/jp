@@ -27,10 +27,15 @@ class AuthServiceProvider extends ServiceProvider
 
         /*
             Ovde mogu da se naprave uslovi za razne nivoe korisnika
-        */
-        Gate::define('admin', function ($user)
-        {
+         */
+        Gate::define('admin', function ($user) {
             return $user->level === 0;
+        });
+        Gate::define('power.user', function ($user) {
+            return $user->level <= 100;
+        });
+        Gate::define('user', function ($user) {
+            return $user->level >= 200;
         });
     }
 }
