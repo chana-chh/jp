@@ -97,19 +97,35 @@
 
         <div class="row">
         <div class="col-md-10 col-md-offset-1">
-       <div class="form-group{{ $errors->has('admin') ? ' has-error' : '' }} checkboxoviforme">
-                <input type="checkbox" name="admin" id="admin" 
-                {{ old('admin') ? ' checked' : '' }}
-                {{ $korisnik->level == 0 ? ' checked' : '' }}
-                >
-                <label for="admin">&emsp;Да ли је корисник администратор?</label>
-                @if ($errors->has('admin'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('admin') }}</strong>
-                    </span>
-                @endif
-            </div>
+       
+            <div class="form-group{{ $errors->has('level') ? ' has-error' : '' }}">
+        <label for="level">Врста корисника:</label>
+        <select name="level" id="level" class="form-control" required>
+            <option value="0" 
+                {{ old('level') == 0 ? ' selected' : '' }}
+                {{ $korisnik->level == 0 ? ' selected' : '' }}
+            >администратор</option>
+            <option value="100"
+                {{ old('level') == 100 ? ' selected' : '' }}
+                {{ $korisnik->level == 100 ? ' selected' : '' }}
+            >обрађивач предмета</option>
+            <option value="200"
+                {{ old('level') == 200 ? ' selected' : '' }}
+                {{ $korisnik->level == 200 ? ' selected' : '' }}
+            >корисник</option>
+        </select>
+        @if ($errors->has('password_confirmation'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password_confirmation') }}</strong>
+            </span>
+        @endif
+
+
         </div>
+
+        
+        </div>
+
         </div>
          <div class="row dugmici">
         <div class="col-md-6 col-md-offset-6">
