@@ -191,7 +191,7 @@
     </div>
 </div>
  <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group{{ $errors->has('sudnica') ? ' has-error' : '' }}">
                 <label for="sudnica">Судница:</label>
                 <input type="text" name="sudnica" id="sudnica" class="form-control">{{ old('sudnica') }}</input>
@@ -202,13 +202,24 @@
                 @endif
             </div>
         </div>
-         <div class="col-md-6">
+         <div class="col-md-4">
             <div class="form-group{{ $errors->has('sudija') ? ' has-error' : '' }}">
                 <label for="sudija">Судија:</label>
                 <input type="text" name="sudija" id="sudija" class="form-control">{{ old('sudija') }}</input>
                 @if ($errors->has('sudija'))
                 <span class="help-block">
                     <strong>{{ $errors->first('sudija') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('advokat') ? ' has-error' : '' }}">
+                <label for="advokat">Адвокат:</label>
+                <input type="text" name="advokat" id="advokat" class="form-control">{{ old('advokat') }}</input>
+                @if ($errors->has('advokat'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('advokat') }}</strong>
                 </span>
                 @endif
             </div>

@@ -192,6 +192,11 @@
             <td style="width: 10%;"></td>
         </tr>
         <tr>
+            <th style="width: 20%;"><strong>Адвокат:</strong></th>
+            <td style="width: 70%;">{{ $predmet->advokat }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
             <th style="width: 20%;"><strong>Катастарска парцела:</strong></th>
             <td style="width: 70%;">{{ $predmet->opis_kp }}</td>
             <td style="width: 10%;"></td>

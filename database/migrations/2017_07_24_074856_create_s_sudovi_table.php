@@ -13,8 +13,6 @@ class CreateSSudoviTable extends Migration
             $table->increments('id');
             $table->string('naziv', 190)->unique();
             $table->string('napomena')->nullable();
-            $table->string('sudija')->nullable();
-            $table->string('sudnica')->nullable();
         });
     }
 
