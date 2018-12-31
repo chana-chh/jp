@@ -10,9 +10,19 @@ use Auth;
 use App\Modeli\Predmet;
 use App\Modeli\PredmetVeza;
 
-class PredmetiVezeKontroler extends Kontroler {
+class PredmetiVezeKontroler extends Kontroler
+{
 
-    public function getLista($id) {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getLista',
+        ]);
+    }
+
+    public function getLista($id)
+    {
         $predmet = Predmet::find($id);
         $svi_predmeti = Predmet::all();
         $vezan_sa = $predmet->vezani;
@@ -21,7 +31,8 @@ class PredmetiVezeKontroler extends Kontroler {
         return view('predmeti_veze')->with(compact('vezan_sa', 'vezan_za', 'predmet', 'svi_predmeti'));
     }
 
-    public function postDodavanje(Request $req, $id) {
+    public function postDodavanje(Request $req, $id)
+    {
 
         $veza = new PredmetVeza();
         $veza->veza_id = $req->veza_id;
@@ -33,11 +44,12 @@ class PredmetiVezeKontroler extends Kontroler {
         return redirect()->route('predmeti.veze', $id);
     }
 
-    public function postBrisanje(Request $req, $id) {
+    public function postBrisanje(Request $req, $id)
+    {
         $veza = PredmetVeza::where([
-                    ['predmet_id', '=', $id],
-                    ['veza_id', '=', $req->idBrisanje]
-                ])->first();
+            ['predmet_id', '=', $id],
+            ['veza_id', '=', $req->idBrisanje]
+        ])->first();
 
         $odgovor = $veza->forceDelete();
 

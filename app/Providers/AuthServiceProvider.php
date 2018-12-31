@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->level <= 100;
         });
         Gate::define('user', function ($user) {
-            return $user->level >= 200;
+            return $user->level <= 200;
         });
     }
 }

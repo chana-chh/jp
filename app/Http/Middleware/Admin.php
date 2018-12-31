@@ -10,9 +10,9 @@ class Admin
 {
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->level !== 0) {
+        if (Auth::user()->level !== 0) {
             Session::flash('upozorenje', 'Немате право да приступите овој акцији!');
-            return redirect()->route('pocetna');
+            return redirect()->back();
         }
         return $next($request);
     }
