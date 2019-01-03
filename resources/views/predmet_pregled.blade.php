@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<!--pocetak modal_predmet_brisanje-->
+{{--pocetak modal_predmet_brisanje--}}
 <div class="modal fade" id="brisanjePredmetaModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -81,7 +81,7 @@
         </div>
     </div>
 </div>
-<!--kraj modal_predmet_brisanje-->
+{{--kraj modal_predmet_brisanje--}}
 
 {{--  pocetak modal_arhiviranje  --}}
 <div class="modal fade" id="arhiviranjeModal">
@@ -112,12 +112,22 @@
 
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
-        <tr style="font-size: 1.25em">
-            <th style="width: 20%;"><strong>Референт:</strong></th>
-            <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
-            <td style="width: 10%;"></td>
+        <tr style="font-size: 1.2em">
+            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span style="color: #d00"><strong>
+                    @foreach ($predmet->sudBrojevi as $broj)
+                        {{$broj->broj}} &emsp;
+                    @endforeach
+                </strong></span></td>
+            <td style="width: 10%; text-align:right;">
+                @if (Gate::allows('admin'))
+                <a class="btn btn-success btn-xs" id="dugmePregledSud" href="{{ route('predmeti.sud_broj', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                @endif
+            </td>
         </tr>
-        <tr style="font-size: 1.25em">
+        <tr style="font-size: 1.2em">
             <th style="width: 20%;"><strong>Тужилац:</strong></th>
             <td>
                 <ul class="list-unstyled">
@@ -132,7 +142,7 @@
                     <i class="fa fa-pencil"></i>
             </td>
         </tr>
-        <tr style="font-size: 1.25em">
+        <tr style="font-size: 1.2em">
             <th style="width: 20%;"><strong>Тужени:</strong></th>
             <td>
                 <ul class="list-unstyled">
@@ -172,21 +182,6 @@
             </td>
         </tr>
         <tr>
-            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
-            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>@foreach ($predmet->sudBrojevi as $broj)
-
-                        {{$broj->broj}} &emsp;
-
-                        @endforeach </strong></span></td>
-            <td style="width: 10%; text-align:right;">
-                @if (Gate::allows('admin'))
-                <a class="btn btn-success btn-xs" id="dugmePregledSud" href="{{ route('predmeti.sud_broj', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                @endif
-            </td>
-        </tr>
-        <tr>
             <th style="width: 20%;"><strong>Судница:</strong></th>
             <td style="width: 70%;">{{ $predmet->sudnica }}</td>
             <td style="width: 10%;"></td>
@@ -213,7 +208,7 @@
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Опис предмета:</strong></th>
-            <td style="width: 70%;">{{ $predmet->opis }}</td>
+            <td style="width: 70%;">{!! nl2br(e($predmet->opis)) !!}</td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
@@ -259,8 +254,13 @@
             </td>
         </tr>
         <tr>
+            <th style="width: 20%;"><strong>Референт:</strong></th>
+            <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>
-            <td style="width: 70%;">{{ $predmet->napomena }}</td>
+            <td style="width: 70%;">{!! nl2br(e($predmet->napomena)) !!}</td>
             <td style="width: 10%;"></td>
         </tr>
     </tbody>
@@ -330,7 +330,7 @@
             </tr>
             @endforeach
         </tbody>
-        <tfoot>
+        {{-- <tfoot>
             <tr class="warning">
                 <th></th>
                 <th></th>
@@ -363,7 +363,7 @@
                 </th>
                 <th></th>
             </tr>
-        </tfoot>
+        </tfoot> --}}
     </table>
 </div>
 
@@ -609,6 +609,7 @@
     </div>
 </div>
 <hr>
+
 {{--  POCETAK ROCISTA  --}}
 
 <div class="well" style="overflow: auto;">
@@ -629,15 +630,14 @@
         <tbody>
             @foreach ($predmet->rocista->sortByDesc('datum')->sortByDesc('vreme') as $rociste)
             <tr>
-                <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
-                <td style="width: 18%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
-                <td style="width: 13%;">
+                <td style="width: 20%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
+                <td style="width: 30%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
+                <td style="width: 30%;">
                     <strong>
                         {{ $rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '' }}
                     </strong>
                 </td>
-                <td style="width: 37%;"><em>{{ str_limit($rociste->opis, 30) }}</em></td>
-                <td style="width: 17%; text-align: right;">
+                <td style="width: 20%; text-align: right;">
                     <button
                         class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
                         data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$rociste->id}}">
@@ -825,9 +825,6 @@
 {{--  kraj modal_rocista_brisanje  --}}
 
 {{--  KRAJ ROCISTA  --}}
-
-
-
 
 
 {{--  POCETAK UPRAVA  --}}
