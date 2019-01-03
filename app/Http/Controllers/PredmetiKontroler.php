@@ -48,7 +48,7 @@ class PredmetiKontroler extends Kontroler {
                 `s_vrste_upisnika`.`slovo`, `s_vrste_upisnika`.`naziv`,
                 `s_vrste_predmeta`.`naziv` as vp_naziv,
                 CONCAT(`s_vrste_upisnika`.`slovo`, '-', `predmeti`.`broj_predmeta`, '/',`predmeti`.`godina_predmeta`) as ceo_broj_predmeta,
-                CONCAT(`s_referenti`.`ime`, ' ', `s_referenti`.`prezime`) as puno_ime,
+                (s_referenti.ime + s_referenti.prezime) as puno_ime,
                 `s_referenti`.`ime`, `s_referenti`.`prezime`,
                 `s_sudovi`.`naziv` as sud_naziv,
                 GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') as sudbroj,
