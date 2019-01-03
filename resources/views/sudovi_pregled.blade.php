@@ -1,6 +1,6 @@
 @extends('sabloni.app')
 
-@section('naziv', 'Судови | Преглед')
+@section('naziv', 'Надлежни орган | Преглед')
 
 @section('meni')
     @include('sabloni.inc.meni')
@@ -9,9 +9,9 @@
 @section('naslov')
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <h1><img class="slicica_animirana" alt="Судови"
+        <h1><img class="slicica_animirana" alt="Надлежни орган"
                  src="{{url('/images/sud.jpg')}}" style="height:64px;">
-            &emsp;Преглед и измена детаља судова
+            &emsp;Преглед и измена детаља надлежног органа
         </h1>
     </div>
 </div>
@@ -29,7 +29,7 @@
                 <i class="fa fa-home"></i>
             </a>
             <a class="btn btn-primary" href="{{ route('sudovi') }}"
-               title="Повратак на листу врсте уписника">
+               title="Повратак на листу надлежних органа">
                 <i class="fa fa-list"></i>
             </a>
         </div>
@@ -44,7 +44,7 @@
         <div class="row">
         <div class="col-md-6">
         <div class="form-group{{ $errors->has('naziv') ? ' has-error' : '' }}">
-            <label for="naziv">Назив суда: </label>
+            <label for="naziv">Назив надлежног органа: </label>
             <input type="text" name="naziv" id="naziv" maxlength="190" class="form-control" value="{{ old('naziv', $sud->naziv) }}" required>
             @if ($errors->has('naziv'))
                 <span class="help-block">

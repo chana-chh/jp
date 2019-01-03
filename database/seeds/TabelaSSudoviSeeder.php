@@ -16,7 +16,7 @@ class TabelaSSudoviSeeder extends Seeder {
         DB::table('s_sudovi')->insert(['naziv' => 'Привредни суд у Сомбору',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Београду',]);
         DB::table('s_sudovi')->insert(['naziv' => 'Управни суд у Крагујевцу',]);
-        DB::table('s_sudovi')->insert(['naziv' => 'НЕМА СУД',]);
+        DB::table('s_sudovi')->insert(['naziv' => 'НЕМА НАДЛЕЖНИ ОРГАН',]);
     }
 
 }

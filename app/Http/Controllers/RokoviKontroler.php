@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
-Use DB;
+use DB;
 use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
@@ -16,6 +16,19 @@ use App\Modeli\Referent;
 class RokoviKontroler extends Kontroler
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getLista',
+            'getAjax',
+            'postPretraga',
+            'getKalendar',
+            'getKalendarFilter',
+            'postKalendarFilter',
+            'naprednaPretraga',
+        ]);
+    }
 
     public function getLista()
     {
@@ -24,13 +37,14 @@ class RokoviKontroler extends Kontroler
         return view('rokovi')->with(compact('tipovi', 'referenti'));
     }
 
-    public function getAjax(){
+    public function getAjax()
+    {
         return datatables(DB::table('rocista')
-        ->join('predmeti','rocista.predmet_id', '=', 'predmeti.id')
-        ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-        ->join('s_referenti','predmeti.referent_id', '=', 's_referenti.id')
-        ->join('s_tipovi_rocista','rocista.tip_id', '=', 's_tipovi_rocista.id')
-        ->select(DB::raw('  rocista.datum as datum,
+            ->join('predmeti', 'rocista.predmet_id', '=', 'predmeti.id')
+            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->join('s_referenti', 'predmeti.referent_id', '=', 's_referenti.id')
+            ->join('s_tipovi_rocista', 'rocista.tip_id', '=', 's_tipovi_rocista.id')
+            ->select(DB::raw('  rocista.datum as datum,
                             rocista.vreme as vreme,
                             rocista.opis as opis,
                             rocista.id as rid,
@@ -42,32 +56,33 @@ class RokoviKontroler extends Kontroler
                             predmeti.godina_predmeta as godina,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
-        ->where('tip_id', 1)
-        ->get())->toJson();
+            ->where('tip_id', 1)
+            ->get())->toJson();
     }
 
-    public function postPretraga(Request $req){
+    public function postPretraga(Request $req)
+    {
 
         $kobaja = [];
 
-        if($req['referent_id']) {
+        if ($req['referent_id']) {
             $kobaja[] = ['s_referenti.id', '=', $req['referent_id']];
         }
-        if($req['datum_1'] && !$req['datum_2']) {
+        if ($req['datum_1'] && !$req['datum_2']) {
             $kobaja[] = ['rocista.datum', '=', $req['datum_1']];
         }
-        if($req['datum_1'] && $req['datum_2']) {
+        if ($req['datum_1'] && $req['datum_2']) {
             $kobaja[] = ['rocista.datum', '>=', $req['datum_1']];
             $kobaja[] = ['rocista.datum', '<=', $req['datum_2']];
         }
 
 
         $rocista = DB::table('rocista')
-        ->join('predmeti','rocista.predmet_id', '=', 'predmeti.id')
-        ->join('s_vrste_upisnika','predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-        ->join('s_referenti','predmeti.referent_id', '=', 's_referenti.id')
-        ->join('s_tipovi_rocista','rocista.tip_id', '=', 's_tipovi_rocista.id')
-        ->select(DB::raw('  rocista.datum as datum,
+            ->join('predmeti', 'rocista.predmet_id', '=', 'predmeti.id')
+            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->join('s_referenti', 'predmeti.referent_id', '=', 's_referenti.id')
+            ->join('s_tipovi_rocista', 'rocista.tip_id', '=', 's_tipovi_rocista.id')
+            ->select(DB::raw('  rocista.datum as datum,
                             rocista.vreme as vreme,
                             rocista.opis as opis,
                             rocista.id as rid,
@@ -78,11 +93,11 @@ class RokoviKontroler extends Kontroler
                             predmeti.godina_predmeta as godina,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
-        ->where('s_tipovi_rocista.id', '=', 1)
-        ->where($kobaja)
-        ->get();
+            ->where('s_tipovi_rocista.id', '=', 1)
+            ->where($kobaja)
+            ->get();
 
-    return view('rokovi_pretraga')->with(compact('rocista'));
+        return view('rokovi_pretraga')->with(compact('rocista'));
     }
 
     public function postDodavanje(Request $req)
@@ -126,9 +141,9 @@ class RokoviKontroler extends Kontroler
     public function getKalendar()
     {
         $rocista = Rociste::with('tipRocista', 'predmet')
-        ->where('tip_id', 1)
-        ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
-        ->get();
+            ->where('tip_id', 1)
+            ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
+            ->get();
 
         $referenti = Referent::all();
 
@@ -136,19 +151,19 @@ class RokoviKontroler extends Kontroler
         $datumi = array();
         $detalji = array();
         foreach ($rocista as $rociste) {
-            $datumi [] = $rociste->datum;
-            $naslovi [] = [
+            $datumi[] = $rociste->datum;
+            $naslovi[] = [
                 ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);
         $datumie = json_encode($datumi);
         $detaljie = json_encode($detalji);
 
-        return view('kalendar_rokova')->with(compact('referenti','tipovi','naslovie', 'datumie', 'detaljie'));
+        return view('kalendar_rokova')->with(compact('referenti', 'tipovi', 'naslovie', 'datumie', 'detaljie'));
     }
 
 
@@ -160,22 +175,22 @@ class RokoviKontroler extends Kontroler
         $tip_naziv = "рокова";
         $referent_ime = " ";
 
-        if ($parametri['referent_id']){
+        if ($parametri['referent_id']) {
             $referent = Referent::find($parametri['referent_id']);
             $referent_ime = $referent->imePrezime();
         }
-        
+
         $naslovi = array();
         $datumi = array();
         $detalji = array();
 
         foreach ($rocista as $rociste) {
-            $datumi [] = $rociste->datum;
-            $naslovi [] = [
+            $datumi[] = $rociste->datum;
+            $naslovi[] = [
                 ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - ' . $rociste->predmet->broj(),
                 ' (' . $rociste->predmet->referent->imePrezime() . ')',
             ];
-            $detalji [] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);
@@ -191,7 +206,7 @@ class RokoviKontroler extends Kontroler
         return redirect()->route('rokovi.kalendar.filter');
     }
 
-     private function naprednaPretraga($params)
+    private function naprednaPretraga($params)
     {
         $rocista = null;
 
@@ -203,11 +218,12 @@ class RokoviKontroler extends Kontroler
                 $params['referent_id']
             ];
 
-            $rocista = Rociste::whereHas('predmet', function($query) use ($whereref){
-            $query->where($whereref);})
-            ->where('tip_id', 1)
-            ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
-            ->get();
+            $rocista = Rociste::whereHas('predmet', function ($query) use ($whereref) {
+                $query->where($whereref);
+            })
+                ->where('tip_id', 1)
+                ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
+                ->get();
         }
 
         return $rocista;

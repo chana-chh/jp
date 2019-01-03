@@ -6,11 +6,11 @@ use Closure;
 use Auth;
 use Session;
 
-class Admin
+class PowerUser
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->level !== 0) {
+        if (Auth::user()->level > 100) {
             Session::flash('upozorenje', 'Немате право да приступите овој акцији!');
             return redirect()->back();
         }

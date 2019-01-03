@@ -11,33 +11,43 @@ use App\Modeli\PredmetTuzeni;
 use App\Modeli\PredmetTuzilac;
 use Yajra\DataTables\DataTables;
 
-class KomintentiKontroler extends Kontroler {
+class KomintentiKontroler extends Kontroler
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        $this->middleware('admin', ['except' => []]);
+        $this->middleware('power.user')->except([
+            'getLista',
+            'getPregled',
+            'postAjax',
+        ]);
     }
 
-    public function getLista() {
+    public function getLista()
+    {
         $komintenti = Komintent::all();
         return view('komintenti');
     }
 
-    public function postAjax(Request $req) {
+    public function postAjax(Request $req)
+    {
         $komintenti = Komintent::all();
         return Datatables::of($komintenti)->make(true);
     }
 
-    public function getPregled($id) {
+    public function getPregled($id)
+    {
         $komintent = Komintent::find($id);
         return view('komintenti_pregled')->with(compact('komintent'));
     }
 
-    public function postDodavanje(Request $req) {
+    public function postDodavanje(Request $req)
+    {
 
         $this->validate($req, [
             'naziv' => ['required', 'max:190'],
-            'id_broj' => ['required', 'max:20'],
+            'id_broj' => ['max:50'],
             'mesto' => ['max:100'],
             'adresa' => ['max:255'],
             'telefon' => ['max:255'],
@@ -57,11 +67,12 @@ class KomintentiKontroler extends Kontroler {
         return redirect()->route('komintenti');
     }
 
-    public function postDodavanje1(Request $req) {
+    public function postDodavanje1(Request $req)
+    {
 
         $this->validate($req, [
             'naziv' => ['required', 'max:190'],
-            'id_broj' => ['required', 'max:20'],
+            'id_broj' => ['max:50'],
             'mesto' => ['max:100'],
             'adresa' => ['max:255'],
             'telefon' => ['max:255'],
@@ -81,10 +92,11 @@ class KomintentiKontroler extends Kontroler {
         return redirect()->back();
     }
 
-    public function postIzmena(Request $req, $id) {
+    public function postIzmena(Request $req, $id)
+    {
         $this->validate($req, [
             'naziv' => ['required', 'max:190'],
-            'id_broj' => ['required', 'max:20'],
+            'id_broj' => ['max:50'],
             'mesto' => ['max:100'],
             'adresa' => ['max:255'],
             'telefon' => ['max:255'],
@@ -104,7 +116,8 @@ class KomintentiKontroler extends Kontroler {
         return redirect()->route('komintenti');
     }
 
-    public function postBrisanje(Request $req) {
+    public function postBrisanje(Request $req)
+    {
         $id = $req->id;
         $komintent = Komintent::find($id);
         $odgovor = $komintent->delete();
@@ -115,7 +128,8 @@ class KomintentiKontroler extends Kontroler {
         }
     }
 
-    public function getPredmetListaKomintenata($id) {
+    public function getPredmetListaKomintenata($id)
+    {
         $predmet = Predmet::find($id);
         $svi_komintenti = Komintent::all();
         $tuzioci = $predmet->tuzioci;
@@ -124,7 +138,8 @@ class KomintentiKontroler extends Kontroler {
         return view('predmeti_komintenti')->with(compact('tuzioci', 'tuzeni', 'predmet', 'svi_komintenti'));
     }
 
-    public function postPredmetKomintentDodavanje(Request $req, $id) {
+    public function postPredmetKomintentDodavanje(Request $req, $id)
+    {
 
         if ($req->tuzilac_id !== null) {
             $this->validate($req, [
@@ -146,20 +161,21 @@ class KomintentiKontroler extends Kontroler {
         return redirect()->route('predmet.komintenti', $id);
     }
 
-    public function postPredmetKomintentBrisanje(Request $req, $id) {
+    public function postPredmetKomintentBrisanje(Request $req, $id)
+    {
 
-        $tip = (int) $req->tipBrisanje;
+        $tip = (int)$req->tipBrisanje;
 
         if ($tip === 1) {
             $komintent = PredmetTuzilac::where([
-                        ['predmet_id', '=', $id],
-                        ['komintent_id', '=', $req->idBrisanje]
-                    ])->first();
+                ['predmet_id', '=', $id],
+                ['komintent_id', '=', $req->idBrisanje]
+            ])->first();
         } else {
             $komintent = PredmetTuzeni::where([
-                        ['predmet_id', '=', $id],
-                        ['komintent_id', '=', $req->idBrisanje]
-                    ])->first();
+                ['predmet_id', '=', $id],
+                ['komintent_id', '=', $req->idBrisanje]
+            ])->first();
         }
 
         $odgovor = $komintent->forceDelete();

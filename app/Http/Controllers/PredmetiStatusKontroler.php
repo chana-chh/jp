@@ -7,9 +7,19 @@ use Session;
 use App\Modeli\Tok;
 use App\Modeli\Status;
 
-class PredmetiStatusKontroler extends Kontroler {
+class PredmetiStatusKontroler extends Kontroler
+{
 
-    public function postDodavanje(Request $req) {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getDetalj',
+        ]);
+    }
+
+    public function postDodavanje(Request $req)
+    {
         $this->validate($req, [
             'status_dodavanje_status_id' => 'required|integer',
             'status_dodavanje_datum' => 'required|date',
@@ -36,7 +46,8 @@ class PredmetiStatusKontroler extends Kontroler {
         return redirect()->route('predmeti.pregled', $predmet_id);
     }
 
-    public function postIzmena(Request $req) {
+    public function postIzmena(Request $req)
+    {
         $this->validate($req, [
             'status_izmena_status_id' => 'required|integer',
             'status_izmena_datum' => 'required|date',
@@ -61,7 +72,8 @@ class PredmetiStatusKontroler extends Kontroler {
         return redirect()->route('predmeti.pregled', $req->predmet_id);
     }
 
-    public function getDetalj(Request $req) {
+    public function getDetalj(Request $req)
+    {
         if ($req->ajax()) {
             $tok = Tok::findOrFail($req->id);
             $statusi = Status::all();
@@ -69,7 +81,8 @@ class PredmetiStatusKontroler extends Kontroler {
         }
     }
 
-    public function postBrisanje(Request $req) {
+    public function postBrisanje(Request $req)
+    {
         $status = Tok::find($req->id);
         $odgovor = $status->delete();
 

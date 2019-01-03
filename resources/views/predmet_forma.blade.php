@@ -40,7 +40,7 @@
                 <div class="form-group{{ $errors->has('broj_predmeta') ? ' has-error' : '' }}">
                     <label for="broj_predmeta">Број предмета: </label>
                     <input type="number" name="broj_predmeta" id="broj_predmeta" class="form-control"
-                           value="{{ old('broj_predmeta') }}" required>
+                           value="{{ old('broj_predmeta') }}" required readonly>
                     @if ($errors->has('broj_predmeta'))
                     <span class="help-block">
                         <strong>{{ $errors->first('broj_predmeta') }}</strong>
@@ -65,41 +65,8 @@
         </div>
     </fieldset>
     <hr>
-    {{-- Red sa sudom --}}
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
-                <label for="sud_id">Надлежни суд:</label>
-                <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни суд" required>
-                    <option value=""></option>
-                    @foreach($sudovi as $sud)
-                    <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
-                            {{ $sud->naziv }}
-                </option>
-                @endforeach
-            </select>
-            @if ($errors->has('sud_id'))
-            <span class="help-block">
-                <strong>{{ $errors->first('sud_id') }}</strong>
-            </span>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
-            <label for="datum_tuzbe">Датум предмета (тужбе):</label>
-            <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
-                   value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
-            @if ($errors->has('datum_tuzbe'))
-            <span class="help-block">
-                <strong>{{ $errors->first('datum_tuzbe') }}</strong>
-            </span>
-            @endif
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
             <label for="vrsta_predmeta_id">Врста предмета:</label>
             <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
@@ -117,10 +84,40 @@
         @endif
     </div>
 </div>
-
+    <div class="col-md-4">
+        <div class="form-group{{ $errors->has('referent_id') ? ' has-error' : '' }}">
+            <label for="referent_id">Референт:</label>
+            <select name="referent_id" id="referent_id" class="chosen-select form-control" data-placeholder="Референт" required>
+                <option value=""></option>
+                @foreach($referenti as $referent)
+                <option value="{{ $referent->id }}"{{ old('referent_id') == $referent->id ? ' selected' : '' }}>
+                        {{ $referent->ime }} {{ $referent->prezime }}
+            </option>
+            @endforeach
+        </select>
+        @if ($errors->has('referent_id'))
+        <span class="help-block">
+            <strong>{{ $errors->first('referent_id') }}</strong>
+        </span>
+        @endif
+    </div>
 </div>
 
-<fieldset>
+<div class="col-md-4">
+    <div class="form-group{{ $errors->has('vrednost_tuzbe') ? ' has-error' : '' }}">
+        <label for="vrednost_tuzbe">Вредност: </label>
+        <input type="number" name="vrednost_tuzbe" id="vrednost_tuzbe" class="form-control"
+               min="0" step="0.01"
+               value="{{ old('vrednost_tuzbe') ? old('vrednost_tuzbe') : 10000 }}">
+        @if ($errors->has('vrednost_tuzbe'))
+        <span class="help-block">
+            <strong>{{ $errors->first('vrednost_tuzbe') }}</strong>
+        </span>
+        @endif
+    </div>
+</div>
+</div>
+    <fieldset>
     <legend>Странке</legend>
 
     <div class="row">
@@ -160,6 +157,74 @@
         </div>
     </div>
 </fieldset>
+    {{-- Red sa sudom --}}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
+                <label for="sud_id">Надлежни орган:</label>
+                <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни орган" required>
+                    <option value=""></option>
+                    @foreach($sudovi as $sud)
+                    <option value="{{ $sud->id }}"{{ old('sud_id') == $sud->id ? ' selected' : '' }}>
+                            {{ $sud->naziv }}
+                </option>
+                @endforeach
+            </select>
+            @if ($errors->has('sud_id'))
+            <span class="help-block">
+                <strong>{{ $errors->first('sud_id') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
+            <label for="datum_tuzbe">Датум предмета (тужбе):</label>
+            <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
+                   value="{{ old('datum_tuzbe') ? old('datum_tuzbe') : date('Y-m-d', time()) }}" required>
+            @if ($errors->has('datum_tuzbe'))
+            <span class="help-block">
+                <strong>{{ $errors->first('datum_tuzbe') }}</strong>
+            </span>
+            @endif
+        </div>
+    </div>
+</div>
+ <div class="row">
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('sudnica') ? ' has-error' : '' }}">
+                <label for="sudnica">Судница:</label>
+                <input type="text" name="sudnica" id="sudnica" class="form-control">{{ old('sudnica') }}</input>
+                @if ($errors->has('sudnica'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sudnica') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+         <div class="col-md-4">
+            <div class="form-group{{ $errors->has('sudija') ? ' has-error' : '' }}">
+                <label for="sudija">Судија:</label>
+                <input type="text" name="sudija" id="sudija" class="form-control">{{ old('sudija') }}</input>
+                @if ($errors->has('sudija'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sudija') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('advokat') ? ' has-error' : '' }}">
+                <label for="advokat">Адвокат:</label>
+                <input type="text" name="advokat" id="advokat" class="form-control">{{ old('advokat') }}</input>
+                @if ($errors->has('advokat'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('advokat') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+    </div>
 
 <fieldset>
     <legend>Опис предмета</legend>
@@ -205,38 +270,7 @@
 </fieldset>
 <hr>
 <div class="row">
-    <div class="col-md-4">
-        <div class="form-group{{ $errors->has('referent_id') ? ' has-error' : '' }}">
-            <label for="referent_id">Референт:</label>
-            <select name="referent_id" id="referent_id" class="chosen-select form-control" data-placeholder="Референт" required>
-                <option value=""></option>
-                @foreach($referenti as $referent)
-                <option value="{{ $referent->id }}"{{ old('referent_id') == $referent->id ? ' selected' : '' }}>
-                        {{ $referent->ime }} {{ $referent->prezime }}
-            </option>
-            @endforeach
-        </select>
-        @if ($errors->has('referent_id'))
-        <span class="help-block">
-            <strong>{{ $errors->first('referent_id') }}</strong>
-        </span>
-        @endif
-    </div>
-</div>
-<div class="col-md-4">
-    <div class="form-group{{ $errors->has('vrednost_tuzbe') ? ' has-error' : '' }}">
-        <label for="vrednost_tuzbe">Вредност: </label>
-        <input type="number" name="vrednost_tuzbe" id="vrednost_tuzbe" class="form-control"
-               min="0" step="0.01"
-               value="{{ old('vrednost_tuzbe') ? old('vrednost_tuzbe') : 10000 }}">
-        @if ($errors->has('vrednost_tuzbe'))
-        <span class="help-block">
-            <strong>{{ $errors->first('vrednost_tuzbe') }}</strong>
-        </span>
-        @endif
-    </div>
-</div>
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="form-group{{ $errors->has('roditelj_id') ? ' has-error' : '' }}">
         <label for="roditelj_id">Предмет родитељ:</label>
         <select name="roditelj_id" id="roditelj_id" class="chosen-select form-control" data-placeholder="Предмет родитељ">
@@ -277,26 +311,6 @@
 @endsection
 
 @section('traka')
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Провера тужилац</h3>
-    </div>
-    <div class="panel-body">
-        <table class="table table-striped" style="font-size: 0.75em;">
-            <thead>
-                <tr>
-                    <th style="width: 15%">Број </th>
-                    <th style="width: 25%">Тужилац </th>
-                    <th style="width: 25%">Врста </th>
-                    <th style="width: 35%">Опис </th>
-                </tr>
-            </thead>
-            <tbody id="tuzilac_body">
-            </tbody>
-        </table>
-    </div>
-</div>
-<hr>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Провера катастарска парцела</h3>

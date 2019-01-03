@@ -13,7 +13,14 @@ use App\Modeli\SudBroj;
 class PredmetiSudBrojKontroler extends Kontroler
 {
 
-    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getLista',
+        ]);
+    }
+
     public function getLista($id)
     {
         $predmet = Predmet::find($id);

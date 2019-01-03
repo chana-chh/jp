@@ -24,8 +24,17 @@
         <tr>
             <td style="font-size:1.5em;"><strong>{{ $predmet->broj_predmeta }}</strong></td>
             <td>{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
-            <td>{{ $predmet->stranka_1 }}</td>
-            <td>{{ $predmet->stranka_2 }}</td>
+
+            <td><ul class="list-unstyled">
+                    @foreach ($predmet->tuzioci as $s1)
+                    <li>{{ $s1->naziv }}</li>
+                    @endforeach
+                </ul></td>
+            <td><ul class="list-unstyled">
+                    @foreach ($predmet->tuzeni as $s2)
+                    <li>{{ $s2->naziv }}</li>
+                    @endforeach
+                </ul></td>
         </tr>
 
             </tbody>

@@ -16,6 +16,9 @@ class CreatePredmetiTable extends Migration
             $table->integer('broj_predmeta')->unsigned();
             $table->integer('godina_predmeta')->unsigned();
             $table->integer('sud_id')->unsigned();
+            $table->string('sudija')->nullable();
+            $table->string('sudnica')->nullable();
+            $table->string('advokat')->nullable();
             $table->integer('vrsta_predmeta_id')->unsigned();
             $table->text('opis')->nullable();
             $table->string('opis_kp')->nullable();

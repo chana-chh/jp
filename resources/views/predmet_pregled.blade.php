@@ -27,12 +27,12 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono" style="margin-top: 5px">
-                    <i class="fa fa-arrow-circle-left"></i> Назад на предмете
+                    <i class="fa fa-arrow-circle-left"></i> На предмете
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success btn-block ono" style="margin-top: 5px">
                     <i class="fa fa-pencil"></i> Измени
                 </a>
@@ -42,8 +42,13 @@
                     <i class="fa fa-archive"></i> Архивирање/активирање
                 </button>
             </div>
-            @if (Gate::allows('admin'))
             <div class="col-md-3">
+                <a href="{{ route('stampa', $predmet->id) }}" class="btn btn-success btn-block ono" style="margin-top: 5px">
+                    <i class="fa fa-print"></i> Штампај уписник
+                </a>
+            </div>
+            @if (Gate::allows('admin'))
+            <div class="col-md-2">
                 <button class="btn btn-danger btn-block ono" id="dugmeBrisanjePredmeta" style="margin-top: 5px">
                     <i class="fa fa-trash"></i> Брисање
                 </button>
@@ -112,6 +117,45 @@
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
             <td style="width: 10%;"></td>
         </tr>
+        <tr style="font-size: 1.25em">
+            <th style="width: 20%;"><strong>Тужилац:</strong></th>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzioci as $s1)
+                    <li>{{ $s1->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
+        </tr>
+        <tr style="font-size: 1.25em">
+            <th style="width: 20%;"><strong>Тужени:</strong></th>
+            <td>
+                <ul class="list-unstyled">
+                    @foreach ($predmet->tuzeni as $s2)
+                    <li>{{ $s2->naziv }}</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td style="width: 10%;; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+            </td>
+        </tr>
+                <tr>
+            <th style="width: 20%;"><strong>Датум пријема:</strong></th>
+            <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
+            <th style="width: 20%;"><strong>Врста предмета:</strong></th>
+            <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
             <td style="width: 70%;">
@@ -128,12 +172,7 @@
             </td>
         </tr>
         <tr>
-            <th style="width: 20%;"><strong>Датум пријема:</strong></th>
-            <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Суд:</strong></th>
+            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
             <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>@foreach ($predmet->sudBrojevi as $broj)
 
                         {{$broj->broj}} &emsp;
@@ -148,8 +187,18 @@
             </td>
         </tr>
         <tr>
-            <th style="width: 20%;"><strong>Врста предмета:</strong></th>
-            <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
+            <th style="width: 20%;"><strong>Судница:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudnica }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+         <tr>
+            <th style="width: 20%;"><strong>Судија:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudija }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
+            <th style="width: 20%;"><strong>Адвокат:</strong></th>
+            <td style="width: 70%;">{{ $predmet->advokat }}</td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
@@ -166,35 +215,6 @@
             <th style="width: 20%;"><strong>Опис предмета:</strong></th>
             <td style="width: 70%;">{{ $predmet->opis }}</td>
             <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Тужилац:</strong></th>
-            <td>
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-
-            <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-            </td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Тужени:</strong></th>
-            <td>
-                <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
-                    @endforeach
-                </ul>
-            </td>
-            <td style="width: 10%;; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeKomintenti" href="{{ route('predmet.komintenti', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Вредност тужбе:</strong></th>
@@ -607,7 +627,7 @@
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
-            @foreach ($predmet->rocista as $rociste)
+            @foreach ($predmet->rocista->sortByDesc('datum')->sortByDesc('vreme') as $rociste)
             <tr>
                 <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                 <td style="width: 18%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>

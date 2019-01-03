@@ -22,17 +22,29 @@ use App\Modeli\PredmetSlika;
 use App\Modeli\Komintent;
 use Yajra\DataTables\DataTables;
 
-class PredmetiKontroler extends Kontroler {
+class PredmetiKontroler extends Kontroler
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
+        $this->middleware('power.user')->except([
+            'getLista',
+            'getListaFilter',
+            'postAjax',
+            'postListaFilter',
+            'naprednaPretraga',
+            'getPregled',
+            'getPredmetiSlike',
+        ]);
         $this->middleware('admin')->only([
             'getPredmetiObrisani',
             'postVracanjeObrisanogPredmeta'
         ]);
     }
 
-    public function getLista() {
+    public function getLista()
+    {
         $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
         $sudovi = Sud::orderBy('naziv', 'ASC')->get();
         $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
@@ -41,7 +53,8 @@ class PredmetiKontroler extends Kontroler {
         return view('predmeti')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti'));
     }
 
-    public function postAjax(Request $request) {
+    public function postAjax(Request $request)
+    {
 
         $query = "SELECT `predmeti`.`id`, `predmeti`.`arhiviran`, `predmeti`.`broj_predmeta`, `predmeti`.`godina_predmeta`,
                 `predmeti`.`opis` as opis_predmeta, `predmeti`.`opis_kp`, `predmeti`.`opis_adresa`, `predmeti`.`datum_tuzbe`,
@@ -86,20 +99,23 @@ class PredmetiKontroler extends Kontroler {
         return DataTables::of($predmeti)->make(true);
     }
 
-    public function getListaFilter(Request $req) {
+    public function getListaFilter(Request $req)
+    {
         $parametri = $req->session()->get('parametri_za_filter_predmeta', null);
         $predmeti = $this->naprednaPretraga($parametri);
         return DataTables::of($predmeti)->make(true);
         // return view('predmeti_filter')->with(compact('predmeti'));
     }
 
-    public function postListaFilter(Request $req) {
+    public function postListaFilter(Request $req)
+    {
         $req->session()->put('parametri_za_filter_predmeta', $req->all());
         return view('predmeti_filter');
         // return redirect()->route('predmeti.filter');
     }
 
-    private function naprednaPretraga($params) {
+    private function naprednaPretraga($params)
+    {
 
         $predmeti = null;
 
@@ -244,7 +260,8 @@ class PredmetiKontroler extends Kontroler {
         return $predmeti;
     }
 
-    public function getPregled($id) {
+    public function getPregled($id)
+    {
         $predmet = Predmet::find($id);
         $tipovi_rocista = TipRocista::all();
         $spisak_uprava = Uprava::all();
@@ -260,23 +277,25 @@ class PredmetiKontroler extends Kontroler {
         return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
     }
 
-    public function getDodavanje() {
+    public function getDodavanje()
+    {
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
         $predmeti = DB::table('predmeti')
-                ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-                ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-                ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
+            ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
                             predmeti.id as idp'))
-                ->get();
+            ->get();
 
         $komintenti = Komintent::select('id', 'naziv')->get();
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
     }
 
-    public function postDodavanje(Request $req) {
+    public function postDodavanje(Request $req)
+    {
         $this->validate($req, [
             'vrsta_upisnika_id' => 'required|integer',
             'broj_predmeta' => 'required|integer',
@@ -292,6 +311,9 @@ class PredmetiKontroler extends Kontroler {
         $predmet->broj_predmeta = $req->broj_predmeta;
         $predmet->godina_predmeta = $req->godina_predmeta;
         $predmet->sud_id = $req->sud_id;
+        $predmet->sudnica = $req->sudnica;
+        $predmet->sudija = $req->sudija;
+        $predmet->advokat = $req->advokat;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;
@@ -316,7 +338,8 @@ class PredmetiKontroler extends Kontroler {
         return redirect()->route('stampa', $predmet->id);
     }
 
-    public function getIzmena($id) {
+    public function getIzmena($id)
+    {
         $predmet = Predmet::with('tuzioci', 'tuzeni')->find($id);
         $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $sudovi = Sud::all();
@@ -326,13 +349,15 @@ class PredmetiKontroler extends Kontroler {
         return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti', 'komintenti'));
     }
 
-    public function getStampa($id) {
+    public function getStampa($id)
+    {
         $predmet = Predmet::find($id);
         Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
         return view('stampa_upisnik')->with(compact('predmet'));
     }
 
-    public function postIzmena(Request $req, $id) {
+    public function postIzmena(Request $req, $id)
+    {
         $this->validate($req, [
             'sud_id' => 'required|integer',
             'vrsta_predmeta_id' => 'required|integer',
@@ -342,6 +367,9 @@ class PredmetiKontroler extends Kontroler {
 
         $predmet = Predmet::find($id);
         $predmet->sud_id = $req->sud_id;
+        $predmet->sudnica = $req->sudnica;
+        $predmet->sudija = $req->sudija;
+        $predmet->advokat = $req->advokat;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;
@@ -362,7 +390,8 @@ class PredmetiKontroler extends Kontroler {
         return redirect()->route('predmeti.pregled', $id);
     }
 
-    public function postArhiviranje(Request $req) {
+    public function postArhiviranje(Request $req)
+    {
         if ($req->ajax()) {
             $id = $req->id;
 
@@ -394,7 +423,8 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
-    public function postBrisanje(Request $req) {
+    public function postBrisanje(Request $req)
+    {
         $predmet = Predmet::findOrFail($req->id);
         $vreme = Carbon::now();
 
@@ -417,7 +447,8 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
-    public function getPredmetiObrisani() {
+    public function getPredmetiObrisani()
+    {
         $predmeti = Predmet::onlyTrashed()->get();
         $upisnici = VrstaUpisnika::all();
         $sudovi = Sud::all();
@@ -427,7 +458,8 @@ class PredmetiKontroler extends Kontroler {
         return view('predmeti_obrisani')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti'));
     }
 
-    public function postVracanjeObrisanogPredmeta(Request $req) {
+    public function postVracanjeObrisanogPredmeta(Request $req)
+    {
         if ($req->ajax()) {
             $predmet = Predmet::onlyTrashed()->find($req->id);
             if ($predmet !== null) {
@@ -449,14 +481,16 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
-    public function getPredmetiSlike($id) {
+    public function getPredmetiSlike($id)
+    {
         $predmet = Predmet::findOrFail($id);
         $slike = $predmet->slike;
 
         return view('predmet_slike')->with(compact('slike', 'predmet'));
     }
 
-    public function postPredmetiSlike(Request $req, $id) {
+    public function postPredmetiSlike(Request $req, $id)
+    {
         $predmet = Predmet::findOrFail($id);
 
         $this->validate($req, [
@@ -467,8 +501,8 @@ class PredmetiKontroler extends Kontroler {
         $ime_slike = $predmet->broj_predmeta . time() . '.' . $req->slika->getClientOriginalExtension();
         $lokacija = public_path('images/skenirano/' . $ime_slike);
         $resize_img = Image::make($img)->heighten(800, function ($constraint) {
-                    $constraint->upsize();
-                })->encode('jpg', 75);
+            $constraint->upsize();
+        })->encode('jpg', 75);
         $resize_img->save($lokacija);
 
         $slika = new PredmetSlika;
@@ -479,7 +513,8 @@ class PredmetiKontroler extends Kontroler {
         return redirect()->route('predmeti.slike', $id);
     }
 
-    public function postSlikeBrisanje(Request $req) {
+    public function postSlikeBrisanje(Request $req)
+    {
 
         $slika = PredmetSlika::find($req->idBrisanje);
         $putanja = public_path('images/skenirano/') . $slika->src;
@@ -493,16 +528,17 @@ class PredmetiKontroler extends Kontroler {
         return Redirect::back();
     }
 
-    public function proveraTuzilac(Request $req) {
+    public function proveraTuzilac(Request $req)
+    {
 
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraTuzilac) {
 
                 $predmeti = DB::table('predmeti')
-                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-                        ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
+                    ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                    ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                    ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
                             predmeti.stranka_1 as stranka_1,
@@ -510,22 +546,22 @@ class PredmetiKontroler extends Kontroler {
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
                             s_vrste_upisnika.slovo as slovo'))
-                        ->where('stranka_1', 'LIKE', '%' . $req->proveraTuzilac . '%')->limit(20)
-                        ->get();
+                    ->where('stranka_1', 'LIKE', '%' . $req->proveraTuzilac . '%')->limit(20)
+                    ->get();
                 if ($predmeti) {
                     foreach ($predmeti as $key => $predmet) {
                         $rezultat .= '<tr>' .
-                                '<td>
+                            '<td>
                                     <strong>
                                     <a class="popTuzilac" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="' . $predmet->vrsta_upisnika . '"
                                     href="' . route('predmeti.pregled', $predmet->id) . '">'
-                                . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
+                            . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
                                     </strong></td>' .
-                                '<td>' . $predmet->stranka_1 . '</td>' .
-                                '<td>' . $predmet->vrsta_predmeta . '</td>' .
-                                '<td>' . $predmet->opis_kp . '</td>' .
-                                '</tr>';
+                            '<td>' . $predmet->stranka_1 . '</td>' .
+                            '<td>' . $predmet->vrsta_predmeta . '</td>' .
+                            '<td>' . $predmet->opis_kp . '</td>' .
+                            '</tr>';
                     }
                 }
             }
@@ -534,16 +570,17 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
-    public function proveraKp(Request $req) {
+    public function proveraKp(Request $req)
+    {
 
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraKp) {
 
                 $predmeti = DB::table('predmeti')
-                        ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-                        ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-                        ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
+                    ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
+                    ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+                    ->select(DB::raw('  s_vrste_predmeta.naziv as vrsta_predmeta,
                             s_vrste_upisnika.naziv as vrsta_upisnika,
                             predmeti.broj_predmeta as broj,
                             predmeti.opis as opis,
@@ -551,25 +588,24 @@ class PredmetiKontroler extends Kontroler {
                             predmeti.godina_predmeta as godina,
                             predmeti.id as id,
                             s_vrste_upisnika.slovo as slovo'))
-                        ->where('opis_kp', 'LIKE', '%' . $req->proveraKp . '%')
-                        ->orWhere('opis', 'LIKE', '%' . $req->proveraKp . '%')
-                        ->limit(20)
-                        ->get();
+                    ->where('opis_kp', 'LIKE', '%' . $req->proveraKp . '%')
+                    ->orWhere('opis', 'LIKE', '%' . $req->proveraKp . '%')
+                    ->limit(20)
+                    ->get();
                 if ($predmeti) {
                     foreach ($predmeti as $key => $predmet) {
                         $rezultat .= '<tr>' .
-                                '<td>
+                            '<td>
                                     <strong>
                                     <a class="popKp" data-container="body" data-toggle="popover" title="Додатни подаци" data-content="пера"
                                     href="' . route('predmeti.pregled', $predmet->id) . '">'
-                                . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
+                            . $predmet->slovo . '-' . $predmet->broj . '/' . $predmet->godina . '
                                     </a>
                                     </strong></td>' .
-                                '<td>пера</td>' .
-                                '<td>' . $predmet->opis . '</td>' .
-                                '<td>' . $predmet->vrsta_predmeta . '</td>' .
-                                '<td>' . $predmet->opis_kp . '</td>' .
-                                '</tr>';
+                            '<td>' . $predmet->opis . '</td>' .
+                            '<td>' . $predmet->vrsta_predmeta . '</td>' .
+                            '<td>' . $predmet->opis_kp . '</td>' .
+                            '</tr>';
                     }
                 }
             }
@@ -577,7 +613,8 @@ class PredmetiKontroler extends Kontroler {
         }
     }
 
-    public function getAjaxBrojPoVrsti(Request $req) {
+    public function getAjaxBrojPoVrsti(Request $req)
+    {
         if ($req->ajax()) {
             if ($req->upisnik && $req->godina) {
                 $upisnik_id = $req->upisnik;

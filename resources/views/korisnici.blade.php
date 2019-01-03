@@ -21,24 +21,24 @@
             <div class="col-md-12">
             <table class="table table-striped tabelaKorisnici" name="tabelaKorisnici" id="tabelaKorisnici">
                 <thead>
-                      <th>#</th>
-                      <th>Име и презиме</th>
-                      <th>Корисничко име</th>
-                      <th>Администратор</th>
-                      <th style="text-align:center"><i class="fa fa-cogs"></i></th>
+                      <th style="width:10%;">#</th>
+                      <th style="width:40%;">Име и презиме</th>
+                      <th style="width:20%;">Корисничко име</th>
+                      <th style="width:15%;">Администратор</th>
+                      <th style="width:15%;text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody id="korisnici_lista" name="korisnici_lista">
                 @foreach ($korisnici as $korisnik)
-                        <tr>
-                                <td>{{$korisnik->id}}</td>
-                                <td><strong>{{$korisnik->name}}</strong></td>
-                                <td>{{$korisnik->username}}</td>
-                                <td style="text-align:center">{!! $korisnik->level == 0 ? '<i class="fa fa-check text-success">' : '' !!}</td>
-                                 <td style="text-align:center">
-                                 <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('korisnici.pregled', $korisnik->id) }}"><i class="fa fa-pencil"></i></a>
+                <tr>
+                    <td>{{$korisnik->id}}</td>
+                    <td><strong>{{$korisnik->name}}</strong></td>
+                    <td>{{$korisnik->username}}</td>
+                    <td style="text-align:center">{!! $korisnik->level == 0 ? '<i class="fa fa-check text-success">' : '' !!}</td>
+                        <td style="text-align:center">
+                        <a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena"  href="{{ route('korisnici.pregled', $korisnik->id) }}"><i class="fa fa-pencil"></i></a>
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori_modal"  value="{{$korisnik->id}}"><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
+                    </td>
+                </tr>
                 @endforeach
                 </tbody>
             </table>
@@ -94,8 +94,8 @@
                 </span>
             @endif
         </div>
-
-          <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+ 
+        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
         <label for="password">Лозинка:</label>
         <input type="password" name="password" id="password" class="form-control" minlength="4" required>
             @if ($errors->has('password'))
@@ -115,8 +115,19 @@
             @endif
         </div>
 
-        <div class="form-group checkboxoviforme">
-                <label><input type="checkbox" name="admin" id="admin"> &emsp;Да ли је корисник администратор?</label>
+
+        <div class="form-group{{ $errors->has('level') ? ' has-error' : '' }}">
+        <label for="level">Врста корисника:</label>
+        <select name="level" id="level" class="form-control" required>
+            <option value="0">администратор</option>
+            <option value="100">обрађивач предмета</option>
+            <option value="200" selected>корисник</option>
+        </select>
+        @if ($errors->has('password_confirmation'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password_confirmation') }}</strong>
+            </span>
+        @endif
         </div>
 
         <div class="row dugmici">

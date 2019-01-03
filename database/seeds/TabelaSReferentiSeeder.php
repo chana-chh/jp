@@ -37,10 +37,6 @@ class TabelaSReferentiSeeder extends Seeder {
             'ime' => 'Гордана',
             'prezime' => 'Филиповић'
         ]);
-        DB::table('s_referenti')->insert([
-            'ime' => 'девети',
-            'prezime' => 'референт'
-        ]);
     }
 
 }
