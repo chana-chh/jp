@@ -58,4 +58,29 @@ class PredmetiSudBrojKontroler extends Kontroler
         return Redirect::back();
     }
 
+    public function postDetalj(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = SudBroj::find($request->id);
+            return response()->json($data);
+        }
+    }
+
+    public function postIzmena(Request $request)
+    {
+        $id = $request->idModal;
+        $this->validate($request, [
+            'brojModal' => [
+                'required',
+                'max:50'],
+        ]);
+
+        $data = SudBroj::find($id);
+        $data->broj = $request->brojModal;
+        $data->save();
+
+        Session::flash('uspeh', 'Ставка је успешно измењена!');
+        return Redirect::back();
+    }
+
 }

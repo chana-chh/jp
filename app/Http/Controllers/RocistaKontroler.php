@@ -185,6 +185,8 @@ class RocistaKontroler extends Kontroler
         $rocista = Rociste::with('tipRocista', 'predmet')
             ->where('tip_id', 2)
             ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
+            ->orderBy('datum')
+            ->orderBy('vreme')
             ->get();
 
         $referenti = Referent::all();
@@ -262,6 +264,8 @@ class RocistaKontroler extends Kontroler
             })
                 ->where('tip_id', 2)
                 ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
+                ->orderBy('datum')
+                ->orderBy('vreme')
                 ->get();
         }
         return $rocista;

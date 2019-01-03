@@ -18,7 +18,7 @@
 <form id="forma" action="{{ route('predmeti.izmena.post', $predmet->id) }}" method="POST" data-parsley-validate>
     {{ csrf_field() }}
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
                 <label for="sud_id">Надлежни суд:</label>
                 <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни суд" required>
@@ -38,18 +38,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-group{{ $errors->has('broj_predmeta_sud') ? ' has-error' : '' }}">
-                <label for="broj_predmeta_sud">Број предмета у суду:</label>
-                <input type="text" name="broj_predmeta_sud" id="broj_predmeta_sud" class="form-control"
-                       value="{{ old('broj_predmeta_sud', $predmet->broj_predmeta_sud) }}" maxlength="50">
-                @if ($errors->has('broj_predmeta_sud'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('broj_predmeta_sud') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
+
         <div class="col-md-2">
             <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
                 <label for="datum_tuzbe">Датум предмета (тужбе):</label>
@@ -62,7 +51,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
                 <label for="vrsta_predmeta_id">Врста предмета:</label>
                 <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
@@ -78,18 +67,6 @@
                 @if ($errors->has('vrsta_predmeta_id'))
                 <span class="help-block">
                     <strong>{{ $errors->first('vrsta_predmeta_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group{{ $errors->has('stari_broj_predmeta') ? ' has-error' : '' }}">
-                <label for="stari_broj_predmeta">Стари број предмета:</label>
-                <input type="text" name="stari_broj_predmeta" id="stari_broj_predmeta" class="form-control"
-                       value="{{ old('stari_broj_predmeta', $predmet->stari_broj_predmeta) }}" maxlength="50">
-                @if ($errors->has('stari_broj_predmeta'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('stari_broj_predmeta') }}</strong>
                 </span>
                 @endif
             </div>

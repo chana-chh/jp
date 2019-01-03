@@ -36,8 +36,8 @@
             <div class="col-md-12">
             <table class="table table-striped tabelaStari" name="tabelaStari" id="tabelaStari">
                 <thead>
-                        <th style="width: 90%;">Број </th>
-                        <th style="text-align:center; width: 10%;"><i class="fa fa-cogs"></i></th>
+                        <th style="width: 80%;">Број </th>
+                        <th style="text-align:center; width: 20%;"><i class="fa fa-cogs"></i></th>
                 </thead>
                 <tbody>
                 @foreach ($sud_brojevi as $v)
@@ -47,6 +47,9 @@
                     <button id="dugmeBrisanje" class="btn btn-danger btn-sm otvori-brisanje"  
                     data-toggle="modal" data-target="#brisanjeModal"
                     value="{{$v->id}}"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-success btn-sm otvori-izmenu" data-toggle="modal" data-target="#editModal" value="{{ $v->id }}">
+                    <i class="fa fa-pencil"></i>
+                </button>
                             </td>
                         </tr>
                 @endforeach
@@ -94,6 +97,51 @@
     </div>
 </div>
     {{-- Kraj Modala za dijalog brisanje--}}
+
+    {{-- Pocetak Modala za dijalog izmena--}}
+<div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title text-primary">Измени број предмета код надлежног органа</h2>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('predmeti.sud_broj.izmena') }}" method="post">
+                    {{ csrf_field() }}
+
+                    <div class="form-group">
+                        <label for="brojModal">Број:</label>
+                        <input type="text" class="form-control" id="brojModal" name="brojModal">
+                    </div>
+
+                    <input type="hidden" id="idModal" name="idModal">
+                    <hr>
+
+                                <div class="row dugmici" style="margin-top: 30px;">
+            <div class="col-md-12" >
+                <div class="form-group">
+                    <div class="col-md-6 snimi">
+                        <button id = "btn-snimi" type="submit" class="btn btn-success btn-block ono">
+                            <i class="fa fa-save"></i>&emsp;Сними измене
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-primary btn-block ono" data-dismiss="modal">
+                            <i class="fa fa-ban"></i>&emsp;Откажи
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    {{-- Kraj Modala za dijalog izmena--}}
 @endsection
 
 @section('traka')
@@ -175,6 +223,23 @@ $( document ).ready(function() {
             console.log(id);
             $('#brisanje-forma').attr('action', ruta);
         });
+
+                $(document).on('click','.otvori-izmenu',function(){
+        
+        var id = $(this).val();
+        var ruta = "{{ route('predmeti.sud_broj.detalj') }}";
+
+        $.ajax({
+        url: ruta,
+        type:"POST", 
+        data: {"id":id, _token: "{!! csrf_token() !!}"},
+        success: function(data){
+          $("#idModal").val(data.id);
+          $("#brojModal").val(data.broj);
+        }
+      });     
+
+    });
 });
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>

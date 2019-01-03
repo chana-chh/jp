@@ -111,11 +111,15 @@ Route::post('sifarnici/komintenti/ajax', 'KomintentiKontroler@postAjax')->name('
 Route::get('predmeti/stari_broj/{id}', 'PredmetiStariBrojKontroler@getLista')->name('predmeti.stari_broj');
 Route::post('predmeti/stari_broj/dodavanje/{id}', 'PredmetiStariBrojKontroler@postDodavanje')->name('predmeti.stari_broj.dodavanje');
 Route::post('predmeti/stari_broj/brisanje', 'PredmetiStariBrojKontroler@postBrisanje')->name('predmeti.stari_broj.brisanje');
+Route::post('predmeti/stari_broj/detalj', 'PredmetiStariBrojKontroler@postDetalj')->name('predmeti.stari_broj.detalj');
+Route::post('predmeti/stari_broj/izmena', 'PredmetiStariBrojKontroler@postIzmena')->name('predmeti.stari_broj.izmena');
 
 //Predmeti sud broj
 Route::get('predmeti/sud_broj/{id}', 'PredmetiSudBrojKontroler@getLista')->name('predmeti.sud_broj');
 Route::post('predmeti/sud_broj/dodavanje/{id}', 'PredmetiSudBrojKontroler@postDodavanje')->name('predmeti.sud_broj.dodavanje');
 Route::post('predmeti/sud_broj/brisanje', 'PredmetiSudBrojKontroler@postBrisanje')->name('predmeti.sud_broj.brisanje');
+Route::post('predmeti/sud_broj/detalj', 'PredmetiSudBrojKontroler@postDetalj')->name('predmeti.sud_broj.detalj');
+Route::post('predmeti/sud_broj/izmena', 'PredmetiSudBrojKontroler@postIzmena')->name('predmeti.sud_broj.izmena');
 
 //Rocista
 Route::get('rocista', 'RocistaKontroler@getLista')->name('rocista');

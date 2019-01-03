@@ -211,12 +211,13 @@
             <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Статус</th>
             <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
-            <th style="width: 11%; text-align:right; padding-right: 25px">Суд <span class="text-success">/ </span> број</th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Надлежни орган</th>
+            <th style="width: 7%; text-align:right; padding-right: 25px">Број НО</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
             <th style="width: 12%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 14%; text-align:right; padding-right: 25px">Тужилац</th>
-            <th style="width: 14%; text-align:right; padding-right: 25px">Тужени</th>
-            <th style="width: 8%; text-align:right; padding-right: 25px">Датум</th>
+            <th style="width: 13%; text-align:right; padding-right: 25px">Тужилац</th>
+            <th style="width: 13%; text-align:right; padding-right: 25px">Тужени</th>
+            <th style="width: 5%; text-align:right; padding-right: 25px">Датум</th>
             <th style="width: 9%; text-align:right; padding-right: 25px">Референт</th>
             <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
@@ -268,6 +269,7 @@ $(document).ready(function () {
 
     $('#tabelaPredmeti').DataTable({
         order: [[0, 'desc']],
+        lengthMenu: [[10, 25, 50, 250, -1], [10, 25, 50, 250, "Сви"]],
         processing: true,
         serverSide: true,
         ajax: {
@@ -313,16 +315,12 @@ $(document).ready(function () {
                 name: 'ceo_broj_predmeta'
             },
             {
-                data: null,
-                render: function (data, type, row) {
-                    if (data.sudbroj) {
-                        return data.sud_naziv + ' са бројем: ' + data.sudbroj;
-                    } else {
-                        return data.sud_naziv
-                    }
-
-                },
-                name: 'sud'
+                data: 'sud_naziv',
+                name: 'sud_naziv'
+            },            
+            {
+                data: 'sudbroj',
+                name: 'sudbroj'
             },
             {
                 data: 'vp_naziv',
@@ -399,9 +397,9 @@ $(document).ready(function () {
                 pageSize: 'A4',
                 pageMargins: [
                     40,
-                    60,
                     40,
-                    60
+                    40,
+                    40
                 ],
                 exportOptions: {
                     columns: [
@@ -411,7 +409,10 @@ $(document).ready(function () {
                         4,
                         5,
                         6,
-                        7
+                        7,
+                        8,
+                        9,
+                        10
                     ]
                 }
             }
