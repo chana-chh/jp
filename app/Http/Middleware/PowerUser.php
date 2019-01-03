@@ -12,7 +12,7 @@ class PowerUser
     {
         if (Auth::user()->level > 100) {
             Session::flash('upozorenje', 'Немате право да приступите овој акцији!');
-            return redirect()->route('pocetna');
+            return redirect()->back();
         }
         return $next($request);
     }

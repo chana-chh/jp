@@ -12,6 +12,13 @@ use App\Modeli\Podnesak;
 class PredmetiPodnesci extends Kontroler
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getPredmetiPodnesci',
+        ]);
+    }
 
     public function getPredmetiPodnesci($id)
     {
@@ -23,12 +30,11 @@ class PredmetiPodnesci extends Kontroler
 
     public function postPredmetiPodnesci(Request $req)
     {
-
         $this->validate($req, [
-                'datum_podnosenja' => 'required|date',
-                'podnosioc' => 'required',
-                'podnosioc_tip' => 'required|integer'
-            ]);
+            'datum_podnosenja' => 'required|date',
+            'podnosioc' => 'required',
+            'podnosioc_tip' => 'required|integer'
+        ]);
 
         $podnesak = new Podnesak;
         $podnesak->predmet_id = $req->predmet_id;

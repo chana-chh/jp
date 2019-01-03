@@ -53,7 +53,7 @@
                 <div class="col-md-4">
                     <div class="form-group{{ $errors->has('id_broj') ? ' has-error' : '' }}">
                         <label for="id_broj">Матични број:</label>
-                        <input type="text" name="id_broj" id="id_broj" class="form-control" value="{{ old('id_broj', $komintent->id_broj) }}" maxlength="20" required>
+                        <input type="text" name="id_broj" id="id_broj" class="form-control" value="{{ old('id_broj', $komintent->id_broj) }}" maxlength="50">
                         @if ($errors->has('id_broj'))
                         <span class="help-block">
                             <strong>{{ $errors->first('id_broj') }}</strong>

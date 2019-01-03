@@ -14,6 +14,14 @@ use App\Modeli\Uprava;
 
 class PredmetiUpraveKontroler extends Kontroler
 {
+	public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('power.user')->except([
+            'getDetalj',
+        ]);
+	}
+	
 	public function postDodavanje(Request $req)
     {
         $this->validate($req, [

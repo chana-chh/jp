@@ -12,7 +12,7 @@ class User
     {
         if (Auth::user()->level > 200) {
             Session::flash('upozorenje', 'Немате право да приступите овој акцији!');
-            return redirect()->route('pocetna');
+            return redirect()->back();
         }
         return $next($request);
     }

@@ -27,12 +27,12 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono" style="margin-top: 5px">
-                    <i class="fa fa-arrow-circle-left"></i> Назад на предмете
+                    <i class="fa fa-arrow-circle-left"></i> На предмете
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="{{ route('predmeti.izmena.get', $predmet->id) }}" class="btn btn-success btn-block ono" style="margin-top: 5px">
                     <i class="fa fa-pencil"></i> Измени
                 </a>
@@ -42,8 +42,13 @@
                     <i class="fa fa-archive"></i> Архивирање/активирање
                 </button>
             </div>
-            @if (Gate::allows('admin'))
             <div class="col-md-3">
+                <a href="{{ route('stampa', $predmet->id) }}" class="btn btn-success btn-block ono" style="margin-top: 5px">
+                    <i class="fa fa-print"></i> Штампај уписник
+                </a>
+            </div>
+            @if (Gate::allows('admin'))
+            <div class="col-md-2">
                 <button class="btn btn-danger btn-block ono" id="dugmeBrisanjePredmeta" style="margin-top: 5px">
                     <i class="fa fa-trash"></i> Брисање
                 </button>
@@ -622,7 +627,7 @@
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
-            @foreach ($predmet->rocista as $rociste)
+            @foreach ($predmet->rocista->sortByDesc('datum')->sortByDesc('vreme') as $rociste)
             <tr>
                 <td style="width: 15%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                 <td style="width: 18%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
