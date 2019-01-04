@@ -78,6 +78,11 @@ Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmet
 Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
 Route::post('predmeti/arhiviranje', 'PredmetiKontroler@postArhiviranje')->name('predmeti.arhiviranje');
+
+ // TMP
+Route::post('predmeti/promena/referenta', 'PredmetiKontroler@postPromenaReferenta')->name('predmeti.referent.promena');
+// TMP
+
 Route::get('predmeti/obrisani', 'PredmetiKontroler@getPredmetiObrisani')->name('predmeti.obrisani');
 Route::get('predmeti/slike/{id}', 'PredmetiKontroler@getPredmetiSlike')->name('predmeti.slike');
 Route::post('predmeti/slike/{id}', 'PredmetiKontroler@postPredmetiSlike')->name('predmeti.slike.post');

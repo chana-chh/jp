@@ -110,6 +110,33 @@
 </div>
 {{--  kraj modal_arhiviranje  --}}
 
+{{--  pocetak modal_promena_referenta  --}}
+<div class="modal fade" id="referentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title text-warning">Аутоматска промена референта</h3>
+            </div>
+            <div class="modal-body">
+                <h3>Да ли желите да промените референта на Гордана Филиповић?</h3>
+                <p class="text-danger">
+                    Пази шта радиш!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="dugmeModalReferent">
+                    <i class="fa fa-archive"></i> Промени референта
+                </button>
+                <button type="button" class="btn btn-danger" id="dugmeModalReferentOtazi">
+                    <i class="fa fa-ban"></i> Откажи
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{--  kraj modal_promena_referenta  --}}
+
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr style="font-size: 1.2em">
@@ -256,7 +283,9 @@
         <tr>
             <th style="width: 20%;"><strong>Референт:</strong></th>
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
-            <td style="width: 10%;"></td>
+            <td style="width: 10%; text-align:right;">
+            <button class="btn btn-warning btn-xs" id="dugmePromenaReferenta"><i class="fa fa-pencil"></i></button>
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>
@@ -1066,6 +1095,7 @@
         var status_brisanje_ruta = "{{ route('status.brisanje') }}";
         var brisanje_ruta = "{{ route('predmeti.brisanje') }}";
         var arhiviranje_ruta = "{{ route('predmeti.arhiviranje') }}";
+        var referent_ruta="{{ route('predmeti.referent.promena') }}"; // TMP
         var predmeti_ruta = "{{ route('predmeti') }}";
         var id_predmeta = "{{ $predmet->id }}";
 
@@ -1255,6 +1285,29 @@
                 $('#arhiviranjeModal').modal('hide');
             });
         });
+
+        // Modal promena referenta !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TMP
+        $(document).on('click', '#dugmePromenaReferenta', function () {
+            $('#referentModal').modal('show');
+            $('#dugmeModalReferent').on('click', function () {
+                $.ajax({
+                    url: referent_ruta,
+                    type: "POST",
+                    data: {
+                        "id": id_predmeta,
+                        _token: "{!! csrf_token() !!}"
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                });
+                $('#referentModal').modal('hide');
+            });
+            $('#dugmeModalReferentOtazi').on('click', function () {
+                $('#referentModal').modal('hide');
+            });
+        });
+        // Modal promena referenta !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TMP
 
         // Modal brisanje predmeta
         $(document).on('click', '#dugmeBrisanjePredmeta', function () {
