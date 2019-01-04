@@ -205,21 +205,19 @@
     </div>
 </div>
 
-<table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
+<table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
     <thead>
         <tr>
-            <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
-            <th style="width: 6%; text-align:right; padding-right: 25px">Статус</th>
-            <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Надлежни орган</th>
-            <th style="width: 7%; text-align:right; padding-right: 25px">Број НО</th>
-            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
-            <th style="width: 12%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 13%; text-align:right; padding-right: 25px">Тужилац</th>
-            <th style="width: 13%; text-align:right; padding-right: 25px">Тужени</th>
-            <th style="width: 5%; text-align:right; padding-right: 25px">Датум</th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Референт</th>
-            <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
+            <th style="width: 3%">#</th>
+            <th style="width: 7%">Статус</th>
+            <th style="width: 8%">Број</th>
+            <th style="width: 9%">Надлежни орган број</th>
+            <th style="width: 14%">Врста предмета</th>
+            <th style="width: 15%">Опис</th>
+            <th style="width: 18%">Тужилац</th>
+            <th style="width: 18%">Тужени</th>
+            <th style="width: 5%">Датум</th>
+            <th style="width: 3%"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
 
@@ -310,13 +308,8 @@ $(document).ready(function () {
                     var rutap_id = rutap.replace('predmet_id', data.id);
 
                     return '<strong><a href="' + rutap_id + '">' + data.ceo_broj_predmeta + '</a></strong>';
-                    // return '<strong><a href="'+rutap_id+'">'+data.slovo+'-'+data.broj_predmeta+'/'+data.godina_predmeta+'</a></strong>';
                 },
                 name: 'ceo_broj_predmeta'
-            },
-            {
-                data: 'sud_naziv',
-                name: 'sud_naziv'
             },            
             {
                 data: 'sudbroj',
@@ -334,7 +327,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     if (data.stranka_1) {
-                        return '<small><em>' + data.stranka_1 + '</em></small>'
+                        return '<strong>' + data.stranka_1 + '</strong>'
                     } else {
                         return " "
                     }
@@ -346,7 +339,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     if (data.stranka_2) {
-                        return '<small><em>' + data.stranka_2 + '</em></small>'
+                        return '<strong>' + data.stranka_2 + '</strong>'
                     } else {
                         return " "
                     }
@@ -362,10 +355,6 @@ $(document).ready(function () {
                 name: 'datum_tuzbe'
             },
             {
-                data: 'puno_ime',
-                name: 'puno_ime'
-            },
-            {
                 data: null,
                 className: 'align-middle text-center',
                 orderable: false,
@@ -373,7 +362,8 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var ruta = "{{ route('predmeti.pregled', 'data_id') }}";
                     var ruta_id = ruta.replace('data_id', data.id);
-                    return '<a class="btn btn-success btn-sm otvori_izmenu" id="dugmeIzmena" href="' + ruta_id + '"><i class="fa fa-eye"></i></a>';
+                    var referent = data.puno_ime;
+                    return '<a class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena" title="'+referent+'" href="' + ruta_id + '"><i class="fa fa-eye"></i></a>';
                 },
                 name: 'akcije'
             }

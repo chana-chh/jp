@@ -113,21 +113,6 @@
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr style="font-size: 1.2em">
-            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
-            <td style="width: 70%;">{{ $predmet->sud->naziv }} са бројем: <span style="color: #d00"><strong>
-                    @foreach ($predmet->sudBrojevi as $broj)
-                        {{$broj->broj}} &emsp;
-                    @endforeach
-                </strong></span></td>
-            <td style="width: 10%; text-align:right;">
-                @if (Gate::allows('admin'))
-                <a class="btn btn-success btn-xs" id="dugmePregledSud" href="{{ route('predmeti.sud_broj', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                @endif
-            </td>
-        </tr>
-        <tr style="font-size: 1.2em">
             <th style="width: 20%;"><strong>Тужилац:</strong></th>
             <td>
                 <ul class="list-unstyled">
@@ -156,7 +141,37 @@
                     <i class="fa fa-pencil"></i>
             </td>
         </tr>
-                <tr>
+        <tr style="font-size: 1.2em">
+            <th style="width: 20%;"><strong>Надлежни орган:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sud->naziv }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr style="font-size: 1.2em">
+            <th style="width: 20%;"><strong>Надлежни орган број:</strong></th>
+            <td style="width: 70%;">
+                    @foreach ($predmet->sudBrojevi as $broj)
+                        <strong class="text-danger">{{$broj->broj}}<strong> <br>
+                    @endforeach</td>
+            <td style="width: 10%; text-align:right;"><a class="btn btn-success btn-xs" id="dugmePregledSud" href="{{ route('predmeti.sud_broj', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a></td>
+        </tr>
+        <tr>
+            <th style="width: 20%;"><strong>Судница:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudnica }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+         <tr>
+            <th style="width: 20%;"><strong>Судија:</strong></th>
+            <td style="width: 70%;">{{ $predmet->sudija }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
+            <th style="width: 20%;"><strong>Адвокат:</strong></th>
+            <td style="width: 70%;">{{ $predmet->advokat }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
             <th style="width: 20%;"><strong>Датум пријема:</strong></th>
             <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
             <td style="width: 10%;"></td>
@@ -180,21 +195,6 @@
                 </a>
                 @endif
             </td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Судница:</strong></th>
-            <td style="width: 70%;">{{ $predmet->sudnica }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-         <tr>
-            <th style="width: 20%;"><strong>Судија:</strong></th>
-            <td style="width: 70%;">{{ $predmet->sudija }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Адвокат:</strong></th>
-            <td style="width: 70%;">{{ $predmet->advokat }}</td>
-            <td style="width: 10%;"></td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Катастарска парцела:</strong></th>
