@@ -211,11 +211,11 @@
             <th style="width: 3%">#</th>
             <th style="width: 7%">Статус</th>
             <th style="width: 8%">Број</th>
-            <th style="width: 9%">Надлежни орган број</th>
-            <th style="width: 14%">Врста предмета</th>
-            <th style="width: 15%">Опис</th>
             <th style="width: 18%">Тужилац</th>
             <th style="width: 18%">Тужени</th>
+            <th style="width: 9%">Надлежни орган број</th>
+            <th style="width: 15%">Опис</th>
+            <th style="width: 14%">Врста предмета</th>
             <th style="width: 5%">Датум</th>
             <th style="width: 3%"><i class="fa fa-cogs"></i></th>
         </tr>
@@ -310,18 +310,6 @@ $(document).ready(function () {
                     return '<strong><a href="' + rutap_id + '">' + data.ceo_broj_predmeta + '</a></strong>';
                 },
                 name: 'ceo_broj_predmeta'
-            },            
-            {
-                data: 'sudbroj',
-                name: 'sudbroj'
-            },
-            {
-                data: 'vp_naziv',
-                name: 'vp_naziv'
-            },
-            {
-                data: 'opis_predmeta',
-                name: 'opis_predmeta'
             },
             {
                 data: null,
@@ -346,6 +334,18 @@ $(document).ready(function () {
 
                 },
                 name: 'stranka_2'
+            },           
+            {
+                data: 'sudbroj',
+                name: 'sudbroj'
+            },
+            {
+                data: 'opis_predmeta',
+                name: 'opis_predmeta'
+            },
+            {
+                data: 'vp_naziv',
+                name: 'vp_naziv'
             },
             {
                 data: 'datum_tuzbe',
