@@ -16,7 +16,7 @@
                 <li><a href="{{ route('predmeti') }}"> <i class="fa fa-archive fa-fw" style="color: #18BC9C"></i> Предмети</a></li>
                 <li><a href="{{ route('izbor') }}"> <i class="fa fa-calendar-o fa-fw" style="color: #18BC9C"></i> Календар</a></li>
                 <li><a href="{{ route('tok') }}"> <i class="fa fa-money fa-fw" style="color: #18BC9C"></i> Ток новца</a></li>
-                <li><a href="{{ route('izvestaji') }}"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li>
+                {{-- <li><a href="{{ route('izvestaji') }}"> <i class="fa fa-print fa-fw" style="color: #18BC9C"></i> Извештаји</a></li> --}}
                 <li><a href="{{ route('o_programu') }}"> <i class="fa fa-info-circle fa-fw" style="color: #18BC9C"></i> О програму</a></li>
                 @if (Gate::allows('user'))
                 <li class="dropdown">

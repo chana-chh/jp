@@ -24,7 +24,7 @@
 </div>
 <hr>
 
-<table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
+<table class="table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
     <thead>
         <tr>
             <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
@@ -42,7 +42,11 @@
         </tr>
     </thead>
 </table>
-
+<div class="row">
+<h5>Иди на страницу</h5>
+<input type="number" name="skok" id="skok">
+<button id="dugmeSkok" class="btn btn-warning btn-sm"><i class="fa fa-rocket"></i></button>
+</div>
 @endsection
 
 @section('skripte')
@@ -58,7 +62,7 @@ $(document).ready(function () {
         $('#pretraga_div').toggle();
     });
 
-    $('#tabelaPredmeti').DataTable({
+    var tabela = $('#tabelaPredmeti').DataTable({
         order: [[0, 'desc']],
         lengthMenu: [[10, 25, 50, 250, -1], [10, 25, 50, 250, "Сви"]],
         processing: true,
@@ -171,11 +175,33 @@ $(document).ready(function () {
                 orientation: 'landscape',
                 pageSize: 'A4',
                 pageMargins: [
+                    20,
                     40,
-                    40,
-                    40,
+                    20,
                     40
-                ],
+                ], customize: function (doc) {
+                    
+                    var now = new Date();
+                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                    doc.defaultStyle.fontSize = 8;
+                    doc.styles.tableHeader.fontSize = 9;
+                    doc['footer']=(function(page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ['Документ је креиран: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'right',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                    }
+                                ],
+                                margin: 20
+                            }
+                        });
+
+                },
                 exportOptions: {
                     columns: [
                         1,
@@ -215,6 +241,17 @@ $(document).ready(function () {
             infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
         }
     });
+
+    $( "#skok" ).focus(function() {
+        var info = tabela.page.info();
+        var poslednja = info.pages;
+        $("#skok").prop('max',poslednja);
+        });
+
+    $('#dugmeSkok').on( 'click', function () {
+            var broj = parseInt($("#skok").val());
+            tabela.page(broj-1).draw( 'page' );
+        } );
 
     $('#dugme_pretrazi').click(function () {
         $('#pretraga').submit();

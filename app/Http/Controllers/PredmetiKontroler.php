@@ -174,6 +174,24 @@ class PredmetiKontroler extends Kontroler
             }
             $where .= "predmeti.vrednost_tuzbe = {$params['vrednost_tuzbe']}";
         }
+        if ($params['sudija']) {
+            if ($where !== ' WHERE ') {
+                $where .= ' AND ';
+            }
+            $where .= "predmeti.sudija LIKE '%{$params['sudija']}%'";
+        }
+        if ($params['sudnica']) {
+            if ($where !== ' WHERE ') {
+                $where .= ' AND ';
+            }
+            $where .= "predmeti.sudnica LIKE '%{$params['sudnica']}%'";
+        }
+        if ($params['advokat']) {
+            if ($where !== ' WHERE ') {
+                $where .= ' AND ';
+            }
+            $where .= "predmeti.advokat LIKE '%{$params['advokat']}%'";
+        }
         if ($params['opis_kp']) {
             if ($where !== ' WHERE ') {
                 $where .= ' AND ';
@@ -262,6 +280,10 @@ class PredmetiKontroler extends Kontroler
     public function getPregled($id)
     {
         $predmet = Predmet::find($id);
+        $rocista_kolekcija = $predmet->rocista;
+        $rocista = $rocista_kolekcija->sortByDesc(function($element) {
+            return [$element->datum, $element->vreme];
+        });
         $tipovi_rocista = TipRocista::all();
         $spisak_uprava = Uprava::all();
         $statusi = Status::all();
@@ -273,7 +295,7 @@ class PredmetiKontroler extends Kontroler
         $it = $it_potrazuje - $it_duguje;
 
         // Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
-        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it'));
+        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it', 'rocista'));
     }
 
     public function getDodavanje()

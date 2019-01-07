@@ -61,7 +61,7 @@
                        class="form-control">
             </div>
             <div class="form-group col-md-2">
-                <label for="broj_predmeta_sud">Број предмета у суду</label>
+                <label for="broj_predmeta_sud">Број предмета надлежног органа</label>
                 <input type="text" maxlen="50"
                        name="broj_predmeta_sud" id="broj_predmeta_sud"
                        class="form-control">
@@ -75,10 +75,10 @@
         </div>
         <div class="row">
             <div class="form-group col-md-3">
-                <label for="sud_id">Суд</label>
+                <label for="sud_id">Надлежни орган</label>
                 <select
                     name="sud_id" id="sud_id"
-                    class="chosen-select form-control" data-placeholder="Суд">
+                    class="chosen-select form-control" data-placeholder="Надлежни орган">
                     <option value=""></option>
                     @foreach($sudovi as $sud)
                     <option value="{{ $sud->id }}">
@@ -131,6 +131,26 @@
                 <label for="stranka_2">Тужени</label>
                 <input type="text" maxlen="255"
                        name="stranka_2" id="stranka_2"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="sudija">Судија</label>
+                <input type="text" maxlen="255"
+                       name="sudija" id="sudija"
+                       class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="sudnica">Судница</label>
+                <input type="text" maxlen="255"
+                       name="sudnica" id="sudnica"
+                       class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="advokat">Адвокат</label>
+                <input type="text" maxlen="255"
+                       name="advokat" id="advokat"
                        class="form-control">
             </div>
         </div>
@@ -205,7 +225,7 @@
     </div>
 </div>
 
-<table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
+<table class="table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
     <thead>
         <tr>
             <th style="width: 3%">#</th>
@@ -222,6 +242,11 @@
     </thead>
 
 </table>
+<div class="row">
+<h5>Иди на страницу</h5>
+<input type="number" name="skok" id="skok">
+<button id="dugmeSkok" class="btn btn-warning btn-sm"><i class="fa fa-rocket"></i></button>
+</div>
 @endsection
 
 @section('skripte')
@@ -265,7 +290,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#tabelaPredmeti').DataTable({
+    var tabela = $('#tabelaPredmeti').DataTable({
         order: [[0, 'desc']],
         lengthMenu: [[10, 25, 50, 250, -1], [10, 25, 50, 250, "Сви"]],
         processing: true,
@@ -386,11 +411,33 @@ $(document).ready(function () {
                 orientation: 'landscape',
                 pageSize: 'A4',
                 pageMargins: [
+                    20,
                     40,
-                    40,
-                    40,
+                    20,
                     40
-                ],
+                ], customize: function (doc) {
+                    
+                    var now = new Date();
+                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                    doc.defaultStyle.fontSize = 8;
+                    doc.styles.tableHeader.fontSize = 10;
+                    doc['footer']=(function(page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ['Документ је креиран: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'right',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                    }
+                                ],
+                                margin: 20
+                            }
+                        });
+
+                },
                 exportOptions: {
                     columns: [
                         1,
@@ -400,9 +447,7 @@ $(document).ready(function () {
                         5,
                         6,
                         7,
-                        8,
-                        9,
-                        10
+                        8
                     ]
                 }
             }
@@ -429,6 +474,17 @@ $(document).ready(function () {
             });
         }
     });
+
+    $( "#skok" ).focus(function() {
+        var info = tabela.page.info();
+        var poslednja = info.pages;
+        $("#skok").prop('max',poslednja);
+        });
+
+    $('#dugmeSkok').on( 'click', function () {
+            var broj = parseInt($("#skok").val());
+            tabela.page(broj-1).draw( 'page' );
+        } );
 
 
     $('#dugme_pretrazi').click(function () {

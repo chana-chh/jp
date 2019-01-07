@@ -657,7 +657,8 @@
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
-            @foreach ($predmet->rocista->sortByDesc('datum')->sortByDesc('vreme') as $rociste)
+
+            @foreach ($rocista as $rociste)
             <tr>
                 <td style="width: 20%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                 <td style="width: 30%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
