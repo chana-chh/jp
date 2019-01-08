@@ -92,7 +92,8 @@ class PredmetiKontroler extends Kontroler
                LEFT JOIN (
                     SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
                     JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
-                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`";
+                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`
+                WHERE predmet.deleted_at = null";
         $predmeti = \Illuminate\Support\Facades\DB::select($query);
 
         return DataTables::of($predmeti)->make(true);
