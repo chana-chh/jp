@@ -444,23 +444,6 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    // TMP
-    public function postPromenaReferenta(Request $req)
-    {
-        if ($req->ajax()) {
-            $id = $req->id;
-            $predmet = Predmet::findOrFail($id);
-            // proveri da li je referent dusan
-            if ($predmet->referent_id == 8) { // treba da bude 8
-                $predmet->referent_id = 9; // treba da bude 9
-                $predmet->save();
-                Session::flash('uspeh', 'Референт је преомењен на Гордана Филиповић.');
-            } else { // ako nije
-                Session::flash('upozorenje', 'Референт није Душан Милојевић!');
-            }
-        }
-    }
-
     public function postBrisanje(Request $req)
     {
         $predmet = Predmet::findOrFail($req->id);
