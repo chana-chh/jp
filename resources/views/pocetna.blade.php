@@ -11,7 +11,7 @@
 
     <div class="row" style="margin-top: 80px;">
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="panel panel-info noborder">
                 <div class="panel-heading">
                     <h2 class="text-center">
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-         <div class="col-md-3">
+{{--          <div class="col-md-3">
 
 <div class="panel panel-info noborder">
                 <div class="panel-heading">
@@ -115,6 +115,6 @@
                     </h3>
                 </div>
             </div>
-</div>
+</div> --}}
 </div>
 @endsection
