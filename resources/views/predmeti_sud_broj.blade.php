@@ -12,7 +12,7 @@
         <h1>
             <img class="slicica_animirana" alt="... бројеви у суду"
                  src="{{url('/images/predmeti.png')}}" style="height:64px;">
-            &emsp;Бројеви у суду предмета <small class="text-success"><em>({{$predmet->broj()}})</em></small>
+            &emsp;Бројеви предмета код надлежних органа<small class="text-success"><em>({{$predmet->broj()}})</em></small>
         </h1>
     </div>
  <div class="col-md-2 text-right" style="padding-top: 50px;">
@@ -30,7 +30,7 @@
 
 @section('sadrzaj')
   @if($sud_brojevi->isEmpty())
-            <h3 class="text-danger">Овај предмет нема бројеве у суду</h3>
+            <h3 class="text-danger">Овај предмет нема бројеве код надлежних органа</h3>
         @else
         <div class="row" style="margin-top: 4rem;">
             <div class="col-md-12">
@@ -68,7 +68,7 @@
                 <h1 class = "modal-title text-danger">Упозорење!</h1>
             </div>
             <div class = "modal-body">
-                <h3>Да ли желите трајно да уклоните број у суду? *</h3>
+                <h3>Да ли желите трајно да уклоните број код надлежног органа? *</h3>
                 <p class = "text-danger">* Ова акција је неповратна!</p>
                 <form id="brisanje-forma" action="" method="POST">
                     {{ csrf_field() }}
@@ -145,14 +145,14 @@
 @endsection
 
 @section('traka')
-<h3 >Додавање старог броја</h3>
+<h3 >Додавање броја надлежног органа</h3>
 <hr>
 <div class="well">
     <form action="{{route('predmeti.sud_broj.dodavanje', $predmet->id)}}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('broj') ? ' has-error' : '' }}">
-            <label for="broj">Број у суду: </label>
+            <label for="broj">Број надлежног органа: </label>
             <input type="text" name="broj" id="broj" maxlength="50" class="form-control" required>{{ old('broj') }}</input>
             @if ($errors->has('broj'))
                 <span class="help-block">
@@ -200,7 +200,7 @@ $( document ).ready(function() {
         $('#tabelaStari').DataTable({
         columnDefs: [{ orderable: false, searchable: false, "targets": -1 }],
         language: {
-        search: "Пронађи у таблеи",
+        search: "Пронађи у табели",
             paginate: {
             first:      "Прва",
             previous:   "Претходна",

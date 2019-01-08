@@ -22,8 +22,8 @@ class VrstaUpisnika extends Model
     		$godina = $sada->year;
   		}
   		if(!isset($id)) {
-  		return $this->predmet()->where('godina_predmeta', $godina)->max('broj_predmeta')+1;
+  		return $this->predmet()->where('godina_predmeta', $godina)->where('deleted_at', null)->max('broj_predmeta')+1;
     	}
-    	return $this->predmet()->where('vrsta_upisnika_id', $id)->where('godina_predmeta', $godina)->max('broj_predmeta')+1;
+    	return $this->predmet()->where('vrsta_upisnika_id', $id)->where('godina_predmeta', $godina)->where('deleted_at', null)->max('broj_predmeta')+1;
     }
 }

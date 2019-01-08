@@ -175,7 +175,7 @@
     $('#tabelaVeze').DataTable({
     columnDefs: [{ orderable: false, searchable: false, "targets": - 1 }],
             language: {
-            search: "Пронађи у таблеи",
+            search: "Пронађи у табели",
                     paginate: {
                     first:      "Прва",
                             previous:   "Претходна",
