@@ -92,8 +92,8 @@ class PredmetiKontroler extends Kontroler
                LEFT JOIN (
                     SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
                     JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
-                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` GROUP BY `predmeti`.`id`
-                WHERE predmet.deleted_at = null";
+                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` WHERE predmeti.deleted_at IS NULL 
+                GROUP BY `predmeti`.`id`";
         $predmeti = \Illuminate\Support\Facades\DB::select($query);
 
         return DataTables::of($predmeti)->make(true);
@@ -119,127 +119,70 @@ class PredmetiKontroler extends Kontroler
 
         $predmeti = null;
 
-        $where = ' WHERE ';
+        $where = ' WHERE predmeti.deleted_at IS NULL ';
 
         if ($params['stranka_1']) {
-            $where .= "stranka1.naziv LIKE '%{$params['stranka_1']}%'";
+            $where .= "AND stranka1.naziv LIKE '%{$params['stranka_1']}%'";
         }
         if ($params['stranka_2']) {
-            $where .= "stranka2.naziv LIKE '%{$params['stranka_2']}%'";
+            $where .= " AND stranka2.naziv LIKE '%{$params['stranka_2']}%'";
         }
         if ($params['arhiviran'] !== null) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.arhiviran = {$params['arhiviran']}";
+            $where .= " AND predmeti.arhiviran = {$params['arhiviran']}";
         }
         if ($params['vrsta_upisnika_id']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.vrsta_upisnika_id = {$params['vrsta_upisnika_id']}";
+            $where .= " AND predmeti.vrsta_upisnika_id = {$params['vrsta_upisnika_id']}";
         }
         if ($params['vrsta_predmeta_id']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.vrsta_predmeta_id = {$params['vrsta_predmeta_id']}";
+            $where .= " AND predmeti.vrsta_predmeta_id = {$params['vrsta_predmeta_id']}";
         }
         if ($params['broj_predmeta']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.broj_predmeta = {$params['broj_predmeta']}";
+            $where .= " AND predmeti.broj_predmeta = {$params['broj_predmeta']}";
         }
         if ($params['godina_predmeta']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.godina_predmeta = {$params['godina_predmeta']}";
+            $where .= " AND predmeti.godina_predmeta = {$params['godina_predmeta']}";
         }
         if ($params['sud_id']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.sud_id = {$params['sud_id']}";
+            $where .= " AND predmeti.sud_id = {$params['sud_id']}";
         }
         if ($params['referent_id']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.referent_id = {$params['referent_id']}";
+            $where .= " AND predmeti.referent_id = {$params['referent_id']}";
         }
         if ($params['vrednost_tuzbe']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.vrednost_tuzbe = {$params['vrednost_tuzbe']}";
+            $where .= " AND predmeti.vrednost_tuzbe = {$params['vrednost_tuzbe']}";
         }
         if ($params['sudija']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.sudija LIKE '%{$params['sudija']}%'";
+            $where .= " AND predmeti.sudija LIKE '%{$params['sudija']}%'";
         }
         if ($params['sudnica']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.sudnica LIKE '%{$params['sudnica']}%'";
+            $where .= " AND predmeti.sudnica LIKE '%{$params['sudnica']}%'";
         }
         if ($params['advokat']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.advokat LIKE '%{$params['advokat']}%'";
+            $where .= " AND predmeti.advokat LIKE '%{$params['advokat']}%'";
         }
         if ($params['opis_kp']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.opis_kp LIKE '%{$params['opis_kp']}%'";
+            $where .= " AND predmeti.opis_kp LIKE '%{$params['opis_kp']}%'";
         }
         if ($params['opis_adresa']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.opis_adresa LIKE '%{$params['opis_adresa']}%'";
+            $where .= " AND predmeti.opis_adresa LIKE '%{$params['opis_adresa']}%'";
         }
         if ($params['opis']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.opis LIKE '%{$params['opis']}%'";
+            $where .= " AND predmeti.opis LIKE '%{$params['opis']}%'";
         }
         if ($params['napomena']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.napomena LIKE '%{$params['napomena']}%'";
+            $where .= " AND predmeti.napomena LIKE '%{$params['napomena']}%'";
         }
         if ($params['broj_predmeta_sud']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "brojevi_predmeta_sud.broj LIKE '%{$params['broj_predmeta_sud']}%'";
+            $where .= " AND brojevi_predmeta_sud.broj LIKE '%{$params['broj_predmeta_sud']}%'";
         }
         if ($params['stari_broj_predmeta']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "stari_brojevi_predmeta.broj LIKE '%{$params['stari_broj_predmeta']}%'";
+            $where .= " AND stari_brojevi_predmeta.broj LIKE '%{$params['stari_broj_predmeta']}%'";
         }
         if ($params['datum_1'] && !$params['datum_2']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "predmeti.datum_tuzbe = '{$params['datum_1']}'";
+            $where .= " AND predmeti.datum_tuzbe = '{$params['datum_1']}'";
         }
         if ($params['datum_1'] && $params['datum_2']) {
-            if ($where !== ' WHERE ') {
-                $where .= ' AND ';
-            }
-            $where .= "(datum_tuzbe BETWEEN '{$params['datum_1']}' AND '{$params['datum_2']}')";
+            $where .= " AND (datum_tuzbe BETWEEN '{$params['datum_1']}' AND '{$params['datum_2']}')";
         }
 
         $where = ($where !== ' WHERE ') ? $where : '';
@@ -282,7 +225,7 @@ class PredmetiKontroler extends Kontroler
     {
         $predmet = Predmet::find($id);
         $rocista_kolekcija = $predmet->rocista;
-        $rocista = $rocista_kolekcija->sortByDesc(function($element) {
+        $rocista = $rocista_kolekcija->sortByDesc(function ($element) {
             return [$element->datum, $element->vreme];
         });
         $tipovi_rocista = TipRocista::all();
