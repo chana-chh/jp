@@ -155,8 +155,8 @@ class RokoviKontroler extends Kontroler
         foreach ($rocista as $rociste) {
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - <strong>' . $rociste->predmet->broj(),
-                ' </strong><br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
+                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
             ];
             $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
@@ -189,8 +189,8 @@ class RokoviKontroler extends Kontroler
         foreach ($rocista as $rociste) {
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '') . ' - <strong>' . $rociste->predmet->broj(),
-                ' </strong><br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
+                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
             ];
             $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
