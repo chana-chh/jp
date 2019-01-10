@@ -294,9 +294,22 @@ class PredmetiKontroler extends Kontroler
         $predmet->tuzioci()->attach($req->komintenti_1);
         $predmet->tuzeni()->attach($req->komintenti_2);
 
-        $upisnik = VrstaUpisnika::findOrFail($req->vrsta_upisnika_id);
-        $upisnik->sledeci_broj += 1;
-        $upisnik->save();
+        if ($req->bno) {
+            $data = new SudBroj();
+            $data->predmet_id = $predmet->id;
+            $data->broj = $req->bno;
+            $data->save();
+        }
+        
+        if ($req->status) {
+            $status = new Tok();
+            $status->predmet_id = $predmet->id;
+            $status->status_id = $req->status_dodavanje_status_id;
+            $status->datum = $req->datum_tuzbe;
+            $status->vrednost_spora_duguje = $req->status_dodavanje_vsd;
+            $status->opis = $req->status_dodavanje_opis;
+            $status->save();
+        }
 
         Session::flash('uspeh', 'Предмет је успешно додат!');
 

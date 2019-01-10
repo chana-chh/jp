@@ -699,7 +699,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="vreme">
                             <div class="form-group{{ $errors->has('rok_dodavanje_vreme') ? ' has-error' : '' }}">
                                 <label for="rok_dodavanje_vreme">Време</label>
                                 <input type="time" name="rok_dodavanje_vreme" id="rok_dodavanje_vreme" class="form-control"
@@ -1072,6 +1072,15 @@
         var id_predmeta = "{{ $predmet->id }}";
 
         // Modal rocista dodavanje
+        $('#rok_dodavanje_tip_id').on('change', function() {
+                if ( this.value == 2){
+                    $('#vreme').show();
+                    $('#rok_dodavanje_vreme').prop('required',true);
+                }else {
+                    $('#vreme').hide();
+                }
+        });
+
         $("#dugmeModalDodajRociste").on('click', function () {
             $('#frmRocisteDodavanje').submit();
         });
