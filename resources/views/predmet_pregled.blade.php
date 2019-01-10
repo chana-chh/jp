@@ -1057,6 +1057,7 @@
 @endsection
 
 @section('skripte')
+<script src="{{ asset('/js/moment.min.js') }}"></script>
 <script>
     $(document).ready(function () {
 

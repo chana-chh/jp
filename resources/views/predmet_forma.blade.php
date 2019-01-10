@@ -157,9 +157,12 @@
         </div>
     </div>
 </fieldset>
+
     {{-- Red sa sudom --}}
+    <fieldset>
+    <legend>Надлежни орган</legend>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group{{ $errors->has('sud_id') ? ' has-error' : '' }}">
                 <label for="sud_id">Надлежни орган:</label>
                 <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни орган" required>
@@ -177,7 +180,19 @@
             @endif
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+            <div class="form-group{{ $errors->has('bno') ? ' has-error' : '' }}">
+                <label for="bno">Број код надлежног органа:</label>
+                <input type="text" name="bno" id="bno" class="form-control">{{ old('bno') }}</input>
+                @if ($errors->has('bno'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('bno') }}</strong>
+                </span>
+                @endif
+            </div>
+            <p><small class="text-warning">*Напомена: у случају да има више бројева додати их након креирања предмета са детаљног прегледа</small></p>
+    </div>
+    <div class="col-md-4">
         <div class="form-group{{ $errors->has('datum_tuzbe') ? ' has-error' : '' }}">
             <label for="datum_tuzbe">Датум предмета (тужбе):</label>
             <input type="date" name="datum_tuzbe" id="datum_tuzbe" class="form-control"
@@ -225,7 +240,46 @@
             </div>
         </div>
     </div>
+    </fieldset>
 
+    {{-- Red sa statusom/tokom --}}
+    <fieldset>
+    <legend>Подаци за први иницијални статус у токовима</legend>
+    <p><small class="text-warning">*Напомена: у случају да се не одабере статус иницијални запис неће бити креиран!</small></p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
+                                <label for="status">Статус</label>
+                                <select name="status" id="status" class="chosen-select form-control"
+                                        data-placeholder="Статус">
+                                    <option value=""></option>
+                                    @foreach($statusi as $status)
+                                    <option value="{{ $status->id }}"{{ old('status') == $status->id ? ' selected' : '' }}>
+                                            {{ $status->naziv }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('status'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('status') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group{{ $errors->has('status_opis') ? ' has-error' : '' }}">
+                            <label for="status_opis">Опис</label>
+                            <textarea name="status_opis" id="status_opis" class="form-control">{{ old('status_opis') }}</textarea>
+                            @if ($errors->has('status_opis'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('status_opis') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+    </fieldset>
 <fieldset>
     <legend>Опис предмета</legend>
     <div class="row">

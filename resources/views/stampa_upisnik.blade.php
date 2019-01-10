@@ -49,7 +49,11 @@
             <th><strong>Опис предмета:</strong></th>
         </tr>
         <tr>
-            <td>{{ $predmet->sud->naziv }} са бројем: <span class="text-success"><strong>{{ $predmet->broj_predmeta_sud }}</strong></span></td>
+            <td>{{ $predmet->sud->naziv }} са бројем: <span class="text-danger"><strong>
+                @foreach ($predmet->sudBrojevi as $broj)
+                        {{$broj->broj}}<br>
+                    @endforeach
+            </strong></span></td>
             <td>{{ $predmet->vrstaPredmeta->naziv }}</td>
             <td>{{ $predmet->opis }}</td>
         </tr>

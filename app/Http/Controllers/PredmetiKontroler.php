@@ -13,6 +13,7 @@ use App\Modeli\Predmet;
 use App\Modeli\VrstaUpisnika;
 use App\Modeli\VrstaPredmeta;
 use App\Modeli\Sud;
+use App\Modeli\SudBroj;
 use App\Modeli\Referent;
 use App\Modeli\Uprava;
 use App\Modeli\Status;
@@ -248,6 +249,7 @@ class PredmetiKontroler extends Kontroler
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
+        $statusi = Status::all();
         $predmeti = DB::table('predmeti')
             ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
             ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
@@ -256,7 +258,7 @@ class PredmetiKontroler extends Kontroler
             ->get();
 
         $komintenti = Komintent::select('id', 'naziv')->get();
-        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti'));
+        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti', 'statusi'));
     }
 
     public function postDodavanje(Request $req)
@@ -304,10 +306,10 @@ class PredmetiKontroler extends Kontroler
         if ($req->status) {
             $status = new Tok();
             $status->predmet_id = $predmet->id;
-            $status->status_id = $req->status_dodavanje_status_id;
+            $status->status_id = $req->status;
             $status->datum = $req->datum_tuzbe;
-            $status->vrednost_spora_duguje = $req->status_dodavanje_vsd;
-            $status->opis = $req->status_dodavanje_opis;
+            $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+            $status->opis = $req->status_opis;
             $status->save();
         }
 
