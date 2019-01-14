@@ -39,6 +39,8 @@
                         @if (Gate::allows('admin'))
                         <li class="dropdown-header"><i class="fa fa-book"></i> Предмети</li>
                         <li><a href="{{ route('predmeti.obrisani') }}">Обрисани предмети</a></li>
+                        <li><a href="{{ route('referenti.promena') }}">Промена референта у предметима</a></li>
+                        <li><a href="{{ route('logovi') }}">Логови</a></li>
                         @endif
                     </ul>
                 </li>

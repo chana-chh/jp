@@ -248,7 +248,7 @@
     <p><small class="text-warning">*Напомена: у случају да се не одабере статус иницијални запис неће бити креиран!</small></p>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                                 <label for="status">Статус</label>
                                 <select name="status" id="status" class="chosen-select form-control"
@@ -267,7 +267,23 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group{{ $errors->has('vrednost') ? ' has-error' : '' }}">
+                            <label for="vrednost">Вредност тужбе ће бити уписана у поље</label>
+                    <select name="vrednost" id="vrednost" class="chosen-select form-control"
+                                        data-placeholder="Избор поља за упис вредности">
+                        <option value=""></option>
+                        <option value="1">Спор дугује</option>
+                        <option value="2">Спор потражује</option>
+                    </select>
+                        @if ($errors->has('vrednost'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('vrednost') }}</strong>
+                            </span>
+                        @endif
+                        </div>
+                    </div>     
+                    <div class="col-md-4">
                         <div class="form-group{{ $errors->has('status_opis') ? ' has-error' : '' }}">
                             <label for="status_opis">Опис</label>
                             <textarea name="status_opis" id="status_opis" class="form-control">{{ old('status_opis') }}</textarea>

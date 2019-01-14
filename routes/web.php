@@ -56,6 +56,10 @@ Route::post('sifarnici/referenti/dodavanje', 'ReferentiKontroler@postDodavanje')
 Route::post('sifarnici/referenti/brisanje', 'ReferentiKontroler@postBrisanje')->name('referenti.brisanje');
 Route::post('sifarnici/referenti/izmena/{id}', 'ReferentiKontroler@postIzmena')->name('referenti.izmena');
 Route::get('sifarnici/referenti/pregled/{id}', 'ReferentiKontroler@getPregled')->name('referenti.pregled');
+Route::get('sifarnici/referenti/promena', 'ReferentiKontroler@getPromenaReferenta')->name('referenti.promena');
+Route::post('sifarnici/referenti/refpromena', 'ReferentiKontroler@postPromenaReferenta')->name('referenti.refpromena');
+Route::get('sifarnici/referenti/vracanje', 'ReferentiKontroler@getVracanje')->name('referenti.vracanje');
+Route::post('sifarnici/referenti/post_vracanje', 'ReferentiKontroler@postVracanje')->name('referenti.post_vracanje');
 
 //Korisnici
 Route::get('sifarnici/korisnici', 'KorisniciKontroler@getLista')->name('korisnici');
@@ -178,3 +182,6 @@ Route::get('o_programu', function () {
 //Izvestaji
 Route::get('izvestaji', 'IzvestajiKontroler@getIzvestaji')->name('izvestaji');
 Route::post('izvestaji', 'IzvestajiKontroler@postIzvestaji')->name('izvestaji.post');
+
+//Logovi
+Route::get('logovi', 'NasLogKontroler@getLogove')->name('logovi');

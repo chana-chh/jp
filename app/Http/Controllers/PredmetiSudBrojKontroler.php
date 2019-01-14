@@ -9,6 +9,8 @@ use Gate;
 use Auth;
 use App\Modeli\Predmet;
 use App\Modeli\SudBroj;
+use App\Modeli\NasLog;
+use Carbon\Carbon;
 
 class PredmetiSudBrojKontroler extends Kontroler
 {
@@ -38,6 +40,11 @@ class PredmetiSudBrojKontroler extends Kontroler
         $data->broj = $req->broj;
         $data->save();
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је додао број надлежног органа ". $req->broj ." у предмет са бројем " . $data->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Број у суду је успешно додат!');
         return redirect()->route('predmeti.sud_broj', $id);
     }
@@ -48,9 +55,16 @@ class PredmetiSudBrojKontroler extends Kontroler
             ['id', '=', $req->idBrisanje]
         ])->first();
 
+        $broj_predmeta = $data->predmet->broj();
+        $sud_broj = $data->broj;
+
         $odgovor = $data->forceDelete();
 
         if ($odgovor) {
+            $log = new NasLog();
+            $log->opis = Auth::user()->name . " је обрисао број надлежног органа ". $sud_broj ." из предмета са бројем " . $broj_predmeta;
+            $log->datum = Carbon::now();
+            $log->save();
             Session::flash('uspeh', 'Број у суду је успешно обрисан!');
         } else {
             Session::flash('greska', 'Дошло је до грешке приликом брисања броја у суду. Покушајте поново, касније!');
@@ -78,6 +92,11 @@ class PredmetiSudBrojKontroler extends Kontroler
         $data = SudBroj::find($id);
         $data->broj = $request->brojModal;
         $data->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио број надлежног органа ". $data->broj ." у предмету са бројем " . $data->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
 
         Session::flash('uspeh', 'Ставка је успешно измењена!');
         return Redirect::back();

@@ -22,6 +22,7 @@ use App\Modeli\TipRocista;
 use App\Modeli\PredmetSlika;
 use App\Modeli\Komintent;
 use Yajra\DataTables\DataTables;
+use App\Modeli\NasLog;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -296,11 +297,14 @@ class PredmetiKontroler extends Kontroler
         $predmet->tuzioci()->attach($req->komintenti_1);
         $predmet->tuzeni()->attach($req->komintenti_2);
 
+        $log_string = Auth::user()->name . " је креирао нови предмет са бројем ". $predmet->broj();
+
         if ($req->bno) {
             $data = new SudBroj();
             $data->predmet_id = $predmet->id;
             $data->broj = $req->bno;
             $data->save();
+            $log_string .= " и придружио му број надлежног органа ". $data->broj;
         }
         
         if ($req->status) {
@@ -308,10 +312,28 @@ class PredmetiKontroler extends Kontroler
             $status->predmet_id = $predmet->id;
             $status->status_id = $req->status;
             $status->datum = $req->datum_tuzbe;
-            $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+
+            if ($req->vrednost) {
+                if ($req->vrednost == 1) {
+                    $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+                } else {
+                    $status->vrednost_spora_potrazuje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+                }
+                
+            } else{
+                $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
+            }
+            
             $status->opis = $req->status_opis;
             $status->save();
+
+            $log_string .= ". Предмету је додат иницијални статус са ID бројем: ".$status->id; 
         }
+
+        $log = new NasLog();
+        $log->opis = $log_string;
+        $log->datum = Carbon::now();
+        $log->save();
 
         Session::flash('uspeh', 'Предмет је успешно додат!');
 

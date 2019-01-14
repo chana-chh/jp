@@ -8,6 +8,7 @@ use Redirect;
 use Gate;
 
 use App\Modeli\Referent;
+use App\Modeli\Predmet;
 
 class ReferentiKontroler extends Kontroler
 {
@@ -88,5 +89,70 @@ class ReferentiKontroler extends Kontroler
         } else {
             Session::flash('greska', 'Дошло је до грешке приликом брисања референта. Покушајте поново, касније!');
         }
+    }
+
+    public function getPromenaReferenta()
+    {
+        $referenti = Referent::all();
+        return view('referenti_promena')->with(compact('referenti'));
+    }
+
+    public function postPromenaReferenta(Request $r)
+    {
+        $this->validate($r, [
+            'referent_uklanjanje' => [
+                'required'
+            ],
+            'referent_dodavanje' => [
+                'required'
+            ],
+        ]);
+
+        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)->get();
+
+        if ($predmeti->isEmpty()) {
+            Session::flash('upozorenje', 'Овај референт тренутно не дужи предмете!');
+        } else {
+            foreach ($predmeti as $predmet) {
+            $predmet->servisno = $predmet->referent_id;
+            $predmet->referent_id = $r->referent_dodavanje;
+            $predmet->save();
+            }
+            Session::flash('uspeh', 'Предмети су успешно додељени референту!');
+        }
+        
+        return redirect()->route('predmeti');
+    }
+
+    public function getVracanje()
+    {
+         $predmeti = Predmet::whereNotNull('servisno')->get();
+         $referenti = Referent::all();
+        return view('referenti_vracanje')->with(compact('predmeti', 'referenti'));
+    }
+
+    public function postVracanje(Request $r)
+    {
+
+        $this->validate($r, [
+            'referent_vracanje' => [
+                'required'
+            ]
+        ]);
+
+        $predmeti = Predmet::where('servisno', $r->referent_vracanje)->get();
+
+        if ($predmeti->isEmpty()) {
+            Session::flash('upozorenje', 'Овом референту никада нису били одузети предмети!');
+        } else {
+            foreach ($predmeti as $predmet) {
+            $predmet->referent_id = $predmet->servisno;
+            $predmet->servisno = null;
+            $predmet->save();
+            }
+            Session::flash('uspeh', 'Предмети су успешно враћени референту!');
+        }
+        
+        return redirect()->route('referenti.vracanje');
     }
 }

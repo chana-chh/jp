@@ -9,6 +9,8 @@ use Gate;
 use Auth;
 use App\Modeli\Predmet;
 use App\Modeli\StariBroj;
+use App\Modeli\NasLog;
+use Carbon\Carbon;
 
 class PredmetiStariBrojKontroler extends Kontroler
 {
@@ -38,6 +40,11 @@ class PredmetiStariBrojKontroler extends Kontroler
         $data->broj = $req->broj;
         $data->save();
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је додао стари броја предмета ". $req->broj ." у предмет са бројем " . $data->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Стари број предмета је успешно додат!');
         return redirect()->route('predmeti.stari_broj', $id);
     }
@@ -48,9 +55,16 @@ class PredmetiStariBrojKontroler extends Kontroler
             ['id', '=', $req->idBrisanje]
         ])->first();
 
+        $broj_predmeta = $data->predmet->broj();
+        $stari_broj = $data->broj;
+
         $odgovor = $data->forceDelete();
 
         if ($odgovor) {
+            $log = new NasLog();
+            $log->opis = Auth::user()->name . " је обрисао стари броја предмета ". $stari_broj ." из предмета са бројем " . $broj_predmeta;
+            $log->datum = Carbon::now();
+            $log->save();
             Session::flash('uspeh', 'Стари број предмета је успешно обрисан!');
         } else {
             Session::flash('greska', 'Дошло је до грешке приликом брисања старог броја предмета. Покушајте поново, касније!');
@@ -78,6 +92,11 @@ class PredmetiStariBrojKontroler extends Kontroler
         $data = StariBroj::find($id);
         $data->broj = $request->brojModal;
         $data->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио стари броја предмета ". $data->broj ." у предмету са бројем " . $data->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
 
         Session::flash('uspeh', 'Ставка је успешно измењена!');
         return Redirect::back();
