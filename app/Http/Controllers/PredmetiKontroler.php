@@ -37,7 +37,6 @@ class PredmetiKontroler extends Kontroler
             'postListaFilter',
             'naprednaPretraga',
             'getPregled',
-            'getPredmetiSlike',
         ]);
         $this->middleware('admin')->only([
             'getPredmetiObrisani',

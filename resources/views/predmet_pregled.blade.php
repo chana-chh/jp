@@ -1072,6 +1072,17 @@
         var predmeti_ruta = "{{ route('predmeti') }}";
         var id_predmeta = "{{ $predmet->id }}";
 
+
+        $("#rok_dodavanje_datum").on('blur', function() {
+            var datum = new Date();
+            var godina = datum.getFullYear();
+            var datumPolja = new Date(this.value);
+            var godinaPolja = datumPolja.getFullYear();
+            if(godinaPolja < godina){
+                alert("Датум који сте унели није из текуће године!");
+            }
+        });
+
         // Modal rocista dodavanje
         $('#rok_dodavanje_tip_id').on('change', function() {
                 if ( this.value == 2){
@@ -1291,6 +1302,8 @@
             });
         });
     });
+
+    
 
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>

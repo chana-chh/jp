@@ -285,7 +285,7 @@
                     </div>     
                     <div class="col-md-4">
                         <div class="form-group{{ $errors->has('status_opis') ? ' has-error' : '' }}">
-                            <label for="status_opis">Опис</label>
+                            <label for="status_opis">Опис статуса токова</label>
                             <textarea name="status_opis" id="status_opis" class="form-control">{{ old('status_opis') }}</textarea>
                             @if ($errors->has('status_opis'))
                             <span class="help-block">
