@@ -123,9 +123,9 @@
             <option value="100">обрађивач предмета</option>
             <option value="200" selected>корисник</option>
         </select>
-        @if ($errors->has('password_confirmation'))
+        @if ($errors->has('level'))
             <span class="help-block">
-                <strong>{{ $errors->first('password_confirmation') }}</strong>
+                <strong>{{ $errors->first('level') }}</strong>
             </span>
         @endif
         </div>

@@ -118,7 +118,10 @@
             <td>
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }}</li>
+                    <li>{{ $s1->naziv }} @if($s1->id_broj)<small class="text-success">, ЈМБГ: {{ $s1->id_broj }},</small>@endif 
+                        @if($s1->adresa) <small class="text-success">Адреса: {{ $s1->adresa }}, </small>@endif 
+                        @if($s1->mesto) <small class="text-success">Место: {{ $s1->mesto }} </small>@endif
+                    </li>
                     @endforeach
                 </ul>
             </td>
@@ -133,7 +136,10 @@
             <td>
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }}</li>
+                    <li>{{ $s2->naziv }} @if($s2->id_broj)<small class="text-success">, ЈМБГ: {{ $s2->id_broj }},</small>@endif 
+                        @if($s2->adresa) <small class="text-success">Адреса: {{ $s2->adresa }}, </small>@endif 
+                        @if($s2->mesto) <small class="text-success">Место: {{ $s2->mesto }} </small>@endif
+                    </li>
                     @endforeach
                 </ul>
             </td>
