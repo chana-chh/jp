@@ -21,6 +21,19 @@
     </div>
 </div>
 <hr>
+    @if($dete)
+    <div class="row">
+    <div class="col-md-6 text-center">
+        <h4>Постао <i class="fa fa-arrow-circle-down" aria-hidden="true"></i> предмет</h4>
+</div>
+</div>
+<div>
+<div class="col-md-6 text-center">
+        <h4><a href="{{ route('predmeti.pregled', $dete->id) }}">{{$dete->broj()}}</a> </h4>
+</div>
+</div>
+@endif
+    
 @endsection
 
 @section('sadrzaj')
