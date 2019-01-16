@@ -7,6 +7,7 @@ use Session;
 use Redirect;
 use Gate;
 use DB;
+use Auth;
 use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
