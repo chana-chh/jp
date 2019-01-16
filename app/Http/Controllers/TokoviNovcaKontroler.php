@@ -169,10 +169,10 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function getGrupaVrstaPredmeta()
     {
-        //Tokovi grupisano po vrsti predmeta
+        //Tokovi grupisano po vrsti predmeta dodat MAX 16.01.2019
         $vrste = DB::table('tokovi_predmeta')
             ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
-            ->select(DB::raw('SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))
+            ->select(DB::raw('MAX(tokovi_predmeta.created_at),SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))
             ->groupBy('vrsta')
             ->get();
 
