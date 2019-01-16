@@ -13,7 +13,6 @@ use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
 use App\Modeli\Referent;
 use App\Modeli\NasLog;
-use Carbon\Carbon;
 
 class RocistaKontroler extends Kontroler
 {
