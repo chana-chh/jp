@@ -7,11 +7,13 @@ use Session;
 use Redirect;
 use Gate;
 use DB;
+use Auth;
 use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\TipRocista;
 use App\Modeli\Rociste;
 use App\Modeli\Referent;
+use App\Modeli\NasLog;
 
 class RokoviKontroler extends Kontroler
 {
@@ -121,6 +123,11 @@ class RokoviKontroler extends Kontroler
         $rociste->opis = $req->rok_dodavanje_opis;
         $rociste->predmet_id = $req->predmet_id;
         $rociste->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је додао рок/рочиште у предмет са бројем " . $rociste->predmet->broj(). " са ID бројем рок/рочиштa " . $rociste->id;
+        $log->datum = Carbon::now();
+        $log->save();
 
         if ($ses) {
             Session::flash('uspeh', 'Рок/рочиште је успешно додато!');
