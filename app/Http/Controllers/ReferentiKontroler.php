@@ -155,4 +155,38 @@ class ReferentiKontroler extends Kontroler
         
         return redirect()->route('referenti.vracanje');
     }
+
+        public function getZamena($id_predmeta)
+    {
+         $predmet = Predmet::find($id_predmeta);
+         $referenti = Referent::all();
+        return view('referenti_zamena')->with(compact('predmet', 'referenti'));
+    }
+
+    public function postZamena_add(Request $r, $id_predmeta)
+    {
+        $this->validate($r, [
+            'referent_zamena' => [
+                'required'
+            ]
+        ]);
+
+         $predmet = Predmet::find($id_predmeta);
+         $predmet->referent_zamena = $r->referent_zamena;
+         $predmet->save();
+         Session::flash('uspeh', 'Предмет је успешно поверен референту на ЗАМЕНИ!');
+
+       return Redirect::back();
+    }
+
+    public function getZamena_del($id_predmeta)
+    {
+
+         $predmet = Predmet::find($id_predmeta);
+         $predmet->referent_zamena = null;
+         $predmet->save();
+         Session::flash('uspeh', 'Референт на замени је успешно повучен!');
+         
+       return Redirect::back();
+    }
 }

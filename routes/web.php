@@ -60,6 +60,9 @@ Route::get('sifarnici/referenti/promena', 'ReferentiKontroler@getPromenaReferent
 Route::post('sifarnici/referenti/refpromena', 'ReferentiKontroler@postPromenaReferenta')->name('referenti.refpromena');
 Route::get('sifarnici/referenti/vracanje', 'ReferentiKontroler@getVracanje')->name('referenti.vracanje');
 Route::post('sifarnici/referenti/post_vracanje', 'ReferentiKontroler@postVracanje')->name('referenti.post_vracanje');
+Route::get('sifarnici/referenti/zamena/{id}', 'ReferentiKontroler@getZamena')->name('referenti.zamena');
+Route::post('sifarnici/referenti/zamena_add/{id}', 'ReferentiKontroler@postZamena_add')->name('referenti.zamena_add');
+Route::get('sifarnici/referenti/zamena_del/{id}', 'ReferentiKontroler@getZamena_del')->name('referenti.zamena_del');
 
 //Korisnici
 Route::get('sifarnici/korisnici', 'KorisniciKontroler@getLista')->name('korisnici');

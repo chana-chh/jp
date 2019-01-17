@@ -26,8 +26,10 @@ class CreatePredmetiTable extends Migration
             $table->decimal('vrednost_tuzbe', 15, 2)->default(0);
             $table->date('datum_tuzbe');
             $table->integer('referent_id')->unsigned();
+            $table->integer('referent_zamena')->unsigned()->nullable();
             $table->text('napomena')->nullable();
             $table->integer('roditelj_id')->unsigned()->nullable();
+            $table->integer('servisno')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->integer('korisnik_id')->unsigned()->nullable();
@@ -39,6 +41,7 @@ class CreatePredmetiTable extends Migration
             $table->foreign('sud_id')->references('id')->on('s_sudovi')->onDelete('restrict');
             $table->foreign('vrsta_predmeta_id')->references('id')->on('s_vrste_predmeta')->onDelete('restrict');
             $table->foreign('referent_id')->references('id')->on('s_referenti')->onDelete('restrict');
+            $table->foreign('referent_zamena')->references('id')->on('s_referenti')->onDelete('restrict');
             $table->foreign('vrsta_upisnika_id')->references('id')->on('s_vrste_upisnika')->onDelete('restrict');
             $table->foreign('korisnik_id')->references('id')->on('korisnici')->onDelete('restrict');
             $table->foreign('roditelj_id')->references('id')->on('predmeti')->onDelete('restrict');

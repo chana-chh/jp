@@ -24,16 +24,15 @@
     @if($dete)
     <div class="row">
     <div class="col-md-6 text-center">
-        <h4>Постао <i class="fa fa-arrow-circle-down" aria-hidden="true"></i> предмет</h4>
+        <h5>Постоји веза са предметом <i class="fa fa-arrow-circle-down" aria-hidden="true"></i></h5>
 </div>
 </div>
 <div>
 <div class="col-md-6 text-center">
-        <h4><a href="{{ route('predmeti.pregled', $dete->id) }}">{{$dete->broj()}}</a> </h4>
+        <h5><a href="{{ route('predmeti.pregled', $dete->id) }}">{{$dete->broj()}}</a> </h5>
 </div>
 </div>
 @endif
-    
 @endsection
 
 @section('sadrzaj')
@@ -241,7 +240,7 @@
             <th style="width: 20%;"><strong>Предмет родитељ:</strong></th>
             <td style="width: 70%;">
                 @if($predmet->roditelj)
-                {{ $predmet->roditelj->broj() }}
+                <a href="{{ route('predmeti.pregled', $predmet->roditelj->id) }}">{{ $predmet->roditelj->broj() }}</a>
                 @endif
             </td>
             <td style="width: 10%;"></td>
@@ -277,6 +276,19 @@
             <th style="width: 20%;"><strong>Референт:</strong></th>
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
             <td style="width: 10%; text-align:right;"></td>
+        </tr>
+                <tr>
+            <th style="width: 20%;"><strong class="text-warning">Референт (замена):</strong></th>
+            <td style="width: 70%; font-style: italic" class="text-warning">
+                @if($predmet->referentZamena)
+                {{ $predmet->referentZamena->imePrezime() }}
+                @endif
+            </td>
+            <td style="width: 10%; text-align:right;">
+                <a class="btn btn-success btn-xs" id="dugmeRefZamena" href="{{ route('referenti.zamena', $predmet->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </td>
         </tr>
         <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>

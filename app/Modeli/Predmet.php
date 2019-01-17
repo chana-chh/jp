@@ -33,6 +33,11 @@ class Predmet extends Model
         return $this->belongsTo('App\Modeli\Referent', 'referent_id', 'id');
     }
 
+    public function referentZamena()
+    {
+        return $this->belongsTo('App\Modeli\Referent', 'referent_zamena', 'id');
+    }
+
     public function vrstaPredmeta()
     {
         return $this->belongsTo('App\Modeli\VrstaPredmeta', 'vrsta_predmeta_id', 'id');

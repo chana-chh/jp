@@ -202,12 +202,19 @@ class RocistaKontroler extends Kontroler
         $datumi = array();
         $detalji = array();
         foreach ($rocista as $rociste) {
+             
+            if ($rociste->predmet->referentZamena) {
+                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            }
+            else { 
+                $ime = $rociste->predmet->referent->imePrezime(); 
+            }
+
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
-                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                ($rociste->vreme ? '<strong style="text-align: center; font-size: 1.4em !important"><center>'. date('H:i', strtotime($rociste->vreme)). '</center></strong><center>' : '').$ime.'</center>'
             ];
-            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>'. ' - ' . $rociste->predmet->broj();
         }
 
         $naslovie = json_encode($naslovi);
@@ -236,10 +243,18 @@ class RocistaKontroler extends Kontroler
         $detalji = array();
 
         foreach ($rocista as $rociste) {
+
+            if ($rociste->predmet->referentZamena) {
+                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            }
+            else { 
+                $ime = $rociste->predmet->referent->imePrezime(); 
+            }
+
             $datumi[] = $rociste->datum;
             $naslovi[] = [
                 ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
-                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                ' <br>(' . $ime . ')',
             ];
             $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
@@ -264,10 +279,15 @@ class RocistaKontroler extends Kontroler
             $whereref[] = [
                 'referent_id',
                 '=',
-                $params['referent_id']
-            ];
-            $rocista = Rociste::whereHas('predmet', function ($query) use ($whereref) {
+                $params['referent_id']];
+            $wherezam[] = [
+                'referent_zamena',
+                '=',
+                $params['referent_id']];
+
+            $rocista = Rociste::whereHas('predmet', function ($query) use ($whereref, $wherezam) {
                 $query->where($whereref);
+                $query->orWhere($wherezam);
             })
                 ->where('tip_id', 2)
                 ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])

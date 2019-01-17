@@ -233,8 +233,9 @@
             <th style="width: 8%">Број</th>
             <th style="width: 18%">Тужилац</th>
             <th style="width: 18%">Тужени</th>
-            <th style="width: 9%">Надлежни орган број</th>
-            <th style="width: 15%">Опис</th>
+            <th style="width: 9%">Надлежни орган бр.</th>
+            <th style="width: 7%">КП</th>
+            <th style="width: 8%">Адреса</th>
             <th style="width: 14%">Врста предмета</th>
             <th style="width: 5%">Датум</th>
             <th style="width: 3%"><i class="fa fa-cogs"></i></th>
@@ -365,8 +366,12 @@ $(document).ready(function () {
                 name: 'sudbroj'
             },
             {
-                data: 'opis_predmeta',
-                name: 'opis_predmeta'
+                data: 'opis_kp',
+                name: 'opis_kp'
+            },
+            {
+                data: 'opis_adresa',
+                name: 'opis_adresa'
             },
             {
                 data: 'vp_naziv',
