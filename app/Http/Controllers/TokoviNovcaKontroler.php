@@ -170,11 +170,31 @@ class TokoviNovcaKontroler extends Kontroler
     public function getGrupaVrstaPredmeta()
     {
         //Tokovi grupisano po vrsti predmeta dodat MAX 16.01.2019
+
+        /*
+            SELECT tokovi_predmeta.predmet_id, tokovi_predmeta.status_id, tokovi_predmeta.datum,
+            predmeti.vrsta_predmeta_id AS vrsta, s_vrste_predmeta.naziv AS naziv_vrste,
+            SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+            SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+            SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+            SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
+            FROM tokovi_predmeta
+            INNER JOIN (
+                SELECT predmet_id, max(datum) as ts
+                FROM tokovi_predmeta
+                GROUP BY predmet_id
+            ) t1 ON (tokovi_predmeta.predmet_id = t1.predmet_id AND tokovi_predmeta.datum = t1.ts)
+            LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
+            JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+            WHERE tokovi_predmeta.status_id NOT IN (8) AND tokovi_predmeta.deleted_at IS NULL
+            GROUP BY vrsta
+        */
         $vrste = DB::table('tokovi_predmeta')
             ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
             ->select(DB::raw('MAX(tokovi_predmeta.created_at),SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))
             ->groupBy('vrsta')
-            ->get();
+            ->toSql();
+            dd($vrste);
 
         $vrste_predmeta = DB::table('s_vrste_predmeta')->orderBy('id', 'ASC')->pluck('naziv')->toArray();
         return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta'));
