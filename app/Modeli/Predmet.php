@@ -136,4 +136,10 @@ class Predmet extends Model
         }
     }
 
+
+     public function scopeZamene($query)
+    {
+        return $query->whereNotNull('referent_zamena');
+    }
+
 }

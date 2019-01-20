@@ -4,6 +4,7 @@ namespace App\Modeli;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Rociste extends Model
 {
@@ -21,5 +22,10 @@ class Rociste extends Model
     public function tipRocista()
     {
         return $this->belongsTo('App\Modeli\TipRocista', 'tip_id', 'id');
+    }
+
+    public function scopeDanas($query)
+    {
+        return $query->whereDate('datum', Carbon::today());
     }
 }

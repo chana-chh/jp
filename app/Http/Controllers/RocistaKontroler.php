@@ -253,10 +253,9 @@ class RocistaKontroler extends Kontroler
 
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
-                ' <br>(' . $ime . ')',
+                ($rociste->vreme ? '<strong style="text-align: center; font-size: 1.4em !important"><center>'. date('H:i', strtotime($rociste->vreme)). '</center></strong><center>' : '').$ime.'</center>'
             ];
-            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>'. ' - ' . $rociste->predmet->broj();
         }
 
         $naslovie = json_encode($naslovi);

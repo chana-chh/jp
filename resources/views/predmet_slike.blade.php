@@ -29,24 +29,27 @@
 @endsection
 
 @section('sadrzaj')
+<div class="row">
 @if($slike->count()>0)
 @foreach($slike as $s)
-<div class="col-md-3">
-    <div class="img-thumbnail center-block" style="margin: 10px auto;">
+<div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
         <img data-toggle="modal"
              data-target="#slikaModal"
-             src="{{asset('images/skenirano/' . $s->src)}}"
-             class="img-responsive"
-             style="height: 200px; margin: 10px auto;">
-        <button class="btn btn-danger btn-xs btn-block otvori-brisanje"
-                style="width: 80%; margin: 5px auto;"
+             src="{{asset('images/skenirano/' . $s->src)}}">
+    <div class="caption">
+        <center><h5>{{$loop->iteration}}.</h5></center>
+        <p><button class="btn btn-danger btn-xs btn-block otvori-brisanje"
+                style="width: 40%; margin: 5px auto;"
                 data-toggle="modal" data-target="#brisanjeModal"
                 value="{{$s->id}}">
             <i class="fa fa-trash"></i>
-        </button>
+        </button></p>
+      </div>
     </div>
 </div>
 @endforeach
+</div>
 @else
 <h3 class="text-danger">За овај предмет нема скенираних докумената</h3>
 @endif
@@ -112,7 +115,7 @@
             </div>
 
 <div id="slikaModal" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
                 <img id="skan" class="img-responsive center-block" src="" style="width: 100%;">

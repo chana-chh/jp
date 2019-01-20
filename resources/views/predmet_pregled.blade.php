@@ -633,11 +633,15 @@
 <div class="row">
     <div class="col-md-6 text-center">
         <a href="{{ route('predmeti.slike', $predmet->id) }}"><img alt="скенирано ..." src="{{url('/images/slike.png')}}" style="height: 64px;"></a>
-        <h4>Преглед скениране документације</h4>
+        <a href="{{ route('predmeti.slike', $predmet->id) }}" class="btn btn-primary" type="button">
+            Скенирано <span class="badge">{{$predmet->slike->count()}}</span>
+        </a>
     </div>
     <div class="col-md-6 text-center">
         <a href="{{ route('predmeti.podnesci', $predmet->id) }}"><img alt="поднесци ..." src="{{url('/images/ugovor.png')}}" style="height: 64px;"></a>
-        <h4>Преглед поднесака</h4>
+        <a href="{{ route('predmeti.podnesci', $predmet->id) }}" class="btn btn-primary" type="button">
+            Поднесци <span class="badge">{{$predmet->podnesci->count()}}</span>
+        </a>
     </div>
 </div>
 <hr>

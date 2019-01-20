@@ -502,9 +502,9 @@ class PredmetiKontroler extends Kontroler
         $img = $req->slika;
         $ime_slike = $predmet->broj_predmeta . time() . '.' . $req->slika->getClientOriginalExtension();
         $lokacija = public_path('images/skenirano/' . $ime_slike);
-        $resize_img = Image::make($img)->heighten(800, function ($constraint) {
+        $resize_img = Image::make($img)->heighten(1024, function ($constraint) {
             $constraint->upsize();
-        })->encode('jpg', 75);
+        })->encode('jpg', 80);
         $resize_img->save($lokacija);
 
         $slika = new PredmetSlika;
@@ -625,6 +625,12 @@ class PredmetiKontroler extends Kontroler
                 return Response($rezultat);
             }
         }
+    }
+
+    public function getCiscenje()
+    {
+        $zz = Predmet::zamene()->update(['referent_zamena' => null]);
+        return Redirect::back();
     }
 
 }
