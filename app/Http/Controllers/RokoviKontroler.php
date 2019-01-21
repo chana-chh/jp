@@ -160,10 +160,18 @@ class RokoviKontroler extends Kontroler
         $datumi = array();
         $detalji = array();
         foreach ($rocista as $rociste) {
+
+            if ($rociste->predmet->referentZamena) {
+                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            }
+            else { 
+                $ime = $rociste->predmet->referent->imePrezime(); 
+            }
+
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
-                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                '<strong style="text-align: center; font-size: 1.4em !important"><center>'. $rociste->predmet->broj().
+                ' </center></strong><center>'.$ime.'</center>'
             ];
             $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
@@ -194,12 +202,20 @@ class RokoviKontroler extends Kontroler
         $detalji = array();
 
         foreach ($rocista as $rociste) {
+            
+            if ($rociste->predmet->referentZamena) {
+                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            }
+            else { 
+                $ime = $rociste->predmet->referent->imePrezime(); 
+            }
+
             $datumi[] = $rociste->datum;
             $naslovi[] = [
-                ($rociste->vreme ? '<strong>'. date('H:i', strtotime($rociste->vreme)). '</strong>' : '') . ' - ' . $rociste->predmet->broj(),
-                ' <br>(' . $rociste->predmet->referent->imePrezime() . ')',
+                '<strong style="text-align: center; font-size: 1.4em !important"><center>'. $rociste->predmet->broj().
+                ' </center></strong><center>'.$ime.'</center>'
             ];
-            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
+            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '" style="color: #ddd;"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>';
         }
 
         $naslovie = json_encode($naslovi);

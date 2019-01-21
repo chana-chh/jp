@@ -7,6 +7,7 @@
 @endsection
 
 @section('naslov')
+{{-- <div id="overlay" style="background-color: rgba(0, 0, 0, 0.1); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div> --}}
 <div class="row">
     <div class="col-md-12">
         <h1>

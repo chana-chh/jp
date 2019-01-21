@@ -169,6 +169,11 @@ class RocistaKontroler extends Kontroler
         $rociste->tip_id = $req->rok_izmena_tip_id;
         $rociste->save();
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио рок/рочиште у предмету са бројем " . $rociste->predmet->broj(). " са ID бројем рок/рочиштa " . $rociste->id;
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Рок/рочиште је успешно измењено!');
         return Redirect::back();
     }
@@ -178,9 +183,14 @@ class RocistaKontroler extends Kontroler
         $id = $req->id;
 
         $rociste = Rociste::find($id);
+        $broj_predmeta = $rociste->predmet->broj();
         $odgovor = $rociste->delete();
 
         if ($odgovor) {
+            $log = new NasLog();
+            $log->opis = Auth::user()->name . " је обрисао рок/рочиште из предмета са бројем " . $broj_predmeta. " са ID бројем рок/рочиштa " . $id;
+            $log->datum = Carbon::now();
+            $log->save();
             Session::flash('uspeh', 'Рок/рочиште је успешно обрисано!');
         } else {
             Session::flash('greska', 'Дошло је до грешке приликом брисања рока/рочишта. Покушајте поново, касније!');
