@@ -8,6 +8,7 @@ use App\Modeli\Tok;
 use App\Modeli\Status;
 use Carbon\Carbon;
 use App\Modeli\NasLog;
+use Auth;
 
 class PredmetiStatusKontroler extends Kontroler
 {
