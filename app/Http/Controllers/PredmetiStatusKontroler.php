@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Session;
 use App\Modeli\Tok;
 use App\Modeli\Status;
+use Carbon\Carbon;
+use App\Modeli\NasLog;
 
 class PredmetiStatusKontroler extends Kontroler
 {
@@ -42,6 +44,11 @@ class PredmetiStatusKontroler extends Kontroler
         $status->opis = $req->status_dodavanje_opis;
         $status->save();
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је додао статус са идентификационим бројем ".$status->id." у ток предмета са бројем ". $status->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Статус је успешно додат!');
         return redirect()->route('predmeti.pregled', $predmet_id);
     }
@@ -67,6 +74,11 @@ class PredmetiStatusKontroler extends Kontroler
         $tok->iznos_troskova_potrazuje = $req->status_izmena_itp;
         $tok->opis = $req->status_izmena_opis;
         $tok->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио статус са идентификационим бројем ".$tok->id." у току предмета са бројем ". $tok->predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
 
         Session::flash('uspeh', 'Статус је успешно измењен!');
         return redirect()->route('predmeti.pregled', $req->predmet_id);

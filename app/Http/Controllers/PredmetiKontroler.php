@@ -388,6 +388,11 @@ class PredmetiKontroler extends Kontroler
         $predmet->tuzioci()->sync($req->komintenti_1);
         $predmet->tuzeni()->sync($req->komintenti_2);
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио детаље у вези предмета са бројем ". $predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Предмет је успешно измењен!');
         return redirect()->route('predmeti.pregled', $id);
     }
@@ -511,6 +516,12 @@ class PredmetiKontroler extends Kontroler
         $slika->predmet_id = $id;
         $slika->src = $ime_slike;
         $slika->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је додао скенирани документ у предмет са бројем ". $predmet->broj();
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh', 'Скенирани документ је успешно додат!');
         return redirect()->route('predmeti.slike', $id);
     }
@@ -630,6 +641,10 @@ class PredmetiKontroler extends Kontroler
     public function getCiscenje()
     {
         $zz = Predmet::zamene()->update(['referent_zamena' => null]);
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је уклонио све замене референата.";
+        $log->datum = Carbon::now();
+        $log->save();
         return Redirect::back();
     }
 

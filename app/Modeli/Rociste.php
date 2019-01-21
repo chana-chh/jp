@@ -26,6 +26,6 @@ class Rociste extends Model
 
     public function scopeDanas($query)
     {
-        return $query->whereDate('datum', Carbon::today());
+        return $query->whereDate('datum', Carbon::today())->where('tip_id', 2);
     }
 }
