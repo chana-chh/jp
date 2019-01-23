@@ -66,9 +66,11 @@ class RocistaKontroler extends Kontroler
     {
 
         $kobaja = [];
+        $ref = null;
 
         if ($req['referent_id']) {
             $kobaja[] = ['s_referenti.id', '=', $req['referent_id']];
+            $ref = Referent::find($req['referent_id']);
         }
         if ($req['datum_1'] && !$req['datum_2']) {
             $kobaja[] = ['rocista.datum', '=', $req['datum_1']];
@@ -93,13 +95,28 @@ class RocistaKontroler extends Kontroler
                             s_referenti.prezime as prezime_referenta,
                             predmeti.broj_predmeta as broj,
                             predmeti.godina_predmeta as godina,
+                            predmeti.referent_zamena as zamena,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
             ->where('s_tipovi_rocista.id', '=', 2)
             ->where($kobaja)
             ->get();
 
-        return view('rocista_pretraga')->with(compact('rocista'));
+            $datumi = DB::table('rocista')
+            ->join('predmeti', 'rocista.predmet_id', '=', 'predmeti.id')
+            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
+            ->join('s_referenti', 'predmeti.referent_id', '=', 's_referenti.id')
+            ->join('s_tipovi_rocista', 'rocista.tip_id', '=', 's_tipovi_rocista.id')
+            ->select(DB::raw('rocista.datum as datum'))
+            ->where('s_tipovi_rocista.id', '=', 2)
+            ->where($kobaja)
+            ->groupBy('datum')
+            ->orderBy('datum', 'desc')
+            ->pluck('datum');
+
+            $referenti = Referent::all();
+
+        return view('rocista_pretraga')->with(compact('rocista', 'datumi', 'referenti', 'ref'));
     }
 
     public function postDodavanje(Request $req)

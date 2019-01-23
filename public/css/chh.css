@@ -393,6 +393,12 @@ th{
     }
 }
 
+@media print {
+  a[href]:after {
+    content: none !important;
+  }
+}
+
 .bez-margina {
     margin: 0 !important;
     padding: 0 !important;
