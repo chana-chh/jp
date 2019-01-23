@@ -212,19 +212,19 @@ class RocistaKontroler extends Kontroler
         $datumi = array();
         $detalji = array();
         foreach ($rocista as $rociste) {
-             
+
             if ($rociste->predmet->referentZamena) {
                 $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
-            else { 
-                $ime = $rociste->predmet->referent->imePrezime(); 
+            else {
+                $ime = $rociste->predmet->referent->imePrezime();
             }
 
             $datumi[] = $rociste->datum;
             $naslovi[] = [
                 ($rociste->vreme ? '<strong style="text-align: center; font-size: 1.4em !important"><center>'. date('H:i', strtotime($rociste->vreme)). '</center></strong><center>' : '').$ime.'</center>'
             ];
-            $detalji[] = $rociste->opis . ' - <a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>'. ' - ' . $rociste->predmet->broj();
+            $detalji[] = '<a class="ne_stampaj" href="' . route('predmeti.pregled', $rociste->predmet->id) . '"><i class="fa fa-archive fa-fw" style="color: #18BC9C"></i>Предмет</a>'. ': <strong style="font-size: 1.4em !important">' . $rociste->predmet->broj().'</strong><br><span>Опис:</span>'.$rociste->opis;
         }
 
         $naslovie = json_encode($naslovi);
@@ -257,8 +257,8 @@ class RocistaKontroler extends Kontroler
             if ($rociste->predmet->referentZamena) {
                 $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
-            else { 
-                $ime = $rociste->predmet->referent->imePrezime(); 
+            else {
+                $ime = $rociste->predmet->referent->imePrezime();
             }
 
             $datumi[] = $rociste->datum;
