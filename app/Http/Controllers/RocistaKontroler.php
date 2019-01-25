@@ -99,6 +99,7 @@ class RocistaKontroler extends Kontroler
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
             ->where('s_tipovi_rocista.id', '=', 2)
+            ->where('rocista.deleted_at', '=', null)
             ->where($kobaja)
             ->get();
 

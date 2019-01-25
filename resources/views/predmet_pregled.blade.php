@@ -9,7 +9,7 @@
 @section('naslov')
 @if($predmet->tokovi()->count() > 0)
 @if($predmet->tokovi()->latest()->first()->status_id == 8 || $predmet->tokovi()->latest()->first()->status_id == 18 || $predmet->tokovi()->latest()->first()->status_id == 28)
-<div id="overlay" style="background-color: rgba(0, 0, 0, 0.3); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
+<div id="overlay" style="background-color: rgba(0, 0, 0, 0.2); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
 @endif
 @endif
 <div class="row">

@@ -15,7 +15,18 @@ class ReferentiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('admin');
+        
+        $this->middleware('power.user')->only([
+            'getZamena',
+            'postZamena_add',
+            'getZamena_del'
+        ]);
+
+        $this->middleware('admin')->except([
+            'getZamena',
+            'postZamena_add',
+            'getZamena_del'
+        ]);
     }
 
     public function getLista()

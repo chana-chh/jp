@@ -23,5 +23,18 @@
 @endsection
 
 @section('skripte')
-
+{{-- <script src="{{asset('/js/jquery.snowfall.js')}}"></script>
+<script>
+	$(document).ready(function () {
+		$.snowfall.start({
+				size: {
+					min: 10,
+					max: 20
+				},
+				color: '#95A5A6',
+				content: '<i class="fa fa-snowflake-o"></i>',
+			
+		});
+	});
+</script> --}}
 @endsection
