@@ -7,7 +7,11 @@
 @endsection
 
 @section('naslov')
-{{-- <div id="overlay" style="background-color: rgba(0, 0, 0, 0.1); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div> --}}
+@if($predmet->tokovi()->count() > 0)
+@if($predmet->tokovi()->latest()->first()->status_id == 8 || $predmet->tokovi()->latest()->first()->status_id == 18 || $predmet->tokovi()->latest()->first()->status_id == 28)
+<div id="overlay" style="background-color: rgba(0, 0, 0, 0.3); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
+@endif
+@endif
 <div class="row">
     <div class="col-md-12">
         <h1>
@@ -40,7 +44,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-2" style="z-index: 1000">
                 <a href="{{ route('predmeti') }}" class="btn btn-primary btn-block ono" style="margin-top: 5px">
                     <i class="fa fa-arrow-circle-left"></i> На предмете
                 </a>
@@ -50,7 +54,11 @@
                     <i class="fa fa-pencil"></i> Измени
                 </a>
             </div>
+            @if (Gate::allows('admin'))
+            <div class="col-md-3" style="z-index: 1000">
+            @else
             <div class="col-md-3">
+            @endif
                 <button class="btn btn-warning btn-block ono" id="dugmeArhiviranje" style="margin-top: 5px">
                     <i class="fa fa-archive"></i> Архивирање/активирање
                 </button>
@@ -131,8 +139,8 @@
             <td>
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }} @if($s1->id_broj)<small class="text-success">, ЈМБГ: {{ $s1->id_broj }},</small>@endif 
-                        @if($s1->adresa) <small class="text-success">Адреса: {{ $s1->adresa }}, </small>@endif 
+                    <li>{{ $s1->naziv }} @if($s1->id_broj)<small class="text-success">, ЈМБГ: {{ $s1->id_broj }},</small>@endif
+                        @if($s1->adresa) <small class="text-success">Адреса: {{ $s1->adresa }}, </small>@endif
                         @if($s1->mesto) <small class="text-success">Место: {{ $s1->mesto }} </small>@endif
                     </li>
                     @endforeach
@@ -149,8 +157,8 @@
             <td>
                 <ul class="list-unstyled">
                     @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }} @if($s2->id_broj)<small class="text-success">, ЈМБГ: {{ $s2->id_broj }},</small>@endif 
-                        @if($s2->adresa) <small class="text-success">Адреса: {{ $s2->adresa }}, </small>@endif 
+                    <li>{{ $s2->naziv }} @if($s2->id_broj)<small class="text-success">, ЈМБГ: {{ $s2->id_broj }},</small>@endif
+                        @if($s2->adresa) <small class="text-success">Адреса: {{ $s2->adresa }}, </small>@endif
                         @if($s2->mesto) <small class="text-success">Место: {{ $s2->mesto }} </small>@endif
                     </li>
                     @endforeach
@@ -301,13 +309,16 @@
 <hr style="border-top: 1px dashed">
 
 {{--  POCETAK TOK_PREDMETA  --}}
-
-<div class="well" style="overflow: auto;">
+    <div class="well" style="overflow: auto;">
     <div class="row" style="margin-top: -20px">
         <div class="col-md-10">
             <h3 style="margin-bottom: 10px">Токови</h3>
         </div>
+        @if (Gate::allows('admin'))
+        <div class="col-md-2" style="z-index: 1000">
+        @else
         <div class="col-md-2">
+        @endif
             <button style="margin-top: 20px"
                     class="btn btn-success btn-sm" id="dugmeDodajStatus"
                     data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">
@@ -1339,7 +1350,7 @@
         });
     });
 
-    
+
 
 </script>
 <script src="{{ asset('/js/parsley.js') }}"></script>
