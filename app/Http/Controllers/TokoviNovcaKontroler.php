@@ -28,15 +28,27 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function getPocetna()
     {
-        $tokovi = Tok::all();
+        // $tokovi = Tok::all();
         $upisnici = VrstaUpisnika::all();
         $vrste = VrstaPredmeta::all();
 
-        // Ukupno
-        $vrednost_spora_potrazuje_suma = $tokovi->pluck('vrednost_spora_potrazuje')->sum();
-        $vrednost_spora_duguje_suma = $tokovi->pluck('vrednost_spora_duguje')->sum();
-        $iznos_troskova_potrazuje_suma = $tokovi->pluck('iznos_troskova_potrazuje')->sum();
-        $iznos_troskova_duguje_suma = $tokovi->pluck('iznos_troskova_duguje')->sum();
+        $sql = "SELECT SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+                SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+                SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+                SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
+                FROM tokovi_predmeta
+                INNER JOIN (
+                    SELECT predmet_id, max(datum) as poslednji_status
+                    FROM tokovi_predmeta
+                    GROUP BY predmet_id
+                ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)";
+
+        $zbirovi = Db::select($sql)[0];
+
+        $vrednost_spora_potrazuje_suma = $zbirovi->vsp;
+        $vrednost_spora_duguje_suma = $zbirovi->vsd;
+        $iznos_troskova_potrazuje_suma = $zbirovi->itp;
+        $iznos_troskova_duguje_suma = $zbirovi->itd;
 
         $it = $iznos_troskova_potrazuje_suma - $iznos_troskova_duguje_suma;
         $vs = $vrednost_spora_potrazuje_suma - $vrednost_spora_duguje_suma;
@@ -46,7 +58,6 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function getPretraga(Request $req)
     {
-
         $where = ' WHERE ';
 
         if ($req['vrsta_predemta_id']) {
@@ -111,36 +122,24 @@ class TokoviNovcaKontroler extends Kontroler
         }
 
         $where = ($where !== ' WHERE ') ? $where : '';
-
-        $query = "SELECT predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
-                    predmeti.datum_tuzbe,
-                    s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
-                    tokovi.vsd, tokovi.vsp, tokovi.itd, tokovi.itp
-                    FROM predmeti
-                    LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-                    LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
-                    LEFT JOIN (
-                      SELECT
-                      tokovi_predmeta.predmet_id,
-                      SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
-                      SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
-                      SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
-                      SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
-                      FROM tokovi_predmeta GROUP BY tokovi_predmeta.predmet_id
-                    ) AS tokovi ON predmeti.id = tokovi.predmet_id
-                    LEFT JOIN (
-                      SELECT tuzioci.predmet_id, s_komintenti.naziv
-                      FROM tuzioci
-                      JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id
-                    ) AS stranka1 ON stranka1.predmet_id = predmeti.id
-                    LEFT JOIN (
-                      SELECT tuzeni.predmet_id, s_komintenti.naziv
-                      FROM tuzeni
-                      JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
-                    ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$where}
-                    GROUP BY id;";
-
-        $tokovi = \Illuminate\Support\Facades\DB::select($query);
+        
+        $sql = "SELECT status_id,
+                predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
+                s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
+                tokovi_predmeta.vrednost_spora_duguje AS vsd,
+                tokovi_predmeta.vrednost_spora_potrazuje AS vsp,
+                tokovi_predmeta.iznos_troskova_duguje AS itd,
+                tokovi_predmeta.iznos_troskova_potrazuje AS itp
+                FROM tokovi_predmeta
+                INNER JOIN (
+                SELECT predmet_id, max(datum) as poslednji_status
+                FROM tokovi_predmeta
+                GROUP BY predmet_id
+                ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
+                LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+                LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id{$where};";
+        $tokovi = DB::select($sql);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
 
@@ -188,13 +187,13 @@ class TokoviNovcaKontroler extends Kontroler
             JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
             WHERE tokovi_predmeta.status_id NOT IN (8) AND tokovi_predmeta.deleted_at IS NULL
             GROUP BY vrsta
-        */
+         */
         $vrste = DB::table('tokovi_predmeta')
             ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
             ->select(DB::raw('MAX(tokovi_predmeta.created_at),SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))
             ->groupBy('vrsta')
             ->toSql();
-            dd($vrste);
+        dd($vrste);
 
         $vrste_predmeta = DB::table('s_vrste_predmeta')->orderBy('id', 'ASC')->pluck('naziv')->toArray();
         return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta'));
