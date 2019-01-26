@@ -93,7 +93,7 @@ class PredmetiKontroler extends Kontroler
                LEFT JOIN (
                     SELECT `tuzeni`.`predmet_id`, `s_komintenti`.`naziv` AS `stt2` FROM `tuzeni`
                     JOIN `s_komintenti` ON `tuzeni`.`komintent_id` = `s_komintenti`.`id`
-                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` WHERE predmeti.deleted_at IS NULL 
+                ) AS `st2_naziv` ON `st2_naziv`.`predmet_id` = `predmeti`.`id` WHERE predmeti.deleted_at IS NULL
                 GROUP BY `predmeti`.`id`";
         $predmeti = \Illuminate\Support\Facades\DB::select($query);
 
@@ -306,7 +306,7 @@ class PredmetiKontroler extends Kontroler
             $data->save();
             $log_string .= " и придружио му број надлежног органа ". $data->broj;
         }
-        
+
         if ($req->status) {
             $status = new Tok();
             $status->predmet_id = $predmet->id;
@@ -319,15 +319,15 @@ class PredmetiKontroler extends Kontroler
                 } else {
                     $status->vrednost_spora_potrazuje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
                 }
-                
+
             } else{
                 $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
             }
-            
+
             $status->opis = $req->status_opis;
             $status->save();
 
-            $log_string .= ". Предмету је додат иницијални статус са ID бројем: ".$status->id; 
+            $log_string .= ". Предмету је додат иницијални статус са ID бројем: ".$status->id;
         }
 
         $log = new NasLog();

@@ -19,7 +19,7 @@
 </div>
     <div class="row" style="margin-top: 20px">
 <div class="col-md-12">
-@if($vrste->isEmpty())
+@if(count($vrste) < 1)
             <h3 class="text-danger">Тренутно нема предмета у бази података</h3>
         @else
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
@@ -67,7 +67,7 @@ $( document ).ready(function() {
             zeroRecords:  "Није пронађен ниједан запис",
             info:         "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
             infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
-            
+
 
         }
     });

@@ -28,7 +28,6 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function getPocetna()
     {
-        // $tokovi = Tok::all();
         $upisnici = VrstaUpisnika::all();
         $vrste = VrstaPredmeta::all();
 
@@ -41,7 +40,9 @@ class TokoviNovcaKontroler extends Kontroler
                     SELECT predmet_id, max(datum) as poslednji_status
                     FROM tokovi_predmeta
                     GROUP BY predmet_id
-                ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)";
+                ) AS tok ON
+                (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL;";
 
         $zbirovi = Db::select($sql)[0];
 
@@ -122,7 +123,7 @@ class TokoviNovcaKontroler extends Kontroler
         }
 
         $where = ($where !== ' WHERE ') ? $where : '';
-        
+
         $sql = "SELECT status_id,
                 predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
                 s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
@@ -138,7 +139,18 @@ class TokoviNovcaKontroler extends Kontroler
                 ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
                 LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
                 LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-                LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id{$where};";
+                LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+                LEFT JOIN (
+                      SELECT tuzioci.predmet_id, s_komintenti.naziv
+                      FROM tuzioci
+                      LEFT JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id
+                    ) AS stranka1 ON stranka1.predmet_id = predmeti.id
+                    LEFT JOIN (
+                      SELECT tuzeni.predmet_id, s_komintenti.naziv
+                      FROM tuzeni
+                      LEFT JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
+                    ) AS stranka2 ON stranka2.predmet_id = predmeti.id
+                {$where} AND tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL;";
         $tokovi = DB::select($sql);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
@@ -150,28 +162,27 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function postAjaxGrupaPredmet(Request $request)
     {
-        return datatables(DB::table('predmeti')
-            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-            ->leftjoin('tokovi_predmeta', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
-            ->select(DB::raw('SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp,
-            SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd,
-            SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp,
-            SUM(tokovi_predmeta.iznos_troskova_duguje) as itd,
-            predmeti.broj_predmeta as broj,
-            predmeti.vrednost_tuzbe as vrednost_tuzbe,
-            predmeti.godina_predmeta as godina,
-            predmeti.id as idp,
-            s_vrste_upisnika.slovo as slovo'))
-            ->groupBy('idp')
-            ->get())->toJson();
+        $sql = "SELECT status_id, predmeti.id AS idp,
+                s_vrste_upisnika.slovo AS slovo, predmeti.broj_predmeta AS broj, predmeti.godina_predmeta AS godina, predmeti.vrednost_tuzbe,
+                tokovi_predmeta.vrednost_spora_duguje AS vsd,
+                tokovi_predmeta.vrednost_spora_potrazuje AS vsp,
+                tokovi_predmeta.iznos_troskova_duguje AS itd,
+                tokovi_predmeta.iznos_troskova_potrazuje AS itp
+                FROM tokovi_predmeta
+                INNER JOIN (
+                SELECT predmet_id, max(datum) as poslednji_status
+                FROM tokovi_predmeta
+                GROUP BY predmet_id
+                ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
+                LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28);";
+        return datatables(DB::select($sql))->toJson();
     }
 
     public function getGrupaVrstaPredmeta()
     {
-        //Tokovi grupisano po vrsti predmeta dodat MAX 16.01.2019
-
-        /*
-            SELECT tokovi_predmeta.predmet_id, tokovi_predmeta.status_id, tokovi_predmeta.datum,
+        $sql = "SELECT tokovi_predmeta.predmet_id, tokovi_predmeta.status_id, tokovi_predmeta.datum,
             predmeti.vrsta_predmeta_id AS vrsta, s_vrste_predmeta.naziv AS naziv_vrste,
             SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
             SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
@@ -186,54 +197,75 @@ class TokoviNovcaKontroler extends Kontroler
             LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
             JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
             WHERE tokovi_predmeta.status_id NOT IN (8) AND tokovi_predmeta.deleted_at IS NULL
-            GROUP BY vrsta
-         */
-        $vrste = DB::table('tokovi_predmeta')
-            ->join('predmeti', 'tokovi_predmeta.predmet_id', '=', 'predmeti.id')
-            ->select(DB::raw('MAX(tokovi_predmeta.created_at),SUM(tokovi_predmeta.vrednost_spora_potrazuje) as vsp, SUM(tokovi_predmeta.vrednost_spora_duguje) as vsd, SUM(tokovi_predmeta.iznos_troskova_potrazuje) as itp, SUM(tokovi_predmeta.iznos_troskova_duguje) as itd, predmeti.vrsta_predmeta_id as vrsta'))
-            ->groupBy('vrsta')
-            ->toSql();
-        dd($vrste);
+            GROUP BY vrsta;";
 
+        $vrste = DB::select($sql);
         $vrste_predmeta = DB::table('s_vrste_predmeta')->orderBy('id', 'ASC')->pluck('naziv')->toArray();
         return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta'));
     }
 
     public function getTekuciMesec()
     {
-        $tokovi_ovaj_mesec = Tok::whereDate('datum', '>=', Carbon::now()->startOfMonth()->format('Y-m-d'))->get();
-        $vrednost_spora_potrazuje_mesec = $tokovi_ovaj_mesec->pluck('vrednost_spora_potrazuje')->sum();
-        $vrednost_spora_duguje_mesec = $tokovi_ovaj_mesec->pluck('vrednost_spora_duguje')->sum();
-        $iznos_troskova_potrazuje_mesec = $tokovi_ovaj_mesec->pluck('iznos_troskova_potrazuje')->sum();
-        $iznos_troskova_duguje_mesec = $tokovi_ovaj_mesec->pluck('iznos_troskova_duguje')->sum();
+        $pocetak_meseca = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $kraj_meseca = Carbon::now()->endOfMonth()->format('Y-m-d');
+        dump($pocetak_meseca);
+        $sql = "SELECT SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+                SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+                SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+                SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
+                FROM tokovi_predmeta
+                INNER JOIN (
+                    SELECT predmet_id, max(datum) as poslednji_status
+                    FROM tokovi_predmeta
+                    GROUP BY predmet_id
+                ) AS tok ON
+                (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL
+                AND datum BETWEEN CAST('{$pocetak_meseca}' AS DATE) AND CAST('{$kraj_meseca}' AS DATE);";
+        $tokovi_ovaj_mesec = Db::select($sql)[0];
+        $vrednost_spora_potrazuje_mesec = $tokovi_ovaj_mesec->vsp;
+        $vrednost_spora_duguje_mesec = $tokovi_ovaj_mesec->vsd;
+        $iznos_troskova_potrazuje_mesec = $tokovi_ovaj_mesec->itp;
+        $iznos_troskova_duguje_mesec = $tokovi_ovaj_mesec->itd;
 
         return view('tokovi_novca_tekuci_mesec')->with(compact('vrednost_spora_potrazuje_mesec', 'vrednost_spora_duguje_mesec', 'iznos_troskova_potrazuje_mesec', 'iznos_troskova_duguje_mesec'));
     }
 
     public function getTekucaGodina()
     {
-
         $broj_meseci = Carbon::now()->month;
-
-        //Raspodela u tekucoj godini
         for ($i = 0; $i <= ($broj_meseci - 1); $i++) {
-            $tokovi_period = Tok::whereBetween('datum', [Carbon::now()->startOfYear()->addMonths($i)->startOfMonth(), Carbon::now()->startOfYear()->addMonths($i)->endOfMonth()])->get();
-            $array[] = [
-                'vrednost_spora_potrazuje' => $tokovi_period->pluck('vrednost_spora_potrazuje')->sum(),
-                'vrednost_spora_duguje' => $tokovi_period->pluck('vrednost_spora_duguje')->sum(),
-                'iznos_troskova_potrazuje' => $tokovi_period->pluck('iznos_troskova_potrazuje')->sum(),
-                'iznos_troskova_duguje' => $tokovi_period->pluck('iznos_troskova_duguje')->sum(),
+            $pocetak_meseca = Carbon::now()->startOfYear()->addMonths($i)->startOfMonth()->format('Y-m-d');
+            $kraj_meseca = Carbon::now()->startOfYear()->addMonths($i)->endOfMonth()->format('Y-m-d');
+            $sql = "SELECT SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+                SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+                SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+                SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp
+                FROM tokovi_predmeta
+                INNER JOIN (
+                    SELECT predmet_id, max(datum) as poslednji_status
+                    FROM tokovi_predmeta
+                    GROUP BY predmet_id
+                ) AS tok ON
+                (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL
+                AND datum BETWEEN CAST('{$pocetak_meseca}' AS DATE) AND CAST('{$kraj_meseca}' AS DATE);";
+            $tokovi_period = Db::select($sql)[0];
+            $niz[] = [
+                'vrednost_spora_potrazuje' => $tokovi_period->vsp,
+                'vrednost_spora_duguje' => $tokovi_period->vsd,
+                'iznos_troskova_potrazuje' => $tokovi_period->itp,
+                'iznos_troskova_duguje' => $tokovi_period->itd,
                 'mesec' => Carbon::now()->startOfYear()->addMonths($i)->startOfMonth()->format('M')
             ];
         }
-        foreach ($array as $e) {
+        foreach ($niz as $e) {
             $labele[] = $e['mesec'];
             $vrednosti_vsp[] = $e['vrednost_spora_potrazuje'];
             $vrednosti_vsd[] = $e['vrednost_spora_duguje'];
             $vrednosti_itp[] = $e['iznos_troskova_potrazuje'];
             $vrednosti_itd[] = $e['iznos_troskova_duguje'];
         }
-
         return view('tokovi_novca_tekuca_godina')->with(compact('labele', 'vrednosti_vsp', 'vrednosti_vsd', 'vrednosti_itp', 'vrednosti_itd'));
     }
 
