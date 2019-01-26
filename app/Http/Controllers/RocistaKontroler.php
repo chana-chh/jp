@@ -66,6 +66,7 @@ class RocistaKontroler extends Kontroler
     {
 
         $kobaja = [];
+        $kobajazam = [];
         $ref = null;
 
         if ($req['referent_id']) {
