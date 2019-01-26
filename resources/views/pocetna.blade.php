@@ -135,13 +135,13 @@
                     <table class="table table-condensed table-striped" style="table-layout: fixed;">
                         <tbody>
                             @foreach($rocistatab as $r)
-                                @if($r->predmet->referentZamena)
+                                @if($r->zamena)
                                     <tr>
                                         <th style="width: 15%;"><strong>{{ date('d.m.Y', strtotime($r->datum)) }}</strong></th>
                                             <td style="width: 15%;" class="text-danger">{{date('H:i', strtotime($r->vreme))}}</td>
                                             <td style="width: 20%;">{{$r->predmet->referent->imePrezime()}}</td>
                                             <td style="width: 20%;"><i>ће бити замењен/a</i></td>
-                                            <td style="width: 20%;">{{ $r->predmet->referentZamena->imePrezime() }}</td>
+                                            <td style="width: 20%;">{{ $r->zamena->imePrezime() }}</td>
                                             <td style="width: 10%;"><a href="{{route('predmeti.pregled', $r->predmet->id)}}">{{$r->predmet->broj()}}</a></td>
                                     </tr>
                                 @endif
@@ -151,7 +151,7 @@
             </div>
              @if (Gate::allows('admin'))
                 <div class="col-md-2 text-right" style="margin-top: 80px;">
-                    <a href="{{route('predmeti.ciscenje')}}" class="btn btn-danger">
+                    <a href="{{route('referenti.ciscenje')}}" class="btn btn-danger">
                         <i class="fa fa-trash"></i> Поништи све замене
                     </a>
                 </div>

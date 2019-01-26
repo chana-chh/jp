@@ -27,15 +27,16 @@
 <hr>
 <div class="row">
     <div class="col-md-6 col-md-offset-3 text-center">
-        @if(!$predmet->referentZamena)
+        <strong class="text-info">{{ $rociste->tipRocista->naziv }} {{ date('d.m.Y', strtotime($rociste->datum)) }} {{ $rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '' }}</strong>
+        @if(!$rociste->zamena)
         <h3><i class="fa fa-refresh" aria-hidden="true"></i> Тренутно нема заменског референта </h3>
         @else
-        <h3 class="text-success"><i class="fa fa-refresh" aria-hidden="true"></i> Заменски референт је у овом тренутку {{$predmet->referentZamena->imePrezime()}}</h3>
+        <h3 class="text-success"><i class="fa fa-refresh" aria-hidden="true"></i> Заменски референт је у овом тренутку {{$rociste->zamena->imePrezime()}}</h3>
         @endif
 </div>
 </div>
 <div class="well">
-    <form action="{{ route('referenti.zamena_add', $predmet->id) }}" method="POST" data-parsley-validate>
+    <form action="{{ route('referenti.zamena_add', $rociste->id) }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6 col-md-offset-3">
@@ -67,7 +68,7 @@
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <a class="btn btn-warning btn-block ono" href="{{route('referenti.zamena', $predmet->id)}}">
+                        <a class="btn btn-warning btn-block ono" href="{{route('referenti.zamena', $rociste->id)}}">
                             <i class="fa fa-ban"></i>&emsp;Откажи
                         </a>
                     </div>
@@ -80,7 +81,7 @@
 <hr>
         <div class="row dugmici">
             <div class="col-md-4 col-md-offset-8" style="margin-top: 20px;">
-                        <a class="btn btn-danger btn-block ono" href="{{route('referenti.zamena_del', $predmet->id)}}">
+                        <a class="btn btn-danger btn-block ono" href="{{route('referenti.zamena_del', $rociste->id)}}">
                             <i class="fa fa-trash-o"></i>&emsp;Уклањање привременог референта
                         </a>
             </div>

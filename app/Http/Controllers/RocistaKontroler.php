@@ -70,6 +70,7 @@ class RocistaKontroler extends Kontroler
 
         if ($req['referent_id']) {
             $kobaja[] = ['s_referenti.id', '=', $req['referent_id']];
+            $kobajazam[] = ['rocista.referent_zamena', '=', $req['referent_id']];
             $ref = Referent::find($req['referent_id']);
         }
         if ($req['datum_1'] && !$req['datum_2']) {
@@ -90,17 +91,18 @@ class RocistaKontroler extends Kontroler
                             rocista.vreme as vreme,
                             rocista.opis as opis,
                             rocista.id as rid,
+                            rocista.referent_zamena as zamena,
                             s_tipovi_rocista.naziv as tip,
                             s_referenti.ime as ime_referenta,
                             s_referenti.prezime as prezime_referenta,
                             predmeti.broj_predmeta as broj,
                             predmeti.godina_predmeta as godina,
-                            predmeti.referent_zamena as zamena,
                             s_vrste_upisnika.slovo as slovo,
                             predmeti.id as id'))
-            ->where('s_tipovi_rocista.id', '=', 2)
             ->where('rocista.deleted_at', '=', null)
+            ->where('tip_id', '=', 2)
             ->where($kobaja)
+            ->orWhere($kobajazam)
             ->get();
 
             $datumi = DB::table('rocista')
@@ -109,10 +111,12 @@ class RocistaKontroler extends Kontroler
             ->join('s_referenti', 'predmeti.referent_id', '=', 's_referenti.id')
             ->join('s_tipovi_rocista', 'rocista.tip_id', '=', 's_tipovi_rocista.id')
             ->select(DB::raw('rocista.datum as datum'))
+            ->where('rocista.deleted_at', '=', null)
             ->where('s_tipovi_rocista.id', '=', 2)
             ->where($kobaja)
+            ->orWhere($kobajazam)
             ->groupBy('datum')
-            ->orderBy('datum', 'desc')
+            ->orderBy('datum')
             ->pluck('datum');
 
             $referenti = Referent::all();
@@ -231,8 +235,8 @@ class RocistaKontroler extends Kontroler
         $detalji = array();
         foreach ($rocista as $rociste) {
 
-            if ($rociste->predmet->referentZamena) {
-                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            if ($rociste->zamena) {
+                $ime = $rociste->zamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
             else {
                 $ime = $rociste->predmet->referent->imePrezime();
@@ -272,8 +276,8 @@ class RocistaKontroler extends Kontroler
 
         foreach ($rocista as $rociste) {
 
-            if ($rociste->predmet->referentZamena) {
-                $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
+            if ($rociste->zamena) {
+                $ime = $rociste->zamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
             else {
                 $ime = $rociste->predmet->referent->imePrezime();
@@ -312,11 +316,11 @@ class RocistaKontroler extends Kontroler
                 '=',
                 $params['referent_id']];
 
-            $rocista = Rociste::whereHas('predmet', function ($query) use ($whereref, $wherezam) {
-                $query->where($whereref);
-                $query->orWhere($wherezam);
-            })
-                ->where('tip_id', 2)
+            $rocista = Rociste::tip()
+                ->whereHas('predmet', function ($query) use ($whereref) {
+                    $query->where($whereref);
+                })
+                ->orWhere($wherezam)
                 ->whereBetween('datum', [Carbon::now()->subMonths(6)->format('Y-m-d'), Carbon::now()->addMonths(6)->format('Y-m-d')])
                 ->orderBy('datum')
                 ->orderBy('vreme')

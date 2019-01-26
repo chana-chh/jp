@@ -638,14 +638,4 @@ class PredmetiKontroler extends Kontroler
         }
     }
 
-    public function getCiscenje()
-    {
-        $zz = Predmet::zamene()->update(['referent_zamena' => null]);
-        $log = new NasLog();
-        $log->opis = Auth::user()->name . " је уклонио све замене референата.";
-        $log->datum = Carbon::now();
-        $log->save();
-        return Redirect::back();
-    }
-
 }

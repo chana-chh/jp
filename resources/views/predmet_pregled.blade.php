@@ -286,7 +286,7 @@
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
             <td style="width: 10%; text-align:right;"></td>
         </tr>
-                <tr>
+                {{-- <tr>
             <th style="width: 20%;"><strong class="text-warning">Референт (замена):</strong></th>
             <td style="width: 70%; font-style: italic" class="text-warning">
                 @if($predmet->referentZamena)
@@ -298,7 +298,7 @@
                     <i class="fa fa-pencil"></i>
                 </a>
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>
             <td style="width: 70%;">{!! nl2br(e($predmet->napomena)) !!}</td>
@@ -681,12 +681,15 @@
             <tr>
                 <td style="width: 20%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
                 <td style="width: 30%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
-                <td style="width: 30%;">
+                <td style="width: 20%;">
                     <strong>
                         {{ $rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '' }}
                     </strong>
                 </td>
-                <td style="width: 20%; text-align: right;">
+                <td style="width: 30%; text-align: right;">
+					<a class="btn btn-success btn-xs" id="dugmeRefZamena" href="{{ route('referenti.zamena', $rociste->id) }}">
+                    <i class="fa fa-refresh"></i>
+                    </a>																										   						 	
                     <button
                         class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
                         data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$rociste->id}}">

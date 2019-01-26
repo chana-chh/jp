@@ -60,9 +60,12 @@ Route::get('sifarnici/referenti/promena', 'ReferentiKontroler@getPromenaReferent
 Route::post('sifarnici/referenti/refpromena', 'ReferentiKontroler@postPromenaReferenta')->name('referenti.refpromena');
 Route::get('sifarnici/referenti/vracanje', 'ReferentiKontroler@getVracanje')->name('referenti.vracanje');
 Route::post('sifarnici/referenti/post_vracanje', 'ReferentiKontroler@postVracanje')->name('referenti.post_vracanje');
-Route::get('sifarnici/referenti/zamena/{id}', 'ReferentiKontroler@getZamena')->name('referenti.zamena');
-Route::post('sifarnici/referenti/zamena_add/{id}', 'ReferentiKontroler@postZamena_add')->name('referenti.zamena_add');
-Route::get('sifarnici/referenti/zamena_del/{id}', 'ReferentiKontroler@getZamena_del')->name('referenti.zamena_del');
+
+//Zamene referenata
+Route::get('sifarnici/referenti/zamena/{id}', 'ZameneKontroler@getZamena')->name('referenti.zamena');
+Route::post('sifarnici/referenti/zamena_add/{id}', 'ZameneKontroler@postZamena_add')->name('referenti.zamena_add');
+Route::get('sifarnici/referenti/zamena_del/{id}', 'ZameneKontroler@getZamena_del')->name('referenti.zamena_del');
+Route::get('sifarnici/referenti/ciscenje', 'ZameneKontroler@getCiscenje')->name('referenti.ciscenje');
 
 //Korisnici
 Route::get('sifarnici/korisnici', 'KorisniciKontroler@getLista')->name('korisnici');
@@ -84,7 +87,6 @@ Route::post('predmeti/brisanje', 'PredmetiKontroler@postBrisanje')->name('predme
 Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmeti.izmena.get');
 Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');
 Route::get('predmeti/pregled/{id}', 'PredmetiKontroler@getPregled')->name('predmeti.pregled');
-Route::get('predmeti/ciscenje', 'PredmetiKontroler@getCiscenje')->name('predmeti.ciscenje');
 Route::post('predmeti/arhiviranje', 'PredmetiKontroler@postArhiviranje')->name('predmeti.arhiviranje');
 
 

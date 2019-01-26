@@ -39,7 +39,8 @@
 @endif
 <hr>
 @foreach ($datumi as $dat)
-    <h3>{{$dat}}</h3>
+    <h3>{{Carbon\Carbon::parse($dat)->format('d.m.Y')}}</h3>
+    <hr style="border-top: 1px dotted #18BC9C">
     <table class="table table-bordered table-hover tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed; font-size: 1.4em">
     <thead>
         <tr>
@@ -62,10 +63,11 @@
             <td style="text-align:right">{{$rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : ''}}</td>
             <td style="text-align:right">
                 @if($rociste->zamena != null)
-                <small>Мења је/га</small>
+					
                 @foreach($referenti->where('id', $rociste->zamena) as $referentzam)
                 <small>{{$referentzam->imePrezime()}}</small>
                 @endforeach
+				<small> мења {{$rociste->ime_referenta}} {{$rociste->prezime_referenta}}</small>																					
                 @endif
                 <em>{{$rociste->opis}}</em></td>
             <td >

@@ -24,6 +24,16 @@ class Rociste extends Model
         return $this->belongsTo('App\Modeli\TipRocista', 'tip_id', 'id');
     }
 
+    public function zamena()
+    {
+        return $this->belongsTo('App\Modeli\Referent', 'referent_zamena', 'id');
+    }
+
+    public function scopeTip($query)
+    {
+        return $query->where('tip_id', 2);
+    }
+
     public function scopeDanas($query)
     {
         return $query->whereDate('datum', Carbon::today())->where('tip_id', 2);

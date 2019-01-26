@@ -19,8 +19,8 @@ class Referent extends Model
         return $this->hasMany('App\Modeli\Predmet', 'referent_id', 'id');
     }
 
-    public function predmetZ()
+    public function zamena()
     {
-        return $this->hasMany('App\Modeli\Predmet', 'referent_zamena', 'id');
+        return $this->hasMany('App\Modeli\Rociste', 'referent_zamena', 'id');
     }
 }
