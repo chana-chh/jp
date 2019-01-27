@@ -680,11 +680,18 @@
             @foreach ($rocista as $rociste)
             <tr>
                 <td style="width: 20%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
-                <td style="width: 30%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
+                <td style="width: 20%;"><strong>{{ date('d.m.Y', strtotime($rociste->datum)) }}</strong></td>
                 <td style="width: 20%;">
                     <strong>
                         {{ $rociste->vreme ? date('H:i', strtotime($rociste->vreme)) : '' }}
                     </strong>
+                </td>
+                <td style="width: 10%;">
+                @if($rociste->zamena)
+                    <strong>
+                        <i class="fa fa-flag" title="{{$rociste->zamena->imePrezime()}}"></i>
+                    </strong>
+                @endif
                 </td>
                 <td style="width: 30%; text-align: right;">
 					<a class="btn btn-success btn-xs" id="dugmeRefZamena" href="{{ route('referenti.zamena', $rociste->id) }}">

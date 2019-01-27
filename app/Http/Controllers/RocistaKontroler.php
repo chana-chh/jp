@@ -122,6 +122,9 @@ class RocistaKontroler extends Kontroler
 
             $referenti = Referent::all();
 
+            if ($ref === null) {
+                return view('rocista_pretragaz')->with(compact('rocista', 'datumi', 'referenti'));
+            }
         return view('rocista_pretraga')->with(compact('rocista', 'datumi', 'referenti', 'ref'));
     }
 

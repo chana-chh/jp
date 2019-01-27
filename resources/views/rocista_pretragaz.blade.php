@@ -34,10 +34,7 @@
 @if($rocista->isEmpty())
 <h3 class="text-danger">Нема записа у бази података</h3>
 @else
-@if($ref)
-<h3>{{$ref->imePrezime()}}</h3>
-@endif
-<hr>
+
 @foreach ($datumi as $dat)
     <h3>{{Carbon\Carbon::parse($dat)->format('d.m.Y')}}</h3>
     <hr style="border-top: 1px dotted #18BC9C">
@@ -47,8 +44,9 @@
             <th style="width: 12%; text-align:right; padding-right: 25px">Број предмета</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Датум</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Време</th>
-            <th style="width: 34%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 34%; text-align:right; padding-right: 25px">Белешке</th>
+            <th style="width: 30%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Референт</th>
+            <th style="width: 24%; text-align:right; padding-right: 25px">Белешке</th>
         </tr>
     </thead>
     <tbody id="rocista_lista" name="rocista_lista">
@@ -70,6 +68,9 @@
 				<small> мења {{$rociste->ime_referenta}} {{$rociste->prezime_referenta}}</small>																					
                 @endif
                 <em>{{$rociste->opis}}</em></td>
+            <td >
+                <small>{{$rociste->ime_referenta}} {{$rociste->prezime_referenta}}</small>
+            </td>
             <td >
 
             </td>
