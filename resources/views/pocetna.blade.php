@@ -159,15 +159,20 @@
     </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="danas">
-        <ul style="margin-top: 20px; font-size: 1.2em">
+        <ul class="list-group" style="margin-top: 20px; font-size: 1.2em">
             @foreach($danas as $d)
-                <li>{{date('H:i', strtotime($d->vreme))}},
-                    @if ($d->predmet->referentZamena)
-                    {{$d->predmet->referentZamena->imePrezime()}}
+                <li class="list-group-item">{{date('H:i', strtotime($d->vreme))}},&emsp;
+                    @if ($d->zamena)
+                    <strong>
+                        <i class="fa fa-flag"></i>
+                    </strong>
+                    &emsp;
+                    {{$d->zamena->imePrezime()}}
                     @else
-                    {{$d->predmet->referent->imePrezime()}}
+                    &emsp; &emsp; {{$d->predmet->referent->imePrezime()}}
                     @endif
-                    <a href="{{route('predmeti.pregled', $d->predmet->id)}}">{{$d->predmet->broj()}}</a>
+                    &emsp;<a href="{{route('predmeti.pregled', $d->predmet->id)}}">{{$d->predmet->broj()}}</a>
+                    &emsp;({{$d->predmet->vrstaPredmeta->naziv}})
                 </li>
             @endforeach
         </ul>

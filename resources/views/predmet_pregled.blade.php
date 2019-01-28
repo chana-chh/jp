@@ -687,16 +687,20 @@
                     </strong>
                 </td>
                 <td style="width: 10%;">
+                @if($rociste->tip_id == 2)
                 @if($rociste->zamena)
                     <strong>
                         <i class="fa fa-flag" title="{{$rociste->zamena->imePrezime()}}"></i>
                     </strong>
                 @endif
+                @endif
                 </td>
                 <td style="width: 30%; text-align: right;">
+                    @if($rociste->tip_id == 2)
 					<a class="btn btn-success btn-xs" id="dugmeRefZamena" href="{{ route('referenti.zamena', $rociste->id) }}">
                     <i class="fa fa-refresh"></i>
-                    </a>																										   						 	
+                    </a>
+                    @endif
                     <button
                         class="btn btn-success btn-xs" id="dugmeRocisteIzmena"
                         data-toggle="modal" data-target="#izmeniRocisteModal" value="{{$rociste->id}}">
