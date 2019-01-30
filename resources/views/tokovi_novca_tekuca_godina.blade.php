@@ -67,8 +67,7 @@ var tekuca_godina = new Chart(grafik, {
   },
   options: {
     title: {
-      display: true,
-      text: 'Такође неки наслов'
+      display: false,
     },
     maintainAspectRatio: false,
   }

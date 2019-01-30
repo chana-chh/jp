@@ -1,6 +1,6 @@
 @extends('sabloni.app')
 
-@section('naziv', 'Ток новца | Група предмет')
+@section('naziv', 'Ток новца | Група врста предмета')
 
 @section('meni')
     @include('sabloni.inc.meni')
@@ -19,10 +19,11 @@
 </div>
     <div class="row" style="margin-top: 20px">
 <div class="col-md-12">
+    <br>
 @if(count($vrste) < 1)
             <h3 class="text-danger">Тренутно нема предмета у бази података</h3>
         @else
-            <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
+            <table class="table table-condensed table-striped tabelaTokVrsta" name="tabelaTokVrsta" id="tabelaTokVrsta">
                 <thead>
                     <th style="width: 28%">Врста предмета</th>
                     <th style="width: 17%">Вредност спора потражује</th>
@@ -50,9 +51,41 @@
 @endsection
 
 @section('skripte')
+<script src="{{ asset('/js/buttons.print.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
-    $('table.tabelaTokPredmet').DataTable({
+    $('table.tabelaTokVrsta').DataTable({
+                dom: 'Bflrtip',
+        buttons: [
+            'excelHtml5',
+            'print',
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                customize : function(doc){
+            var colCount = new Array();
+           $('#tabelaTokVrsta').find('tbody tr:first-child td').each(function(){
+                if($(this).attr('colspan')){
+                    for(var i=1;i<=$(this).attr('colspan');$i++){
+                        colCount.push('*');
+                    }
+                }else{ colCount.push('*'); }
+            });
+            doc.content[1].table.widths = colCount;
+        },
+                exportOptions: {
+                    columns: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ]
+                }
+            }
+
+        ],
         responsive: true,
         language: {
             search: "Пронађи у табели",

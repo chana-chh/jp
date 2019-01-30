@@ -208,7 +208,6 @@ class TokoviNovcaKontroler extends Kontroler
     {
         $pocetak_meseca = Carbon::now()->startOfMonth()->format('Y-m-d');
         $kraj_meseca = Carbon::now()->endOfMonth()->format('Y-m-d');
-        dump($pocetak_meseca);
         $sql = "SELECT SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
                 SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
                 SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,

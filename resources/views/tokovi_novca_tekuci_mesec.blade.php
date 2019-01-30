@@ -45,14 +45,14 @@ type: 'doughnut',
         display: true,
         fontColor: "#2C3E50",
         fontSize: 20,
-        text: 'Неки додатни текст нисам сигуран који'
+        text: 'Ток новца у текућем месецу'
       },
       legend: {
       display: true,
       position: 'bottom',
       labels: {
         fontColor: "#2C3E50",
-        fontSize: 20,
+        fontSize: 18,
       }
     },
       maintainAspectRatio: false,

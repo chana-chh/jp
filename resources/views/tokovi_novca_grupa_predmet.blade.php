@@ -36,6 +36,7 @@
 @endsection
 
 @section('skripte')
+<script src="{{ asset('/js/buttons.print.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
 
@@ -46,6 +47,38 @@ $( document ).ready(function() {
     });
 
     $('table.tabelaTokPredmet').DataTable({
+        dom: 'Bflrtip',
+        buttons: [
+            'excelHtml5',
+            'print',
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                customize : function(doc){
+            var colCount = new Array();
+           $('#tabelaTokPredmet').find('tbody tr:first-child td').each(function(){
+                if($(this).attr('colspan')){
+                    for(var i=1;i<=$(this).attr('colspan');$i++){
+                        colCount.push('*');
+                    }
+                }else{ colCount.push('*'); }
+            });
+            doc.content[1].table.widths = colCount;
+        },
+                exportOptions: {
+                    columns: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                }
+            }
+
+        ],
         processing: true,
         serverSide: true,
         ajax:{url: '{!! route('tok.ajax') !!}',
