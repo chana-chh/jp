@@ -425,6 +425,16 @@ class PredmetiKontroler extends Kontroler
                 $tok->save();
                 Session::flash('info', 'Предмет је успешно архивиран!');
             } else {
+                $tok = new Tok();
+                $tok->predmet_id = $id;
+                $tok->status_id = 14; // ovo je NEMA STATUS
+                $tok->datum = date('Y-m-d');
+                $tok->opis = '';
+                $tok->vrednost_spora_duguje = 0;
+                $tok->vrednost_spora_potrazuje = 0;
+                $tok->iznos_troskova_duguje = 0;
+                $tok->iznos_troskova_potrazuje = 0;
+                $tok->save();
                 Session::flash('uspeh', 'Предмет је успешно активиран!');
             }
         }
