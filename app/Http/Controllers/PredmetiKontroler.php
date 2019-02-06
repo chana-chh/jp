@@ -30,17 +30,13 @@ class PredmetiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
-            'getLista',
-            'getListaFilter',
-            'postAjax',
-            'postListaFilter',
-            'naprednaPretraga',
-            'getPregled',
+        $this->middleware('power.user')->only([
+            'postArhiviranje'
         ]);
         $this->middleware('admin')->only([
             'getPredmetiObrisani',
-            'postVracanjeObrisanogPredmeta'
+            'postVracanjeObrisanogPredmeta',
+            'postSlikeBrisanje'
         ]);
     }
 
@@ -297,14 +293,14 @@ class PredmetiKontroler extends Kontroler
         $predmet->tuzioci()->attach($req->komintenti_1);
         $predmet->tuzeni()->attach($req->komintenti_2);
 
-        $log_string = Auth::user()->name . " је креирао нови предмет са бројем ". $predmet->broj();
+        $log_string = Auth::user()->name . " је креирао нови предмет са бројем " . $predmet->broj();
 
         if ($req->bno) {
             $data = new SudBroj();
             $data->predmet_id = $predmet->id;
             $data->broj = $req->bno;
             $data->save();
-            $log_string .= " и придружио му број надлежног органа ". $data->broj;
+            $log_string .= " и придружио му број надлежног органа " . $data->broj;
         }
 
         if ($req->status) {
@@ -320,14 +316,14 @@ class PredmetiKontroler extends Kontroler
                     $status->vrednost_spora_potrazuje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
                 }
 
-            } else{
+            } else {
                 $status->vrednost_spora_duguje = $req->vrednost_tuzbe ? $req->vrednost_tuzbe : 0;
             }
 
             $status->opis = $req->status_opis;
             $status->save();
 
-            $log_string .= ". Предмету је додат иницијални статус са ID бројем: ".$status->id;
+            $log_string .= ". Предмету је додат иницијални статус са ID бројем: " . $status->id;
         }
 
         $log = new NasLog();
@@ -389,7 +385,7 @@ class PredmetiKontroler extends Kontroler
         $predmet->tuzeni()->sync($req->komintenti_2);
 
         $log = new NasLog();
-        $log->opis = Auth::user()->name . " је изменио детаље у вези предмета са бројем ". $predmet->broj();
+        $log->opis = Auth::user()->name . " је изменио детаље у вези предмета са бројем " . $predmet->broj();
         $log->datum = Carbon::now();
         $log->save();
 
@@ -528,7 +524,7 @@ class PredmetiKontroler extends Kontroler
         $slika->save();
 
         $log = new NasLog();
-        $log->opis = Auth::user()->name . " је додао скенирани документ у предмет са бројем ". $predmet->broj();
+        $log->opis = Auth::user()->name . " је додао скенирани документ у предмет са бројем " . $predmet->broj();
         $log->datum = Carbon::now();
         $log->save();
 
