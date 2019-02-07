@@ -84,6 +84,11 @@ class Predmet extends Model
         return $this->hasMany('App\Modeli\PredmetUprava', 'predmet_id', 'id');
     }
 
+    public function kretanja()
+    {
+        return $this->hasMany('App\Modeli\Kretanje', 'predmet_id', 'id');
+    }
+
     //ManyToMany
 
     public function vezanZa()

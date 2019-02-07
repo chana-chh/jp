@@ -29,6 +29,12 @@ Route::post('sifarnici/uprave/brisanje', 'UpraveKontroler@postBrisanje')->name('
 Route::post('sifarnici/uprave/izmena/{id}', 'UpraveKontroler@postIzmena')->name('uprave.izmena');
 Route::get('sifarnici/uprave/pregled/{id}', 'UpraveKontroler@getPregled')->name('uprave.pregled');
 
+//Kretanje
+Route::post('kretanje/dodavanje', 'KretanjaKontroler@postDodavanje')->name('kretanje_predmeti.dodavanje.post');
+Route::post('kretanje/brisanje', 'KretanjaKontroler@postBrisanje')->name('kretanje_predmeti.brisanje');
+Route::post('kretanje/izmena', 'KretanjaKontroler@postIzmena')->name('kretanje_predmeti.izmena');
+Route::get('kretanje/detalj', 'KretanjaKontroler@getDetalj')->name('kretanje_predmeti.detalj');
+
 //Tipovi rocista
 Route::get('sifarnici/tipovi_rocista', 'TipoviRocistaKontroler@getLista')->name('tipovi_rocista');
 Route::post('sifarnici/tipovi_rocista/dodavanje', 'TipoviRocistaKontroler@postDodavanje')->name('tipovi_rocista.dodavanje');
