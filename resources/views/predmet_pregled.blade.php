@@ -20,7 +20,6 @@
             <span class="{{ $predmet->arhiviran == 0 ? 'text-success' : 'text-danger' }}">
                 {{ $predmet->broj() }}
                 &emsp;<span style="font-size: 2.5rem;">{{ $predmet->status() }} {{ $predmet->opis() }}</span>
-                {{-- {{ $predmet->arhiviran == 0 ? '' : ' - (а/а)' }} --}}
             </span>
         </h1>
     </div>
@@ -889,6 +888,176 @@
 
 {{--  KRAJ ROCISTA  --}}
 
+{{--  POCETAK KRETANJE  --}}
+
+<div class="well" style="overflow: auto; position: relative; z-index: 1000">
+    <div class="row" style="margin-top: -20px">
+        <div class="col-md-7">
+            <h3 style="margin-bottom: 10px">Кретање предмета</h3>
+        </div>
+        <div class="col-md-5">
+            <button style="margin-top: 20px; z-index: 1000"
+                    class="btn btn-success btn-block btn-sm" id="dugmeDodajKretanje"
+                    data-toggle="modal" data-target="#dodajKretanjeModal" value="{{ $predmet->id }}">
+                <i class="fa fa-plus-circle"></i> Додај локацију
+            </button>
+        </div>
+    </div>
+    <hr style="border-top: 1px solid #18BC9C;">
+    <table class="table table-responsive" style="font-size: 85%;">
+        <tbody>
+            @foreach ($predmet->kretanja as $kretanje)
+            <tr>
+                <td style="width: 20%;">{{ date('d.m.Y', strtotime($kretanje->datum)) }}</td>
+                <td style="width: 1%;"></td>
+                <td style="width: 79%;" title="{{$kretanje->opis}}"><em>{{ str_limit($kretanje->opis, 60)}}</em></td>
+            </tr>
+            <tr class="warning">
+                <td style="width: 20%;"></td>
+                <td style="width: 1%;"></td>
+                <td style="width: 79%; text-align: right;">
+                    <button
+                        class="btn btn-success btn-xs" id="dugmeKretanjeIzmena"
+                        data-toggle="modal" data-target="#izmeniKretanjeModal" value="{{$kretanje->id}}">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button
+                        class="btn btn-danger btn-xs" id="dugmeKretanjeBrisanje"
+                        value="{{$kretanje->id}}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+{{--  pocetak modal_uprava_dodavanje  --}}
+<div class="modal fade" id="dodajKretanjeModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-success">Додавање локације</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('kretanje_predmeti.dodavanje.post') }}" method="POST" id="frmKretanjeDodavanje" data-parsley-validate>
+                    {{ csrf_field() }}
+                    <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group{{ $errors->has('kretanje_dodavanje_datum') ? ' has-error' : '' }}">
+                            <label for="kretanje_dodavanje_datum">Датум</label>
+                            <input type="date" name="kretanje_dodavanje_datum" id="kretanje_dodavanje_datum" class="form-control"
+                                   value="{{ old('kretanje_dodavanje_datum') }}" required>
+                            @if ($errors->has('kretanje_dodavanje_datum'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('kretanje_dodavanje_datum') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <hr style="border-top: 2px solid #18BC9C">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group{{ $errors->has('kretanje_dodavanje_opis') ? ' has-error' : '' }}">
+                            <label for="kretanje_dodavanje_opis">Опис</label>
+                            <textarea name="kretanje_dodavanje_opis" id="kretanje_dodavanje_opis" class="form-control">{{old('kretanje_dodavanje_opis') }}</textarea>
+                            @if ($errors->has('kretanje_dodavanje_opis'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('kretanje_dodavanje_opis') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="dugmeModalDodajKretanje">
+                <i class="fa fa-floppy-o"></i> Сними
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <i class="fa fa-ban"></i> Откажи
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+{{--  kraj modal_kretanje_dodavanje  --}}
+
+{{--  pocetak modal_kretanje_izmena  --}}
+<div class="modal fade" id="izmeniKretanjeModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-warning">Измена локацију</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('kretanje_predmeti.izmena') }}" method="POST" id="frmKretanjeIzmena" data-parsley-validate>
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kretanje_izmena_datum">Датум</label>
+                                <input type="date" class="form-control" id="kretanje_izmena_datum" name="kretanje_izmena_datum" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="kretanje_izmena_opis">Опис</label>
+                                <textarea class="form-control" id="kretanje_izmena_opis" name="kretanje_izmena_opis"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="kretanje_id" name="kretanje_id">
+                    <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="dugmeModalIzmeniKretanje">
+                    <i class="fa fa-floppy-o"></i> Сними
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <i class="fa fa-ban"></i> Откажи
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{--  kraj modal_kretanje_izmena  --}}
+
+{{--  pocetak modal_kretanje_brisanje  --}}
+<div class="modal fade" id="brisanjeKretanjeModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title text-danger">Брисање локације</h3>
+            </div>
+            <div class="modal-body">
+                <h3>Да ли желите трајно да обришете локацију?</h3>
+                <h4 id="brisanje_uprave_poruka"></h4>
+                <p class="text-danger">Ова акција је неповратна!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="dugmeModalObrisiKretanjeBrisi">
+                    <i class="fa fa-trash"></i> Обриши
+                </button>
+                <button type="button" class="btn btn-danger" id="dugmeModalObrisiKretanjeOtazi">
+                    <i class="fa fa-ban"></i> Откажи
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{--  kraj modal_kretanje_brisanje  --}}
+
+{{--  KRAJ KRETANJE  --}}
 
 {{--  POCETAK UPRAVA  --}}
 
@@ -1093,178 +1262,6 @@
 {{--  kraj modal_uprava_brisanje  --}}
 
 {{--  KRAJ UPRAVA  --}}
-
-{{--  POCETAK KRETANJE  --}}
-
-<div class="well" style="overflow: auto;">
-    <div class="row" style="margin-top: -20px">
-        <div class="col-md-7">
-            <h3 style="margin-bottom: 10px">Кретање предмета</h3>
-        </div>
-        <div class="col-md-5">
-            <button style="margin-top: 20px"
-                    class="btn btn-success btn-block btn-sm" id="dugmeDodajKretanje"
-                    data-toggle="modal" data-target="#dodajKretanjeModal" value="{{ $predmet->id }}">
-                <i class="fa fa-plus-circle"></i> Додај локацију
-            </button>
-        </div>
-    </div>
-    <hr style="border-top: 1px solid #18BC9C;">
-    <table class="table table-responsive" style="font-size: 85%;">
-        <tbody>
-            @foreach ($predmet->kretanja as $kretanje)
-            <tr>
-                <td style="width: 20%;">{{ date('d.m.Y', strtotime($kretanje->datum)) }}</td>
-                <td style="width: 1%;"></td>
-                <td style="width: 79%;" title="{{$kretanje->opis}}"><em>{{ str_limit($kretanje->opis, 60)}}</em></td>
-            </tr>
-            <tr class="warning">
-                <td style="width: 20%;"></td>
-                <td style="width: 1%;"></td>
-                <td style="width: 79%; text-align: right;">
-                    <button
-                        class="btn btn-success btn-xs" id="dugmeKretanjeIzmena"
-                        data-toggle="modal" data-target="#izmeniKretanjeModal" value="{{$kretanje->id}}">
-                        <i class="fa fa-pencil"></i>
-                    </button>
-                    <button
-                        class="btn btn-danger btn-xs" id="dugmeKretanjeBrisanje"
-                        value="{{$kretanje->id}}">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
-{{--  pocetak modal_uprava_dodavanje  --}}
-<div class="modal fade" id="dodajKretanjeModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-success">Додавање локације</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('kretanje_predmeti.dodavanje.post') }}" method="POST" id="frmKretanjeDodavanje" data-parsley-validate>
-                    {{ csrf_field() }}
-                    <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group{{ $errors->has('kretanje_dodavanje_datum') ? ' has-error' : '' }}">
-                            <label for="kretanje_dodavanje_datum">Датум</label>
-                            <input type="date" name="kretanje_dodavanje_datum" id="kretanje_dodavanje_datum" class="form-control"
-                                   value="{{ old('kretanje_dodavanje_datum') }}" required>
-                            @if ($errors->has('kretanje_dodavanje_datum'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('kretanje_dodavanje_datum') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <hr style="border-top: 2px solid #18BC9C">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group{{ $errors->has('kretanje_dodavanje_opis') ? ' has-error' : '' }}">
-                            <label for="kretanje_dodavanje_opis">Опис</label>
-                            <textarea name="kretanje_dodavanje_opis" id="kretanje_dodavanje_opis" class="form-control">{{old('kretanje_dodavanje_opis') }}</textarea>
-                            @if ($errors->has('kretanje_dodavanje_opis'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('kretanje_dodavanje_opis') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" id="dugmeModalDodajKretanje">
-                <i class="fa fa-floppy-o"></i> Сними
-            </button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-                <i class="fa fa-ban"></i> Откажи
-            </button>
-        </div>
-    </div>
-</div>
-</div>
-{{--  kraj modal_kretanje_dodavanje  --}}
-
-{{--  pocetak modal_kretanje_izmena  --}}
-<div class="modal fade" id="izmeniKretanjeModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-warning">Измена локацију</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('kretanje_predmeti.izmena') }}" method="POST" id="frmKretanjeIzmena" data-parsley-validate>
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="kretanje_izmena_datum">Датум</label>
-                                <input type="date" class="form-control" id="kretanje_izmena_datum" name="kretanje_izmena_datum" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="kretanje_izmena_opis">Опис</label>
-                                <textarea class="form-control" id="kretanje_izmena_opis" name="kretanje_izmena_opis"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="kretanje_id" name="kretanje_id">
-                    <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="dugmeModalIzmeniKretanje">
-                    <i class="fa fa-floppy-o"></i> Сними
-                </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">
-                    <i class="fa fa-ban"></i> Откажи
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-{{--  kraj modal_kretanje_izmena  --}}
-
-{{--  pocetak modal_kretanje_brisanje  --}}
-<div class="modal fade" id="brisanjeKretanjeModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title text-danger">Брисање локације</h3>
-            </div>
-            <div class="modal-body">
-                <h3>Да ли желите трајно да обришете локацију?</h3>
-                <h4 id="brisanje_uprave_poruka"></h4>
-                <p class="text-danger">Ова акција је неповратна!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="dugmeModalObrisiKretanjeBrisi">
-                    <i class="fa fa-trash"></i> Обриши
-                </button>
-                <button type="button" class="btn btn-danger" id="dugmeModalObrisiKretanjeOtazi">
-                    <i class="fa fa-ban"></i> Откажи
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-{{--  kraj modal_kretanje_brisanje  --}}
-
-{{--  KRAJ KRETANJE  --}}
 
 @if (Gate::allows('admin'))
 <div class="panel panel-info">

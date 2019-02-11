@@ -44,11 +44,11 @@
     <table class="table table-bordered table-hover tabelaRocista" name="tabelaRocista" id="tabelaRocista" style="table-layout: fixed; font-size: 1.3em">
     <thead>
         <tr>
-            <th style="width: 12%; text-align:right; padding-right: 25px">Број предмета</th>
-            <th style="width: 10%; text-align:right; padding-right: 25px">Датум</th>
+            <th style="width: 16%; text-align:right; padding-right: 25px">Број предмета</th>
+            <th style="width: 14%; text-align:right; padding-right: 25px">Датум</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Време</th>
-            <th style="width: 34%; text-align:right; padding-right: 25px">Опис</th>
-            <th style="width: 34%; text-align:right; padding-right: 25px">Белешке</th>
+            <th style="width: 30%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 30%; text-align:right; padding-right: 25px">Белешке</th>
         </tr>
     </thead>
     <tbody id="rocista_lista" name="rocista_lista">
