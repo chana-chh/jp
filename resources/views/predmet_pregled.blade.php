@@ -8,7 +8,7 @@
 
 @section('naslov')
 @if($predmet->tokovi()->count() > 0)
-@if($predmet->tokovi()->latest()->first()->status_id == 8 || $predmet->tokovi()->latest()->first()->status_id == 18 || $predmet->tokovi()->latest()->first()->status_id == 28)
+@if($predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 8 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 18 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 28)
 <div id="overlay" style="background-color: rgba(0, 0, 0, 0.2); z-index: 999; position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
 @endif
 @endif
@@ -308,16 +308,16 @@
 <hr style="border-top: 1px dashed">
 
 {{--  POCETAK TOK_PREDMETA  --}}
-    <div class="well" style="overflow: auto;">
+@if (Gate::allows('admin'))
+    <div class="well" style="overflow: auto;position: relative; z-index: 1000">
+@else
+<div class="well" style="overflow: auto;">
+@endif
     <div class="row" style="margin-top: -20px">
         <div class="col-md-10">
             <h3 style="margin-bottom: 10px">Токови</h3>
         </div>
-        @if (Gate::allows('admin'))
-        <div class="col-md-2" style="z-index: 1000">
-        @else
         <div class="col-md-2">
-        @endif
             <button style="margin-top: 20px"
                     class="btn btn-success btn-sm" id="dugmeDodajStatus"
                     data-toggle="modal" data-target="#dodajStatusModal" value="{{ $predmet->id }}">

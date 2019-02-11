@@ -118,7 +118,7 @@ class Predmet extends Model
     public function status()
     {
         if ($this->tokovi()->count() > 0) {
-            $tok = $this->tokovi()->latest()->first();
+            $tok = $this->tokovi()->orderBy('datum', 'desc')->first();
             return $tok->status->naziv;
         } else {
             return " ";
@@ -129,7 +129,7 @@ class Predmet extends Model
     {
 
         if ($this->tokovi()->count() > 0) {
-            $tok = $this->tokovi()->latest()->first();
+            $tok = $this->tokovi()->orderBy('datum', 'desc')->first();
             return $tok->opis;
         } else {
             return " ";
