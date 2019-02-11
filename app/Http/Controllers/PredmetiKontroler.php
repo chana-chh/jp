@@ -81,6 +81,7 @@ class PredmetiKontroler extends Kontroler
                         group by predmet_id
                         ) t1 on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
                         join s_statusi on tokovi_predmeta.status_id = s_statusi.id
+                        where tokovi_predmeta.deleted_at IS NULL
                 ) `poslednji` ON `poslednji`.`predmet_id` = `predmeti`.`id`
                 LEFT JOIN (
                     SELECT `tuzioci`.`predmet_id`, `s_komintenti`.`naziv` AS `stt1` FROM `tuzioci`
