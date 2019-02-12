@@ -550,7 +550,6 @@ class PredmetiKontroler extends Kontroler
 
     public function proveraTuzilac(Request $req)
     {
-
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraTuzilac) {
@@ -592,7 +591,6 @@ class PredmetiKontroler extends Kontroler
 
     public function proveraKp(Request $req)
     {
-
         if ($req->ajax()) {
             $rezultat = "";
             if ($req->proveraKp) {

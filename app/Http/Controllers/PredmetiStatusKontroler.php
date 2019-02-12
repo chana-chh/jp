@@ -31,13 +31,13 @@ class PredmetiStatusKontroler extends Kontroler
             'status_dodavanje_itd' => 'required|numeric',
             'status_dodavanje_itp' => 'required|numeric',
         ]);
-
+        $vreme = Carbon::now();
         $predmet_id = $req->predmet_id;
 
         $status = new Tok();
         $status->predmet_id = $predmet_id;
         $status->status_id = $req->status_dodavanje_status_id;
-        $status->datum = $req->status_dodavanje_datum;
+        $status->datum = $req->status_dodavanje_datum." ".$vreme->toTimeString();
         $status->vrednost_spora_duguje = $req->status_dodavanje_vsd;
         $status->vrednost_spora_potrazuje = $req->status_dodavanje_vsp;
         $status->iznos_troskova_duguje = $req->status_dodavanje_itd;
@@ -65,10 +65,12 @@ class PredmetiStatusKontroler extends Kontroler
             'status_izmena_itp' => 'required|numeric',
         ]);
 
+        $vreme = Carbon::now();
+
         $tok = Tok::findOrFail($req->tok_id);
         $tok->predmet_id = $req->predmet_id;
         $tok->status_id = $req->status_izmena_status_id;
-        $tok->datum = $req->status_izmena_datum;
+        $tok->datum = $req->status_izmena_datum." ".$vreme->toTimeString();
         $tok->vrednost_spora_duguje = $req->status_izmena_vsd;
         $tok->vrednost_spora_potrazuje = $req->status_izmena_vsp;
         $tok->iznos_troskova_duguje = $req->status_izmena_itd;
