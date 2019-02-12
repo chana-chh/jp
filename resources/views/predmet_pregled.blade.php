@@ -53,7 +53,7 @@
                     <i class="fa fa-pencil"></i> Измени
                 </a>
             </div>
-            @if (Auth::user()->level < 101)
+            @if (Auth::user()->level == 100 || Auth::user()->level == 0)
             <div class="col-md-3" style="z-index: 1000">
             @else
             <div class="col-md-3">
