@@ -33,7 +33,7 @@ var grafik = document.getElementById("tekuci_mesec");
 var tekuci_mesec = new Chart(grafik, {
 type: 'doughnut',
     data: {
-      labels: ["Вредност спора потражује: {!! $vrednost_spora_potrazuje_mesec !!}", "Вредност спора дугује: {!! $vrednost_spora_duguje_mesec !!}","Износ трошкова потражује: {!! $iznos_troskova_potrazuje_mesec !!}","Износ трошкова дугује: {!! $iznos_troskova_duguje_mesec !!}"],
+      labels: ["Град потражује: {!! $vrednost_spora_potrazuje_mesec !!}", "Град дугује: {!! $vrednost_spora_duguje_mesec !!}","Износ трошкова потражује: {!! $iznos_troskova_potrazuje_mesec !!}","Износ трошкова дугује: {!! $iznos_troskova_duguje_mesec !!}"],
       datasets: [{
         label: "Неки наслов нисам баш сигуран који",
         backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],

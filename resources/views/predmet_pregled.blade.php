@@ -53,7 +53,7 @@
                     <i class="fa fa-pencil"></i> Измени
                 </a>
             </div>
-            @if (Gate::allows('admin'))
+            @if (Auth::user()->level < 101)
             <div class="col-md-3" style="z-index: 1000">
             @else
             <div class="col-md-3">
@@ -285,19 +285,6 @@
             <td style="width: 70%; font-style: italic">{{ $predmet->referent->imePrezime() }}</td>
             <td style="width: 10%; text-align:right;"></td>
         </tr>
-                {{-- <tr>
-            <th style="width: 20%;"><strong class="text-warning">Референт (замена):</strong></th>
-            <td style="width: 70%; font-style: italic" class="text-warning">
-                @if($predmet->referentZamena)
-                {{ $predmet->referentZamena->imePrezime() }}
-                @endif
-            </td>
-            <td style="width: 10%; text-align:right;">
-                <a class="btn btn-success btn-xs" id="dugmeRefZamena" href="{{ route('referenti.zamena', $predmet->id) }}">
-                    <i class="fa fa-pencil"></i>
-                </a>
-            </td>
-        </tr> --}}
         <tr>
             <th style="width: 20%;"><strong>Напомена:</strong></th>
             <td style="width: 70%;">{!! nl2br(e($predmet->napomena)) !!}</td>
@@ -333,10 +320,10 @@
                 <th>Датум</th>
                 <th>Статус</th>
                 <th>Опис</th>
-                <th style="text-align:right;">Спор дугује</th>
-                <th style="text-align:right;">Спор потражује</th>
-                <th style="text-align:right;" > Трошкови дугује</th>
+                <th style="font-size: 0.813em; text-align:right;">Град потражује</th>
+                <th style="text-align:right;">Град дугује</th>
                 <th style="font-size: 0.813em; text-align:right;" >Трошкови потражује</th>
+                <th style="text-align:right;" > Трошкови дугује</th>
                 <th class="text-center"><i class="fa fa-cogs"></i></th>
             </tr>
         </thead>
@@ -345,20 +332,20 @@
             <tr>
                 <td style="width: 10%;"><strong>{{ date('d.m.Y', strtotime($tok->datum)) }}</strong></td>
                 <td style="width: 15%;"><strong class="text-info">{{ $tok->status->naziv }}</strong></td>
-                <td style="width: 25%;">{{ str_limit($tok->opis, 30)}}</td>
-                <td style="width: 10%;"  class="text-right text-danger">
-                    {{ number_format($tok->vrednost_spora_duguje, 2, ',', '.') }}
-                </td>
+                <td style="width: 17%;">{{ str_limit($tok->opis, 30)}}</td>
                 <td style="width: 10%;" class="text-right text-success">
                     {{ number_format($tok->vrednost_spora_potrazuje, 2, ',', '.') }}
                 </td>
-                <td style="width: 10%;" class="text-right text-danger">
-                    {{ number_format($tok->iznos_troskova_duguje, 2, ',', '.') }}
+                <td style="width: 12%;"  class="text-right text-danger">
+                    {{ number_format($tok->vrednost_spora_duguje, 2, ',', '.') }}
                 </td>
-                <td style="width: 10%;" class="text-right text-success">
+                <td style="width: 12%;" class="text-right text-success">
                     {{ number_format($tok->iznos_troskova_potrazuje, 2, ',', '.') }}
                 </td>
-                <td style="width: 10%; text-align: right;">
+                <td style="width: 12%;" class="text-right text-danger">
+                    {{ number_format($tok->iznos_troskova_duguje, 2, ',', '.') }}
+                </td>
+                <td style="width: 12%; text-align: right;">
                     <button
                         class="btn btn-success btn-xs" id="dugmeStatusIzmena"
                         data-toggle="modal" data-target="#izmeniStatusModal" value="{{ $tok->id }}">

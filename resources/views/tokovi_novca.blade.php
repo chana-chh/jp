@@ -68,7 +68,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
-                <h4 class="leva">Вредности спорова потражује:</h4>
+                <h4 class="leva">Вредности спорова (град) потражује:</h4>
             </div>
             <div class="col-md-4">
                 <select
@@ -87,7 +87,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
-                <h4 class="leva">Вредности спорова дугује:</h4>
+                <h4 class="leva">Вредности спорова (град) дугује:</h4>
             </div>
             <div class="col-md-4">
                 <select

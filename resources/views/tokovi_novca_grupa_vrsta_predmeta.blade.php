@@ -26,8 +26,8 @@
             <table class="table table-condensed table-striped tabelaTokVrsta" name="tabelaTokVrsta" id="tabelaTokVrsta">
                 <thead>
                     <th style="width: 28%">Врста предмета</th>
-                    <th style="width: 17%">Вредност спора потражује</th>
-                    <th style="width: 17%">Вредност спора дугује</th>
+                    <th style="width: 17%">Град потражује</th>
+                    <th style="width: 17%">Град дугује</th>
                     <th style="width: 17%">Износ трошкова потражује</th>
                     <th style="width: 17%">Износ трошкова дугује</th>
                 </thead>

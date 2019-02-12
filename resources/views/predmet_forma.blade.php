@@ -273,8 +273,8 @@
                     <select name="vrednost" id="vrednost" class="chosen-select form-control"
                                         data-placeholder="Избор поља за упис вредности">
                         <option value=""></option>
-                        <option value="1">Спор дугује</option>
-                        <option value="2">Спор потражује</option>
+                        <option value="1">Град дугује</option>
+                        <option value="2">Град потражује</option>
                     </select>
                         @if ($errors->has('vrednost'))
                             <span class="help-block">

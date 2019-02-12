@@ -44,12 +44,12 @@ var tekuca_godina = new Chart(grafik, {
     labels: labelej,
     datasets: [{ 
         data: vrednosti_vspj,
-        label: "Вредност спора потражује",
+        label: "Град потражује",
         borderColor: "#3e95cd",
         fill: false
       }, { 
         data: vrednosti_vsdj,
-        label: "Вредност спора дугује",
+        label: "Град дугује",
         borderColor: "#8e5ea2",
         fill: false
       }, { 

@@ -23,8 +23,8 @@
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
                       <th>Број предмета</th>
-                      <th>Вредност спора потражује</th>
-                      <th>Вредност спора дугује</th>
+                      <th>Град потражује</th>
+                      <th>Град дугује</th>
                       <th>Износ трошкова потражује</th>
                       <th>Износ трошкова дугује</th>
                       <th>Вредност тужбе</th>

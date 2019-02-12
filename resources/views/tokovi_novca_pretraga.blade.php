@@ -29,8 +29,8 @@
             <th style="width: 10%;">Број предмета</th>
             <th style="width: 15%;">Врста предмета</th>
             <th style="width: 15%;">Врста уписника</th>
-            <th style="width: 15%;">Вредност спора потражује</th>
-            <th style="width: 15%;">Вредност спора дугује</th>
+            <th style="width: 15%;">Град потражује</th>
+            <th style="width: 15%;">Град дугује</th>
             <th style="width: 15%;">Износ трошкова потражује</th>
             <th style="width: 15%;">Износ трошкова дугује</th>
 
