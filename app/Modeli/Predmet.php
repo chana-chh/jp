@@ -142,4 +142,8 @@ class Predmet extends Model
         return $query->whereNotNull('referent_zamena');
     }
 
+    public function scopePovereni($query)
+    {
+        return $query->where('dat', 1);
+    }
 }

@@ -360,40 +360,6 @@
             </tr>
             @endforeach
         </tbody>
-        {{-- <tfoot>
-            <tr class="warning">
-                <th></th>
-                <th></th>
-                <th class="text-right">Укупно:</th>
-                <th class="text-right text-danger">
-                    {{ number_format($vs_duguje, 2, ',', '.') }}
-                </th>
-                <th class="text-right text-success">
-                    {{ number_format($vs_potrazuje, 2, ',', '.') }}
-                </th>
-                <th class="text-right text-danger">
-                    {{ number_format($it_duguje, 2, ',', '.') }}
-                </th>
-                <th class="text-right text-success">
-                    {{ number_format($it_potrazuje, 2, ',', '.') }}
-                </th>
-                <th></th>
-            </tr>
-            <tr class="warning">
-                <th></th>
-                <th></th>
-                <th></th>
-                <th class="text-right">Салдо:</th>
-                <th class="text-right{{ $vs >= 0 ? ' text-success' : ' text-danger' }}">
-                    {{ number_format($vs, 2, ',', '.') }}
-                </th>
-                <th class="text-right">Салдо:</th>
-                <th class="text-right{{ $it >= 0 ? ' text-success' : ' text-danger' }}">
-                    {{ number_format($it, 2, ',', '.') }}
-                </th>
-                <th></th>
-            </tr>
-        </tfoot> --}}
     </table>
 </div>
 
@@ -443,20 +409,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-group{{ $errors->has('status_dodavanje_vsd') ? ' has-error' : '' }}">
-                            <label for="status_dodavanje_vsd">Вредност спора дугује</label>
-                            <input type="number" name="status_dodavanje_vsd" id="status_dodavanje_vsd" class="form-control"
-                                   value="{{ old('status_dodavanje_vsd', 0) }}" step="0.01" required>
-                            @if ($errors->has('status_dodavanje_vsd'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('status_dodavanje_vsd') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="form-group{{ $errors->has('status_dodavanje_vsp') ? ' has-error' : '' }}">
-                            <label for="status_dodavanje_vsp">Вредност спора потражује</label>
+                            <label for="status_dodavanje_vsp">Град потражује</label>
                             <input type="number" name="status_dodavanje_vsp" id="status_dodavanje_vsp" class="form-control"
                                    value="{{ old('status_dodavanje_vsp', 0) }}" step="0.01" required>
                             @if ($errors->has('status_dodavanje_vsp'))
@@ -467,13 +421,13 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group{{ $errors->has('status_dodavanje_itd') ? ' has-error' : '' }}">
-                            <label for="status_dodavanje_itd">Износ трошкова дугује</label>
-                            <input type="number" name="status_dodavanje_itd" id="status_dodavanje_itd" class="form-control"
-                                   value="{{ old('status_dodavanje_itd', 0) }}" step="0.01" required>
-                            @if ($errors->has('status_dodavanje_itd'))
+                        <div class="form-group{{ $errors->has('status_dodavanje_vsd') ? ' has-error' : '' }}">
+                            <label for="status_dodavanje_vsd">Град дугује</label>
+                            <input type="number" name="status_dodavanje_vsd" id="status_dodavanje_vsd" class="form-control"
+                                   value="{{ old('status_dodavanje_vsd', 0) }}" step="0.01" required>
+                            @if ($errors->has('status_dodavanje_vsd'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('status_dodavanje_itd') }}</strong>
+                                <strong>{{ $errors->first('status_dodavanje_vsd') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -486,6 +440,18 @@
                             @if ($errors->has('status_dodavanje_itp'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('status_dodavanje_itp') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                    </div>
+                                        <div class="col-md-3">
+                        <div class="form-group{{ $errors->has('status_dodavanje_itd') ? ' has-error' : '' }}">
+                            <label for="status_dodavanje_itd">Износ трошкова дугује</label>
+                            <input type="number" name="status_dodavanje_itd" id="status_dodavanje_itd" class="form-control"
+                                   value="{{ old('status_dodavanje_itd', 0) }}" step="0.01" required>
+                            @if ($errors->has('status_dodavanje_itd'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('status_dodavanje_itd') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -886,23 +852,31 @@
             <button style="margin-top: 20px; z-index: 1000"
                     class="btn btn-success btn-block btn-sm" id="dugmeDodajKretanje"
                     data-toggle="modal" data-target="#dodajKretanjeModal" value="{{ $predmet->id }}">
-                <i class="fa fa-plus-circle"></i> Додај локацију
+                <i class="fa fa-plus-circle"></i> Додај кретање
             </button>
+        </div>
+        <div class="col-md-7">
+        </div>
+        <div class="col-md-5">
+            @if (Auth::user()->level == 100 || Auth::user()->level == 0)
+            <button style="margin-top: 20px; z-index: 1000"
+                    class="btn btn-warning btn-block btn-sm" id="dugmePromeniLokaciju"
+                    data-toggle="modal" data-target="#promenaLokacije" value="{{ $predmet->id }}">
+                <i class="fa fa-pencil"></i> Измени локацију
+            </button>
+            @endif
         </div>
     </div>
     <hr style="border-top: 1px solid #18BC9C;">
     <table class="table table-responsive" style="font-size: 85%;">
         <tbody>
-            @foreach ($predmet->kretanja as $kretanje)
-            <tr>
+            @foreach ($predmet->kretanja->sortByDesc('datum') as $kretanje)
+            <tr style="background-color: white">
                 <td style="width: 20%;">{{ date('d.m.Y', strtotime($kretanje->datum)) }}</td>
                 <td style="width: 1%;"></td>
-                <td style="width: 79%;" title="{{$kretanje->opis}}"><em>{{ str_limit($kretanje->opis, 60)}}</em></td>
-            </tr>
-            <tr class="warning">
-                <td style="width: 20%;"></td>
-                <td style="width: 1%;"></td>
-                <td style="width: 79%; text-align: right;">
+                <td style="width: 60%;" title="{{$kretanje->opis}}"><strong>{{ str_limit($kretanje->opis, 60)}}</strong></td>
+                <td style="width: 19%; text-align: right;">
+                    @if (Auth::user()->level == 100 || Auth::user()->level == 0)
                     <button
                         class="btn btn-success btn-xs" id="dugmeKretanjeIzmena"
                         data-toggle="modal" data-target="#izmeniKretanjeModal" value="{{$kretanje->id}}">
@@ -913,42 +887,121 @@
                         value="{{$kretanje->id}}">
                         <i class="fa fa-trash"></i>
                     </button>
+                    @endif
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
-{{--  pocetak modal_uprava_dodavanje  --}}
+{{--  pocetak modal_promeni_lokaciju  --}}
+<div class="modal fade" id="promenaLokacije">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-warning">Измена локације предмета</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('kretanje_predmeti.lokacija.post') }}" method="POST" id="frmPromenaLokacije" data-parsley-validate>
+                    {{ csrf_field() }}
+                    <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('lokacija_predmeta') ? ' has-error' : '' }}">
+                                <label for="lokacija_predmeta">Локација</label>
+                                <select name="lokacija_predmeta" id="lokacija_predmeta" class="chosen-select form-control"
+                                        data-placeholder="Локација" required>
+                                        <option value=""></option>
+                                    <option value="1">Датао на коришћење</option>
+                                    <option value="0">Враћено у писарницу</option>
+                                </select>
+                                @if ($errors->has('lokacija_predmeta'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('lokacija_predmeta') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-warning" style="margin-top: 16px">*Напомена: Користити само у случају брисања или измене ставки кретања како би се ускладила локација из последње ставке у кретању предмета са његовом стварном локацијом !!!</p>
+                        </div>
+
+                </div>
+                <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" id="dugmePromenaLokacije">
+                <i class="fa fa-pencil"></i> Измени
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <i class="fa fa-ban"></i> Откажи
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+{{--  kraj modal_promeni_lokaciju  --}}
+
+{{--  pocetak modal_kretanje_dodavanje  --}}
 <div class="modal fade" id="dodajKretanjeModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-success">Додавање локације</h4>
+                <h4 class="modal-title text-success">Додавање кретања</h4>
             </div>
             <div class="modal-body">
                 <form action="{{ route('kretanje_predmeti.dodavanje.post') }}" method="POST" id="frmKretanjeDodavanje" data-parsley-validate>
                     {{ csrf_field() }}
                     <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group{{ $errors->has('kretanje_dodavanje_datum') ? ' has-error' : '' }}">
-                            <label for="kretanje_dodavanje_datum">Датум</label>
-                            <input type="date" name="kretanje_dodavanje_datum" id="kretanje_dodavanje_datum" class="form-control"
-                                   value="{{ old('kretanje_dodavanje_datum') }}" required>
-                            @if ($errors->has('kretanje_dodavanje_datum'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('kretanje_dodavanje_datum') }}</strong>
-                            </span>
-                            @endif
+                    <div class="col-md-6">
+                            <div class="form-group{{ $errors->has('kretanje_dodavanje_smer') ? ' has-error' : '' }}">
+                                <label for="kretanje_dodavanje_smer">Смер кретања</label>
+                                <select name="kretanje_dodavanje_smer" id="kretanje_dodavanje_smer" class="chosen-select form-control"
+                                        data-placeholder="Смер" required>
+                                        <option value=""></option>
+                                    <option value="1">Датао на коришћење</option>
+                                    <option value="0">Враћено у писарницу</option>
+                                </select>
+                                @if ($errors->has('kretanje_dodavanje_smer'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('kretanje_dodavanje_smer') }}</strong>
+                                </span>
+                                @endif
+                            </div>
                         </div>
-                    </div>
+
                 </div>
-                <hr style="border-top: 2px solid #18BC9C">
+                <hr style="border-top: 1px solid #18BC9C">
                 <div class="row">
-                    <div class="col-md-12">
+        <div class="col-md-6">
+        <div class="form-group{{ $errors->has('kretanje_dodavanje_referent_id') ? ' has-error' : '' }}">
+            <label for="kretanje_dodavanje_referent_id">Референт:</label>
+            <select name="kretanje_dodavanje_referent_id" id="kretanje_dodavanje_referent_id" class="chosen-select form-control" data-placeholder="Референт">
+                <option value=""></option>
+                @foreach($referenti as $referent)
+                <option value="{{ $referent->id }}"{{ old('kretanje_dodavanje_referent_id') == $referent->id ? ' selected' : '' }}>
+                        {{ $referent->ime }} {{ $referent->prezime }}
+            </option>
+            @endforeach
+        </select>
+        @if ($errors->has('kretanje_dodavanje_referent_id'))
+        <span class="help-block">
+            <strong>{{ $errors->first('kretanje_dodavanje_referent_id') }}</strong>
+        </span>
+        @endif
+    </div>
+</div>
+<div class="col-md-6">
+                    <p class="text-warning" style="margin-top: 16px">*Напомена: Додати референта само у случају да се њима предмет даје на коришћење</p>
+                </div>
+                </div>
+                <hr style="border-top: 1px solid #18BC9C">
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="form-group{{ $errors->has('kretanje_dodavanje_opis') ? ' has-error' : '' }}">
-                            <label for="kretanje_dodavanje_opis">Опис</label>
+                            <label for="kretanje_dodavanje_opis">Друго лице/лица којима се даје предмет</label>
                             <textarea name="kretanje_dodavanje_opis" id="kretanje_dodavanje_opis" class="form-control">{{old('kretanje_dodavanje_opis') }}</textarea>
                             @if ($errors->has('kretanje_dodavanje_opis'))
                             <span class="help-block">
@@ -957,13 +1010,16 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-md-6">
+                    <p class="text-warning" style="margin-top: 16px">*Напомена: Додати у случају да се предмет даје на коришћење неком другом кориснику</p>
+                </div>
                 </div>
                 <input type="hidden" id="predmet_id" name="predmet_id" value="{{ $predmet->id }}">
             </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" id="dugmeModalDodajKretanje">
-                <i class="fa fa-floppy-o"></i> Сними
+                <i class="fa fa-plus-circle"></i> Додај
             </button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">
                 <i class="fa fa-ban"></i> Откажи
@@ -980,23 +1036,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-warning">Измена локацију</h4>
+                <h4 class="modal-title text-warning">Измена локације</h4>
             </div>
             <div class="modal-body">
                 <form action="{{ route('kretanje_predmeti.izmena') }}" method="POST" id="frmKretanjeIzmena" data-parsley-validate>
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="kretanje_izmena_datum">Датум</label>
-                                <input type="date" class="form-control" id="kretanje_izmena_datum" name="kretanje_izmena_datum" required>
+                                <label for="kretanje_izmena_referent_id">Референт:</label>
+                                <select class="form-control" name="kretanje_izmena_referent_id" id="kretanje_izmena_referent_id" required>
+                                    <option value=""></option>
+                                    <option value="0">Навести у опису коме се даје предмет</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="kretanje_izmena_opis">Опис</label>
+                                <label for="kretanje_izmena_opis">Опис / Друго лице/лица којима се даје предмет</label>
                                 <textarea class="form-control" id="kretanje_izmena_opis" name="kretanje_izmena_opis"></textarea>
                             </div>
                         </div>
@@ -1024,11 +1083,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title text-danger">Брисање локације</h3>
+                <h3 class="modal-title text-danger">Брисање ставке у кретању предмета</h3>
             </div>
             <div class="modal-body">
-                <h3>Да ли желите трајно да обришете локацију?</h3>
-                <h4 id="brisanje_uprave_poruka"></h4>
+                <h3>Да ли желите трајно да обришете ставку у кретању предмета? Тренутна локација предмета неће бити промењена!</h3>
+                <h4 id="brisanje_kretanja_poruka"></h4>
                 <p class="text-danger">Ова акција је неповратна!</p>
             </div>
             <div class="modal-footer">
@@ -1354,9 +1413,6 @@
                     data: {
                         "id": id_brisanje,
                         _token: "{!! csrf_token() !!}"
-                    },
-                    success: function () {
-                        location.reload();
                     }
                 });
                 $('#brisanjeRocistaModal').modal('hide');
@@ -1426,6 +1482,11 @@
             $('#frmKretanjeDodavanje').submit();
         });
 
+        // Modal promena lokacije
+        $("#dugmePromenaLokacije").on('click', function () {
+            $('#frmPromenaLokacije').submit();
+        });
+
         // Modal kretanje izmene
         $("#dugmeModalIzmeniKretanje").on('click', function () {
             $('#frmKretanjeIzmena').submit();
@@ -1440,8 +1501,12 @@
                 },
                 success: function (result) {
                     $("#kretanje_id").val(result.kretanje.id);
-                    $("#kretanje_izmena_datum").val(result.kretanje.datum);
                     $("#kretanje_izmena_opis").val(result.kretanje.opis);
+                     $.each(result.referenti, function (index, lObjekat) {
+                        $('#kretanje_izmena_referent_id').
+                                append('<option value="' + lObjekat.id + '">' + lObjekat.ime +' '+  lObjekat.prezime +'</option>');
+                    });
+                     $("#kretanje_izmena_referent_id").val(result.kretanje.referent_id);
                 }
             });
         });

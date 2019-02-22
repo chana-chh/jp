@@ -333,4 +333,12 @@ class RocistaKontroler extends Kontroler
         return $rocista;
     }
 
+    public function postPospremanjeRocista(Request $req){
+        if ($req->ajax()) {
+            $obrisana_rocista = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->forceDelete();
+        }
+        Session::flash('uspeh', 'Поспремање је успешно завршено');
+        return redirect()->route('izbor');
+    }
+
 }

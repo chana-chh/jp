@@ -222,6 +222,7 @@ class PredmetiKontroler extends Kontroler
     public function getPregled($id)
     {
         $predmet = Predmet::find($id);
+        $referenti = Referent::all();
         $dete = Predmet::where('roditelj_id', $id)->first();
         $rocista_kolekcija = $predmet->rocista;
         $rocista = $rocista_kolekcija->sortByDesc(function ($element) {
@@ -238,7 +239,7 @@ class PredmetiKontroler extends Kontroler
         $it = $it_potrazuje - $it_duguje;
 
         // Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
-        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it', 'rocista', 'dete'));
+        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it', 'rocista', 'dete', 'referenti'));
     }
 
     public function getDodavanje()

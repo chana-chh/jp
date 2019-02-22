@@ -23,4 +23,9 @@ class Referent extends Model
     {
         return $this->hasMany('App\Modeli\Rociste', 'referent_zamena', 'id');
     }
+
+    public function kretanje()
+    {
+        return $this->hasMany('App\Modeli\Kretanje', 'referent_id', 'id');
+    }
 }

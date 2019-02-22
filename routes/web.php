@@ -33,7 +33,10 @@ Route::get('sifarnici/uprave/pregled/{id}', 'UpraveKontroler@getPregled')->name(
 Route::post('kretanje/dodavanje', 'KretanjaKontroler@postDodavanje')->name('kretanje_predmeti.dodavanje.post');
 Route::post('kretanje/brisanje', 'KretanjaKontroler@postBrisanje')->name('kretanje_predmeti.brisanje');
 Route::post('kretanje/izmena', 'KretanjaKontroler@postIzmena')->name('kretanje_predmeti.izmena');
+Route::post('kretanje/lokacija', 'KretanjaKontroler@postLokacija')->name('kretanje_predmeti.lokacija.post');
 Route::get('kretanje/detalj', 'KretanjaKontroler@getDetalj')->name('kretanje_predmeti.detalj');
+Route::get('kretanje/lista', 'KretanjaKontroler@getLista')->name('kretanje_predmeti.lista');
+Route::post('kretanje/filter', 'KretanjaKontroler@postListaFilter')->name('kretanje_predmeti.filter');
 
 //Tipovi rocista
 Route::get('sifarnici/tipovi_rocista', 'TipoviRocistaKontroler@getLista')->name('tipovi_rocista');
@@ -152,6 +155,7 @@ Route::post('rocista/pretraga', 'RocistaKontroler@postPretraga')->name('rocista.
 Route::get('rocista/kalendar', 'RocistaKontroler@getKalendar')->name('rocista.kalendar');
 Route::get('rocista/kalendar/filter', 'RocistaKontroler@getKalendarFilter')->name('rocista.kalendar.filter');
 Route::post('rocista/kalendar/filter', 'RocistaKontroler@postKalendarFilter')->name('rocista.kalendar.filter.post');
+Route::post('rocista/pospremanje', 'RocistaKontroler@postPospremanjeRocista')->name('rocista.pospremanje');
 Route::get('rocista/ajax', 'RocistaKontroler@getAjax')->name('rocista.ajax');
 
 //Rokovi

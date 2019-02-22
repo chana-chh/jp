@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top" style="position: relative; z-index: 1001">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#kolaps">
@@ -23,6 +23,7 @@
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="fa fa-user-secret fa-fw" style="color: #18BC9C"></i>  Администрирање<span class="caret">
                     </a>
                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ route('kretanje_predmeti.lista') }}">Поверени</a></li>
                         @if (Gate::allows('admin'))
                         <li class="dropdown-header"><i class="fa fa-user"></i> Корисници</li>
                         <li><a href="{{ route('korisnici') }}">Корисници</a></li>

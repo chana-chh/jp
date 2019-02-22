@@ -18,4 +18,9 @@ class Kretanje extends Model
         return $this->belongsTo('App\Modeli\Predmet', 'predmet_id', 'id');
     }
 
+    public function referent()
+    {
+        return $this->belongsTo('App\Modeli\Referent', 'referent_id', 'id');
+    }
+
 }
