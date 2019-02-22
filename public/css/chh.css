@@ -466,3 +466,40 @@ th{
     background-color: #ffffff;
     border-color: #2C3E50;
 }
+
+.heart {
+    position: absolute;
+    right: 220px;
+    animation: heartbeat 1s infinite;
+    color: #c33;
+    margin:0 auto
+}
+
+
+@keyframes heartbeat
+{
+  0%
+  {
+    transform: scale( .75 );
+  }
+  20%
+  {
+    transform: scale( 1 );
+  }
+  40%
+  {
+    transform: scale( .75 );
+  }
+  60%
+  {
+    transform: scale( 1 );
+  }
+  80%
+  {
+    transform: scale( .75 );
+  }
+  100%
+  {
+    transform: scale( .75 );
+  }
+}

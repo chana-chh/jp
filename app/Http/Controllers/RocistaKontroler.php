@@ -335,10 +335,11 @@ class RocistaKontroler extends Kontroler
 
     public function postPospremanjeRocista(Request $req){
         if ($req->ajax()) {
+            $broj = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->count();
             $obrisana_rocista = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->forceDelete();
         }
-        Session::flash('uspeh', 'Поспремање је успешно завршено');
-        return redirect()->route('izbor');
+        $poruka = 'Брисање застарелих рокова/рочишта је успешно завршено. Обрисано је '.$broj.' записа';
+        Session::flash('podsetnik', $poruka);
     }
 
 }
