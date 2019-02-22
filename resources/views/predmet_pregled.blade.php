@@ -870,7 +870,9 @@
     <hr style="border-top: 1px solid #18BC9C;">
     <table class="table table-responsive" style="font-size: 85%;">
         <tbody>
-            @foreach ($predmet->kretanja->sortByDesc('datum') as $kretanje)
+            @foreach ($predmet->kretanja->sortByDesc(function($param){
+                return $param->datum.'-'.$param->id;
+            }) as $kretanje)
             <tr style="background-color: white">
                 <td style="width: 20%;">{{ date('d.m.Y', strtotime($kretanje->datum)) }}</td>
                 <td style="width: 1%;"></td>
