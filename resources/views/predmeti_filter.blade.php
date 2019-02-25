@@ -33,11 +33,11 @@
             <th style="width: 9%; text-align:right; padding-right: 25px">Надлежни орган</th>
             <th style="width: 7%; text-align:right; padding-right: 25px">Број НО</th>
             <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
-            <th style="width: 12%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 12%; text-align:right; padding-right: 25px">КП</th>
+            <th style="width: 9%; text-align:right; padding-right: 25px">Адреса</th>
             <th style="width: 13%; text-align:right; padding-right: 25px">Тужилац</th>
             <th style="width: 13%; text-align:right; padding-right: 25px">Тужени</th>
             <th style="width: 5%; text-align:right; padding-right: 25px">Датум</th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Референт</th>
             <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
     </thead>
@@ -114,8 +114,12 @@ $(document).ready(function () {
                 name: 'vrsta_predmeta'
             },
             {
-                data: 'opis',
-                name: 'opis'
+                data: 'opis_kp',
+                name: 'opis_kp'
+            },
+            {
+                data: 'opis_adresa',
+                name: 'opis_adresa'
             },
             {
                 data: null,
@@ -147,10 +151,6 @@ $(document).ready(function () {
                     return moment(data).format('DD.MM.YYYY');
                 },
                 name: 'datum_tuzbe'
-            },
-            {
-                data: 'referent',
-                name: 'referent'
             },
             {
                 data: null,
