@@ -56,6 +56,10 @@
 
 $(document).ready(function () {
 
+    var ime_korisnika = {!!json_encode(Auth::user()->name)!!}
+
+    console.log(ime_korisnika);
+
     $.fn.dataTable.moment('DD.MM.YYYY');
 
     $('#pretragaDugme').click(function () {
@@ -190,11 +194,15 @@ $(document).ready(function () {
                                 columns: [
                                     {
                                         alignment: 'left',
-                                        text: ['Документ је креиран: ', { text: jsDate.toString() }]
+                                        text: ['дана: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'center',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
                                     },
                                     {
                                         alignment: 'right',
-                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                        text: ['Документ креиран од стране: ', { text: ime_korisnika.toString() }]
                                     }
                                 ],
                                 margin: 20

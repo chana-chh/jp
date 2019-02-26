@@ -54,6 +54,8 @@
 <script src="{{ asset('/js/buttons.print.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
+    var ime_korisnika = {!!json_encode(Auth::user()->name)!!}
+    
     $('table.tabelaTokVrsta').DataTable({
                 dom: 'Bflrtip',
         buttons: [
@@ -73,6 +75,30 @@ $( document ).ready(function() {
                 }else{ colCount.push('*'); }
             });
             doc.content[1].table.widths = colCount;
+
+            var now = new Date();
+                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                    doc.defaultStyle.fontSize = 8;
+                    doc.styles.tableHeader.fontSize = 9;
+                    doc['footer']=(function(page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ['дана: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'center',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                    },
+                                    {
+                                        alignment: 'right',
+                                        text: ['Документ креиран од стране: ', { text: ime_korisnika.toString() }]
+                                    }
+                                ],
+                                margin: 20
+                            }
+                        });
         },
                 exportOptions: {
                     columns: [

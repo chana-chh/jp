@@ -77,6 +77,8 @@
 <script>
 $(document).ready(function () {
 
+    var ime_korisnika = {!!json_encode(Auth::user()->name)!!}
+
     Number.prototype.format = function (n, x, s, c) {
         var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
                 num = this.toFixed(Math.max(0, ~~n));
@@ -130,6 +132,38 @@ $(document).ready(function () {
                 footer: true,
                 orientation: 'landscape',
                 pageSize: 'A4',
+                pageMargins: [
+                    20,
+                    40,
+                    20,
+                    40
+                ], customize: function (doc) {
+                    
+                    var now = new Date();
+                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                    doc.defaultStyle.fontSize = 8;
+                    doc.styles.tableHeader.fontSize = 9;
+                    doc['footer']=(function(page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ['дана: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'center',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                    },
+                                    {
+                                        alignment: 'right',
+                                        text: ['Документ креиран од стране: ', { text: ime_korisnika.toString() }]
+                                    }
+                                ],
+                                margin: 20
+                            }
+                        });
+
+                },
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6]
                 }
