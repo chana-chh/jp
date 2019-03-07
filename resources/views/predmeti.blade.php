@@ -470,7 +470,7 @@ $(document).ready(function () {
             lengthMenu: "Прикажи _MENU_ елемената",
             zeroRecords: "Није пронађен ниједан запис",
             info: "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-            infoFiltered: "(filtrirano од укупно _MAX_ елемената)",
+            infoFiltered: "(филтрирано од укупно _MAX_ елемената)",
         },
 
         fnInitComplete: function (oSettings, json) {
@@ -478,6 +478,18 @@ $(document).ready(function () {
                 trigger: 'hover'
             });
         }
+    });
+
+    $(".dataTables_filter input")
+    .unbind()
+    .bind("input keypress", function(e) {
+        if(this.value.length >= 4 || e.key == "Enter") {
+            tabela.search(this.value).draw();
+        }
+        if(this.value == "") {
+            tabela.search("").draw();
+        }
+        return;
     });
 
     $( "#skok" ).focus(function() {
