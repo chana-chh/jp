@@ -1,5 +1,9 @@
 @if(count($podaci) === 0)
-<h2 class="text-warning text-center">Нема резултата за задате критеријуме.</h3>
+<tr>
+    <td colspan="11">
+        <h3 class="text-warning text-center">Нема резултата за задате критеријуме.</h3>
+    </td>
+</tr>
 @else
     @foreach($podaci as $row)
     <tr>
