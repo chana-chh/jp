@@ -10,8 +10,7 @@
 <div class="row">
     <div class="col-md-8">
         <h1>
-            <img class="slicica_animirana" alt="предмети"
-                 src="{{url('/images/predmeti.png')}}" style="height:64px;">
+            <img class="slicica_animirana" alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px;">
             &emsp;Предмети <small><em>(укључујући и архивиране)</em></small>
         </h1>
     </div>
@@ -33,9 +32,7 @@
         <div class="row">
             <div class="form-group col-md-3">
                 <label for="arhiviran">Архива</label>
-                <select
-                    name="arhiviran" id="arhiviran"
-                    class="chosen-select form-control" data-placeholder="Архива">
+                <select name="arhiviran" id="arhiviran" class="chosen-select form-control" data-placeholder="Архива">
                     <option value=""></option>
                     <option value="0">Активни</option>
                     <option value="1">Архивирани</option>
@@ -43,42 +40,32 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="vrsta_upisnika_id">Врста уписника</label>
-                <select
-                    name="vrsta_upisnika_id" id="vrsta_upisnika_id"
-                    class="chosen-select form-control" data-placeholder="Врста уписника">
+                <select name="vrsta_upisnika_id" id="vrsta_upisnika_id" class="chosen-select form-control" data-placeholder="Врста уписника">
                     <option value=""></option>
                     @foreach($upisnici as $upisnik)
                     <option value="{{ $upisnik->id }}">
-                    <strong>{{ $upisnik->naziv }}</strong>
+                        <strong>{{ $upisnik->naziv }}</strong>
                     </option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group col-md-2">
                 <label for="broj_predmeta">Број предмета</label>
-                <input type="number" min="1" step="1"
-                       name="broj_predmeta" id="broj_predmeta"
-                       class="form-control">
+                <input type="number" min="1" step="1" name="broj_predmeta" id="broj_predmeta" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="broj_predmeta_sud">Број предмета надлежног органа</label>
-                <input type="text" maxlen="50"
-                       name="broj_predmeta_sud" id="broj_predmeta_sud"
-                       class="form-control">
+                <input type="text" maxlen="50" name="broj_predmeta_sud" id="broj_predmeta_sud" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="godina_predmeta">Година предмета</label>
-                <input type="number" min="1900" step="1"
-                       name="godina_predmeta" id="godina_predmeta"
-                       class="form-control">
+                <input type="number" min="1900" step="1" name="godina_predmeta" id="godina_predmeta" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-3">
                 <label for="sud_id">Надлежни орган</label>
-                <select
-                    name="sud_id" id="sud_id"
-                    class="chosen-select form-control" data-placeholder="Надлежни орган">
+                <select name="sud_id" id="sud_id" class="chosen-select form-control" data-placeholder="Надлежни орган">
                     <option value=""></option>
                     @foreach($sudovi as $sud)
                     <option value="{{ $sud->id }}">
@@ -89,9 +76,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="vrsta_predmeta_id">Врста предмета</label>
-                <select
-                    name="vrsta_predmeta_id" id="vrsta_predmeta_id"
-                    class="chosen-select form-control" data-placeholder="Врста предмета">
+                <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета">
                     <option value=""></option>
                     @foreach($vrste as $vrsta)
                     <option value="{{ $vrsta->id }}">
@@ -102,9 +87,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="referent_id">Референт</label>
-                <select
-                    name="referent_id" id="referent_id"
-                    class="chosen-select form-control" data-placeholder="Референт">
+                <select name="referent_id" id="referent_id" class="chosen-select form-control" data-placeholder="Референт">
                     <option value=""></option>
                     @foreach($referenti as $referent)
                     <option value="{{ $referent->id }}">
@@ -115,85 +98,61 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="vrednost_tuzbe">Вредност</label>
-                <input type="number" min="0" step="0.01"
-                       name="vrednost_tuzbe" id="vrednost_tuzbe"
-                       class="form-control">
+                <input type="number" min="0" step="0.01" name="vrednost_tuzbe" id="vrednost_tuzbe" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="stranka_1">Тужилац</label>
-                <input type="text" maxlen="255"
-                       name="stranka_1" id="stranka_1"
-                       class="form-control">
+                <input type="text" maxlen="255" name="stranka_1" id="stranka_1" class="form-control">
             </div>
             <div class="form-group col-md-6">
                 <label for="stranka_2">Тужени</label>
-                <input type="text" maxlen="255"
-                       name="stranka_2" id="stranka_2"
-                       class="form-control">
+                <input type="text" maxlen="255" name="stranka_2" id="stranka_2" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="sudija">Судија</label>
-                <input type="text" maxlen="255"
-                       name="sudija" id="sudija"
-                       class="form-control">
+                <input type="text" maxlen="255" name="sudija" id="sudija" class="form-control">
             </div>
             <div class="form-group col-md-4">
                 <label for="sudnica">Судница</label>
-                <input type="text" maxlen="255"
-                       name="sudnica" id="sudnica"
-                       class="form-control">
+                <input type="text" maxlen="255" name="sudnica" id="sudnica" class="form-control">
             </div>
             <div class="form-group col-md-4">
                 <label for="advokat">Адвокат</label>
-                <input type="text" maxlen="255"
-                       name="advokat" id="advokat"
-                       class="form-control">
+                <input type="text" maxlen="255" name="advokat" id="advokat" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="opis_kp">Катастарска парцела</label>
-                <input type="text" maxlen="255"
-                       name="opis_kp" id="opis_kp"
-                       class="form-control">
+                <input type="text" maxlen="255" name="opis_kp" id="opis_kp" class="form-control">
             </div>
             <div class="form-group col-md-6">
                 <label for="opis_adresa">Адреса</label>
-                <input type="text" maxlen="255"
-                       name="opis_adresa" id="opis_adresa"
-                       class="form-control">
+                <input type="text" maxlen="255" name="opis_adresa" id="opis_adresa" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="opis">Опис предмета</label>
-                <textarea
-                    name="opis" id="opis"
-                    class="form-control"></textarea>
+                <textarea name="opis" id="opis" class="form-control"></textarea>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label for="stari_broj_predmeta">Стари број предмета:</label>
-                <input type="text" maxlen="50"
-                       name="stari_broj_predmeta" id="stari_broj_predmeta"
-                       class="form-control">
+                <input type="text" maxlen="50" name="stari_broj_predmeta" id="stari_broj_predmeta" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="opis">Датум 1</label>
-                <input type="date"
-                       name="datum_1" id="datum_1"
-                       class="form-control">
+                <input type="date" name="datum_1" id="datum_1" class="form-control">
             </div>
             <div class="form-group col-md-2">
                 <label for="opis">Датум 2</label>
-                <input type="date"
-                       name="datum_2" id="datum_2"
-                       class="form-control" readonly>
+                <input type="date" name="datum_2" id="datum_2" class="form-control" readonly>
             </div>
             <div class="col-md-4">
                 <label class="text-warning">Напомена</label>
@@ -205,9 +164,7 @@
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="napomena">Напомена</label>
-                <textarea
-                    name="napomena" id="napomena"
-                    class="form-control"></textarea>
+                <textarea name="napomena" id="napomena" class="form-control"></textarea>
             </div>
         </div>
     </form>
@@ -224,289 +181,184 @@
         </div>
     </div>
 </div>
-
-<table class="table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
-    <thead>
-        <tr>
-            <th style="width: 3%">#</th>
-            <th style="width: 7%">Статус</th>
-            <th style="width: 8%">Број</th>
-            <th style="width: 18%">Тужилац</th>
-            <th style="width: 18%">Тужени</th>
-            <th style="width: 9%">Надлежни орган бр.</th>
-            <th style="width: 7%">КП</th>
-            <th style="width: 8%">Адреса</th>
-            <th style="width: 14%">Врста предмета</th>
-            <th style="width: 5%">Датум</th>
-            <th style="width: 3%"><i class="fa fa-cogs"></i></th>
-        </tr>
-    </thead>
-
-</table>
 <div class="row">
-<h5>Иди на страницу</h5>
-<input type="number" name="skok" id="skok">
-<button id="dugmeSkok" class="btn btn-warning btn-sm"><i class="fa fa-rocket"></i></button>
+    <div class="col-md-10">
+        <div class="text-left">
+            <span>Прикажи </span>
+            <select name="postrani" id="postrani">
+                <option value=""> *</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="300">300</option>
+            </select>
+            <span> редова по страни </span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group text-right">
+            <input type="text" name="serach" id="serach" class="form-control" />
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti">
+                @include('sabloni.inc.supertabela')
+            </table>
+            <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+            <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
+            <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="asc" />
+        </div>
+    </div>
+</div>
+
 @endsection
-
 @section('skripte')
-<script src="{{ asset('/js/moment.min.js') }}"></script>
-<script src="{{ asset('/js/datetime-moment.js') }}"></script>
-<script>
+<script type="text/javascript">
+    $(document).ready(function() {
 
-$(document).ready(function () {
+        var page = 1;
 
-    jQuery(window).on('resize', resizeChosen);
+        function odlozi(callback, ms) {
+          var timer = 0;
+          return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+              callback.apply(context, args);
+            }, ms || 0);
+          };
+        }
 
-    $('.chosen-select').chosen({
-        allow_single_deselect: true,
-        search_contains: true
-    });
-
-    function resizeChosen() {
-        $(".chosen-container").each(function () {
-            $(this).attr('style', 'width: 100%');
+        $('.chosen-select').chosen({
+            allow_single_deselect: true,
+            search_contains: true
         });
-    }
 
-    $('#datum_1').on('change', function () {
-        if (this.value !== '') {
-            $('#datum_2').prop('readonly', false);
-        } else {
-            $('#datum_2').prop('readonly', true).val('');
-        }
-    });
-
-    $.fn.dataTable.moment('DD.MM.YYYY');
-
-    $('#pretragaDugme').click(function () {
-        $('#pretraga_div').toggle();
-        resizeChosen();
-    });
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    var tabela = $('#tabelaPredmeti').DataTable({
-        order: [[0, 'desc']],
-        lengthMenu: [[10, 25, 50, 250, -1], [10, 25, 50, 250, "Сви"]],
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '{!! route('predmeti.ajax') !!}',
-            type: "POST"
-        },
-        columns: [
-            {
-                data: null,
-                render: function (data, type, row) {
-
-                    return '<small>' + data.id + '</small>'
-                },
-                name: 'id'
-            },
-            {
-                defaultContent: '',
-                data: null,
-                render: function (data, type, row) {
-                    if (data.st_naziv) {
-                        if (data.arhiviran == 0) {
-                            return '<span class="status text-primary" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="' + data.opis + '">' + data.st_naziv + '</span>';
-                        } else {
-                            return '<span class="status text-danger" style="text-align:center; font-weight: bold; vertical-align: middle; line-height: normal;" data-container="body" data-toggle="popover" data-placement="right" title="Опис:" data-content="' + data.opis + '">' + data.st_naziv + '</span>';
-                        }
-                    } else {
-                        return " ";
-                    }
-
-                },
-                name: 'st_naziv'
-            },
-            {
-                data: null,
-                className: 'align-middle text-center',
-                render: function (data, type, row) {
-                    var rutap = "{{ route('predmeti.pregled', 'predmet_id') }}";
-                    var rutap_id = rutap.replace('predmet_id', data.id);
-
-                    return '<strong><a href="' + rutap_id + '">' + data.ceo_broj_predmeta + '</a></strong>';
-                },
-                name: 'ceo_broj_predmeta'
-            },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    if (data.stranka_1) {
-                        return '<strong>' + data.stranka_1 + '</strong>'
-                    } else {
-                        return " "
-                    }
-
-                },
-                name: 'stranka_1'
-            },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    if (data.stranka_2) {
-                        return '<strong>' + data.stranka_2 + '</strong>'
-                    } else {
-                        return " "
-                    }
-
-                },
-                name: 'stranka_2'
-            },           
-            {
-                data: 'sudbroj',
-                name: 'sudbroj'
-            },
-            {
-                data: 'opis_kp',
-                name: 'opis_kp'
-            },
-            {
-                data: 'opis_adresa',
-                name: 'opis_adresa'
-            },
-            {
-                data: 'vp_naziv',
-                name: 'vp_naziv'
-            },
-            {
-                data: 'datum_tuzbe',
-                render: function (data, type, row) {
-                    return moment(data).format('DD.MM.YYYY');
-                },
-                name: 'datum_tuzbe'
-            },
-            {
-                data: null,
-                className: 'align-middle text-center',
-                orderable: false,
-                searchable: false,
-                render: function (data, type, row) {
-                    var ruta = "{{ route('predmeti.pregled', 'data_id') }}";
-                    var ruta_id = ruta.replace('data_id', data.id);
-                    var referent = data.puno_ime;
-                    return '<a class="btn btn-success btn-xs otvori_izmenu" id="dugmeIzmena" title="'+referent+'" href="' + ruta_id + '"><i class="fa fa-eye"></i></a>';
-                },
-                name: 'akcije'
-            }
-        ],
-        deferRender: true,
-        stateSave: true,
-        stateSaveCallback: function (settings, data) {
-            localStorage.setItem('DataTables_example_state', JSON.stringify(data))
-        },
-        stateLoadCallback: function (settings) {
-            return JSON.parse(localStorage.getItem('DataTables_example_state'))
-        },
-        dom: 'Bflrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'A4',
-                pageMargins: [
-                    20,
-                    40,
-                    20,
-                    40
-                ], customize: function (doc) {
-                    
-                    var now = new Date();
-                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
-                    doc.defaultStyle.fontSize = 8;
-                    doc.styles.tableHeader.fontSize = 10;
-                    doc['footer']=(function(page, pages) {
-                            return {
-                                columns: [
-                                    {
-                                        alignment: 'left',
-                                        text: ['Документ је креиран: ', { text: jsDate.toString() }]
-                                    },
-                                    {
-                                        alignment: 'right',
-                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
-                                    }
-                                ],
-                                margin: 20
-                            }
-                        });
-
-                },
-                exportOptions: {
-                    columns: [
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8
-                    ]
-                }
-            }
-
-        ],
-        language: {
-            search: "Пронађи у табели",
-            paginate: {
-                first: "Прва",
-                previous: "Претходна",
-                next: "Следећа",
-                last: "Последња"
-            },
-            processing: "Процесирање у току...",
-            lengthMenu: "Прикажи _MENU_ елемената",
-            zeroRecords: "Није пронађен ниједан запис",
-            info: "Приказ _START_ до _END_ од укупно _TOTAL_ елемената",
-            infoFiltered: "(филтрирано од укупно _MAX_ елемената)",
-        },
-
-        fnInitComplete: function (oSettings, json) {
-            $('.status').popover({
-                trigger: 'hover'
+        function resizeChosen() {
+            $(".chosen-container").each(function() {
+                $(this).attr('style', 'width: 100%');
             });
         }
-    });
 
-    $(".dataTables_filter input")
-    .unbind()
-    .bind("input keypress", function(e) {
-        if(this.value.length >= 4 || e.key == "Enter") {
-            tabela.search(this.value).draw();
-        }
-        if(this.value == "") {
-            tabela.search("").draw();
-        }
-        return;
-    });
-
-    $( "#skok" ).focus(function() {
-        var info = tabela.page.info();
-        var poslednja = info.pages;
-        $("#skok").prop('max',poslednja);
+        $('#datum_1').on('change', function() {
+            if (this.value !== '') {
+                $('#datum_2').prop('readonly', false);
+            } else {
+                $('#datum_2').prop('readonly', true).val('');
+            }
         });
 
-    $('#dugmeSkok').on( 'click', function () {
-            var broj = parseInt($("#skok").val());
-            tabela.page(broj-1).draw( 'page' );
-        } );
+        $('#pretragaDugme').click(function() {
+            $('#pretraga_div').toggle();
+            resizeChosen();
+        });
 
+        $('#dugme_pretrazi').click(function() {
+            $('#pretraga').submit();
+        });
 
-    $('#dugme_pretrazi').click(function () {
-        $('#pretraga').submit();
+        function clear_icon() {
+            $('#id_icon').html('');
+            $('#st_naziv_icon').html('');
+            $('#ceo_broj_predmeta_icon').html('');
+            $('#stranka_1_icon').html('');
+            $('#stranka_2_icon').html('');
+            $('#sudbroj_icon').html('');
+            $('#opis_kp_icon').html('');
+            $('#opis_adresa_icon').html('');
+            $('#vp_naziv_icon').html('');
+            $('#datum_tuzbe_icon').html('');
+        }
+
+        $('#postrani').on('change', function() {
+            if (this.value !== '') {
+                var param = $('#serach').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                fetch_data(page, param, column_name, sort_type, this.value);
+            }
+        });
+
+        function fetch_data(page, param, sortiraj_kolona, sortiraj_tip, redova_postranici) {
+
+            if (typeof(page) == "undefined") {
+                page = 1;
+            }
+
+            if (typeof redova_postranici === "undefined" || redova_postranici === null) { 
+                redova_postranici = 10; 
+            }
+
+            $.ajax({
+                type: "GET",
+                data: {
+                    "page": page,
+                    "param": param,
+                    "sortiraj_kolona": sortiraj_kolona,
+                    "sortiraj_tip": sortiraj_tip,
+                    "redova_postranici": redova_postranici
+                },
+                url: "{{ route('predmeti.superajax') }}",
+                success: function(redovi) {
+                    $('#tabelaPredmeti').html('');
+                    $('#tabelaPredmeti').html(redovi);
+                }
+            })
+        }
+
+        $('#serach').keyup(odlozi(function (e) {
+          var param = $('#serach').val();
+          var column_name = $('#hidden_column_name').val();
+          var sort_type = $('#hidden_sort_type').val();
+          fetch_data(page, param, column_name, sort_type);
+        }, 2000));
+
+        $(document).on('click', '.sorting', function() {
+            clear_icon();
+            var column_name = $(this).data('column_name');
+            var order_type = $(this).data('sorting_type');
+            var reverse_order = '';
+            if (order_type == 'asc') {
+                $(this).data('sorting_type', 'desc');
+                reverse_order = 'desc';
+                clear_icon();
+                $('#' + column_name + '_icon').html('<span><i class="fa fa-sort-amount-desc" aria-hidden="true"></i></span>');
+            }
+            if (order_type == 'desc') {
+                $(this).data('sorting_type', 'asc');
+                reverse_order = 'asc';
+                clear_icon();
+                $('#' + column_name + '_icon').html('<span><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></span>');
+            }
+            $('#hidden_column_name').val(column_name);
+            $('#hidden_sort_type').val(reverse_order);
+            var param = $('#serach').val();
+            fetch_data(page, param, column_name, reverse_order);
+        });
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            var param = $('#serach').val();
+            var column_name = $('#hidden_column_name').val();
+            var sort_type = $('#hidden_sort_type').val();
+            $('#hidden_page').val(page);
+            var column_name = $('#hidden_column_name').val();
+            var sort_type = $('#hidden_sort_type').val();
+            var param = $('#serach').val();
+            $('li').removeClass('active');
+            $(this).parent().addClass('active');
+            fetch_data(page, param, column_name, sort_type);
+        });
+
+        $('#pgn-goto').on('change', function() {
+            location = this.value;
+        });
     });
-});
 </script>
 @endsection

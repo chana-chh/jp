@@ -105,8 +105,8 @@ Route::get('predmeti/slike/{id}', 'PredmetiKontroler@getPredmetiSlike')->name('p
 Route::post('predmeti/slike/{id}', 'PredmetiKontroler@postPredmetiSlike')->name('predmeti.slike.post');
 Route::post('predmeti/skenirane/brisanje', 'PredmetiKontroler@postSlikeBrisanje')->name('slike.brisanje');
 Route::post('predmeti/obrisani/vracanje', 'PredmetiKontroler@postVracanjeObrisanogPredmeta')->name('predmeti.obrisani.vracanje');
-Route::post('predmeti/ajax', 'PredmetiKontroler@postAjax')->name('predmeti.ajax');
 Route::get('predmeti/broj', 'PredmetiKontroler@getAjaxBrojPoVrsti')->name('predmeti.broj');
+Route::get('predmeti/superajax', 'PredmetiKontroler@getSuperAjax')->name('predmeti.superajax');
 
 //Predmeti podnesci
 Route::get('predmeti/podnesci/{id}', 'PredmetiPodnesci@getPredmetiPodnesci')->name('predmeti.podnesci');
