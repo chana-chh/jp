@@ -157,6 +157,7 @@ class PredmetiKontroler extends Kontroler
                     OR brojevi_predmeta_sud.broj LIKE '%{$upit}%'
                     OR poslednji.st_naziv LIKE '%{$upit}%'
                     OR s_vrste_predmeta.naziv LIKE '%{$upit}%'
+                    AND predmeti.deleted_at IS NULL
                     GROUP BY id
                     ORDER BY {$sortiraj_kolona} {$sortiraj_tip};";
 

@@ -1,7 +1,6 @@
 @if(count($podaci) === 0)
 <h2 class="text-warning text-center">Нема резултата за задате критеријуме.</h3>
 @else
-
     @foreach($podaci as $row)
     <tr>
         <td>{{ $row->id}}</td>
@@ -21,4 +20,26 @@
         <td><a class="btn btn-success btn-xs otvori_predmet" id="dugmePredmet" title="{{ $row->puno_ime }}" href="{{ route('predmeti.pregled', $row->id) }}"><i class="fa fa-eye"></i></a></td>
     </tr>
     @endforeach
+    <tr height="30px"></tr>
+    <tr id="linkovi" name="linkovi" style="background-color: #ffff !important; color: #2C3E50">
+        <td colspan="5">
+            {!! $linkovi['buttons'] !!}
+        </td>
+        <td colspan="2">
+            <div class="col-md-6" style="margin-top: 20px">
+                Иди на страну:
+            </div>
+            <div class="col-md-6" style="margin-top: 10px">
+                {!! $linkovi['select'] !!}
+            </div>
+        </td>
+        <td colspan="4" class="text-right" style="padding: 20px">
+            <p>
+                Приказани редови од
+                <em>{{ $linkovi['row_from'] }}</em> до
+                <em>{{ $linkovi['row_to'] }}</em> од укупно
+                <em>{{ $linkovi['total_rows'] }}</em>
+            </p>
+        </td>
+    </tr>
 @endif

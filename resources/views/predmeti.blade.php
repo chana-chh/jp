@@ -188,7 +188,7 @@
             <select name="postrani" id="postrani">
                 <option value=""> *</option>
                 <option value="10">10</option>
-                <option value="25">25</option>
+                <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="300">300</option>
@@ -234,35 +234,12 @@
 </thead>
 <tbody name="tabelaPredmeti" id="tabelaPredmeti">
   @include('sabloni.inc.supertabela')
-  </tbody>
-                <tfoot id="linkovi">
-    <tr height="30px"></tr>
-    <tr>
-        <td colspan="5">
-            {!! $linkovi['buttons'] !!}
-        </td>
-        <td colspan="2">
-            <div class="col-md-6" style="margin-top: 20px">
-                Иди на страну:
-            </div>
-            <div class="col-md-6" style="margin-top: 10px">
-                {!! $linkovi['select'] !!}
-            </div>
-        </td>
-        <td colspan="4" class="text-right" style="padding: 20px">
-            <p>
-                Приказани редови од
-                <em>{{ $linkovi['row_from'] }}</em> до
-                <em>{{ $linkovi['row_to'] }}</em> од укупно
-                <em>{{ $linkovi['total_rows'] }}</em>
-            </p>
-        </td>
-    </tr>
-</tfoot>
+</tbody>
             </table>
             <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
             <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
             <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="asc" />
+            <input type="hidden" name="hidden_po_stranici" id="hidden_po_stranici" value="10" />
         </div>
     </div>
 </div>
@@ -331,6 +308,8 @@
                 var param = $('#serach').val();
                 var column_name = $('#hidden_column_name').val();
                 var sort_type = $('#hidden_sort_type').val();
+
+                $('#hidden_po_stranici').val(this.value);
                 fetch_data(page, param, column_name, sort_type, this.value);
             }
         });
@@ -389,7 +368,8 @@
             $('#hidden_column_name').val(column_name);
             $('#hidden_sort_type').val(reverse_order);
             var param = $('#serach').val();
-            fetch_data(page, param, column_name, reverse_order);
+            var postrani = $('#hidden_po_stranici').val();
+            fetch_data(page, param, column_name, reverse_order, postrani);
         });
 
         $(document).on('click', '.pagination a', function(event) {
@@ -398,13 +378,14 @@
             var param = $('#serach').val();
             var column_name = $('#hidden_column_name').val();
             var sort_type = $('#hidden_sort_type').val();
+            var postrani = $('#hidden_po_stranici').val();
             $('#hidden_page').val(page);
             var column_name = $('#hidden_column_name').val();
             var sort_type = $('#hidden_sort_type').val();
             var param = $('#serach').val();
             $('li').removeClass('active');
             $(this).parent().addClass('active');
-            fetch_data(page, param, column_name, sort_type);
+            fetch_data(page, param, column_name, sort_type, postrani);
         });
 
         $('#pgn-goto').on('change', function() {
