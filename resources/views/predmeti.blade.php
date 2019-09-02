@@ -209,7 +209,7 @@
             <table class="table table-striped table-condensed">
               <thead>
     <tr>
-        <th style="width: 3%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="id">
+        <th style="width: 3%; cursor: pointer" class="sorting" data-sorting_type="desc" data-column_name="id">
             # <span id="id_icon"></span></th>
         <th style="width: 7%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="st_naziv">
             Статус <span id="st_naziv_icon"></span></th>
@@ -238,7 +238,7 @@
             </table>
             <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
             <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
-            <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="asc" />
+            <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
             <input type="hidden" name="hidden_po_stranici" id="hidden_po_stranici" value="10" />
         </div>
     </div>
@@ -346,7 +346,7 @@
           var column_name = $('#hidden_column_name').val();
           var sort_type = $('#hidden_sort_type').val();
           fetch_data(page, param, column_name, sort_type);
-        }, 2000));
+        }, 1200));
 
         $(document).on('click', '.sorting', function() {
             clear_icon();
@@ -388,8 +388,13 @@
             fetch_data(page, param, column_name, sort_type, postrani);
         });
 
-        $('#pgn-goto').on('change', function() {
-            location = this.value;
+        $(document).on('change', '#pgn-goto', function() {
+            var page = $(this).find("option:selected").text();
+            var param = $('#serach').val();
+            var column_name = $('#hidden_column_name').val();
+            var sort_type = $('#hidden_sort_type').val();
+            var postrani = $('#hidden_po_stranici').val();
+            fetch_data(page, param, column_name, sort_type, postrani);
         });
     });
 </script>

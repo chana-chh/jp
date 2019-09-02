@@ -59,7 +59,7 @@ class ZameneKontroler extends Kontroler
 
     public function getCiscenje()
     {
-        $zz = Rociste::zamene()->update(['referent_zamena' => null]);
+        $zz = Rociste::whereNotNull('referent_zamena')->update(['referent_zamena' => null]);
         $log = new NasLog();
         $log->opis = Auth::user()->name . " је уклонио све замене референата.";
         $log->datum = Carbon::now();

@@ -88,7 +88,8 @@ class PredmetiKontroler extends Kontroler
                     SELECT tuzeni.predmet_id, s_komintenti.naziv AS stt2 FROM tuzeni
                     JOIN s_komintenti ON tuzeni.komintent_id = s_komintenti.id
                 ) AS st2_naziv ON st2_naziv.predmet_id = predmeti.id WHERE predmeti.deleted_at IS NULL
-                GROUP BY predmeti.id;";
+                GROUP BY predmeti.id
+                ORDER BY predmeti.id DESC;";
 
         $page = (int)$request->query('page');
         $page = $page > 0 ? $page : 1;
@@ -149,15 +150,15 @@ class PredmetiKontroler extends Kontroler
                       FROM tuzeni
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
                     ) AS stranka2 ON stranka2.predmet_id = predmeti.id
-                    WHERE predmeti.opis_kp LIKE '%{$upit}%'
+                    WHERE predmeti.deleted_at IS NULL
+                    AND (predmeti.opis_kp LIKE '%{$upit}%'
                     OR predmeti.opis_adresa LIKE '%{$upit}%'
                     OR CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) LIKE '%{$upit}%'
                     OR stranka1.naziv LIKE '%{$upit}%'
                     OR stranka2.naziv LIKE '%{$upit}%'
                     OR brojevi_predmeta_sud.broj LIKE '%{$upit}%'
                     OR poslednji.st_naziv LIKE '%{$upit}%'
-                    OR s_vrste_predmeta.naziv LIKE '%{$upit}%'
-                    AND predmeti.deleted_at IS NULL
+                    OR s_vrste_predmeta.naziv LIKE '%{$upit}%')
                     GROUP BY id
                     ORDER BY {$sortiraj_kolona} {$sortiraj_tip};";
 
@@ -294,7 +295,10 @@ class PredmetiKontroler extends Kontroler
 
     public function getPregled($id)
     {
-        $predmet = Predmet::find($id);
+        $predmet = Predmet::withTrashed()->find($id);
+        if ($predmet->trashed()) {
+            return view('predmet_pregled_obrisani')->with(compact('predmet'));
+        }else{
         $referenti = Referent::all();
         $dete = Predmet::where('roditelj_id', $id)->first();
         $rocista_kolekcija = $predmet->rocista;
@@ -311,8 +315,7 @@ class PredmetiKontroler extends Kontroler
         $it_potrazuje = $predmet->tokovi->sum('iznos_troskova_potrazuje');
         $it = $it_potrazuje - $it_duguje;
 
-        // Session::flash('podsetnik', 'Проверите да ли сте додали рокове, рочишта, токове и управе ако је потребно!');
-        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it', 'rocista', 'dete', 'referenti'));
+        return view('predmet_pregled')->with(compact('predmet', 'tipovi_rocista', 'spisak_uprava', 'statusi', 'vs_duguje', 'vs_potrazuje', 'it_duguje', 'it_potrazuje', 'vs', 'it', 'rocista', 'dete', 'referenti'));}
     }
 
     public function getDodavanje()

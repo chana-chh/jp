@@ -9,10 +9,26 @@
 
 
 @section('naslov')
-    <h1 class="page-header"><img class="slicica_animirana" alt="Логови"
-                 src="{{url('/images/log.png')}}" style="height:64px;">
+<div class="row">
+    <div class="col-md-10">
+       <h1><img class="slicica_animirana" alt="Логови"
+        src="{{url('/images/log.png')}}" style="height:64px;">
             &emsp;Логови
         </h1>
+    </div>
+    @if (Gate::allows('admin'))
+    <form action="{{ route('logovi.pospremanje') }}" method="POST">
+        {{ csrf_field() }}
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <button type="submit" class="btn btn-danger">
+            <i class="fa fa-trash"></i> Обриши све логове
+        </button>
+    </div>
+    </form>
+    @endif
+</div>
+
+<hr>
 
     @if($logovi->isEmpty())
             <h3 class="text-danger">Тренутно нема убележених логова</h3>

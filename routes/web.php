@@ -201,3 +201,4 @@ Route::post('izvestaji', 'IzvestajiKontroler@postIzvestaji')->name('izvestaji.po
 
 //Logovi
 Route::get('logovi', 'NasLogKontroler@getLogove')->name('logovi');
+Route::post('logovi/pospremanje', 'NasLogKontroler@pospremiLogove')->name('logovi.pospremanje');

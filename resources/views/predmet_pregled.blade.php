@@ -516,26 +516,26 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="status_izmena_vsd">Вредност спора дугује</label>
-                                <input type="number" class="form-control" id="status_izmena_vsd" name="status_izmena_vsd" step="0.01" required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="status_izmena_vsp">Вредност спора потражује</label>
+                                <label for="status_izmena_vsp">Град потражује</label>
                                 <input type="number" class="form-control" id="status_izmena_vsp" name="status_izmena_vsp" step="0.01" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="status_izmena_itd">Износ трошкова дугује</label>
-                                <input type="number" class="form-control" id="status_izmena_itd" name="status_izmena_itd" step="0.01" required>
+                                <label for="status_izmena_vsd">Град дугује</label>
+                                <input type="number" class="form-control" id="status_izmena_vsd" name="status_izmena_vsd" step="0.01" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="status_izmena_itp">Износ трошкова потражује</label>
                                 <input type="number" class="form-control" id="status_izmena_itp" name="status_izmena_itp" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="status_izmena_itd">Износ трошкова дугује</label>
+                                <input type="number" class="form-control" id="status_izmena_itd" name="status_izmena_itd" step="0.01" required>
                             </div>
                         </div>
                     </div>
@@ -628,7 +628,7 @@
     <hr style="border-top: 1px solid #18BC9C">
     <table class="table table-striped table-responsive">
         <tbody>
-
+            @if($rocista)
             @foreach ($rocista as $rociste)
             <tr>
                 <td style="width: 20%;"><strong class="text-info">{{ $rociste->tipRocista->naziv }}</strong></td>
@@ -666,6 +666,7 @@
                 </td>
             </tr>
             @endforeach
+            @endif
         </tbody>
     </table>
 </div>
