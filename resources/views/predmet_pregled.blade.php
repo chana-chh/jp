@@ -1557,7 +1557,7 @@
                 },
                 success: function (result) {
                     $("#tok_id").val(result.tok.id);
-                    $("#status_izmena_datum").val(result.tok.datum);
+                    $("#status_izmena_datum").val(moment.utc(result.tok.datum).format("YYYY-MM-DD"));
                     $("#status_izmena_opis").val(result.tok.opis);
                     $("#status_izmena_vsd").val(result.tok.vrednost_spora_duguje);
                     $("#status_izmena_vsp").val(result.tok.vrednost_spora_potrazuje);

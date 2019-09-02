@@ -150,7 +150,7 @@ class TokoviNovcaKontroler extends Kontroler
                       FROM tuzeni
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
                     ) AS stranka2 ON stranka2.predmet_id = predmeti.id
-                {$where} AND tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL;";
+                {$where} AND tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL GROUP BY predmeti.id;";
         $tokovi = DB::select($sql);
         return view('tokovi_novca_pretraga')->with(compact('tokovi'));
     }
@@ -196,7 +196,7 @@ class TokoviNovcaKontroler extends Kontroler
             ) t1 ON (tokovi_predmeta.predmet_id = t1.predmet_id AND tokovi_predmeta.datum = t1.ts)
             LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
             JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
-            WHERE tokovi_predmeta.status_id NOT IN (8) AND tokovi_predmeta.deleted_at IS NULL
+            WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL
             GROUP BY vrsta;";
 
         $vrste = DB::select($sql);
