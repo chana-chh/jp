@@ -178,6 +178,21 @@
         </ul>
     </div>
   </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-10">
+    </div>
+    @if (Gate::allows('admin'))
+    <form action="{{ route('kretanje.pospremanje') }}" method="POST">
+        {{ csrf_field() }}
+    <div class="col-md-2 text-right">
+        <button type="submit" class="btn btn-danger">
+            <i class="fa fa-trash"></i> Брисање кретања предмета
+        </button>
+    </div>
+    </form>
+    @endif
+</div>
 
 </div>
 

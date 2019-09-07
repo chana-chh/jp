@@ -6,6 +6,10 @@ use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\Rociste;
 use App\Modeli\Tok;
+use Illuminate\Http\Request;
+use Session;
+use Redirect;
+use DB;
 
 class PocetnaKontroler extends Kontroler
 {
@@ -39,6 +43,23 @@ class PocetnaKontroler extends Kontroler
     public function getIzbor()
     {
         return view('izbor');
+    }
+
+    public function pospremiKretanje(Request $req)
+    {
+        $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
+                SELECT k.id
+                FROM kretanje_predmeta k
+                LEFT JOIN  kretanje_predmeta m     
+                ON k.predmet_id = m.predmet_id AND (k.datum < m.datum or (k.datum = m.datum and k.id < m.id))
+                WHERE m.datum is NULL);
+                DELETE FROM kretanje_predmeta
+                WHERE id NOT IN (SELECT id FROM idijevi);
+                DROP TABLE IF EXISTS idijevi;";
+        DB::unprepared(DB::raw($sql));
+        $poruka = ' Обрисано!';
+        Session::flash('podsetnik', $poruka);
+        return Redirect::back();
     }
 
 }

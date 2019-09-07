@@ -2,6 +2,7 @@
 
 Route::get('/', 'PocetnaKontroler@pocetna')->name('pocetna');
 Route::get('izbor', 'PocetnaKontroler@getIzbor')->name('izbor');
+Route::post('kretanje/pospremanje', 'PocetnaKontroler@pospremiKretanje')->name('kretanje.pospremanje');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
