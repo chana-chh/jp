@@ -24,10 +24,16 @@ class NasLogKontroler extends Kontroler
 
     public function pospremiLogove(Request $req)
     {
-        DB::table('logovi')->truncate();
-        $poruka = ' Обрисано!';
-        Session::flash('podsetnik', $poruka);
-        return Redirect::back();
+        if ($req->ajax()) {
+            $pre = DB::table('logovi')->count();
+            $brisanje = DB::table('logovi')->truncate();
+            $posle = DB::table('logovi')->count();
+                if (($pre - $posle) > 0) {
+                    $poruka = ' Сви логови су успешно обрисани!';
+                }else{
+                    $poruka = ' Није било логова за брисање!';
+                }
+        return Response($poruka);}
     }
 
 }

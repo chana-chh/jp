@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
-
 use App\Modeli\Rociste;
 use App\Modeli\NasLog;
 use App\Modeli\Referent;
@@ -57,13 +56,22 @@ class ZameneKontroler extends Kontroler
        return Redirect::back();
     }
 
-    public function getCiscenje()
+    public function postCiscenje(Request $req)
     {
-        $zz = Rociste::whereNotNull('referent_zamena')->update(['referent_zamena' => null]);
-        $log = new NasLog();
-        $log->opis = Auth::user()->name . " је уклонио све замене референата.";
-        $log->datum = Carbon::now();
-        $log->save();
-        return Redirect::back();
+        if ($req->ajax()) {
+            $zz = Rociste::whereNotNull('referent_zamena')->update(['referent_zamena' => null]);
+                if ($zz) {
+
+                    $log = new NasLog();
+                    $log->opis = Auth::user()->name . " је уклонио све замене референата.";
+                    $log->datum = Carbon::now();
+                    $log->save();
+
+            $poruka = "Све замене су успешно обрисане!";
+        } else {
+            $poruka = "Није било замена за брисање или је дошло до грешке приликом брисања!";
+        }
+        return Response($poruka);}
     }
+
 }

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\Rociste;
 use App\Modeli\Tok;
+use App\Modeli\NasLog;
+use Auth;
 use Illuminate\Http\Request;
 use Session;
 use Redirect;
@@ -45,9 +47,19 @@ class PocetnaKontroler extends Kontroler
         return view('izbor');
     }
 
+    public function getOdrzavanje()
+    {   
+        $log = DB::table('logovi')->count();
+        $zamene = DB::table('rocista')->whereNotNull('referent_zamena')->count();
+        $kretanja = DB::table('kretanje_predmeta')->count();
+        return view('odrzavanje')->with(compact('log', 'zamene', 'kretanja'));
+    }
+
     public function pospremiKretanje(Request $req)
     {
-        $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
+        if ($req->ajax()) {
+            $pre = DB::table('kretanje_predmeta')->count();
+            $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
                 SELECT k.id
                 FROM kretanje_predmeta k
                 LEFT JOIN  kretanje_predmeta m     
@@ -56,10 +68,20 @@ class PocetnaKontroler extends Kontroler
                 DELETE FROM kretanje_predmeta
                 WHERE id NOT IN (SELECT id FROM idijevi);
                 DROP TABLE IF EXISTS idijevi;";
-        DB::unprepared(DB::raw($sql));
-        $poruka = ' Обрисано!';
-        Session::flash('podsetnik', $poruka);
-        return Redirect::back();
+            $zz = DB::unprepared(DB::raw($sql));
+            $posle = DB::table('kretanje_predmeta')->count();
+                if (($pre - $posle) > 0) {
+                    $razlika = $pre - $posle;
+                    $log = new NasLog();
+                    $log->opis = Auth::user()->name . " је уклонио ".$razlika." кретања предмета.";
+                    $log->datum = Carbon::now();
+                    $log->save();
+
+            $poruka = "Сва кретања (".$razlika.") осим последњих су успешно обрисана!";
+        } else {
+            $poruka = "Није било кретања за брисање или је дошло до грешке приликом брисања!";
+        }
+        return Response($poruka);}
     }
 
 }

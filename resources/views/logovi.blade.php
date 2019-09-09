@@ -16,16 +16,6 @@
             &emsp;Логови
         </h1>
     </div>
-    @if (Gate::allows('admin'))
-    <form action="{{ route('logovi.pospremanje') }}" method="POST">
-        {{ csrf_field() }}
-    <div class="col-md-2 text-right" style="padding-top: 50px;">
-        <button type="submit" class="btn btn-danger">
-            <i class="fa fa-trash"></i> Обриши све логове
-        </button>
-    </div>
-    </form>
-    @endif
 </div>
 
 <hr>

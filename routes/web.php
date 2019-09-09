@@ -2,6 +2,7 @@
 
 Route::get('/', 'PocetnaKontroler@pocetna')->name('pocetna');
 Route::get('izbor', 'PocetnaKontroler@getIzbor')->name('izbor');
+Route::get('odrzavanje', 'PocetnaKontroler@getOdrzavanje')->name('odrzavanje');
 Route::post('kretanje/pospremanje', 'PocetnaKontroler@pospremiKretanje')->name('kretanje.pospremanje');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -75,7 +76,7 @@ Route::post('sifarnici/referenti/post_vracanje', 'ReferentiKontroler@postVracanj
 Route::get('sifarnici/referenti/zamena/{id}', 'ZameneKontroler@getZamena')->name('referenti.zamena');
 Route::post('sifarnici/referenti/zamena_add/{id}', 'ZameneKontroler@postZamena_add')->name('referenti.zamena_add');
 Route::get('sifarnici/referenti/zamena_del/{id}', 'ZameneKontroler@getZamena_del')->name('referenti.zamena_del');
-Route::get('sifarnici/referenti/ciscenje', 'ZameneKontroler@getCiscenje')->name('referenti.ciscenje');
+Route::post('sifarnici/referenti/ciscenje', 'ZameneKontroler@postCiscenje')->name('referenti.ciscenje');
 
 //Korisnici
 Route::get('sifarnici/korisnici', 'KorisniciKontroler@getLista')->name('korisnici');

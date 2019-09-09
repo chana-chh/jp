@@ -42,6 +42,7 @@
                         <li><a href="{{ route('predmeti.obrisani') }}">Обрисани предмети</a></li>
                         <li><a href="{{ route('referenti.promena') }}">Промена референта у предметима</a></li>
                         <li><a href="{{ route('logovi') }}">Логови</a></li>
+                        <li><a href="{{ route('odrzavanje') }}">Одржавање</a></li>
                         @endif
                     </ul>
                 </li>
