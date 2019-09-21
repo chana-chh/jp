@@ -490,7 +490,7 @@ class PredmetiKontroler extends Kontroler
                 $tok = new Tok();
                 $tok->predmet_id = $id;
                 $tok->status_id = 8; // ovo je a/a
-                $tok->datum = date('Y-m-d');
+                $tok->datum = date('Y-m-d H:i:s');
                 $tok->opis = 'а/а';
                 $tok->vrednost_spora_duguje = 0;
                 $tok->vrednost_spora_potrazuje = 0;
@@ -502,7 +502,7 @@ class PredmetiKontroler extends Kontroler
                 $tok = new Tok();
                 $tok->predmet_id = $id;
                 $tok->status_id = 14; // ovo je NEMA STATUS
-                $tok->datum = date('Y-m-d');
+                $tok->datum = date('Y-m-d H:i:s');
                 $tok->opis = '';
                 $tok->vrednost_spora_duguje = 0;
                 $tok->vrednost_spora_potrazuje = 0;
