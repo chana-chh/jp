@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Modeli\Tok;
 use App\Modeli\Status;
+use App\Modeli\Predmet;
 use Carbon\Carbon;
 use App\Modeli\NasLog;
 use Auth;
@@ -45,6 +46,15 @@ class PredmetiStatusKontroler extends Kontroler
         $status->opis = $req->status_dodavanje_opis;
         $status->save();
 
+        $predmet = Predmet::findOrFail($predmet_id);
+        if($predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 8 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 18 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 28){
+            $predmet->arhiviran = 1;
+            $predmet->save();
+        }else{
+            $predmet->arhiviran = 0;
+            $predmet->save();
+        }
+
         $log = new NasLog();
         $log->opis = Auth::user()->name . " је додао статус са идентификационим бројем ".$status->id." у ток предмета са бројем ". $status->predmet->broj();
         $log->datum = Carbon::now();
@@ -77,6 +87,7 @@ class PredmetiStatusKontroler extends Kontroler
         $tok->iznos_troskova_potrazuje = $req->status_izmena_itp;
         $tok->opis = $req->status_izmena_opis;
         $tok->save();
+        
 
         $log = new NasLog();
         $log->opis = Auth::user()->name . " је изменио статус са идентификационим бројем ".$tok->id." у току предмета са бројем ". $tok->predmet->broj();
@@ -99,7 +110,17 @@ class PredmetiStatusKontroler extends Kontroler
     public function postBrisanje(Request $req)
     {
         $status = Tok::find($req->id);
+        $id_predmeta = $status->predmet->id;
         $odgovor = $status->delete();
+
+        $predmet = Predmet::findOrFail($id_predmeta);
+        if($predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 8 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 18 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 28){
+            $predmet->arhiviran = 1;
+            $predmet->save();
+        }else{
+            $predmet->arhiviran = 0;
+            $predmet->save();
+        }
 
         if ($odgovor) {
             Session::flash('uspeh', 'Статус је успешно обрисан!');

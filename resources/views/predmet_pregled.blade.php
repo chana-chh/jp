@@ -328,7 +328,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($predmet->tokovi as $tok)
+            @foreach ($predmet->tokovi->sortBy('datum') as $tok)
             <tr>
                 <td style="width: 10%;"><strong>{{ date('d.m.Y', strtotime($tok->datum)) }}</strong></td>
                 <td style="width: 15%;"><strong class="text-info">{{ $tok->status->naziv }}</strong></td>
