@@ -347,7 +347,7 @@ class PredmetiKontroler extends Kontroler
             'datum_tuzbe' => 'required|date',
             'referent_id' => 'required|integer',
         ]);
-
+        $vreme = Carbon::now();
         $predmet = new Predmet();
         $predmet->vrsta_upisnika_id = $req->vrsta_upisnika_id;
         $predmet->broj_predmeta = $req->broj_predmeta;
@@ -385,7 +385,7 @@ class PredmetiKontroler extends Kontroler
             $status = new Tok();
             $status->predmet_id = $predmet->id;
             $status->status_id = $req->status;
-            $status->datum = $req->datum_tuzbe;
+            $status->datum = $req->datum_tuzbe." ".$vreme->toTimeString();
 
             if ($req->vrednost) {
                 if ($req->vrednost == 1) {
