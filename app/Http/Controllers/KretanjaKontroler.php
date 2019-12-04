@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Modeli\Predmet;
 use App\Modeli\Kretanje;
 use App\Modeli\Referent;
+use App\Modeli\NasLog;
 
 
 class KretanjaKontroler extends Kontroler
@@ -110,6 +111,11 @@ GROUP BY `predmeti`.`id`";
 		
 		$kretanje->save();
 
+		$log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио локацију предмету са бројем " . $predmet->broj(). " са ID бројем " . $predmet_id;
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh','Локација је успешно додата!');
         return redirect()->route('predmeti.pregled', $predmet_id);
 	}
@@ -132,6 +138,11 @@ GROUP BY `predmeti`.`id`";
         }
         $kretanje -> save();
 
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је изменио локацију предмету са бројем " . $kretanje->predmet->broj(). " са ID бројем " . $kretanje->predmet->id;
+        $log->datum = Carbon::now();
+        $log->save();
+
         Session::flash('uspeh','Локација је успешно измењена!');
         return redirect()->route('predmeti.pregled', $req->predmet_id);
 	}
@@ -153,6 +164,12 @@ GROUP BY `predmeti`.`id`";
 
 		if ($odgovor)
 		{
+			
+			$log = new NasLog();
+        	$log->opis = Auth::user()->name . " је обрисао локацију предмету са бројем " . $kretanje->predmet->broj(). " са ID бројем " . $kretanje->predmet->id;
+        	$log->datum = Carbon::now();
+        	$log->save();
+
 			Session::flash('uspeh','Локација је успешно обрисана!');
 		}
 		else
