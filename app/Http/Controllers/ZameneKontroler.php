@@ -37,9 +37,15 @@ class ZameneKontroler extends Kontroler
             ]
         ]);
 
-         $rociste = Rociste::find($id_rocista);
-         $rociste->referent_zamena = $r->referent_zamena;
-         $rociste->save();
+        $rociste = Rociste::find($id_rocista);
+        $rociste->referent_zamena = $r->referent_zamena;
+        $rociste->save();
+
+        $log = new NasLog();
+        $log->opis = Auth::user()->name . " је поверио предмет са бројем " . $rociste->predmet->broj(). " другом референту. Предмет са ID бројем " . $rociste->predmet->id;
+        $log->datum = Carbon::now();
+        $log->save();
+
          Session::flash('uspeh', 'Предмет је успешно поверен референту на ЗАМЕНИ!');
 
        return Redirect::back();
