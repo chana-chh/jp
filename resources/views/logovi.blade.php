@@ -32,16 +32,6 @@
                       <th style="width: 10%;">Датум</th>
                       <th style="width: 10%;">Време</th>
                 </thead>
-                <tbody id="logovi_lista" name="logovi_lista">
-                @foreach ($logovi as $log)
-                        <tr>
-                                <td>{{$log->id}}</td>
-                                <td><strong>{{$log->opis}}</strong></td>
-                                <td>{{ \Carbon\Carbon::parse($log->datum)->format('d.m.Y')}}</td>
-                                <td>{{ \Carbon\Carbon::parse($log->datum)->format('H:i')}}</td>
-                        </tr>
-                @endforeach
-                </tbody>
             </table>
             </div>
         </div>
@@ -50,11 +40,28 @@
 
 
 @section('skripte')
+<script src="{{ asset('/js/moment.min.js') }}"></script>
+<script src="{{ asset('/js/datetime-moment.js') }}"></script>
 <script>
 $( document ).ready(function() {
+    $.fn.dataTable.moment('DD.MM.YYYY');
 
         $('#tabelaLogovi').DataTable({
             order: [[ 0, "desc" ]],
+                processing: true,
+                serverSide: true,
+            ajax:{
+                     url: "{{ route('ajax.logovi') }}",
+                     dataType: "json",
+                     type: "POST",
+                     data:{ _token: "{{csrf_token()}}"}
+                   },
+            columns: [
+                { "data": "id" },
+                { "data": "opis" },
+                { "data": "datum" },
+                { "data": "vreme" }
+            ],
         language: {
         search: "Пронађи у табели",
             paginate: {
