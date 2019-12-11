@@ -18,7 +18,7 @@ class NasLogKontroler extends Kontroler
 
     public function getLogove()
     {
-        $logovi = NasLog::all();
+        $logovi = NasLog::count();
         return view('logovi')->with(compact('logovi'));
     }
 
@@ -80,7 +80,7 @@ class NasLogKontroler extends Kontroler
                     "draw"            => intval($request->input('draw')),  
                     "recordsTotal"    => intval($totalData),  
                     "recordsFiltered" => intval($totalFiltered), 
-                    "data"            => $data   
+                    "data"            => $data
                     );
             
         echo json_encode($json_data); 

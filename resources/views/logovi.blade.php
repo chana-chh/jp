@@ -19,10 +19,6 @@
 </div>
 
 <hr>
-
-    @if($logovi->isEmpty())
-            <h3 class="text-danger">Тренутно нема убележених логова</h3>
-        @else
         <div class="row" style="margin-top: 4rem;">
             <div class="col-md-12">
             <table class="table table-striped tabelaLogovi" name="tabelaLogovi" id="tabelaLogovi">
@@ -35,7 +31,6 @@
             </table>
             </div>
         </div>
-        @endif
 @endsection
 
 
@@ -48,6 +43,7 @@ $( document ).ready(function() {
 
         $('#tabelaLogovi').DataTable({
             order: [[ 0, "desc" ]],
+            lengthMenu: [[10, 25, 100, {!! $logovi !!}], [10, 25, 100, "Сви"]],
                 processing: true,
                 serverSide: true,
             ajax:{
@@ -62,6 +58,57 @@ $( document ).ready(function() {
                 { "data": "datum" },
                 { "data": "vreme" }
             ],
+            dom: 'Bflrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                pageMargins: [
+                    20,
+                    40,
+                    20,
+                    40
+                ], customize: function (doc) {
+                    
+                    var now = new Date();
+                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                    doc.defaultStyle.fontSize = 8;
+                    doc.styles.tableHeader.fontSize = 9;
+                    doc['footer']=(function(page, pages) {
+                            return {
+                                columns: [
+                                    {
+                                        alignment: 'left',
+                                        text: ['дана: ', { text: jsDate.toString() }]
+                                    },
+                                    {
+                                        alignment: 'center',
+                                        text: ['страна ', { text: page.toString() },  ' од ', { text: pages.toString() }]
+                                    },
+                                    {
+                                        alignment: 'right',
+                                        text: ['Документ креиран од стране: ', { text: ime_korisnika.toString() }]
+                                    }
+                                ],
+                                margin: 20
+                            }
+                        });
+
+                },
+                exportOptions: {
+                    columns: [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            }
+
+        ],
         language: {
         search: "Пронађи у табели",
             paginate: {
