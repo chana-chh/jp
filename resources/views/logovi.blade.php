@@ -40,7 +40,7 @@
 <script>
 $( document ).ready(function() {
     $.fn.dataTable.moment('DD.MM.YYYY');
-
+    var ime_korisnika = {!!json_encode(Auth::user()->name)!!}
         $('#tabelaLogovi').DataTable({
             order: [[ 0, "desc" ]],
             lengthMenu: [[10, 25, 100, {!! $logovi !!}], [10, 25, 100, "Сви"]],
@@ -65,7 +65,7 @@ $( document ).ready(function() {
             'csvHtml5',
             {
                 extend: 'pdfHtml5',
-                orientation: 'landscape',
+                orientation: 'portrait',
                 pageSize: 'A4',
                 pageMargins: [
                     20,
@@ -101,6 +101,7 @@ $( document ).ready(function() {
                 },
                 exportOptions: {
                     columns: [
+                        0,
                         1,
                         2,
                         3
