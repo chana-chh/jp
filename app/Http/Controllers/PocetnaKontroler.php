@@ -61,8 +61,8 @@ class PocetnaKontroler extends Kontroler
             $pre = DB::table('kretanje_predmeta')->count();
             $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
                 SELECT k.id
-                FROM kretanje_predmeta k
-                LEFT JOIN  kretanje_predmeta m     
+                FROM (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) k
+                LEFT JOIN  (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) m     
                 ON k.predmet_id = m.predmet_id AND (k.datum < m.datum or (k.datum = m.datum and k.id < m.id))
                 WHERE m.datum is NULL);
                 DELETE FROM kretanje_predmeta
