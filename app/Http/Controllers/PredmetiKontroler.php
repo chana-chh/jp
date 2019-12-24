@@ -33,14 +33,19 @@ class PredmetiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->only([
-            'postArhiviranje'
-        ]);
-        $this->middleware('admin')->only([
-            'getPredmetiObrisani',
+        // $this->middleware('power.user')->only([
+        //     'postArhiviranje'
+        // ]);
+        // $this->middleware('admin')->only([
+            // 'getPredmetiObrisani',
+            // 'postVracanjeObrisanogPredmeta',
+            // 'postSlikeBrisanje'
+        // ]);
+        $this->middleware('admin', ['except' => 
+            ['getPredmetiObrisani',
             'postVracanjeObrisanogPredmeta',
-            'postSlikeBrisanje'
-        ]);
+            'postSlikeBrisanje']]);
+        $this->middleware('power.user', ['only' => ['postArhiviranje']]);
     }
 
     public function getLista(Request $request){
