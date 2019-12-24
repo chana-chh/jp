@@ -21,7 +21,7 @@ class RokoviKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+        $this->middleware('user', ['except' => [
             'getLista',
             'getAjax',
             'postPretraga',
@@ -29,7 +29,7 @@ class RokoviKontroler extends Kontroler
             'getKalendarFilter',
             'postKalendarFilter',
             'naprednaPretraga',
-        ]);
+            ]]);
     }
 
     public function getLista()
@@ -50,7 +50,7 @@ class RokoviKontroler extends Kontroler
                             rocista.vreme as vreme,
                             rocista.opis as opis,
                             rocista.id as rid,
-                            s_tipovi_rocista.naziv as tip, 
+                            s_tipovi_rocista.naziv as tip,
                             s_referenti.ime as ime_referenta,
                             s_referenti.prezime as prezime_referenta,
                             predmeti.id as id_predmeta,
@@ -88,7 +88,7 @@ class RokoviKontroler extends Kontroler
                             rocista.vreme as vreme,
                             rocista.opis as opis,
                             rocista.id as rid,
-                            s_tipovi_rocista.naziv as tip, 
+                            s_tipovi_rocista.naziv as tip,
                             s_referenti.ime as ime_referenta,
                             s_referenti.prezime as prezime_referenta,
                             predmeti.broj_predmeta as broj,
@@ -164,8 +164,8 @@ class RokoviKontroler extends Kontroler
             if ($rociste->predmet->referentZamena) {
                 $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
-            else { 
-                $ime = $rociste->predmet->referent->imePrezime(); 
+            else {
+                $ime = $rociste->predmet->referent->imePrezime();
             }
 
             $datumi[] = $rociste->datum;
@@ -202,12 +202,12 @@ class RokoviKontroler extends Kontroler
         $detalji = array();
 
         foreach ($rocista as $rociste) {
-            
+
             if ($rociste->predmet->referentZamena) {
                 $ime = $rociste->predmet->referentZamena->imePrezime(). ' <i class="fa fa-refresh fa-fw" style="color: #d9534f"></i>';
             }
-            else { 
-                $ime = $rociste->predmet->referent->imePrezime(); 
+            else {
+                $ime = $rociste->predmet->referent->imePrezime();
             }
 
             $datumi[] = $rociste->datum;

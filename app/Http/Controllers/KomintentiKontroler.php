@@ -22,11 +22,13 @@ class KomintentiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+
+        $this->middleware('power.user', ['only' => [
+            'postBrisanje',
+            ]]);
+        $this->middleware('user', ['except' => [
             'getLista',
-            'getPregled',
-            'postAjax',
-        ]);
+            'postAjax',]]);
     }
 
     public function getLista()
@@ -49,7 +51,6 @@ class KomintentiKontroler extends Kontroler
 
     public function postDodavanje(Request $req)
     {
-
         $this->validate($req, [
             'naziv' => ['required', 'max:190'],
             'id_broj' => ['max:50'],

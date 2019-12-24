@@ -15,18 +15,8 @@ class ReferentiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        
-        $this->middleware('power.user')->only([
-            'getZamena',
-            'postZamena_add',
-            'getZamena_del'
-        ]);
 
-        $this->middleware('admin')->except([
-            'getZamena',
-            'postZamena_add',
-            'getZamena_del'
-        ]);
+        $this->middleware('admin');
     }
 
     public function getLista()
@@ -131,7 +121,7 @@ class ReferentiKontroler extends Kontroler
             }
             Session::flash('uspeh', 'Предмети су успешно додељени референту!');
         }
-        
+
         return redirect()->route('predmeti');
     }
 
@@ -163,7 +153,7 @@ class ReferentiKontroler extends Kontroler
             }
             Session::flash('uspeh', 'Предмети су успешно враћени референту!');
         }
-        
+
         return redirect()->route('referenti.vracanje');
     }
 }

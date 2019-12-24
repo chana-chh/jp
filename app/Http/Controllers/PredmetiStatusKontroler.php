@@ -17,9 +17,12 @@ class PredmetiStatusKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+        $this->middleware('power.user', ['only' => [
+            'postBrisanje',
+            ]]);
+        $this->middleware('user', ['except' => [
             'getDetalj',
-        ]);
+            ]]);
     }
 
     public function postDodavanje(Request $req)
@@ -88,7 +91,7 @@ class PredmetiStatusKontroler extends Kontroler
         $tok->iznos_troskova_potrazuje = $req->status_izmena_itp;
         $tok->opis = $req->status_izmena_opis;
         $tok->save();
-        
+
         $predmet = Predmet::findOrFail($predmet_id);
         if($predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 8 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 18 || $predmet->tokovi()->orderBy('datum', 'desc')->first()->status_id == 28){
             $predmet->arhiviran = 1;

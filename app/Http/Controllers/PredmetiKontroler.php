@@ -33,19 +33,21 @@ class PredmetiKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        // $this->middleware('power.user')->only([
-        //     'postArhiviranje'
-        // ]);
-        // $this->middleware('admin')->only([
-            // 'getPredmetiObrisani',
-            // 'postVracanjeObrisanogPredmeta',
-            // 'postSlikeBrisanje'
-        // ]);
-        $this->middleware('admin', ['except' => 
-            ['getPredmetiObrisani',
+
+        $this->middleware('power.user', ['only' => [
+            'postArhiviranje',
+            'postBrisanje',
             'postVracanjeObrisanogPredmeta',
-            'postSlikeBrisanje']]);
-        $this->middleware('power.user', ['only' => ['postArhiviranje']]);
+            ]]);
+        $this->middleware('user', ['except' => [
+            'getLista',
+            'getSuperAjax',
+            'getListaFilter',
+            'postListaFilter',
+            'naprednaPretraga',
+            'getPregled',
+            'getStampa',
+            ]]);
     }
 
     public function getLista(Request $request){
@@ -106,7 +108,7 @@ class PredmetiKontroler extends Kontroler
     }
 
     public function getSuperAjax(Request $request){
-        
+
         $podaci = null;
         $po_strani = $request->redova_postranici;
         $sortiraj_tip = $request->sortiraj_tip;
@@ -173,7 +175,7 @@ class PredmetiKontroler extends Kontroler
         $pg = $model->paginate($page, $query, null, $po_strani);
         $podaci = $pg['data'];
         $linkovi = $pg['links'];
-        return view('sabloni.inc.supertabela', compact('podaci', 'linkovi'))->render(); 
+        return view('sabloni.inc.supertabela', compact('podaci', 'linkovi'))->render();
     }
 
     public function getListaFilter(Request $req)

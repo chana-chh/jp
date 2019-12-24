@@ -16,6 +16,21 @@ use DB;
 class PocetnaKontroler extends Kontroler
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('power.user', ['only' => [
+            'getOdrzavanje',
+            'pospremiKretanje',
+            '',
+            ]]);
+        $this->middleware('user', ['except' => [
+            'pocetna',
+            'getIzbor',
+            ]]);
+    }
+
     public function pocetna()
     {
         $broj_predmeta = Predmet::count();
@@ -48,7 +63,7 @@ class PocetnaKontroler extends Kontroler
     }
 
     public function getOdrzavanje()
-    {   
+    {
         $log = DB::table('logovi')->count();
         $zamene = DB::table('rocista')->whereNotNull('referent_zamena')->count();
         $kretanja = DB::table('kretanje_predmeta')->count();
@@ -62,7 +77,7 @@ class PocetnaKontroler extends Kontroler
             $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
                 SELECT k.id
                 FROM (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) k
-                LEFT JOIN  (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) m     
+                LEFT JOIN  (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) m
                 ON k.predmet_id = m.predmet_id AND (k.datum < m.datum or (k.datum = m.datum and k.id < m.id))
                 WHERE m.datum is NULL);
                 DELETE FROM kretanje_predmeta

@@ -18,9 +18,18 @@ class ZameneKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user');
+        $this->middleware('power.user', ['only' => [
+            'postCiscenje',
+            'getZamena_del',
+            ]]);
+            $this->middleware('user', ['except' => [
+                'fuckTheUser',
+                ]]);
     }
-
+    public function fuckTheUser()
+    {
+        return false;
+    }
     public function getZamena($id_rocista)
     {
          $rociste = Rociste::find($id_rocista);
@@ -58,7 +67,7 @@ class ZameneKontroler extends Kontroler
          $rociste->referent_zamena = null;
          $rociste->save();
          Session::flash('uspeh', 'Референт на замени је успешно повучен!');
-         
+
        return Redirect::back();
     }
 

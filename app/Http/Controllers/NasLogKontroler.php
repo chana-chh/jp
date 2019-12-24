@@ -13,6 +13,8 @@ class NasLogKontroler extends Kontroler
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('admin');
     }
 
@@ -24,32 +26,32 @@ class NasLogKontroler extends Kontroler
 
     public function ajaxLogovi(Request $request)
     {
-        
-        $columns = array( 
-                            0 =>'id', 
+
+        $columns = array(
+                            0 =>'id',
                             1 =>'opis',
                             2=> 'datum',
                             3=> 'vreme'
                         );
-  
+
         $totalData = NasLog::count();
-            
-        $totalFiltered = $totalData; 
+
+        $totalFiltered = $totalData;
 
         $limit = $request->input('length');
         $start = $request->input('start');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-            
+
         if(empty($request->input('search.value')))
-        {            
+        {
             $logovi = NasLog::offset($start)
                          ->limit($limit)
                          ->orderBy($order,$dir)
                          ->get();
         }
         else {
-            $search = $request->input('search.value'); 
+            $search = $request->input('search.value');
 
             $logovi =  NasLog::where('opis','LIKE',"%{$search}%")
                             ->offset($start)
@@ -75,16 +77,16 @@ class NasLogKontroler extends Kontroler
 
             }
         }
-          
+
         $json_data = array(
-                    "draw"            => intval($request->input('draw')),  
-                    "recordsTotal"    => intval($totalData),  
-                    "recordsFiltered" => intval($totalFiltered), 
+                    "draw"            => intval($request->input('draw')),
+                    "recordsTotal"    => intval($totalData),
+                    "recordsFiltered" => intval($totalFiltered),
                     "data"            => $data
                     );
-            
-        echo json_encode($json_data); 
-        
+
+        echo json_encode($json_data);
+
     }
 
     public function pospremiLogove(Request $req)

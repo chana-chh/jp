@@ -17,11 +17,17 @@ class PredmetiUpraveKontroler extends Kontroler
 	public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
-            'getDetalj',
-        ]);
+        $this->middleware('power.user', ['only' => [
+            'postBrisanje',
+            ]]);
+        $this->middleware('user', ['except' => [
+            'fuckTheUser',
+            ]]);
 	}
-	
+	public function fuckTheUser()
+    {
+        return false;
+    }
 	public function postDodavanje(Request $req)
     {
         $this->validate($req, [

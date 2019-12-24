@@ -14,10 +14,10 @@ class VrstePredmetaKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+        $this->middleware('power.user', ['except' => [
             'getLista',
             'getPregled',
-        ]);
+        ]]);
     }
 
     public function getLista()

@@ -21,16 +21,18 @@ class RocistaKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+        $this->middleware('power.user', ['only' => [
+            'postPospremanjeRocista',
+            ]]);
+        $this->middleware('user', ['except' => [
             'getLista',
             'getAjax',
             'postPretraga',
-            'getDetalj',
             'getKalendar',
             'getKalendarFilter',
             'postKalendarFilter',
             'naprednaPretraga',
-        ]);
+            ]]);
     }
 
     public function getLista()
@@ -333,7 +335,8 @@ class RocistaKontroler extends Kontroler
         return $rocista;
     }
 
-    public function postPospremanjeRocista(Request $req){
+    public function postPospremanjeRocista(Request $req)
+    {
         if ($req->ajax()) {
             $broj = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->count();
             $obrisana_rocista = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->forceDelete();

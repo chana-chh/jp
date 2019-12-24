@@ -15,15 +15,7 @@ class TokoviNovcaKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
-            'getPocetna',
-            'getPretraga',
-            'getGrupaPredmet',
-            'postAjaxGrupaPredmet',
-            'getGrupaVrstaPredmeta',
-            'getTekuciMesec',
-            'getTekucaGodina',
-        ]);
+        
     }
 
     public function getPocetna()

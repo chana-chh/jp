@@ -18,9 +18,17 @@ class PredmetiSudBrojKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
-            'getLista',
-        ]);
+        $this->middleware('power.user', ['only' => [
+            'postBrisanje',
+            ]]);
+        $this->middleware('user', ['except' => [
+            'fuckTheUser',
+            ]]);
+    }
+
+    public function fuckTheUser()
+    {
+        return false;
     }
 
     public function getLista($id)

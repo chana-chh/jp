@@ -20,12 +20,19 @@ class KretanjaKontroler extends Kontroler
 {
 	public function __construct()
     {
-        parent::__construct();
-        $this->middleware('admin')->only([
-            'postLokacija'
-        ]);
+		parent::__construct();
+
+		$this->middleware('power.user', ['only' => [
+            'postLokacija',
+            'postBrisanje',
+			]]);
+
+        $this->middleware('user', ['except' => [
+            'getLista',
+            'postListaFilter',
+            'getDetalj',]]);
 	}
-	
+
 	public function getLista()
 	{
 		$povereni = Predmet::povereni()->get();
@@ -33,50 +40,48 @@ class KretanjaKontroler extends Kontroler
         return view('povereni')->with(compact('povereni', 'referenti'));
 	}
 
-	public function postListaFilter(Request $req){
-		
+	public function postListaFilter(Request $req)
+	{
 		$this->validate($req, [
             'referent_id' => 'required'
         ]);
-        
-		$whereref = $req->referent_id;
 
-		
+		$whereref = $req->referent_id;
 
 		if ($whereref > 0) {
 			$query = "SELECT kretanje_predmeta.referent_id, poslednji, kretanje_predmeta.opis,
-predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj, predmeti.dat,
-s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta
-FROM kretanje_predmeta
-INNER JOIN (
-SELECT predmet_id, max(datum) as poslednji
-FROM kretanje_predmeta
-GROUP BY predmet_id
-) AS kretanje ON (kretanje_predmeta.predmet_id = kretanje.predmet_id AND kretanje_predmeta.datum = kretanje.poslednji)
-LEFT JOIN predmeti ON kretanje_predmeta.predmet_id = predmeti.id
-LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
-WHERE predmeti.dat != 0 AND kretanje_predmeta.referent_id = {$whereref}
-GROUP BY `predmeti`.`id`";
-			$povereni = DB::select($query);
-		}else{
-			$query = "SELECT kretanje_predmeta.referent_id, poslednji, kretanje_predmeta.opis,
-predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj, predmeti.dat,
-s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta
-FROM kretanje_predmeta
-INNER JOIN (
-SELECT predmet_id, max(datum) as poslednji
-FROM kretanje_predmeta
-GROUP BY predmet_id
-) AS kretanje ON (kretanje_predmeta.predmet_id = kretanje.predmet_id AND kretanje_predmeta.datum = kretanje.poslednji)
-LEFT JOIN predmeti ON kretanje_predmeta.predmet_id = predmeti.id
-LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
-WHERE predmeti.dat != 0 AND kretanje_predmeta.referent_id IS NULL
-GROUP BY `predmeti`.`id`";
+			predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj, predmeti.dat,
+			s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta
+			FROM kretanje_predmeta
+			INNER JOIN (
+			SELECT predmet_id, max(datum) as poslednji
+			FROM kretanje_predmeta
+			GROUP BY predmet_id
+			) AS kretanje ON (kretanje_predmeta.predmet_id = kretanje.predmet_id AND kretanje_predmeta.datum = kretanje.poslednji)
+			LEFT JOIN predmeti ON kretanje_predmeta.predmet_id = predmeti.id
+			LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+			LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+			WHERE predmeti.dat != 0 AND kretanje_predmeta.referent_id = {$whereref}
+			GROUP BY `predmeti`.`id`";
+						$povereni = DB::select($query);
+					}else{
+						$query = "SELECT kretanje_predmeta.referent_id, poslednji, kretanje_predmeta.opis,
+			predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj, predmeti.dat,
+			s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta
+			FROM kretanje_predmeta
+			INNER JOIN (
+			SELECT predmet_id, max(datum) as poslednji
+			FROM kretanje_predmeta
+			GROUP BY predmet_id
+			) AS kretanje ON (kretanje_predmeta.predmet_id = kretanje.predmet_id AND kretanje_predmeta.datum = kretanje.poslednji)
+			LEFT JOIN predmeti ON kretanje_predmeta.predmet_id = predmeti.id
+			LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+			LEFT JOIN s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+			WHERE predmeti.dat != 0 AND kretanje_predmeta.referent_id IS NULL
+			GROUP BY `predmeti`.`id`";
 			$povereni = DB::select($query);
 		}
-          return view('povereni_filter')->with(compact('povereni'));     
+          return view('povereni_filter')->with(compact('povereni'));
 	}
 
 	public function postDodavanje(Request $req)
@@ -106,9 +111,9 @@ GROUP BY `predmeti`.`id`";
 			}else{
 				$kretanje->opis = "Дато на коришћење ".$req->kretanje_dodavanje_opis;
 			}
-			
+
 		}
-		
+
 		$kretanje->save();
 
 		$log = new NasLog();
@@ -124,7 +129,7 @@ GROUP BY `predmeti`.`id`";
 	{
 		$this->validate($req, [
             'kretanje_id' => 'required|integer',
-            'predmet_id' => 'required|integer' 
+            'predmet_id' => 'required|integer'
         ]);
 
         $kretanje = Kretanje::findOrFail($req->kretanje_id);
@@ -164,7 +169,7 @@ GROUP BY `predmeti`.`id`";
 
 		if ($odgovor)
 		{
-			
+
 			$log = new NasLog();
         	$log->opis = Auth::user()->name . " је обрисао локацију предмету са бројем " . $kretanje->predmet->broj(). " са ID бројем " . $kretanje->predmet->id;
         	$log->datum = Carbon::now();
@@ -178,7 +183,8 @@ GROUP BY `predmeti`.`id`";
 		}
 	}
 
-	public function postLokacija(Request $req){
+	public function postLokacija(Request $req)
+	{
 
 		$this->validate($req, [
             'predmet_id' => 'required|integer',

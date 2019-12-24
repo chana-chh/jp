@@ -18,9 +18,9 @@ class PredmetiStariBrojKontroler extends Kontroler
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('power.user')->except([
+        $this->middleware('user', ['except' => [
             'getLista',
-        ]);
+            ]]);
     }
 
     public function getLista($id)

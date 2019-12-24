@@ -10,7 +10,7 @@ class User
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->level > 200) {
+        if (Auth::user()->level >= 200) {
             Session::flash('upozorenje', 'Немате право да приступите овој акцији!');
             return redirect()->back();
         }
