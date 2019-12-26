@@ -51,6 +51,7 @@ class StatusiKontroler extends Kontroler
         $status = Status::find($id);
         return view('statusi_pregled')->with(compact('status'));
     }
+    
     public function postIzmena(Request $r, $id)
     {
         $this->validate($r, [

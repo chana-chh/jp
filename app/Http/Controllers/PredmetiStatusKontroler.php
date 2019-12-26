@@ -18,7 +18,7 @@ class PredmetiStatusKontroler extends Kontroler
     {
         parent::__construct();
         $this->middleware('power.user', ['only' => [
-            'postBrisanje',
+            // 'postBrisanje',
             ]]);
         $this->middleware('user', ['except' => [
             'getDetalj',
