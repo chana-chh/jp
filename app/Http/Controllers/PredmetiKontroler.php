@@ -339,7 +339,7 @@ class PredmetiKontroler extends Kontroler
                             predmeti.id as idp'))
             ->get();
 
-        $komintenti = Komintent::select('id', 'naziv')->get();
+        $komintenti = Komintent::select('id', 'naziv', 'id_broj')->get();
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti', 'statusi'));
     }
 

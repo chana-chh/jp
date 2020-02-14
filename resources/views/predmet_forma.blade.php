@@ -145,7 +145,7 @@
                         data-placeholder="Друга странка" multiple>
                     @foreach($komintenti as $kom2)
                     <option value="{{ $kom2->id }}"{{ collect(old('komintenti_2'))->contains($kom2->id) ? ' selected' : '' }}>
-                            {{ $kom2->naziv }}</option>
+                            {{ $kom2->naziv }} - {{ $kom2->id_broj }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('komintenti_2'))
