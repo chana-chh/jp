@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use Session;
 use Redirect;
 use Gate;
+use DB;
 
 use App\Modeli\Referent;
 use App\Modeli\Predmet;
+use App\Modeli\VrstaUpisnika;
+use App\Modeli\VrstaPredmeta;
 
 class ReferentiKontroler extends Kontroler
 {
@@ -95,7 +98,9 @@ class ReferentiKontroler extends Kontroler
     public function getPromenaReferenta()
     {
         $referenti = Referent::all();
-        return view('referenti_promena')->with(compact('referenti'));
+        $upisnici = VrstaUpisnika::orderBy('naziv', 'ASC')->get();
+        $vrste = VrstaPredmeta::orderBy('naziv', 'ASC')->get();
+        return view('referenti_promena')->with(compact('referenti', 'upisnici', 'vrste'));
     }
 
     public function postPromenaReferenta(Request $r)
@@ -109,7 +114,27 @@ class ReferentiKontroler extends Kontroler
             ],
         ]);
 
-        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)->get();
+        $kobaja = [];
+
+        if ($r['arhiviran'] == 1 ||  $r['arhiviran'] == 0) {
+            $kobaja[] = ['arhiviran', '=', $r['arhiviran']];
+        }
+        if ($r['vrsta_upisnika_id']) {
+            $kobaja[] = ['vrsta_upisnika_id', '=', $r['vrsta_upisnika_id']];
+        }
+        if ($r['vrsta_predmeta_id']) {
+            $kobaja[] = ['vrsta_predmeta_id', '=', $r['vrsta_predmeta_id']];
+        }
+
+        if($r['broj_predmeta']) {
+        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
+        ->where(DB::raw('CAST(broj_predmeta AS CHAR)'), 'like', '%'.$r['broj_predmeta'])
+        ->where($kobaja)
+        ->get();}
+        else{
+        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
+        ->where($kobaja)
+        ->get();}
 
         if ($predmeti->isEmpty()) {
             Session::flash('upozorenje', 'Овај референт тренутно не дужи предмете!');

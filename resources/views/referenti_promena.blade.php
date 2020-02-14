@@ -28,6 +28,50 @@
     <form action="{{ route('referenti.refpromena') }}" method="POST" data-parsley-validate>
         {{ csrf_field() }}
         <div class="row" style="margin-top: 30px">
+            <div class="form-group col-md-3">
+                <label for="arhiviran">Архива</label>
+                <select name="arhiviran" id="arhiviran" class="chosen-select form-control" data-placeholder="Архива">
+                    <option value=""></option>
+                    <option value="0">Активни</option>
+                    <option value="1">Архивирани</option>
+                </select>
+            </div>
+        <div class="col-md-2">
+                <div class="form-group{{ $errors->has('broj_predmeta') ? ' has-error' : '' }}">
+                    <label for="broj_predmeta">Последњи број предмета: </label>
+                    <input type="number" name="broj_predmeta" id="broj_predmeta" class="form-control"
+                           value="{{ old('broj_predmeta') }}" max="9">
+                    @if ($errors->has('broj_predmeta'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('broj_predmeta') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+                        <div class="form-group col-md-3">
+                <label for="vrsta_upisnika_id">Врста уписника</label>
+                <select name="vrsta_upisnika_id" id="vrsta_upisnika_id" class="chosen-select form-control" data-placeholder="Врста уписника">
+                    <option value=""></option>
+                    @foreach($upisnici as $upisnik)
+                    <option value="{{ $upisnik->id }}">
+                        <strong>{{ $upisnik->naziv }}</strong>
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+                        <div class="form-group col-md-4">
+                <label for="vrsta_predmeta_id">Врста предмета</label>
+                <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета">
+                    <option value=""></option>
+                    @foreach($vrste as $vrsta)
+                    <option value="{{ $vrsta->id }}">
+                        {{ $vrsta->naziv }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 30px">
             <div class="col-md-6 col-md-offset-3">
         <div class="form-group{{ $errors->has('referent_uklanjanje') ? ' has-error' : '' }}">
             <label for="referent_uklanjanje">Референт чије СВЕ предмете желимо да предамо у надлежност другом референту:</label>
