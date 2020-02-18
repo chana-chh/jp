@@ -116,7 +116,7 @@ class ReferentiKontroler extends Kontroler
 
         $kobaja = [];
 
-        if ($r['arhiviran'] == 1 ||  $r['arhiviran'] == 0) {
+        if ($r['arhiviran'] === 1 ||  $r['arhiviran'] === 0) {
             $kobaja[] = ['arhiviran', '=', $r['arhiviran']];
         }
         if ($r['vrsta_upisnika_id']) {
@@ -126,7 +126,8 @@ class ReferentiKontroler extends Kontroler
             $kobaja[] = ['vrsta_predmeta_id', '=', $r['vrsta_predmeta_id']];
         }
 
-        if($r['broj_predmeta']) {
+        if(count($kobaja) > 0){
+        if($r['broj_predmeta'] !== "") {
         $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
         ->where(DB::raw('CAST(broj_predmeta AS CHAR)'), 'like', '%'.$r['broj_predmeta'])
         ->where($kobaja)
@@ -135,6 +136,15 @@ class ReferentiKontroler extends Kontroler
         $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
         ->where($kobaja)
         ->get();}
+        }else{
+        if($r['broj_predmeta'] !== "") {
+        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
+        ->where(DB::raw('CAST(broj_predmeta AS CHAR)'), 'like', '%'.$r['broj_predmeta'])
+        ->get();}
+        else{
+        $predmeti = Predmet::where('referent_id', $r->referent_uklanjanje)
+        ->get();}
+        }
 
         if ($predmeti->isEmpty()) {
             Session::flash('upozorenje', 'Овај референт тренутно не дужи предмете!');
