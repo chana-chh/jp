@@ -1496,6 +1496,7 @@
         });
         $(document).on('click', '#dugmeKretanjeIzmena', function () {
             var id_kretanje = $(this).val();
+            $('#kretanje_izmena_referent_id').find('option').remove();
             $.ajax({
                 url: kretanje_detalj_ruta,
                 type: "GET",
