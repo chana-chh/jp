@@ -89,33 +89,33 @@ class TokoviNovcaKontroler extends Kontroler
             }
             $where .= "stranka2.naziv LIKE '%{$req['stranka_2']}%'";
         }
-        if ($req['vrednost_vsp']) {
+        if ($req['vrednost_vsp'] != null) {
             if ($where !== ' WHERE ') {
                 $where .= ' AND ';
             }
-            $where .= "vsp {$req->operator_vsp} {$req['vrednost_vsp']}";
+            $where .= "tokovi_predmeta.vrednost_spora_potrazuje {$req->operator_vsp} {$req['vrednost_vsp']}";
         }
-        if ($req['vrednost_vsd']) {
+        if ($req['vrednost_vsd'] != null) {
             if ($where !== ' WHERE ') {
                 $where .= ' AND ';
             }
-            $where .= "vsd {$req->operator_vsd} {$req['vrednost_vsd']}";
+            $where .= "tokovi_predmeta.vrednost_spora_duguje {$req->operator_vsd} {$req['vrednost_vsd']}";
         }
-        if ($req['vrednost_itp']) {
+        if ($req['vrednost_itp'] != null) {
             if ($where !== ' WHERE ') {
                 $where .= ' AND ';
             }
-            $where .= "itp {$req->operator_itp} {$req['vrednost_itp']}";
+            $where .= "tokovi_predmeta.iznos_troskova_potrazuje {$req->operator_itp} {$req['vrednost_itp']}";
         }
-        if ($req['vrednost_itd']) {
+        if ($req['vrednost_itd'] != null) {
             if ($where !== ' WHERE ') {
                 $where .= ' AND ';
             }
-            $where .= "itd {$req->operator_itd} {$req['vrednost_itd']}";
+            $where .= "tokovi_predmeta.iznos_troskova_duguje {$req->operator_itd} {$req['vrednost_itd']}";
         }
 
         $where = ($where !== ' WHERE ') ? $where : '';
-
+        // dd($where);
         $sql = "SELECT status_id,
                 predmeti.id, CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/', predmeti.godina_predmeta) AS broj,
                 s_vrste_upisnika.naziv AS vrsta_upisnika, s_vrste_predmeta.naziv AS vrsta_predmeta,
