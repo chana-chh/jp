@@ -37,8 +37,9 @@
     <div class="col-md-12">
         <table class="table table-striped tabelaTuzioci" name="tabelaTuzioci" id="tabelaTuzioci">
             <thead>
+            <th style="width: 10%;">Редослед</th>
             <th style="width: 20%;">Матични број</th>
-            <th style="width: 40%;">Име / назив </th>
+            <th style="width: 30%;">Име / назив </th>
             <th style="width: 20%;">Место</th>
             <th style="width: 20%;">Телефон</th>
             <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
@@ -46,6 +47,7 @@
             <tbody id="tuzioci_lista" name="tuzioci_lista">
                 @foreach ($tuzioci as $tuzilac)
                 <tr>
+                    <td>{{ $tuzilac->pivot->prioritet }}</td>
                     <td>{{ $tuzilac->id_broj }}</td>
                     <td><strong>{{ $tuzilac->naziv }}</strong></td>
                     <td>{{ $tuzilac->mesto }}</td>
@@ -72,8 +74,9 @@
     <div class="col-md-12">
         <table class="table table-striped tabelaTuzeni" name="tabelaTuzeni" id="tabelaTuzeni">
             <thead>
+            <th style="width: 10%;">Редослед</th>
             <th style="width: 20%;">Матични број</th>
-            <th style="width: 40%;">Име / назив </th>
+            <th style="width: 30%;">Име / назив </th>
             <th style="width: 20%;">Место</th>
             <th style="width: 20%;">Телефон</th>
             <th style="text-align:center; width: 5%;"><i class="fa fa-cogs"></i></th>
@@ -81,6 +84,7 @@
             <tbody id="tuzeni_lista" name="tuzeni_lista">
                 @foreach ($tuzeni as $tuz)
                 <tr>
+                    <td>{{ $tuz->pivot->prioritet }}</td>
                     <td>{{ $tuz->id_broj }}</td>
                     <td><strong>{{ $tuz->naziv }}</strong></td>
                     <td>{{ $tuz->mesto }}</td>
@@ -162,7 +166,19 @@
             </span>
             @endif
         </div>
-
+        <div class="row">
+        <div class="col-md-6">
+        <div class="form-group{{ $errors->has('prioritet_tuzilac') ? ' has-error' : '' }}">
+                    <label for="prioritet_tuzilac">Редослед:</label>
+                    <input type="number" min="0" max="10"  step="1.00" name="prioritet_tuzilac" id="prioritet_tuzilac" class="form-control" placeholder="Унесите редослед">
+                    @if ($errors->has('prioritet_tuzilac'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('prioritet_tuzilac') }}</strong>
+                        </span>
+                    @endif
+                </div>
+        </div>
+        </div>
         <div class="row dugmici">
             <div class="col-md-12" style="margin-top: 20px;">
                 <div class="form-group">
@@ -201,6 +217,19 @@
                 <strong>{{ $errors->first('tuzeni_id') }}</strong>
             </span>
             @endif
+        </div>
+        <div class="row">
+        <div class="col-md-6">
+        <div class="form-group{{ $errors->has('prioritet_tuzeni') ? ' has-error' : '' }}">
+                    <label for="prioritet_tuzeni">Редослед:</label>
+                    <input type="number" min="0" max="10"  step="1.00" name="prioritet_tuzeni" id="prioritet_tuzeni" class="form-control" placeholder="Унесите редослед">
+                    @if ($errors->has('prioritet_tuzeni'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('prioritet_tuzeni') }}</strong>
+                        </span>
+                    @endif
+                </div>
+        </div>
         </div>
 
         <div class="row dugmici">

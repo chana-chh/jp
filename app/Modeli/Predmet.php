@@ -105,12 +105,12 @@ class Predmet extends Model
 
     public function tuzioci()
     {
-        return $this->belongsToMany('App\Modeli\Komintent', 'tuzioci', 'predmet_id', 'komintent_id');
+        return $this->belongsToMany('App\Modeli\Komintent', 'tuzioci', 'predmet_id', 'komintent_id')->withPivot('prioritet');
     }
 
     public function tuzeni()
     {
-        return $this->belongsToMany('App\Modeli\Komintent', 'tuzeni', 'predmet_id', 'komintent_id');
+        return $this->belongsToMany('App\Modeli\Komintent', 'tuzeni', 'predmet_id', 'komintent_id')->withPivot('prioritet');
     }
 
     /* NOVO END */

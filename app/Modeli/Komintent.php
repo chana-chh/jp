@@ -10,11 +10,11 @@ class Komintent extends Model {
     public $timestamps = false;
 
     public function tuziocUPredmetima() {
-        return $this->belongsToMany('App\Modeli\Predmet', 'tuzioci', 'komintent_id', 'predmet_id');
+        return $this->belongsToMany('App\Modeli\Predmet', 'tuzioci', 'komintent_id', 'predmet_id')->withPivot('prioritet');
     }
 
     public function tuzeniUPredmetima() {
-        return $this->belongsToMany('App\Modeli\Predmet', 'tuzeni', 'komintent_id', 'predmet_id');
+        return $this->belongsToMany('App\Modeli\Predmet', 'tuzeni', 'komintent_id', 'predmet_id')->withPivot('prioritet');
     }
 
 }
