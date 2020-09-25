@@ -176,6 +176,9 @@ class KomintentiKontroler extends Kontroler
             ]);
             $novi = new PredmetTuzilac();
             $novi->komintent_id = $req->tuzilac_id;
+            if($req->prioritet_tuzilac){
+                $novi->prioritet = $req->prioritet_tuzilac;
+            }
             $komintent = Komintent::find($req->tuzilac_id);
         } else {
             $this->validate($req, [
@@ -183,6 +186,9 @@ class KomintentiKontroler extends Kontroler
             ]);
             $novi = new PredmetTuzeni();
             $novi->komintent_id = $req->tuzeni_id;
+            if($req->prioritet_tuzeni){
+                $novi->prioritet = $req->prioritet_tuzeni;
+            }
             $komintent = Komintent::find($req->tuzeni_id);
         }
         $novi->predmet_id = $id;

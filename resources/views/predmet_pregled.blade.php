@@ -130,15 +130,15 @@
 </div>
 {{--  kraj modal_arhiviranje  --}}
 
-
+{{-- @php(dd($predmet->tuzioci)) --}}
 <table class="table table-condensed table-striped" style="table-layout: fixed;">
     <tbody>
         <tr style="font-size: 1.2em">
             <th style="width: 20%;"><strong>Тужилац:</strong></th>
             <td>
                 <ul class="list-unstyled">
-                    @foreach ($predmet->tuzioci as $s1)
-                    <li>{{ $s1->naziv }} @if($s1->id_broj)<small class="text-success">, ЈМБГ: {{ $s1->id_broj }},</small>@endif
+                    @foreach ($predmet->tuzioci->sortBy('pivot.prioritet') as $s1)
+                    <li><span class="text-danger">{{ $s1->pivot->prioritet }}</span> {{ $s1->naziv }} @if($s1->id_broj)<small class="text-success">, ЈМБГ: {{ $s1->id_broj }},</small>@endif
                         @if($s1->adresa) <small class="text-success">Адреса: {{ $s1->adresa }}, </small>@endif
                         @if($s1->mesto) <small class="text-success">Место: {{ $s1->mesto }} </small>@endif
                     </li>
@@ -155,8 +155,8 @@
             <th style="width: 20%;"><strong>Тужени:</strong></th>
             <td>
                 <ul class="list-unstyled">
-                    @foreach ($predmet->tuzeni as $s2)
-                    <li>{{ $s2->naziv }} @if($s2->id_broj)<small class="text-success">, ЈМБГ: {{ $s2->id_broj }},</small>@endif
+                    @foreach ($predmet->tuzeni->sortBy('pivot.prioritet') as $s2)
+                    <li><span class="text-danger">{{ $s2->pivot->prioritet }}</span> {{ $s2->naziv }} @if($s2->id_broj)<small class="text-success">, ЈМБГ: {{ $s2->id_broj }},</small>@endif
                         @if($s2->adresa) <small class="text-success">Адреса: {{ $s2->adresa }}, </small>@endif
                         @if($s2->mesto) <small class="text-success">Место: {{ $s2->mesto }} </small>@endif
                     </li>
