@@ -24,11 +24,13 @@
             <i class="fa fa-plus-circle fa-fw"></i> Нови предмет
         </a>
     </div>
+    @if(Auth::user()->id == 1 || Auth::user()->id == 2)
     <div class="col-md-2 text-right" style="padding-top: 50px;">
         <a class="btn btn-warning btn-block ono" href="{{ route('predmeti.serija.get') }}">
             <i class="fa fa-indent fa-fw"></i> Нови предмети у серији
         </a>
     </div>
+    @endif
 </div>
 <hr>
 <div id="pretraga_div" class="well" style="display: none;">

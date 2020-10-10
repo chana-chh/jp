@@ -35,7 +35,7 @@ class PredmetiKontroler extends Kontroler
         parent::__construct();
 
         $this->middleware('power.user', ['only' => [
-            // 'postArhiviranje',
+            'postSerija',
             'postBrisanje',
             'postVracanjeObrisanogPredmeta',
             ]]);
