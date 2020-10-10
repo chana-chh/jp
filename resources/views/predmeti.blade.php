@@ -8,7 +8,7 @@
 
 @section('naslov')
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h1>
             <img class="slicica_animirana" alt="предмети" src="{{url('/images/predmeti.png')}}" style="height:64px;">
             &emsp;Предмети <small><em>(укључујући и архивиране)</em></small>
@@ -22,6 +22,11 @@
     <div class="col-md-2 text-right" style="padding-top: 50px;">
         <a class="btn btn-primary btn-block ono" href="{{ route('predmeti.dodavanje.get') }}">
             <i class="fa fa-plus-circle fa-fw"></i> Нови предмет
+        </a>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top: 50px;">
+        <a class="btn btn-warning btn-block ono" href="{{ route('predmeti.serija.get') }}">
+            <i class="fa fa-indent fa-fw"></i> Нови предмети у серији
         </a>
     </div>
 </div>

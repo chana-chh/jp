@@ -93,7 +93,9 @@ Route::get('proveraKp', 'PredmetiKontroler@proveraKp')->name('predmeti.proveraKp
 Route::get('predmeti/filter', 'PredmetiKontroler@getListaFilter')->name('predmeti.filter');
 Route::post('predmeti/filter', 'PredmetiKontroler@postListaFilter')->name('predmeti.pretraga');
 Route::get('predmeti/dodavanje/forma', 'PredmetiKontroler@getDodavanje')->name('predmeti.dodavanje.get');
+Route::get('predmeti/serija/forma', 'PredmetiKontroler@getSerija')->name('predmeti.serija.get');
 Route::post('predmeti/dodavanje', 'PredmetiKontroler@postDodavanje')->name('predmeti.dodavanje.post');
+Route::post('predmeti/serija', 'PredmetiKontroler@postSerija')->name('predmeti.serija.post');
 Route::post('predmeti/brisanje', 'PredmetiKontroler@postBrisanje')->name('predmeti.brisanje');
 Route::get('predmeti/izmena/{id}', 'PredmetiKontroler@getIzmena')->name('predmeti.izmena.get');
 Route::post('predmeti/izmena/{id}', 'PredmetiKontroler@postIzmena')->name('predmeti.izmena.post');

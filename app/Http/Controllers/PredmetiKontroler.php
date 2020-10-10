@@ -343,6 +343,59 @@ class PredmetiKontroler extends Kontroler
         return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti', 'statusi'));
     }
 
+    public function getSerija()
+    {
+        $upisnici = VrstaUpisnika::all();
+        $sudovi = Sud::all();
+        $vrste = VrstaPredmeta::all();
+        $referenti = Referent::all();
+
+        return view('serija_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti'));
+    }
+
+    public function postSerija(Request $req)
+    {
+        $this->validate($req, [
+            'broj_serija' => 'required|integer',
+            'vrsta_upisnika_id' => 'required|integer',
+            'broj_predmeta' => 'required|integer',
+            'godina_predmeta' => 'required|integer',
+            'sud_id' => 'required|integer',
+            'vrsta_predmeta_id' => 'required|integer',
+            'datum_tuzbe' => 'required|date',
+            'referent_id' => 'required|integer',
+        ]);
+
+        $vreme = Carbon::now();
+
+        $pocetak=$req->broj_predmeta;
+        $kraj=$pocetak+$req->broj_serija;
+        
+        for ($i=$pocetak; $i < $kraj; $i++) { 
+            $predmet = new Predmet();
+            $predmet->vrsta_upisnika_id = $req->vrsta_upisnika_id;
+            $predmet->broj_predmeta = $i;
+            $predmet->godina_predmeta = $req->godina_predmeta;
+            $predmet->sud_id = $req->sud_id;
+            $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
+            $predmet->datum_tuzbe = $req->datum_tuzbe;
+            $predmet->referent_id = $req->referent_id;
+            $predmet->korisnik_id = Auth::user()->id;
+            $predmet->save();
+        }
+
+        $log_string = Auth::user()->name . " је креирао нови предмет у серији од " . $pocetak . " до " . ($kraj-1);
+
+        $log = new NasLog();
+        $log->opis = $log_string;
+        $log->datum = Carbon::now();
+        $log->save();
+
+        Session::flash('uspeh', 'Серија предмета је успешно додата!');
+
+        return redirect()->route('predmeti');
+    }
+
     public function postDodavanje(Request $req)
     {
         $this->validate($req, [
