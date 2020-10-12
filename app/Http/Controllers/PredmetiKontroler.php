@@ -26,6 +26,7 @@ use App\Modeli\Komintent;
 use Yajra\DataTables\DataTables;
 use App\Modeli\NasLog;
 use App\Modeli\Super;
+use App\Modeli\Korisnik;
 
 class PredmetiKontroler extends Kontroler
 {
@@ -349,8 +350,8 @@ class PredmetiKontroler extends Kontroler
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
-
-        return view('serija_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti'));
+        $korisnici = Korisnik::all();
+        return view('serija_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'korisnici'));
     }
 
     public function postSerija(Request $req)
@@ -380,7 +381,7 @@ class PredmetiKontroler extends Kontroler
             $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
             $predmet->datum_tuzbe = $req->datum_tuzbe;
             $predmet->referent_id = $req->referent_id;
-            $predmet->korisnik_id = Auth::user()->id;
+            $predmet->korisnik_id = $req->korisnik_id;
             $predmet->save();
         }
 

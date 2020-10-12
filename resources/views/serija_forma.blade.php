@@ -34,6 +34,23 @@
                     @endif
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-group{{ $errors->has('korisnik_id') ? ' has-error' : '' }}">
+                    <label for="korisnik_id">Корисник задужен за рад са предметима:</label>
+                    <select name="korisnik_id" id="korisnik_id" class="chosen-select form-control" data-placeholder="Корисник/обрађивач" required>
+                        <option value=""></option>
+                        @foreach($korisnici as $korisnik)
+                        <option value="{{ $korisnik->id }}"{{ old('korisnik_id') ? ' selected' : '' }}>
+                                {{ $korisnik->name }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('korisnik_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('korisnik_id') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
         </div>
     <fieldset>
         <legend>Број предмета</legend>
