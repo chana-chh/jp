@@ -51,7 +51,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group{{ $errors->has('vrsta_predmeta_id') ? ' has-error' : '' }}">
                 <label for="vrsta_predmeta_id">Врста предмета:</label>
                 <select name="vrsta_predmeta_id" id="vrsta_predmeta_id" class="chosen-select form-control" data-placeholder="Врста предмета" required>
@@ -73,7 +73,7 @@
         </div>
     </div>
   <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group{{ $errors->has('sudija') ? ' has-error' : '' }}">
                     <label for="sudija">Судија:</label>
                     <input type="text" name="sudija" id="sudija" class="form-control" value="{{ old('sudija', $predmet->sudija) }}">
@@ -84,7 +84,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group{{ $errors->has('sudnica') ? ' has-error' : '' }}">
                     <label for="sudnica">Судница:</label>
                     <input type="text" name="sudnica" id="sudnica" class="form-control" value="{{ old('sudnica', $predmet->sudnica) }}">
@@ -95,13 +95,24 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group{{ $errors->has('advokat') ? ' has-error' : '' }}">
                     <label for="advokat">Адвокат:</label>
-                    <input type="text" name="advokat" id="advokat" class="form-control" value="{{ old('advokat', $predmet->advokat) }}"">
+                    <input type="text" name="advokat" id="advokat" class="form-control" value="{{ old('advokat', $predmet->advokat) }}">
                     @if ($errors->has('advokat'))
                     <span class="help-block">
                         <strong>{{ $errors->first('advokat') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group{{ $errors->has('izvrsitelj') ? ' has-error' : '' }}">
+                    <label for="izvrsitelj">Извршитељ:</label>
+                    <input type="text" name="izvrsitelj" id="izvrsitelj" class="form-control" value="{{ old('izvrsitelj', $predmet->izvrsitelj) }}">
+                    @if ($errors->has('izvrsitelj'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('izvrsitelj') }}</strong>
                     </span>
                     @endif
                 </div>
@@ -165,7 +176,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group{{ $errors->has('opis_adresa') ? ' has-error' : '' }}">
-                    <label for="opis_adresa">Адресе:</label>
+                    <label for="opis_adresa">Улица:</label>
                     <input type="text" name="opis_adresa" id="opis_adresa" class="form-control"
                            value="{{ old('opis_adresa', $predmet->opis_adresa) }}" maxlength="255">
                     @if ($errors->has('opis_adresa'))
@@ -225,7 +236,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-4">
+{{--         <div class="col-md-4">
             <div class="form-group{{ $errors->has('roditelj_id') ? ' has-error' : '' }}">
                 <label for="roditelj_id">Предмет родитељ:</label>
                 <select name="roditelj_id" id="roditelj_id" class="chosen-select form-control" data-placeholder="Предмет родитељ">
@@ -244,9 +255,9 @@
                 </span>
                 @endif
             </div>
-        </div>
+        </div> --}}
     </div>
-    <div class="row">
+{{--     <div class="row">
         <div class="col-md-12">
             <div class="form-group{{ $errors->has('napomena') ? ' has-error' : '' }}">
                 <label for="napomena">Напомена:</label>
@@ -258,7 +269,7 @@
                 @endif
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="form-group text-right">
         <button type="button" id="submitModal" data-toggle="modal" data-target="#izmenaPredmetaModal" class="btn btn-success"><i class="fa fa-floppy-o"></i> Сними</button>
         <a class="btn btn-danger" href="{{route('predmeti.pregled', $predmet->id)}}"><i class="fa fa-ban"></i> Откажи</a>

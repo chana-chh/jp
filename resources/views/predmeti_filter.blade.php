@@ -24,19 +24,20 @@
 </div>
 <hr>
 
-<table class="table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.9375em;">
+<table class="table-striped table-condensed tabelaPredmeti" name="tabelaPredmeti" id="tabelaPredmeti" style="table-layout: fixed; font-size: 0.875em;">
     <thead>
         <tr>
             <th style="width: 5%; text-align:right; padding-right: 25px">#</th>
-            <th style="width: 6%; text-align:right; padding-right: 25px">Статус</th>
-            <th style="width: 6%; text-align:right; padding-right: 25px">Број</th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Надлежни орган</th>
-            <th style="width: 7%; text-align:right; padding-right: 25px">Број НО</th>
-            <th style="width: 10%; text-align:right; padding-right: 25px">Врста предмета</th>
-            <th style="width: 12%; text-align:right; padding-right: 25px">КП</th>
-            <th style="width: 9%; text-align:right; padding-right: 25px">Адреса</th>
-            <th style="width: 13%; text-align:right; padding-right: 25px">Тужилац</th>
-            <th style="width: 13%; text-align:right; padding-right: 25px">Тужени</th>
+            <th style="width: 5%; text-align:right; padding-right: 25px">Статус</th>
+            <th style="width: 5%; text-align:right; padding-right: 25px">Број</th>
+            <th style="width: 8%; text-align:right; padding-right: 25px">Надлежни орган</th>
+            <th style="width: 5%; text-align:right; padding-right: 25px">Број НО</th>
+            <th style="width: 13%; text-align:right; padding-right: 25px">Опис</th>
+            <th style="width: 5%; text-align:right; padding-right: 25px">Врста предмета</th>
+            <th style="width: 11%; text-align:right; padding-right: 25px">КП</th>
+            <th style="width: 8%; text-align:right; padding-right: 25px">Адреса</th>
+            <th style="width: 12%; text-align:right; padding-right: 25px">Тужилац</th>
+            <th style="width: 12%; text-align:right; padding-right: 25px">Тужени</th>
             <th style="width: 5%; text-align:right; padding-right: 25px">Датум</th>
             <th style="text-align: right; width: 5%;"><i class="fa fa-cogs"></i></th>
         </tr>
@@ -68,7 +69,7 @@ $(document).ready(function () {
 
     var tabela = $('#tabelaPredmeti').DataTable({
         order: [[0, 'desc']],
-        lengthMenu: [[10, 25, 50, 250, -1], [10, 25, 50, 250, "Сви"]],
+        lengthMenu: [[50, 10, 25, 250, -1], [50, 10, 25, 250, "Сви"]],
         processing: true,
         serverSide: true,
         ajax: '{!! route('predmeti.filter') !!}',
@@ -114,6 +115,10 @@ $(document).ready(function () {
                 name: 'sudbroj'
             },
             {
+                data: 'opisic',
+                name: 'opisic'
+            },
+            {
                 data: 'vrsta_predmeta',
                 name: 'vrsta_predmeta'
             },
@@ -129,7 +134,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     if (data.s1) {
-                        return '<small><em>' + data.s1 + '</em></small>'
+                        return '<em>' + data.s1 + '</em>'
                     } else {
                         return " "
                     }
@@ -141,7 +146,7 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     if (data.s2) {
-                        return '<small><em>' + data.s2 + '</em></small>'
+                        return '<em>' + data.s2 + '</em>'
                     } else {
                         return " "
                     }

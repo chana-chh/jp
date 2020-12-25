@@ -16,6 +16,7 @@
         <td><strong><a href="{{ route('predmeti.pregled', $row->id) }}">{{ $row->ceo_broj_predmeta }}</a></strong></td>
         <td><strong>{{ $row->stranka_1 }}</strong></td>
         <td><strong>{{ $row->stranka_2 }}</strong></td>
+        <td>{{ $row->opis_predmeta }}</td>
         <td>{{ $row->sudbroj }}</td>
         <td>{{ $row->opis_kp }}</td>
         <td>{{ $row->opis_adresa }}</td>

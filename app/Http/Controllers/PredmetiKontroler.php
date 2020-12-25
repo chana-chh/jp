@@ -118,7 +118,7 @@ class PredmetiKontroler extends Kontroler
         $upit = str_replace(" ", "%", $upit);
 
         $query = "SELECT predmeti.id, predmeti.arhiviran, predmeti.broj_predmeta, predmeti.godina_predmeta, predmeti.vrsta_upisnika_id AS ss,
-                    predmeti.opis, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
+                    predmeti.opis as opis_predmeta, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
                     s_vrste_predmeta.naziv AS vp_naziv,
                     CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) AS ceo_broj_predmeta,
                     GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj,
@@ -249,9 +249,6 @@ class PredmetiKontroler extends Kontroler
         if ($params['opis']) {
             $where .= " AND predmeti.opis LIKE '%{$params['opis']}%'";
         }
-        if ($params['napomena']) {
-            $where .= " AND predmeti.napomena LIKE '%{$params['napomena']}%'";
-        }
         if ($params['broj_predmeta_sud']) {
             $where .= " AND brojevi_predmeta_sud.broj LIKE '%{$params['broj_predmeta_sud']}%'";
         }
@@ -268,7 +265,7 @@ class PredmetiKontroler extends Kontroler
         $where = ($where !== ' WHERE ') ? $where : '';
 
         $query = "SELECT predmeti.id, predmeti.arhiviran, predmeti.broj_predmeta, predmeti.godina_predmeta,
-                    predmeti.opis, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
+                    predmeti.opis AS opisic, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
                     s_vrste_predmeta.naziv AS vrsta_predmeta,
                     CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) AS ceo_broj_predmeta,
                     GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj,
@@ -333,15 +330,8 @@ class PredmetiKontroler extends Kontroler
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
         $statusi = Status::all();
-        $predmeti = DB::table('predmeti')
-            ->join('s_vrste_predmeta', 'predmeti.vrsta_predmeta_id', '=', 's_vrste_predmeta.id')
-            ->join('s_vrste_upisnika', 'predmeti.vrsta_upisnika_id', '=', 's_vrste_upisnika.id')
-            ->select(DB::raw('CONCAT(s_vrste_upisnika.slovo,"-", predmeti.broj_predmeta,"/", predmeti.godina_predmeta) as ceo_broj_predmeta,
-                            predmeti.id as idp'))
-            ->get();
-
         $komintenti = Komintent::select('id', 'naziv', 'id_broj')->get();
-        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'predmeti', 'komintenti', 'statusi'));
+        return view('predmet_forma')->with(compact('vrste', 'upisnici', 'sudovi', 'referenti', 'komintenti', 'statusi'));
     }
 
     public function getSerija()
@@ -417,6 +407,7 @@ class PredmetiKontroler extends Kontroler
         $predmet->sudnica = $req->sudnica;
         $predmet->sudija = $req->sudija;
         $predmet->advokat = $req->advokat;
+        $predmet->izvrsitelj = $req->izvrsitelj;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;
@@ -507,6 +498,7 @@ class PredmetiKontroler extends Kontroler
         $predmet->sudnica = $req->sudnica;
         $predmet->sudija = $req->sudija;
         $predmet->advokat = $req->advokat;
+        $predmet->izvrsitelj = $req->izvrsitelj;
         $predmet->vrsta_predmeta_id = $req->vrsta_predmeta_id;
         $predmet->datum_tuzbe = $req->datum_tuzbe;
         $predmet->opis_kp = $req->opis_kp;

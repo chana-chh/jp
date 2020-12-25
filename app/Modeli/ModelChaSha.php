@@ -63,7 +63,7 @@ abstract class ModelChaSha
     {
         $this->db = DbChaSha::instance();
         $this->pagination_config = [
-            'per_page' => 10,
+            'per_page' => 50,
             'page_span' => 3,
             'css' => [
                 'buttons_container' => 'pagination',

@@ -149,7 +149,30 @@ class TokoviNovcaKontroler extends Kontroler
 
     public function getGrupaPredmet()
     {
-        return view('tokovi_novca_grupa_predmet');
+        $sql = "SELECT SUM(tokovi_predmeta.vrednost_spora_duguje) AS vsd,
+                SUM(tokovi_predmeta.vrednost_spora_potrazuje) AS vsp,
+                SUM(tokovi_predmeta.iznos_troskova_duguje) AS itd,
+                SUM(tokovi_predmeta.iznos_troskova_potrazuje) AS itp,
+                SUM(predmeti.vrednost_tuzbe) AS tuzba
+                FROM tokovi_predmeta
+                INNER JOIN (
+                    SELECT predmet_id, max(datum) as poslednji_status
+                    FROM tokovi_predmeta
+                    GROUP BY predmet_id
+                ) AS tok ON
+                (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
+                LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL;";
+
+        $zbirovi = Db::select($sql)[0];
+
+        $vrednost_spora_potrazuje_suma = $zbirovi->vsp;
+        $vrednost_spora_duguje_suma = $zbirovi->vsd;
+        $iznos_troskova_potrazuje_suma = $zbirovi->itp;
+        $iznos_troskova_duguje_suma = $zbirovi->itd;
+        $vrednost_tuzbe_suma = $zbirovi->tuzba;
+
+        return view('tokovi_novca_grupa_predmet')->with(compact('vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma', 'vrednost_tuzbe_suma'));
     }
 
     public function postAjaxGrupaPredmet(Request $request)
@@ -168,7 +191,7 @@ class TokoviNovcaKontroler extends Kontroler
                 ) AS tok ON (tokovi_predmeta.predmet_id = tok.predmet_id AND tokovi_predmeta.datum = tok.poslednji_status)
                 LEFT JOIN predmeti ON tokovi_predmeta.predmet_id = predmeti.id
                 LEFT JOIN s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28);";
+                WHERE tokovi_predmeta.status_id NOT IN (8, 18, 28) AND tokovi_predmeta.deleted_at IS NULL;";
         return datatables(DB::select($sql))->toJson();
     }
 
@@ -192,8 +215,31 @@ class TokoviNovcaKontroler extends Kontroler
             GROUP BY vrsta;";
 
         $vrste = DB::select($sql);
+        $vrednost_spora_potrazuje_suma = 0;
+        $vrednost_spora_duguje_suma = 0;
+        $iznos_troskova_potrazuje_suma = 0;
+        $iznos_troskova_duguje_suma = 0;
+
+        foreach ($vrste as $vrsta) {
+        $vrednost_spora_potrazuje_suma += $vrsta->vsp;
+        $vrednost_spora_duguje_suma += $vrsta->vsd;
+        $iznos_troskova_potrazuje_suma += $vrsta->itp;
+        $iznos_troskova_duguje_suma += $vrsta->itd;
+        }
+              $item = (object) array('predmet_id'=> 1,
+                'status_id'=> 23,
+                'datum'=> '2020-11-17 14:34:24',
+                'vrsta'=> 160,
+                'naziv_vrste' => '҂ Σ',
+                'vsd' => (string) $vrednost_spora_duguje_suma,
+                'vsp' => (string) $vrednost_spora_potrazuje_suma,
+                'itd' => (string) $iznos_troskova_duguje_suma,
+                'itp' => (string) $iznos_troskova_potrazuje_suma);
+            array_push($vrste, $item);
+            // var_dump($vrste);
+            // die();
         $vrste_predmeta = DB::table('s_vrste_predmeta')->orderBy('id', 'ASC')->pluck('naziv')->toArray();
-        return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta'));
+        return view('tokovi_novca_grupa_vrsta_predmeta')->with(compact('vrste', 'vrste_predmeta', 'vrednost_spora_potrazuje_suma', 'vrednost_spora_duguje_suma', 'iznos_troskova_potrazuje_suma', 'iznos_troskova_duguje_suma'));
     }
 
     public function getTekuciMesec()

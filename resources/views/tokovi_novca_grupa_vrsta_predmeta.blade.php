@@ -34,7 +34,7 @@
                 <tbody id="tokovi_predmeti_lista" name="tokovi_predmeti_lista">
                     @foreach ($vrste as $vrsta)
                     <tr>
-                        <td class="text-primary"><h4>{{$vrste_predmeta[($vrsta->vrsta)-1]}}</h4></td>
+                        <td class="text-primary"><h4>{{$vrsta->naziv_vrste}}</h4></td>
                         <td><strong>{{number_format($vrsta->vsp, 2)}}</strong></td>
                         <td><strong>{{number_format($vrsta->vsd, 2)}}</strong></td>
                         <td><strong>{{number_format($vrsta->itp, 2)}}</strong></td>
@@ -42,6 +42,15 @@
                     </tr>
                     @endforeach
                 </tbody>
+                 <tfoot style="background-color: #666666; color: #dddddd;">
+            <tr>
+                <td>&emsp; &emsp; &emsp; &Sigma;</td>
+                <td>{{number_format($vrednost_spora_potrazuje_suma, 2)}}</td>
+                <td>{{number_format($vrednost_spora_duguje_suma, 2)}}</td>
+                <td>{{number_format($iznos_troskova_potrazuje_suma, 2)}}</td>
+                <td>{{number_format($iznos_troskova_duguje_suma, 2)}}</td>
+            </tr>
+            </tfoot>
             </table>
         @endif
         <div class="row">

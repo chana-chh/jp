@@ -7,6 +7,7 @@ use App\Modeli\Predmet;
 use App\Modeli\Rociste;
 use App\Modeli\Tok;
 use App\Modeli\NasLog;
+use App\Modeli\Kretanje;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
@@ -34,7 +35,6 @@ class PocetnaKontroler extends Kontroler
     public function pocetna()
     {
         $broj_predmeta = Predmet::count();
-
         $ponedeljak = Carbon::now();
         $petak = Carbon::now();
         $ponedeljak->startOfWeek();
@@ -74,16 +74,22 @@ class PocetnaKontroler extends Kontroler
     {
         if ($req->ajax()) {
             $pre = DB::table('kretanje_predmeta')->count();
-            $sql = "CREATE TEMPORARY TABLE IF NOT EXISTS idijevi AS (
-                SELECT k.id
-                FROM (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) k
-                LEFT JOIN  (SELECT * FROM kretanje_predmeta WHERE deleted_at IS NULL) m
-                ON k.predmet_id = m.predmet_id AND (k.datum < m.datum or (k.datum = m.datum and k.id < m.id))
-                WHERE m.datum is NULL);
-                DELETE FROM kretanje_predmeta
-                WHERE id NOT IN (SELECT id FROM idijevi);
-                DROP TABLE IF EXISTS idijevi;";
-            $zz = DB::unprepared(DB::raw($sql));
+            $vise_od_pet = DB::select(  "SELECT predmet_id AS idi
+                            FROM `kretanje_predmeta`
+                            group by predmet_id
+                            HAVING COUNT(*)>5");
+
+        foreach ($vise_od_pet as $zad) {
+           
+            $zadrzi_id = array_values(Kretanje::where('predmet_id', $zad->idi)
+                        ->orderBy('datum','DESC')
+                        ->orderBy('id','DESC')
+                        ->take(5)
+                        ->pluck('id')->toArray());
+
+            Kretanje::where('predmet_id', $zad->idi)->whereNotIn('id', $zadrzi_id)->forceDelete();
+        }
+
             $posle = DB::table('kretanje_predmeta')->count();
                 if (($pre - $posle) > 0) {
                     $razlika = $pre - $posle;
@@ -92,7 +98,7 @@ class PocetnaKontroler extends Kontroler
                     $log->datum = Carbon::now();
                     $log->save();
 
-            $poruka = "Сва кретања (".$razlika.") осим последњих су успешно обрисана!";
+            $poruka = "Сва кретања (".$razlika.") осим последњих 5 су успешно обрисана!";
         } else {
             $poruka = "Није било кретања за брисање или је дошло до грешке приликом брисања!";
         }

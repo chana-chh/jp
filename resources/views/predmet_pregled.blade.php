@@ -199,6 +199,11 @@
             <td style="width: 10%;"></td>
         </tr>
         <tr>
+            <th style="width: 20%;"><strong>Извршитељ:</strong></th>
+            <td style="width: 70%;">{{ $predmet->izvrsitelj }}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+        <tr>
             <th style="width: 20%;"><strong>Датум пријема:</strong></th>
             <td style="width: 70%;">{{ date('d.m.Y', strtotime($predmet->datum_tuzbe)) }}</td>
             <td style="width: 10%;"></td>
@@ -208,7 +213,7 @@
             <td style="width: 70%;">{{ $predmet->vrstaPredmeta->naziv }}</td>
             <td style="width: 10%;"></td>
         </tr>
-        <tr>
+{{--         <tr>
             <th style="width: 20%;"><strong>Стари број предмета:</strong></th>
             <td style="width: 70%;">
                 @foreach ($predmet->stariBrojevi as $broj)
@@ -222,20 +227,15 @@
                 </a>
                 @endif
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <th style="width: 20%;"><strong>Катастарска парцела:</strong></th>
             <td style="width: 70%;">{{ $predmet->opis_kp }}</td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
-            <th style="width: 20%;"><strong>Адреса:</strong></th>
+            <th style="width: 20%;"><strong>Улица:</strong></th>
             <td style="width: 70%;">{{ $predmet->opis_adresa }}</td>
-            <td style="width: 10%;"></td>
-        </tr>
-        <tr>
-            <th style="width: 20%;"><strong>Опис предмета:</strong></th>
-            <td style="width: 70%;">{!! nl2br(e($predmet->opis)) !!}</td>
             <td style="width: 10%;"></td>
         </tr>
         <tr>
@@ -244,6 +244,7 @@
             <td style="width: 10%;"></td>
         </tr>
 
+        {{-- Uklonjeno na zahtev korisnika
         <tr>
             <th style="width: 20%;"><strong>Предмет родитељ:</strong></th>
             <td style="width: 70%;">
@@ -252,7 +253,7 @@
                 @endif
             </td>
             <td style="width: 10%;"></td>
-        </tr>
+        </tr> --}}
         <tr>
             <th style="width: 20%;"><strong>Повезани предмети:</strong></th>
             <td style="width: 70%;">
@@ -286,10 +287,15 @@
             <td style="width: 10%; text-align:right;"></td>
         </tr>
         <tr>
+            <th style="width: 20%;"><strong>Опис предмета:</strong></th>
+            <td style="width: 70%;">{!! nl2br(e($predmet->opis)) !!}</td>
+            <td style="width: 10%;"></td>
+        </tr>
+{{--         <tr> УКЛОЊЕНО НА ЗАХТЕВ КОРИСНИКА
             <th style="width: 20%;"><strong>Напомена:</strong></th>
             <td style="width: 70%;">{!! nl2br(e($predmet->napomena)) !!}</td>
             <td style="width: 10%;"></td>
-        </tr>
+        </tr> --}}
     </tbody>
 </table>
 <hr style="border-top: 1px dashed">

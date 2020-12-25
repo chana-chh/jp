@@ -22,7 +22,7 @@
 <div class="col-md-12">
             <table class="table table-striped tabelaTokPredmet" name="tabelaTokPredmet" id="tabelaTokPredmet">
                 <thead>
-                      <th>Број предмета</th>
+                     <th>Број предмета</th>
                       <th>Град потражује</th>
                       <th>Град дугује</th>
                       <th>Износ трошкова потражује</th>
@@ -30,6 +30,17 @@
                       <th>Вредност тужбе</th>
                       <th style="text-align:center"><i class="fa fa-cogs"></i></th>
                 </thead>
+            <tfoot style="background-color: #666666; color: #dddddd;">
+            <tr>
+                <td>&emsp; &emsp; &emsp; &Sigma;</td>
+                <td>{{number_format($vrednost_spora_potrazuje_suma, 2)}}</td>
+                <td>{{number_format($vrednost_spora_duguje_suma, 2)}}</td>
+                <td>{{number_format($iznos_troskova_potrazuje_suma, 2)}}</td>
+                <td>{{number_format($iznos_troskova_duguje_suma, 2)}}</td>
+                <td>{{number_format($vrednost_tuzbe_suma, 2)}}</td>
+                <td>&emsp; &emsp; &emsp;</td>
+            </tr>
+            </tfoot>
             </table>
         </div>
         </div>
@@ -50,10 +61,22 @@ $( document ).ready(function() {
     $('table.tabelaTokPredmet').DataTable({
         dom: 'Bflrtip',
         buttons: [
-            'excelHtml5',
+            {extend:'excelHtml5',
+            footer: true},
             'print',
             {
                 extend: 'pdfHtml5',
+                messageBottom: {lineHeight: 20, text: 'Укупно:                                         '
+                 + String({{$vrednost_spora_potrazuje_suma}}) +
+                 '                              ' +
+                 String({{$vrednost_spora_duguje_suma}}) +
+                 '                             ' +
+                 String({{$iznos_troskova_potrazuje_suma}}) +
+                 '                                  ' +
+                 String({{$iznos_troskova_duguje_suma}}) +
+                 '                                  ' +
+                 String({{$vrednost_tuzbe_suma}})
+             },
                 orientation: 'landscape',
                 pageSize: 'A4',
                 customize : function(doc){
@@ -104,6 +127,7 @@ $( document ).ready(function() {
             }
 
         ],
+        lengthMenu: [[10, 50, 100, -1], [10, 50, 100, "Сви"]],
         processing: true,
         serverSide: true,
         ajax:{url: '{!! route('tok.ajax') !!}',
@@ -118,23 +142,23 @@ $( document ).ready(function() {
             return '<strong><a href="'+rutap_id+'">'+data.slovo+'-'+data.broj+'/'+data.godina+'</a></strong>';
         },name: 'broj'},
         {data:'vsp',
-        render: $.fn.dataTable.render.number( '.', ',', 2 ),
+        render: $.fn.dataTable.render.number( ',', '.', 2 ),
         name: 'vsp'
         },
         {data:'vsd',
-        render: $.fn.dataTable.render.number( '.', ',', 2 ),
+        render: $.fn.dataTable.render.number( ',', '.', 2 ),
         name: 'vsd'
         },
         {data:'itp',
-        render: $.fn.dataTable.render.number( '.', ',', 2 ),
+        render: $.fn.dataTable.render.number( ',', '.', 2 ),
         name: 'itp'
         },
         {data:'itd',
-        render: $.fn.dataTable.render.number( '.', ',', 2 ),
+        render: $.fn.dataTable.render.number( ',', '.', 2 ),
         name: 'itd'
         },
         {data:'vrednost_tuzbe',
-        render: $.fn.dataTable.render.number( '.', ',', 2 ),
+        render: $.fn.dataTable.render.number( ',', '.', 2 ),
         name: 'vrednost_tuzbe'
         },
         {data: null,

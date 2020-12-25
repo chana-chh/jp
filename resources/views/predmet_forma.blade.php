@@ -90,7 +90,7 @@
             <select name="referent_id" id="referent_id" class="chosen-select form-control" data-placeholder="Референт" required>
                 <option value=""></option>
                 @foreach($referenti as $referent)
-                <option value="{{ $referent->id }}"{{ old('referent_id') == $referent->id ? ' selected' : '' }}>
+                <option value="{{ $referent->id }}"{{ old('referent_id') == $referent->id ? ' selected' : '' }} data-referent="{{url('/audio/'.$referent->audio)}}">
                         {{ $referent->ime }} {{ $referent->prezime }}
             </option>
             @endforeach
@@ -240,6 +240,19 @@
             </div>
         </div>
     </div>
+     <div class="row">
+        <div class="col-md-4">
+            <div class="form-group{{ $errors->has('izvrsitelj') ? ' has-error' : '' }}">
+                <label for="izvrsitelj">Извршитељ:</label>
+                <input type="text" name="izvrsitelj" id="izvrsitelj" class="form-control">{{ old('izvrsitelj') }}</input>
+                @if ($errors->has('izvrsitelj'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('izvrsitelj') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+    </div>
     </fieldset>
 
     {{-- Red sa statusom/tokom --}}
@@ -313,7 +326,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('opis_adresa') ? ' has-error' : '' }}">
-                <label for="opis_adresa">Адресе:</label>
+                <label for="opis_adresa">Улица:</label>
                 <input type="text" name="opis_adresa" id="opis_adresa" class="form-control"
                        value="{{ old('opis_adresa') }}" maxlength="255">
                 @if ($errors->has('opis_adresa'))
@@ -339,7 +352,7 @@
     </div>
 </fieldset>
 <hr>
-<div class="row">
+{{-- <div class="row">
 <div class="col-md-6">
     <div class="form-group{{ $errors->has('roditelj_id') ? ' has-error' : '' }}">
         <label for="roditelj_id">Предмет родитељ:</label>
@@ -371,7 +384,7 @@
             @endif
         </div>
     </div>
-</div>
+</div> --}}
 <div class="form-group text-right">
     <button type="submit" class="btn btn-success" id="dugmeDodaj"><i class="fa fa-plus-circle"></i> Додај</button>
     <a class="btn btn-danger" href="{{route('predmeti')}}"><i class="fa fa-ban"></i> Откажи</a>
@@ -381,6 +394,7 @@
 @endsection
 
 @section('traka')
+<audio id="audio1" type="audio/mpeg"></audio>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Провера катастарска парцела</h3>
@@ -406,8 +420,17 @@
 <script src="{{ asset('/js/parsley_sr.js') }}"></script>
 
 <script>
-
 $(document).ready(function () {
+
+$("#referent_id").on("change",function(){
+  putanja=$( "#referent_id option:selected" ).data('referent');
+  audio=$("#audio1");
+  $("#audio1").attr("src",putanja);
+
+  audio[0].pause();
+  audio[0].load();
+  audio[0].play();
+});
 var submit = false;
 $('#stranka_1').on('keyup', function () {
 $vrednost = $(this).val();

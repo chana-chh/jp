@@ -168,12 +168,12 @@
                 </p>
             </div>
         </div>
-        <div class="row">
+{{--         <div class="row">
             <div class="form-group col-md-12">
                 <label for="napomena">Напомена</label>
                 <textarea name="napomena" id="napomena" class="form-control"></textarea>
             </div>
-        </div>
+        </div> --}}
     </form>
     <div class="row dugmici">
         <div class="col-md-6 col-md-offset-6">
@@ -196,7 +196,7 @@
                 <option value=""> *</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
-                <option value="50">50</option>
+                <option value="50" selected>50</option>
                 <option value="100">100</option>
                 <option value="300">300</option>
             </select>
@@ -212,20 +212,22 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="table-responsive">
+        <div class="table-responsive" style="font-size: 0.875em">
             <table class="table table-striped table-condensed">
               <thead>
     <tr>
         <th style="width: 3%; cursor: pointer" class="sorting" data-sorting_type="desc" data-column_name="id">
             # <span id="id_icon"></span></th>
-        <th style="width: 7%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="st_naziv">
+        <th style="width: 5%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="st_naziv">
             Статус <span id="st_naziv_icon"></span></th>
-        <th style="width: 8%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="ceo_broj_predmeta">
+        <th style="width: 5%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="ceo_broj_predmeta">
             Број <span id="ceo_broj_predmeta_icon"></span></th>
-        <th style="width: 18%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="stranka_1">
+        <th style="width: 15%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="stranka_1">
             Тужилац <span id="stranka_1_icon"></span></th>
-        <th style="width: 18%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="stranka_2">
+        <th style="width: 15%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="stranka_2">
             Тужени <span id="stranka_2_icon"></span></th>
+        <th style="width: 11%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="opis_predmeta">
+            Опис <span id="opis_predmeta_icon"></span></th>
         <th style="width: 9%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="sudbroj">
             Надлежни орган бр. <span id="sudbroj_icon"></span></th>
         <th style="width: 7%; cursor: pointer" class="sorting" data-sorting_type="asc" data-column_name="opis_kp">
@@ -246,7 +248,7 @@
             <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
             <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
             <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-            <input type="hidden" name="hidden_po_stranici" id="hidden_po_stranici" value="10" />
+            <input type="hidden" name="hidden_po_stranici" id="hidden_po_stranici" value="50" />
         </div>
     </div>
 </div>
@@ -303,6 +305,7 @@
             $('#ceo_broj_predmeta_icon').html('');
             $('#stranka_1_icon').html('');
             $('#stranka_2_icon').html('');
+            $('#opis_predmeta_icon').html('');
             $('#sudbroj_icon').html('');
             $('#opis_kp_icon').html('');
             $('#opis_adresa_icon').html('');
@@ -327,8 +330,8 @@
                 page = 1;
             }
 
-            if (typeof redova_postranici === "undefined" || redova_postranici === null) { 
-                redova_postranici = 10; 
+            if ( redova_postranici === undefined || redova_postranici === null) { 
+                redova_postranici = 50; 
             }
 
             $.ajax({
