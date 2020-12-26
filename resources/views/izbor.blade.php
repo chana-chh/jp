@@ -38,7 +38,7 @@
     <div class="col-md-10">
         <h3>
             <img class="slicica_animirana" alt="календар рочишта" src="{{url('/images/kalendar.png')}}" style="height:64px">
-             Брисање свих рокова и рочишта старијих од годину дана !!!
+             Брисање рокова и рочишта како би их остало највише 5 најновијих у предмету!!!
         </h3>
     </div>
     <div class="col-md-2 text-right" style="padding-top: 40px;">
