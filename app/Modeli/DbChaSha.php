@@ -79,8 +79,8 @@ class DbChaSha
 
             self::$pdo = new PDO(
                 'mysql:host=127.0.0.1;dbname=jp;charset=utf8mb4',
-                'root',
-                'vir5373plus!',
+                'ajgp',
+                ')_a#\GXcsA@3@en2',
                 [
                     \PDO::ATTR_PERSISTENT => true,
                     \PDO::ATTR_EMULATE_PREPARES => false,
