@@ -338,11 +338,37 @@ class RocistaKontroler extends Kontroler
     public function postPospremanjeRocista(Request $req)
     {
         if ($req->ajax()) {
-            $broj = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->count();
-            $obrisana_rocista = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->forceDelete();
+            $pre = DB::table('rocista')->count();
+            $vise_od_pet = DB::select(  "SELECT predmet_id AS idi
+                            FROM `rocista`
+                            group by predmet_id
+                            HAVING COUNT(*)>5");
+        foreach ($vise_od_pet as $zad) {
+           
+            $zadrzi_id = array_values(Rociste::where('predmet_id', $zad->idi)
+                        ->orderBy('datum','DESC')
+                        ->orderBy('vreme','DESC')
+                        ->orderBy('id','DESC')
+                        ->take(5)
+                        ->pluck('id')->toArray());
+
+                        Rociste::where('predmet_id', $zad->idi)->whereNotIn('id', $zadrzi_id)->forceDelete();
         }
-        $poruka = 'Брисање застарелих рокова/рочишта је успешно завршено. Обрисано је '.$broj.' записа';
+
+            $posle = DB::table('rocista')->count();
+                if (($pre - $posle) > 0) {
+                    $razlika = $pre - $posle;
+                    $log = new NasLog();
+                    $log->opis = Auth::user()->name . " је уклонио ".$razlika." рокова/рочишта.";
+                    $log->datum = Carbon::now();
+                    $log->save();
+
+            // $broj = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->count();
+            // $obrisana_rocista = Rociste::where('datum', '<', Carbon::now()->subMonths(12)->format('Y-m-d'))->forceDelete();
+        }
+        $poruka = 'Брисање застарелих рокова/рочишта је успешно завршено. Обрисано је '.($pre - $posle).' записа';
         Session::flash('podsetnik', $poruka);
+        }
     }
 
 }
