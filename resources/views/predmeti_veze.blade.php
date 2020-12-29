@@ -118,7 +118,7 @@
                 <option value=""></option>
                 @foreach($svi_predmeti as $pred)
                 <option  value="{{ $pred->id }}"{{ old('veza_id') == $pred->id ? ' selected' : '' }}>
-                         {{ $pred->broj() }} - {{ $pred->vrstaPredmeta->naziv }}, {{date('d.m.Y', strtotime($pred->datum_tuzbe))}}</option>
+                         {{ $pred->ceo_broj_predmeta }} - {{ $pred->vp_naziv }}, {{date('d.m.Y', strtotime($pred->datum_tuzbe))}}</option>
                 @endforeach
             </select>
             @if ($errors->has('veza_id'))
