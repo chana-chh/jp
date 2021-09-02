@@ -1326,8 +1326,12 @@
     <div class="panel-body" style="font-size: 0.938em">
         <p>
             Последњу измену је извршио
-            <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
-        </p>
+            @if ($predmet->korisnik)
+                <strong class="text-primary">{{ $predmet->korisnik->name }}</strong>
+            @else
+                <strong class="text-primary"> корисник који више није активан и обрисан је из базе.</strong>
+            @endif
+        </p> 
         <p>
             Предмет је додат у базу
             <strong class="text-primary">{{ date('d.m.Y', strtotime($predmet->created_at)) }}</strong>
