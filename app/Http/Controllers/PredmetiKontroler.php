@@ -59,45 +59,45 @@ class PredmetiKontroler extends Kontroler
         $referenti = Referent::orderBy('ime', 'ASC')->get();
 
         $query = "SELECT predmeti.id, predmeti.arhiviran, predmeti.broj_predmeta, predmeti.godina_predmeta,
-                predmeti.opis as opis_predmeta, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
-                s_vrste_upisnika.slovo, s_vrste_upisnika.naziv,
-                s_vrste_predmeta.naziv as vp_naziv,
-                CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) as ceo_broj_predmeta,
-                CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS puno_ime,
-                s_sudovi.naziv as sud_naziv,
-                GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') as sudbroj,
-                GROUP_CONCAT(DISTINCT st1_naziv.stt1 SEPARATOR ', ') AS stranka_1,
-                GROUP_CONCAT(DISTINCT st2_naziv.stt2 SEPARATOR ', ') AS stranka_2,
-                poslednji.opis,
-                poslednji.datum,
-                poslednji.st_naziv
-                FROM  predmeti
-                JOIN  s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
-                JOIN  s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
-                JOIN  s_sudovi ON predmeti.sud_id = s_sudovi.id
-                JOIN  s_referenti ON predmeti.referent_id = s_referenti.id
-                LEFT JOIN brojevi_predmeta_sud ON predmeti.id = brojevi_predmeta_sud.predmet_id
-                LEFT JOIN (
-                   select tokovi_predmeta.*, s_statusi.naziv as st_naziv
-                   from tokovi_predmeta
-                   inner join (
-                        select predmet_id, max(datum) as ts
-                        from tokovi_predmeta
-                        where tokovi_predmeta.deleted_at IS NULL
-                        group by predmet_id
-                        ) t1 on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
-                    left join s_statusi on tokovi_predmeta.status_id = s_statusi.id
-                ) poslednji ON poslednji.predmet_id = predmeti.id
-                LEFT JOIN (
-                    SELECT tuzioci.predmet_id, s_komintenti.naziv AS stt1 FROM tuzioci
-                    JOIN s_komintenti ON tuzioci.komintent_id = s_komintenti.id
-                ) AS st1_naziv ON st1_naziv.predmet_id = predmeti.id
-               LEFT JOIN (
-                    SELECT tuzeni.predmet_id, s_komintenti.naziv AS stt2 FROM tuzeni
-                    JOIN s_komintenti ON tuzeni.komintent_id = s_komintenti.id
-                ) AS st2_naziv ON st2_naziv.predmet_id = predmeti.id WHERE predmeti.deleted_at IS NULL
-                GROUP BY predmeti.id
-                ORDER BY predmeti.id DESC;";
+        predmeti.opis as opis_predmeta, predmeti.opis_kp, predmeti.opis_adresa, predmeti.datum_tuzbe,
+        s_vrste_upisnika.slovo, s_vrste_upisnika.naziv,
+        s_vrste_predmeta.naziv as vp_naziv,
+        CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) as ceo_broj_predmeta,
+        CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS puno_ime,
+        s_sudovi.naziv as sud_naziv,
+        GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') as sudbroj,
+        GROUP_CONCAT(DISTINCT st1_naziv.stt1 ORDER BY st1_naziv.prio1 SEPARATOR ', ') AS stranka_1,
+        GROUP_CONCAT(DISTINCT st2_naziv.stt2 ORDER BY st2_naziv.prio2 SEPARATOR ', ') AS stranka_2,
+        poslednji.opis,
+        poslednji.datum,
+        poslednji.st_naziv
+        FROM  predmeti
+        JOIN  s_vrste_upisnika ON predmeti.vrsta_upisnika_id = s_vrste_upisnika.id
+        JOIN  s_vrste_predmeta ON predmeti.vrsta_predmeta_id = s_vrste_predmeta.id
+        JOIN  s_sudovi ON predmeti.sud_id = s_sudovi.id
+        JOIN  s_referenti ON predmeti.referent_id = s_referenti.id
+        LEFT JOIN brojevi_predmeta_sud ON predmeti.id = brojevi_predmeta_sud.predmet_id
+        LEFT JOIN (
+           select tokovi_predmeta.*, s_statusi.naziv as st_naziv
+           from tokovi_predmeta
+           inner join (
+                select predmet_id, max(datum) as ts
+                from tokovi_predmeta
+                where tokovi_predmeta.deleted_at IS NULL
+                group by predmet_id
+                ) t1 on (tokovi_predmeta.predmet_id = t1.predmet_id and tokovi_predmeta.datum = t1.ts)
+            left join s_statusi on tokovi_predmeta.status_id = s_statusi.id
+        ) poslednji ON poslednji.predmet_id = predmeti.id
+        LEFT JOIN (
+            SELECT tuzioci.predmet_id, tuzioci.prioritet AS prio1, s_komintenti.naziv AS stt1 FROM tuzioci
+            JOIN s_komintenti ON tuzioci.komintent_id = s_komintenti.id
+        ) AS st1_naziv ON st1_naziv.predmet_id = predmeti.id
+       LEFT JOIN (
+            SELECT tuzeni.predmet_id, tuzeni.prioritet AS prio2, s_komintenti.naziv AS stt2 FROM tuzeni
+            JOIN s_komintenti ON tuzeni.komintent_id = s_komintenti.id
+        ) AS st2_naziv ON st2_naziv.predmet_id = predmeti.id WHERE predmeti.deleted_at IS NULL
+        GROUP BY predmeti.id
+        ORDER BY predmeti.id DESC;";
 
         $page = (int)$request->query('page');
         $page = $page > 0 ? $page : 1;
@@ -123,8 +123,8 @@ class PredmetiKontroler extends Kontroler
                     CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) AS ceo_broj_predmeta,
                     GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj,
                     GROUP_CONCAT(DISTINCT stari_brojevi_predmeta.broj SEPARATOR ', ') AS staribroj,
-                    GROUP_CONCAT(DISTINCT stranka1.naziv SEPARATOR ', ') AS stranka_1,
-                    GROUP_CONCAT(DISTINCT stranka2.naziv SEPARATOR ', ') AS stranka_2,
+                    GROUP_CONCAT(DISTINCT stranka1.naziv ORDER BY stranka1.prioritet SEPARATOR ', ') AS stranka_1,
+                    GROUP_CONCAT(DISTINCT stranka2.naziv ORDER BY stranka2.prioritet SEPARATOR ', ') AS stranka_2,
                     CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS puno_ime,
                     s_sudovi.naziv AS sud_naziv,
                     poslednji.opis,
@@ -149,12 +149,12 @@ class PredmetiKontroler extends Kontroler
                     left join s_statusi on tokovi_predmeta.status_id = s_statusi.id
                 ) poslednji ON poslednji.predmet_id = predmeti.id
                     LEFT JOIN (
-                      SELECT tuzioci.predmet_id, s_komintenti.naziv
+                      SELECT tuzioci.predmet_id, tuzioci.prioritet, s_komintenti.naziv
                       FROM tuzioci
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id
                     ) AS stranka1 ON stranka1.predmet_id = predmeti.id
                     LEFT JOIN (
-                      SELECT tuzeni.predmet_id, s_komintenti.naziv
+                      SELECT tuzeni.predmet_id, tuzeni.prioritet, s_komintenti.naziv
                       FROM tuzeni
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
                     ) AS stranka2 ON stranka2.predmet_id = predmeti.id
@@ -270,8 +270,8 @@ class PredmetiKontroler extends Kontroler
                     CONCAT(s_vrste_upisnika.slovo, '-', predmeti.broj_predmeta, '/',predmeti.godina_predmeta) AS ceo_broj_predmeta,
                     GROUP_CONCAT(DISTINCT brojevi_predmeta_sud.broj SEPARATOR ', ') AS sudbroj,
                     GROUP_CONCAT(DISTINCT stari_brojevi_predmeta.broj SEPARATOR ', ') AS staribroj,
-                    GROUP_CONCAT(DISTINCT stranka1.naziv SEPARATOR ', ') AS s1,
-                    GROUP_CONCAT(DISTINCT stranka2.naziv SEPARATOR ', ') AS s2,
+                    GROUP_CONCAT(DISTINCT stranka1.naziv ORDER BY stranka1.prioritet SEPARATOR ', ') AS s1,
+                    GROUP_CONCAT(DISTINCT stranka2.naziv ORDER BY stranka2.prioritet SEPARATOR ', ') AS s2,
                     CONCAT(s_referenti.ime, ' ', s_referenti.prezime) AS referent,
                     s_sudovi.naziv AS sud_naziv
                     FROM  `predmeti`
@@ -282,12 +282,12 @@ class PredmetiKontroler extends Kontroler
                     LEFT JOIN brojevi_predmeta_sud ON predmeti.id = brojevi_predmeta_sud.predmet_id
                     LEFT JOIN stari_brojevi_predmeta ON predmeti.id = stari_brojevi_predmeta.predmet_id
                     LEFT JOIN (
-                      SELECT tuzioci.predmet_id, s_komintenti.naziv
+                      SELECT tuzioci.predmet_id, tuzioci.prioritet, s_komintenti.naziv
                       FROM tuzioci
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzioci.komintent_id
                     ) AS stranka1 ON stranka1.predmet_id = predmeti.id
                     LEFT JOIN (
-                      SELECT tuzeni.predmet_id, s_komintenti.naziv
+                      SELECT tuzeni.predmet_id, tuzeni.prioritet, s_komintenti.naziv
                       FROM tuzeni
                       LEFT JOIN s_komintenti ON s_komintenti.id = tuzeni.komintent_id
                     ) AS stranka2 ON stranka2.predmet_id = predmeti.id{$where}
@@ -469,12 +469,12 @@ class PredmetiKontroler extends Kontroler
     public function getIzmena($id)
     {
         $predmet = Predmet::with('tuzioci', 'tuzeni')->find($id);
-        $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
+        // $predmeti = Predmet::with('vrstaPredmeta', 'vrstaUpisnika')->orderBy('godina_predmeta', 'desc')->orderBy('broj_predmeta', 'desc')->get();
         $sudovi = Sud::all();
         $vrste = VrstaPredmeta::all();
         $referenti = Referent::all();
         $komintenti = Komintent::all();
-        return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'predmeti', 'komintenti'));
+        return view('predmet_izmena')->with(compact('vrste', 'sudovi', 'referenti', 'predmet', 'komintenti'));
     }
 
     public function getStampa($id)
